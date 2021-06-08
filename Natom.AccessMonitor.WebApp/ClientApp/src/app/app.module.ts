@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { DevicesComponent } from './devices/devices.component';
+import { DataTablesModule } from 'angular-datatables';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
   declarations: [
@@ -18,12 +20,14 @@ import { DevicesComponent } from './devices/devices.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    DevicesComponent
+    DevicesComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    DataTablesModule,
+    AngularFontAwesomeModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
