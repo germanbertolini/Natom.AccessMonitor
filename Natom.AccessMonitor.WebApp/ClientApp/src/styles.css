@@ -21,6 +21,18 @@
   width: 100%!important;
 }
 
+.right {
+  float:right;
+}
+
+.left {
+  float:left;
+}
+
+.spacingLeft {
+  margin-left:5px;
+}
+
 /* Provide sufficient contrast against white background */
   a {
   color: #0366d6;

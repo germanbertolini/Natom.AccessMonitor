@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { DataTablesResponse } from '../classes/data-tables-response';
+import { Device } from "../classes/models/device.model";
 
 @Component({
   selector: 'app-devices',
@@ -8,17 +10,29 @@ import { DataTablesResponse } from '../classes/data-tables-response';
 })
 export class DevicesComponent implements OnInit {
   dtDevices: DataTables.Settings = {};
-  httpClient: HttpClient;
-  Devices: object[];
+  Devices: Device[];
+  Noty: any;
 
-  constructor(httpClient: HttpClient) {
-    this.httpClient = httpClient;
+  constructor(private httpClient: HttpClient,
+                private router: Router
+                //private ngNoty: NgNoty
+                ) {
+    
+  }
+
+  onEditClick(id: string) {
+    (<any>$('[data-toggle="tooltip"]')).tooltip('dispose');
+    this.router.navigate(['/devices/edit/' + id]);
+  }
+
+  onDeleteClick(id: string) {
+    console.log(id);
   }
 
   ngOnInit(): void {
 
     this.dtDevices = {
-      pagingType: 'full_numbers',
+      pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
       processing: true,
@@ -32,10 +46,10 @@ export class DevicesComponent implements OnInit {
         infoEmpty: 'De 0 a 0 de 0 registros',
         infoFiltered: '(filtrados de _MAX_ registros totales)',
         paginate: {
-          first: 'Prim.',
-          last: 'Últ.',
-          next: 'Sig.',
-          previous: 'Ant.'
+          first: 'Primero',
+          last: 'Último',
+          next: 'Siguiente',
+          previous: 'Anterior'
         },
       },
       ajax: (dataTablesParameters: any, callback) => {
@@ -58,46 +72,58 @@ export class DevicesComponent implements OnInit {
         //  }
         //  );
         this.Devices = [
-          { nombre: "Portería 1 - Lector 1", dispositivo_id: "21987", estado: "Activo", id: 1 },
-          { nombre: "Portería 1 - Lector 2", dispositivo_id: "21988", estado: "Desconectado", id: 2 },
-          { nombre: "Portería 2 - Lector 1", dispositivo_id: "21989", estado: "Activo", id: 3 }
+          {
+            nombre: "Portería 1 - Lector 1",
+            device_id: "21987",
+            device_ip: "127.0.0.1",
+            device_user: "admin",
+            device_pass: "1234",
+            estado: "Activo",
+            estadoEsActivo: true,
+            id: "1"
+          },
+          {
+            nombre: "Portería 1 - Lector 2",
+            device_id: "32487",
+            device_ip: "127.0.0.2",
+            device_user: "admin",
+            device_pass: "1234",
+            estado: "Deshabilitado",
+            estadoEsActivo: false,
+            id: "2"
+          },
+          {
+            nombre: "Portería 2 - Lector 1",
+            device_id: "43987",
+            device_ip: "127.0.0.3",
+            device_user: "admin",
+            device_pass: "1234",
+            estado: "Activo",
+            estadoEsActivo: true,
+            id: "3"
+          },
         ];
         callback({
           recordsTotal: this.Devices.length,
           recordsFiltered: this.Devices.length,
-          data: this.Devices
+          data: [] //Siempre vacío para delegarle el render a Angular
         });
+        if (this.Devices.length > 0) {
+          $('.dataTables_empty').hide();
+        }
+        else {
+          $('.dataTables_empty').show();
+        }
+        setTimeout(function() {
+          (<any>$("tbody tr").find('[data-toggle="tooltip"]')).tooltip();
+        }, 300);
       },
       columns: [
-        {
-          data: 'nombre'
-        },
-        {
-          data: 'dispositivo_id'
-        },
-        {
-          data: 'estado'
-        },
-        {
-          data: "id",
-          render: function (data, type, row, meta) {
-            var html = "";
-            html += '&nbsp;<a class="btn btn-primary btn-sm edit-smt-btn" id="' + data + '" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>';
-            html += '&nbsp;<a class="btn btn-danger btn-sm delete-smt-btn" id="' + data + '" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>';
-            return html;
-          }
-        }
-      ],
-      rowCallback: function (row, data, index) {
-        (<any>$(row).find('[data-toggle="tooltip"]')).tooltip();
-      },
-      drawCallback: function () {
-        $(this).on("click", function () {
-          if ($(this).is(".collapsed")) {
-            (<any>$(this).find('tbody tr.child [data-toggle="tooltip"]')).tooltip();
-          }
-        });
-      }
+        { data: 'nombre' },
+        { data: 'device_id' },
+        { data: 'estado' },
+        { data: "id" }
+      ]
     };
   }
 

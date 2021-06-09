@@ -1,7 +1,10 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-10">
       <h3>Dispositivos</h3>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-sm btn-success right" [routerLink]="['/devices/new']">[+] Nuevo</button>
     </div>
   </div>
   <div class="row">
@@ -15,6 +18,17 @@
             <th></th>
           </tr>
         </thead>
+        <tbody>
+          <tr *ngFor="let device of Devices; let last = last">
+            <td>{{ device.nombre }}</td>
+            <td>{{ device.device_id }}</td>
+            <td>{{ device.estado }}</td>
+            <td>
+              <a class="btn btn-primary btn-sm edit-smt-btn" (click)="onEditClick(device.id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
+              <a class="btn btn-danger btn-sm delete-smt-btn spacingLeft" (click)="onDeleteClick(device.id)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
