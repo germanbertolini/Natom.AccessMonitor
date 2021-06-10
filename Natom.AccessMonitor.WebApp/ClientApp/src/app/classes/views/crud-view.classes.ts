@@ -1,14 +1,22 @@
 import { ActivatedRoute, NavigationEnd } from "@angular/router";
 
-export class CRUDView {
+export class CRUDView<T> {
   id: string;
   mode: string;
-  //model: TModelView;
+  isNewMode: boolean;
+  isEditMode: boolean;
+  model: T;
 
-  constructor(private route: ActivatedRoute){
-    this.mode = this.route.snapshot.url.toString().endsWith("new")
-                  ? "Nuevo"
-                  : "Editar";
+  constructor(private route: ActivatedRoute) {
     this.id = this.route.snapshot.paramMap.get('id');
+    if (this.route.snapshot.url.toString().endsWith("new")) {
+      this.isNewMode = true;
+      this.mode = "Nuevo";
+    }
+    else {
+      this.isEditMode = true;
+      this.mode = "Editar";
+    }
   }
+
 }

@@ -1,24 +1,88 @@
-<div class="container-fluid">
+<div class="container-fluid" id="device-crud">
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-12">
       <h3>{{ crud.mode }} dispositivo</h3>
-    </div>
-    <div class="col-md-2">
-      <button class="btn btn-sm btn-success" style="float:right">[+] Nuevo</button>
     </div>
   </div>
   <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+          [(ngModel)]="crud.model.nombre" />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Dispositivo ID</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="XXXXXXX"
+          [(ngModel)]="crud.model.device_id" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">IP</label>
+        <div class="input-group">
+          <input
+          type="text"
+          class="form-control"
+          placeholder="xxx.xxx.xxx.xxx"
+          [(ngModel)]="crud.model.device_ip" />
+          <div class="input-group-prepend" (click)="onSearchDeviceClick()">
+            <span
+              class="input-group-text btn-search-device"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="Buscar dispositivo en la Red"><i aria-hidden="true" class="fa fa-search"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Usuario</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i aria-hidden="true" class="fa fa-user"></i>
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="crud.model.device_user" />
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Clave</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i aria-hidden="true" class="fa fa-key"></i>
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="crud.model.device_pass" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row crud-footer">
     <div class="col-md-12">
-      <table datatable [dtOptions]="dtDevices" class="table table-striped table-bordered dt-responsive nowrap">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>ID dispositivo</th>
-            <th>Estado</th>
-            <th></th>
-          </tr>
-        </thead>
-      </table>
+      <button class="btn btn-danger left" (click)="onCancelClick()">Cancelar</button>
+      <button class="btn btn-success right" (click)="onSaveClick()">Guardar</button>
     </div>
   </div>
 </div>

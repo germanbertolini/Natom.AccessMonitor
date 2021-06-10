@@ -38,6 +38,13 @@ body {
   float:left;
 }
 
+.crud-footer {
+  bottom: 15px;
+  position: absolute;
+  width: calc(100% - 30px);
+  overflow: hidden;
+}
+
 .spacingLeft {
   margin-left:5px;
 }

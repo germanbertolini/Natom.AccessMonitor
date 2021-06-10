@@ -1,11 +1,11 @@
 export class Device {
-    id: string;
-    nombre: string;
-    device_id: string;
-    device_ip: string;
-    device_user: string;
-    device_pass: string;
+    public id: string;
+    public nombre: string;
+    public device_id: string;
+    public device_ip: string;
+    public device_user: string;
+    public device_pass: string;
     
-    estado: string;
-    estadoEsActivo: boolean;
+    public estado: string;
+    public estadoEsActivo: boolean;
 }

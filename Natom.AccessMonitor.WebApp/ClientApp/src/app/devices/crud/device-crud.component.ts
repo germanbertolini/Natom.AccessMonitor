@@ -1,28 +1,57 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { NotifierService } from "angular-notifier";
 import { Device } from "src/app/classes/models/device.model";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
+import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 
 @Component({
   selector: 'app-device-crud',
+  styleUrls: ['./device-crud.component.css'],
   templateUrl: './device-crud.component.html'
 })
 
 export class DeviceCrudComponent implements OnInit {
-  crud: CRUDView;//<Device>;
+  private readonly httpClient: HttpClient;
+  private readonly router: Router;
+  private readonly notifier: NotifierService;
+  private readonly confirmDialog: ConfirmDialogService;
 
+  crud: CRUDView<Device>;
   dtDevices: DataTables.Settings = {};
-  httpClient: HttpClient;
   Devices: object[];
 
-  constructor(httpClient: HttpClient, route: ActivatedRoute) {
-    this.httpClient = httpClient;
-    this.crud = new CRUDView(route);
+  constructor(httpClientService: HttpClient, routerService: Router, routeService: ActivatedRoute, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
+    this.httpClient = httpClientService;
+    this.router = routerService;
+    this.notifier = notifierService;
+    this.confirmDialog = confirmDialogService;
+    this.crud = new CRUDView<Device>(routeService);
+    this.crud.model = new Device();
+  }
+
+  onSearchDeviceClick() {
+    this.crud.model.device_ip = "127.0.0.20";
+  }
+
+  onCancelClick() {
+    this.confirmDialog.showConfirm("¿Descartar cambios?", function() {
+      window.history.back();
+    });
+  }
+
+  onSaveClick() {
+    this.notifier.notify('success', 'Dispositivo guardado correctamente.');
+    this.router.navigate(['/devices']);
   }
 
   ngOnInit(): void {
+
+    setTimeout(function() {
+      (<any>$("#device-crud").find('[data-toggle="tooltip"]')).tooltip();
+    }, 300);
 
     this.dtDevices = {
       pagingType: 'full_numbers',
