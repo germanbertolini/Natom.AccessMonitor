@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "Montserrat";
+  src: local("Montserrat"), url(./assets/fonts/montserrat/Montserrat-Regular.ttf) format("truetype");
+}
+
 :root {
   --color-01: #03a6a9;
   --color-01-light: #04bfc2;
@@ -15,6 +20,10 @@
   --color-05: #9403a9;
   --color-05-light: #be03d9;
   --color-05-high: #6a0279;
+}
+
+body {
+  font-family: "Montserrat", Arial, Helvetica, sans-serif;
 }
 
 .table {

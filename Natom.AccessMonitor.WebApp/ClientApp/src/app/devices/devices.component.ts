@@ -1,23 +1,32 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { NotifierService } from "angular-notifier";
 import { DataTablesResponse } from '../classes/data-tables-response';
 import { Device } from "../classes/models/device.model";
+import { ConfirmDialogService } from "../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html'
 })
-export class DevicesComponent implements OnInit {
+export class DevicesComponent implements OnInit {  
+  @ViewChild('customNotification', { static: true }) customNotificationTmpl;
+
+  private readonly router: Router;
+  private readonly httpClient: HttpClient;
+  private readonly notifier: NotifierService;
+  private readonly confirmDialog: ConfirmDialogService;
+
   dtDevices: DataTables.Settings = {};
   Devices: Device[];
   Noty: any;
 
-  constructor(private httpClient: HttpClient,
-                private router: Router
-                //private ngNoty: NgNoty
-                ) {
-    
+  constructor(httpClientService: HttpClient, routerService: Router, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
+    this.httpClient = httpClientService;
+    this.router = routerService;
+    this.notifier = notifierService;
+    this.confirmDialog = confirmDialogService;
   }
 
   onEditClick(id: string) {
@@ -27,6 +36,9 @@ export class DevicesComponent implements OnInit {
 
   onDeleteClick(id: string) {
     console.log(id);
+    this.confirmDialog.showConfirm("Desea eliminar el dispositivo?", function () {  
+      this.notifier.notify('success', 'Dispositivo eliminado con éxito.');
+    });
   }
 
   ngOnInit(): void {
