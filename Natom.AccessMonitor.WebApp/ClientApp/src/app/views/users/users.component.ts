@@ -2,22 +2,22 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
+import { User } from "src/app/classes/models/user.model";
 import { DataTablesResponse } from '../../classes/data-tables-response';
-import { Device } from "../../classes/models/device.model";
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
-  selector: 'app-devices',
-  templateUrl: './devices.component.html'
+  selector: 'app-users',
+  templateUrl: './users.component.html'
 })
-export class DevicesComponent implements OnInit {
+export class UsersComponent implements OnInit {  
   private readonly router: Router;
   private readonly httpClient: HttpClient;
   private readonly notifier: NotifierService;
   private readonly confirmDialog: ConfirmDialogService;
 
-  dtDevices: DataTables.Settings = {};
-  Devices: Device[];
+  dtUsers: DataTables.Settings = {};
+  Users: User[];
   Noty: any;
 
   constructor(httpClientService: HttpClient, routerService: Router, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
@@ -28,20 +28,20 @@ export class DevicesComponent implements OnInit {
   }
 
   onEditClick(id: string) {
-    this.router.navigate(['/devices/edit/' + id]);
+    this.router.navigate(['/users/edit/' + id]);
   }
 
   onDeleteClick(id: string) {
     console.log(id);
     let notifier = this.notifier;
-    this.confirmDialog.showConfirm("Desea eliminar el dispositivo?", function () {  
-      notifier.notify('success', 'Dispositivo eliminado con éxito.');
+    this.confirmDialog.showConfirm("Desea eliminar el usuario?", function () {  
+      notifier.notify('success', 'Usuario eliminado con éxito.');
     });
   }
 
   ngOnInit(): void {
 
-    this.dtDevices = {
+    this.dtUsers = {
       pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
@@ -81,44 +81,69 @@ export class DevicesComponent implements OnInit {
         //    }
         //  }
         //  );
-        this.Devices = [
+        this.Users = [
           {
-            nombre: "Portería 1 - Lector 1",
-            device_id: "21987",
-            device_ip: "127.0.0.1",
-            device_user: "admin",
-            device_pass: "1234",
-            estado: "Activo",
-            estadoEsActivo: true,
-            encrypted_id: "23498n7234v987h4v2"
+            encrypted_id: "asddas123132",
+            first_name: "German",
+            last_name: "Bertolini",
+            email: "german.bertolini@gmail.com",
+            registered_at: new Date('2020-12-28T00:00:00'),
+            business_role_name: "Administrador",
+            picture_url: "",
+            business_name: "",
+            country_icon: ""
           },
           {
-            nombre: "Portería 1 - Lector 2",
-            device_id: "32487",
-            device_ip: "127.0.0.2",
-            device_user: "admin",
-            device_pass: "1234",
-            estado: "Deshabilitado",
-            estadoEsActivo: false,
-            encrypted_id: "c3187693c1879b987"
+            encrypted_id: "2398n23984n",
+            first_name: "Gaston",
+            last_name: "Sanchez",
+            email: "gaston.sanchez@gmail.com",
+            registered_at: new Date('2019-02-26T00:00:00'),
+            business_role_name: "Administrador",
+            picture_url: "",
+            business_name: "",
+            country_icon: ""
           },
           {
-            nombre: "Portería 2 - Lector 1",
-            device_id: "43987",
-            device_ip: "127.0.0.3",
-            device_user: "admin",
-            device_pass: "1234",
-            estado: "Activo",
-            estadoEsActivo: true,
-            encrypted_id: "987b2498724398bc"
+            encrypted_id: "13d2123",
+            first_name: "Mariano",
+            last_name: "Anello",
+            email: "mariano.anello@gmail.com",
+            registered_at: new Date('2019-08-10T00:00:00'),
+            business_role_name: "Administrador",
+            picture_url: "",
+            business_name: "",
+            country_icon: ""
           },
+          {
+            encrypted_id: "c424c2423243",
+            first_name: "Pedro",
+            last_name: "Lopez",
+            email: "plopez@hotmail.com",
+            registered_at: new Date('2019-10-19T00:00:00'),
+            business_role_name: "Operador",
+            picture_url: "",
+            business_name: "",
+            country_icon: ""
+          },
+          {
+            encrypted_id: "24098jsda",
+            first_name: "Diana",
+            last_name: "Gutierrez",
+            email: "dguti@outlook.com.ar",
+            registered_at: new Date('2019-10-19T00:00:00'),
+            business_role_name: "Operador",
+            picture_url: "",
+            business_name: "",
+            country_icon: ""
+          }
         ];
         callback({
-          recordsTotal: this.Devices.length,
-          recordsFiltered: this.Devices.length,
+          recordsTotal: this.Users.length,
+          recordsFiltered: this.Users.length,
           data: [] //Siempre vacío para delegarle el render a Angular
         });
-        if (this.Devices.length > 0) {
+        if (this.Users.length > 0) {
           $('.dataTables_empty').hide();
         }
         else {
@@ -129,10 +154,11 @@ export class DevicesComponent implements OnInit {
         }, 300);
       },
       columns: [
-        { data: 'nombre' },
-        { data: 'device_id' },
-        { data: 'estado' },
-        { data: "encrypted_id" }
+        { data: 'first_name' },
+        { data: 'last_name' },
+        { data: "email" },
+        { data: 'registered_at' },
+        { data: 'business_role_name' }
       ]
     };
   }

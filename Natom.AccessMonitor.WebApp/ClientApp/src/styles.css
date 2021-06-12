@@ -30,6 +30,10 @@ body {
   width: 100%!important;
 }
 
+hr.divider {
+  margin-top:0;
+}
+
 .right {
   float:right;
 }

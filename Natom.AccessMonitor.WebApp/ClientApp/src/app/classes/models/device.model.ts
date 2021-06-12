@@ -1,5 +1,5 @@
 export class Device {
-    public id: string;
+    public encrypted_id: string;
     public nombre: string;
     public device_id: string;
     public device_ip: string;

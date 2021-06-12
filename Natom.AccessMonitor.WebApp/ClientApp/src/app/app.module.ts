@@ -16,6 +16,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogService } from './components/confirm-dialog/confirm-dialog.service';
 import { MeProfileComponent } from './views/me/profile/me-profile.component';
+import { UsersComponent } from './views/users/users.component';
+import { UserCrudComponent } from './views/users/crud/user-crud.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { MeProfileComponent } from './views/me/profile/me-profile.component';
     HomeComponent,
     DevicesComponent,
     DeviceCrudComponent,
+    UsersComponent,
+    UserCrudComponent,
     MeProfileComponent,
     ConfirmDialogComponent
   ],
@@ -34,13 +38,16 @@ import { MeProfileComponent } from './views/me/profile/me-profile.component';
     DataTablesModule,
     AngularFontAwesomeModule,
     NotifierModule,
-    BrowserModule,  
+    BrowserModule,
     CommonModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'devices', component: DevicesComponent },
       { path: "devices/new", component: DeviceCrudComponent },
       { path: "devices/edit/:id", component: DeviceCrudComponent },
+      { path: 'users', component: UsersComponent },
+      { path: "users/new", component: UserCrudComponent },
+      { path: "users/edit/:id", component: UserCrudComponent },
       { path: "me/profile", component: MeProfileComponent }
     ])
   ],
