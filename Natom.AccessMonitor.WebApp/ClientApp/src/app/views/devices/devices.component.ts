@@ -2,9 +2,9 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { DataTablesResponse } from '../classes/data-tables-response';
-import { Device } from "../classes/models/device.model";
-import { ConfirmDialogService } from "../components/confirm-dialog/confirm-dialog.service";
+import { DataTablesResponse } from '../../classes/data-tables-response';
+import { Device } from "../../classes/models/device.model";
+import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
   selector: 'app-devices',
@@ -30,7 +30,6 @@ export class DevicesComponent implements OnInit {
   }
 
   onEditClick(id: string) {
-    (<any>$('[data-toggle="tooltip"]')).tooltip('dispose');
     this.router.navigate(['/devices/edit/' + id]);
   }
 

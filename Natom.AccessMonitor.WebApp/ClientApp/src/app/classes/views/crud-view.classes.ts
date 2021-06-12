@@ -13,7 +13,7 @@ export class CRUDView<T> {
       this.isNewMode = true;
       this.mode = "Nuevo";
     }
-    else {
+    else if (this.route.snapshot.url.toString().indexOf("edit") >= 0) {
       this.isEditMode = true;
       this.mode = "Editar";
     }

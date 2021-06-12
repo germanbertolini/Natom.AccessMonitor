@@ -38,9 +38,17 @@ body {
   float:left;
 }
 
+.btn-circular {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1.75rem;
+  font-size: 1.8rem;
+  padding: 0;
+}
+
 .crud-footer {
   bottom: 15px;
-  position: absolute;
+  position: fixed;
   width: calc(100% - 30px);
   overflow: hidden;
 }

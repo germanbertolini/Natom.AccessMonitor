@@ -5,7 +5,7 @@ import { NotifierService } from "angular-notifier";
 import { Device } from "src/app/classes/models/device.model";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
-import { DataTablesResponse } from '../../classes/data-tables-response';
+import { DataTablesResponse } from "../../../classes/data-tables-response";
 
 @Component({
   selector: 'app-device-crud',
