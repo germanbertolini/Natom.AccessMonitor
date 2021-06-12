@@ -1,0 +1,97 @@
+<div class="container-fluid" id="docket-crud">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>{{ crud.mode }} legajo</h3>
+    </div>
+  </div>
+  <hr class="divider" />
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Legajo N°</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="XXXXX"
+          [(ngModel)]="crud.model.docket_number" />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Nombre</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nombre"
+          [(ngModel)]="crud.model.employee_first_name" />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Apellido</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Apellido"
+          [(ngModel)]="crud.model.employee_last_name" />
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">DNI</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="XX.XXX.XXX"
+          [(ngModel)]="crud.model.employee_dni" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Cargo</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user"></i>
+            </span>
+          </div>
+          <select
+            class="form-control"
+            size="1">
+            <option value="">Seleccione...</option>
+            <option value="1">Jefe de mantenimiento</option>
+            <option value="2">Manufactura</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Ubicación</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-map-marker"></i>
+            </span>
+          </div>
+          <select
+            class="form-control"
+            size="1">
+            <option value="">Seleccione...</option>
+            <option value="sysAdmin">Planta San Justo</option>
+            <option value="operator">Depósito Lomas del Mirador</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row crud-footer">
+    <div class="col-md-12">
+      <button class="btn btn-danger btn-circular left" (click)="onCancelClick()" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-times"></i></button>
+      <button class="btn btn-success btn-circular right" (click)="onSaveClick()" data-toggle="tooltip" data-placement="top" title="Guardar"><i class="fa fa-check"></i></button>
+    </div>
+  </div>
+</div>

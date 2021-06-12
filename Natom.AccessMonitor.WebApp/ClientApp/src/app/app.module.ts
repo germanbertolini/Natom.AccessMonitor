@@ -18,6 +18,8 @@ import { ConfirmDialogService } from './components/confirm-dialog/confirm-dialog
 import { MeProfileComponent } from './views/me/profile/me-profile.component';
 import { UsersComponent } from './views/users/users.component';
 import { UserCrudComponent } from './views/users/crud/user-crud.component';
+import { DocketsComponent } from './views/dockets/dockets.component';
+import { DocketCrudComponent } from './views/dockets/crud/docket-crud.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { UserCrudComponent } from './views/users/crud/user-crud.component';
     UsersComponent,
     UserCrudComponent,
     MeProfileComponent,
+    DocketsComponent,
+    DocketCrudComponent,
     ConfirmDialogComponent
   ],
   imports: [
@@ -48,7 +52,10 @@ import { UserCrudComponent } from './views/users/crud/user-crud.component';
       { path: 'users', component: UsersComponent },
       { path: "users/new", component: UserCrudComponent },
       { path: "users/edit/:id", component: UserCrudComponent },
-      { path: "me/profile", component: MeProfileComponent }
+      { path: "me/profile", component: MeProfileComponent },
+      { path: 'dockets', component: DocketsComponent },
+      { path: "dockets/new", component: DocketCrudComponent },
+      { path: "dockets/edit/:id", component: DocketCrudComponent }
     ])
   ],
   exports: [  
