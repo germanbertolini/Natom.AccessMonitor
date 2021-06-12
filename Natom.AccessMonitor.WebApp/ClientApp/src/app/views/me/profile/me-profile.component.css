@@ -15,3 +15,10 @@
     margin: 0 auto;
     margin-bottom:2rem;
 }
+
+.country-flag {
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 3.4rem;
+}

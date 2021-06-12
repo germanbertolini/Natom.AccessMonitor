@@ -47,12 +47,20 @@
     <div class="col-md-4 offset-md-3">
       <div class="form-group">
         <label for="formGroupExampleInput">Empresa</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Empresa"
-          readonly="readonly"
-          [(ngModel)]="crud.model.business_name" />
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text country-flag"
+              [ngStyle]="{backgroundImage: 'url(assets/country-flag-icons/svg/' + crud.model.country_icon + '.svg)'}"
+              >
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Empresa"
+            readonly="readonly"
+            [(ngModel)]="crud.model.business_name" />
+        </div>
       </div>
     </div>
     <div class="col-md-2">

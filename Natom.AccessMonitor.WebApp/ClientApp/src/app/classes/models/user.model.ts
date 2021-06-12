@@ -7,4 +7,5 @@ export class User {
     public registered_at: Date;
     public business_name: string;
     public business_role_name: string;
+    public country_icon: string;
 }

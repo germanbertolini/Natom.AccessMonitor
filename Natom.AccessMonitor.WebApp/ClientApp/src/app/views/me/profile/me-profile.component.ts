@@ -39,6 +39,7 @@ export class MeProfileComponent implements OnInit {
     this.crud.model.registered_at = new Date('2020-12-28T00:00:00');
     this.crud.model.business_name = "Natom";
     this.crud.model.business_role_name = "SysAdmin";
+    this.crud.model.country_icon = "arg";
   }
 
   onCancelClick() {
