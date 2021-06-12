@@ -20,6 +20,8 @@ import { UsersComponent } from './views/users/users.component';
 import { UserCrudComponent } from './views/users/crud/user-crud.component';
 import { DocketsComponent } from './views/dockets/dockets.component';
 import { DocketCrudComponent } from './views/dockets/crud/docket-crud.component';
+import { TitleCrudComponent } from './views/titles/crud/title-crud.component';
+import { TitlesComponent } from './views/titles/titles.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { DocketCrudComponent } from './views/dockets/crud/docket-crud.component'
     MeProfileComponent,
     DocketsComponent,
     DocketCrudComponent,
+    TitlesComponent,
+    TitleCrudComponent,
     ConfirmDialogComponent
   ],
   imports: [
@@ -55,7 +59,10 @@ import { DocketCrudComponent } from './views/dockets/crud/docket-crud.component'
       { path: "me/profile", component: MeProfileComponent },
       { path: 'dockets', component: DocketsComponent },
       { path: "dockets/new", component: DocketCrudComponent },
-      { path: "dockets/edit/:id", component: DocketCrudComponent }
+      { path: "dockets/edit/:id", component: DocketCrudComponent },
+      { path: 'titles', component: TitlesComponent },
+      { path: "titles/new", component: TitleCrudComponent },
+      { path: "titles/edit/:id", component: TitleCrudComponent }
     ])
   ],
   exports: [  
