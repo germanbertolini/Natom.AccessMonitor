@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
   
     showConfirm(message: string, yesClickFn: () => void, noClickFn: () => void = undefined): any {  
         const that = this;
-        (<any>$('[data-toggle="tooltip"]')).tooltip('dispose');
+        (<any>$('[data-toggle="tooltip"]')).tooltip('hide');
         this.subject.next({  
             type: 'confirm',  
             text: message,  
@@ -26,7 +26,7 @@ import { Subject } from 'rxjs';
 
     showOK(message: string, okClickFn: () => void = undefined): any {  
         const that = this;  
-        (<any>$('[data-toggle="tooltip"]')).tooltip('dispose');
+        (<any>$('[data-toggle="tooltip"]')).tooltip('hide');
         this.subject.next({  
             type: 'ok',  
             text: message,

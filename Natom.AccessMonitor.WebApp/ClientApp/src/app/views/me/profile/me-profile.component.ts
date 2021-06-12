@@ -42,14 +42,14 @@ export class MeProfileComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.confirmDialog.showConfirm("¿Descartar cambios?", function() {
       window.history.back();
-    });
   }
 
-  onSaveClick() {
-    this.notifier.notify('success', 'Datos guardados correctamente.');
-    this.router.navigate(['/devices']);
+  onChangePasswordClick() {
+    let notifier = this.notifier;
+    this.confirmDialog.showConfirm("¿Realmente desea cambiar su clave?", function() {
+      notifier.notify('info', 'Se ha enviado un mail a su casilla de correo.');
+    });
   }
 
   ngOnInit(): void {
