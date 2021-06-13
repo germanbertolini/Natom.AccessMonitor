@@ -1,5 +1,5 @@
 .navbar-nav .nav-link {
-  color: var(--color-01-light) !important;
+  color: #cbcbcb;
 }
 
 .bg-dark {
@@ -42,4 +42,16 @@ nav.navbar {
 
 .navbar-collapse.justify-content-end .dropdown-menu.show {
   margin-left:-60px;
+}
+
+.nav-item {
+  margin: 0px 5px;
+}
+
+.nav-item-now {
+  margin: 0px 20px;
+}
+
+.nav-item-now .nav-link {
+  color: var(--color-05-light);
 }
