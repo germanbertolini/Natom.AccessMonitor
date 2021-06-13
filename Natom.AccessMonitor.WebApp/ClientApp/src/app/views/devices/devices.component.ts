@@ -129,7 +129,7 @@ export class DevicesComponent implements OnInit {
           $('.dataTables_empty').show();
         }
         setTimeout(function() {
-          (<any>$("tbody tr").find('[data-toggle="tooltip"]')).tooltip();
+          (<any>$('[data-toggle="tooltip"]')).tooltip();
         }, 300);
       },
       columns: [

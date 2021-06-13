@@ -50,6 +50,10 @@ hr.divider {
   padding: 0;
 }
 
+a.btn-circular {
+  line-height: 3.2rem;
+}
+
 .crud-footer {
   bottom: 15px;
   position: fixed;

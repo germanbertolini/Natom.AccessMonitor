@@ -22,6 +22,7 @@ import { DocketsComponent } from './views/dockets/dockets.component';
 import { DocketCrudComponent } from './views/dockets/crud/docket-crud.component';
 import { TitleCrudComponent } from './views/titles/crud/title-crud.component';
 import { TitlesComponent } from './views/titles/titles.component';
+import { DevicesSyncConfigComponent } from './views/devices/sync/config/devices-sync-config.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { TitlesComponent } from './views/titles/titles.component';
     DocketCrudComponent,
     TitlesComponent,
     TitleCrudComponent,
+    DevicesSyncConfigComponent,
     ConfirmDialogComponent
   ],
   imports: [
@@ -53,6 +55,7 @@ import { TitlesComponent } from './views/titles/titles.component';
       { path: 'devices', component: DevicesComponent },
       { path: "devices/new", component: DeviceCrudComponent },
       { path: "devices/edit/:id", component: DeviceCrudComponent },
+      { path: "devices/sync/config", component: DevicesSyncConfigComponent },
       { path: 'users', component: UsersComponent },
       { path: "users/new", component: UserCrudComponent },
       { path: "users/edit/:id", component: UserCrudComponent },
