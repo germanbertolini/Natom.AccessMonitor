@@ -24,11 +24,13 @@ import { TitleCrudComponent } from './views/titles/crud/title-crud.component';
 import { TitlesComponent } from './views/titles/titles.component';
 import { DevicesSyncConfigComponent } from './views/devices/sync/config/devices-sync-config.component';
 import { SidebarModule } from 'ng-sidebar';
+import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
+    NavSidebarComponent,
     HomeComponent,
     DevicesComponent,
     DeviceCrudComponent,

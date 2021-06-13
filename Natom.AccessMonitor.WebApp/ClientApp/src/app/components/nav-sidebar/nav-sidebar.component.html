@@ -1,0 +1,49 @@
+<div class="nav-sidebar-menu-content">
+    <div class="nav-sidebar-menu-header">
+        <div class="row">
+            <div class="col-md-4">
+              <div class="photo-border">
+                <div class="photo"
+                [ngStyle]="{backgroundImage: 'url(' + user.picture_url + ')'}"></div>
+              </div>
+            </div>
+            <div class="col-md-8 user-data">
+                <div class="user-name">{{ user.first_name }} {{ user.last_name }}</div>
+                <div class="user-organization">
+                    {{ user.business_name }}
+                    <br/>
+                    {{ user.business_role_name }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="nav-sidebar-menu-body">
+        <ul class="menu">
+            <li>
+                <div class="option-header" option="admin">Administración</div>
+                <ul class="option-body" option="admin">
+                    <li><a class="nav-link text-dark" [routerLink]="['/titles']">Administrar Cargos</a></li>
+                    <li><a class="nav-link text-dark" [routerLink]="['/dockets']">Administrar Legajos</a></li>
+                    <li><a class="nav-link text-dark" [routerLink]="['/users']">Administrar Usuarios</a></li>
+                    <li><a class="nav-link text-dark" [routerLink]="['/devices']">Administrar Dispositivos</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="option-header" option="my-settings">Otras opciones</div>
+                <ul class="option-body" option="my-settings">
+                    <li>Opcion 1</li>
+                    <li>Opcion 2</li>
+                    <li>Opcion 3</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="nav-sidebar-menu-footer">
+        <div class="sidebar-button left" [routerLink]="['/me/profile']">
+            Mi perfil
+        </div>
+        <div class="sidebar-button right" [routerLink]="['/logout']">
+            Cerrar sesión
+        </div>
+    </div>
+</div>

@@ -18,7 +18,10 @@ export class AppComponent {
 
         //LUEGO DEL CAMBIO
         if(val instanceof NavigationEnd) {
-          
+          //CERRAMOS EL SIDEBAR
+          if (this.sidebarOpened) {
+            (<any>$(".nav-menu-button")).click();
+          }
         }
     });
     
