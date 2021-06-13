@@ -5,3 +5,7 @@
     font-size: 1.15rem;
     font-weight: 300;
 }
+
+.nav.nav-tabs {
+    margin-bottom:15px;
+}
