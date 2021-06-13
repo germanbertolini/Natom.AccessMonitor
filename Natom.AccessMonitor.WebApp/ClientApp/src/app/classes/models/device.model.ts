@@ -5,7 +5,8 @@ export class Device {
     public device_ip: string;
     public device_user: string;
     public device_pass: string;
-    
-    public estado: string;
-    public estadoEsActivo: boolean;
+    public location: string;
+
+    public status: string;
+    public status_is_online: boolean;
 }

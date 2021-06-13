@@ -1,11 +1,13 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-5">
       <h3>Dispositivos</h3>
     </div>
-    <div class="col-md-2">
-      <button class="btn btn-sm btn-success right" [routerLink]="['/devices/new']">[+] Nuevo</button>
-    </div>
+    <div class="col-md-7">
+      <div class="alert alert-success" role="alert">
+        <i class="fa fa-bullhorn"></i>&nbsp;Los dispositivos son administrados desde el sincronizador
+      </div>
+    </div> 
   </div>
   <hr class="divider" />
   <div class="row">
@@ -15,18 +17,21 @@
           <tr>
             <th>Nombre</th>
             <th>ID dispositivo</th>
+            <th>IP</th>
+            <th>Ubicación</th>
             <th>Estado</th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let device of Devices">
             <td>{{ device.nombre }}</td>
             <td>{{ device.device_id }}</td>
-            <td>{{ device.estado }}</td>
+            <td>{{ device.device_ip }}</td>
+            <td>{{ device.location }}</td>
             <td>
-              <a class="btn btn-primary btn-sm edit-smt-btn" (click)="onEditClick(device.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
-              <a class="btn btn-danger btn-sm delete-smt-btn spacingLeft" (click)="onDeleteClick(device.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>
+              <i class="fa fa-circle online" *ngIf="device.status_is_online == true"></i>
+              <i class="fa fa-circle-o offline" *ngIf="device.status_is_online == false"></i>
+              {{ device.status }}
             </td>
           </tr>
         </tbody>

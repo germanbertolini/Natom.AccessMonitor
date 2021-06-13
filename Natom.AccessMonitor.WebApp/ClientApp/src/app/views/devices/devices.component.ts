@@ -8,6 +8,7 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
 
 @Component({
   selector: 'app-devices',
+  styleUrls: ['./devices.component.css'],
   templateUrl: './devices.component.html'
 })
 export class DevicesComponent implements OnInit {
@@ -88,9 +89,10 @@ export class DevicesComponent implements OnInit {
             device_ip: "127.0.0.1",
             device_user: "admin",
             device_pass: "1234",
-            estado: "Activo",
-            estadoEsActivo: true,
-            encrypted_id: "23498n7234v987h4v2"
+            status: "Activo",
+            status_is_online: true,
+            encrypted_id: "23498n7234v987h4v2",
+            location: "Planta San Justo"
           },
           {
             nombre: "Portería 1 - Lector 2",
@@ -98,9 +100,10 @@ export class DevicesComponent implements OnInit {
             device_ip: "127.0.0.2",
             device_user: "admin",
             device_pass: "1234",
-            estado: "Deshabilitado",
-            estadoEsActivo: false,
-            encrypted_id: "c3187693c1879b987"
+            status: "Desconectado",
+            status_is_online: false,
+            encrypted_id: "c3187693c1879b987",
+            location: "Planta San Justo"
           },
           {
             nombre: "Portería 2 - Lector 1",
@@ -108,9 +111,10 @@ export class DevicesComponent implements OnInit {
             device_ip: "127.0.0.3",
             device_user: "admin",
             device_pass: "1234",
-            estado: "Activo",
-            estadoEsActivo: true,
-            encrypted_id: "987b2498724398bc"
+            status: "Activo",
+            status_is_online: true,
+            encrypted_id: "987b2498724398bc",
+            location: "Planta San Justo"
           },
         ];
         callback({
