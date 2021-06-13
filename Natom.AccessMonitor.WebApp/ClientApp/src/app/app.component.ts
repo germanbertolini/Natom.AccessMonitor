@@ -3,10 +3,12 @@ import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
+  styleUrls: ['./app.component.css'],
   templateUrl: './app.component.html'
 })
 export class AppComponent {
   title = 'app';
+  sidebarOpened = false;
 
   constructor(private router: Router) {
 
@@ -20,6 +22,17 @@ export class AppComponent {
         }
     });
     
+  }
+
+  toggleSidebar(expanded) {
+    if (expanded) {
+      $(".nav-menu-button").addClass("active");
+      this.sidebarOpened = true;
+    }
+    else {
+      $(".nav-menu-button").removeClass("active");
+      this.sidebarOpened = false;
+    }
   }
   
 }

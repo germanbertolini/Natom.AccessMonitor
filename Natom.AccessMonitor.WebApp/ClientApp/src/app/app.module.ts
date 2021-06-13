@@ -23,6 +23,7 @@ import { DocketCrudComponent } from './views/dockets/crud/docket-crud.component'
 import { TitleCrudComponent } from './views/titles/crud/title-crud.component';
 import { TitlesComponent } from './views/titles/titles.component';
 import { DevicesSyncConfigComponent } from './views/devices/sync/config/devices-sync-config.component';
+import { SidebarModule } from 'ng-sidebar';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { DevicesSyncConfigComponent } from './views/devices/sync/config/devices-
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    SidebarModule.forRoot(),
     HttpClientModule,
     FormsModule,
     DataTablesModule,

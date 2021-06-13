@@ -3,6 +3,12 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3"
   >
     <div class="container-fluid">
+      <div class="nav-menu-button"
+        [ngStyle]="{backgroundImage: 'url(assets/img/menu-button.png)'}"
+        data-toggle="tooltip"
+        data-placement="right"
+        title="Click para Menu"
+        (click)="onSidebarMenuClick()"></div>
       <a class="navbar-brand" [routerLink]="['/']">Access Monitor</a>
       <button
         class="navbar-toggler"
