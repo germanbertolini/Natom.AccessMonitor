@@ -21,45 +21,90 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/']">Board</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Consultas 1
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Consulta tipo A</a>
+              <a class="dropdown-item" href="#">Consulta tipo B</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Consulta tipo Y</a>
+              <a class="dropdown-item" href="#">Consulta tipo Z</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Consultas 2
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Consulta tipo A</a>
+              <a class="dropdown-item" href="#">Consulta tipo B</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Consulta tipo Y</a>
+              <a class="dropdown-item" href="#">Consulta tipo Z</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Consultas 3
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Consulta tipo A</a>
+              <a class="dropdown-item" href="#">Consulta tipo B</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Consulta tipo Y</a>
+              <a class="dropdown-item" href="#">Consulta tipo Z</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Consultas 4
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Consulta tipo A</a>
+              <a class="dropdown-item" href="#">Consulta tipo B</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Consulta tipo Y</a>
+              <a class="dropdown-item" href="#">Consulta tipo Z</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Consultas 5
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">Consulta tipo A</a>
+              <a class="dropdown-item" href="#">Consulta tipo B</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Consulta tipo Y</a>
+              <a class="dropdown-item" href="#">Consulta tipo Z</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+
       <div
         class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/titles']">ABM Cargos</a>
-          </li>
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/dockets']">ABM Legajos</a>
-          </li>
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/users']">ABM Usuarios</a>
-          </li>
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/devices']">Dispositivos</a>
-          </li>
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/me/profile']">Mi perfil</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Usuario
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" [routerLink]="['/me/profile']"><i class="fa fa-user" aria-hidden="true"></i> Mi perfil</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" [routerLink]="['/logout']"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar sesión</a>
+            </div>
           </li>
         </ul>
       </div>

@@ -39,3 +39,7 @@ nav.navbar {
   box-shadow: 0px 0px 6px #999;
   border-bottom:none;
 }
+
+.navbar-collapse.justify-content-end .dropdown-menu.show {
+  margin-left:-60px;
+}
