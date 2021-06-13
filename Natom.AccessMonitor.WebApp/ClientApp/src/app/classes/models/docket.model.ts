@@ -5,5 +5,4 @@ export class Docket {
     public employee_last_name: string;
     public employee_dni: string;
     public employee_title: string;
-    public employee_location: string;
 }

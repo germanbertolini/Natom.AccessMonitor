@@ -88,8 +88,7 @@ export class DocketsComponent implements OnInit {
             employee_first_name: "Eduardo",
             employee_last_name: "Alsina",
             employee_dni: "24.287.129",
-            employee_title: "Jefe de mantenimiento",
-            employee_location: "Planta San Justo"
+            employee_title: "Jefe de mantenimiento"
           },
           {
             encrypted_id: "3198xcnn8xnbn",
@@ -97,8 +96,7 @@ export class DocketsComponent implements OnInit {
             employee_first_name: "Ramiro",
             employee_last_name: "Garcia",
             employee_dni: "30.282.123",
-            employee_title: "Manufactura",
-            employee_location: "Planta San Justo"
+            employee_title: "Manufactura"
           },
           {
             encrypted_id: "3198xcnn8xnbn",
@@ -106,8 +104,7 @@ export class DocketsComponent implements OnInit {
             employee_first_name: "Ramiro",
             employee_last_name: "Garcia",
             employee_dni: "30.282.123",
-            employee_title: "Manufactura",
-            employee_location: "Planta San Justo"
+            employee_title: "Manufactura"
           }
         ];
         callback({
@@ -130,8 +127,7 @@ export class DocketsComponent implements OnInit {
         { data: 'employee_first_name' },
         { data: "employee_last_name" },
         { data: 'employee_dni' },
-        { data: 'employee_title' },
-        { data: 'employee_location' }
+        { data: 'employee_title' }
       ]
     };
   }
