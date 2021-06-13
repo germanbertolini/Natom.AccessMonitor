@@ -1,14 +1,84 @@
-<h1>Hello, world!</h1>
-<p>Welcome to your new single-page application, built with:</p>
-<ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-</ul>
-<p>To help you get started, we've also set up:</p>
-<ul>
-  <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-  <li><strong>Angular CLI integration</strong>. In development mode, there's no need to run <code>ng serve</code>. It runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-  <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration automatically invokes <code>ng build</code> to produce minified, ahead-of-time compiled JavaScript files.</li>
-</ul>
-<p>The <code>ClientApp</code> subdirectory is a standard Angular CLI application. If you open a command prompt in that directory, you can run any <code>ng</code> command (e.g., <code>ng test</code>), or use <code>npm</code> to install extra packages into it.</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-8">
+      <h3>Panorama actual</h3>
+    </div>
+    <div class="col-md-4">
+      <div class="input-group" style="margin-top: -6px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"><i class="fa fa-map-marker" style="color:#f40b0b"></i>&nbsp; Filtrar por ubicación</span>
+        </div>
+        <select size="1" class="form-control">
+          <option value="0">Organización (todo)</option>
+          <option value="1" selected>Planta San Justo</option>
+          <option value="2">Depósito Lomas del Mirador</option>
+        </select>
+      </div>
+    </div> 
+  </div>
+  <hr class="divider" />
+  <div class="row dashboard">
+    <div class="col-md-4">
+      <div class="card card-style-1">
+        <div class="card-header">
+          <i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Ahora
+        </div>
+        <div class="card-body">
+          Miércoles 13/06<br/>
+          09:38 hs
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-style-2">
+        <div class="card-header">
+          <i class="fa fa-users" aria-hidden="true"></i>&nbsp;&nbsp;Porcentaje asistencia
+        </div>
+        <div class="card-body percent">
+          89 %
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-style-3">
+        <div class="card-header">
+          <i class="fa fa-balance-scale" aria-hidden="true"></i>&nbsp;&nbsp;Balance de asistencia
+        </div>
+        <div class="card-body">
+          64 presenciados<br/>
+          10 ausentes
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-style-4">
+        <div class="card-header">
+          <i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;&nbsp;Asistencia promedio 7 días
+        </div>
+        <div class="card-body percent">
+          87 %
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-style-5">
+        <div class="card-header">
+          <i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;&nbsp;Asistencia promedio 15 días
+        </div>
+        <div class="card-body percent">
+          91 %
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-style-6">
+        <div class="card-header">
+          <i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;&nbsp;Asistencia promedio 30 días
+        </div>
+        <div class="card-body percent">
+          90 %
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
