@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { NgChartjsModule } from 'ng-chartjs';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
@@ -25,6 +26,8 @@ import { TitlesComponent } from './views/titles/titles.component';
 import { DevicesSyncConfigComponent } from './views/devices/sync/config/devices-sync-config.component';
 import { SidebarModule } from 'ng-sidebar';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
+import { Query1AComponent } from './views/queries/1/A/query-1-a.component';
+import { Query1BComponent } from './views/queries/1/B/query-1-b.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,8 @@ import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.compon
     TitlesComponent,
     TitleCrudComponent,
     DevicesSyncConfigComponent,
+    Query1AComponent,
+    Query1BComponent,
     ConfirmDialogComponent
   ],
   imports: [
@@ -54,6 +59,7 @@ import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.compon
     NotifierModule,
     BrowserModule,
     CommonModule,
+    NgChartjsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'devices', component: DevicesComponent },
@@ -69,7 +75,9 @@ import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.compon
       { path: "dockets/edit/:id", component: DocketCrudComponent },
       { path: 'titles', component: TitlesComponent },
       { path: "titles/new", component: TitleCrudComponent },
-      { path: "titles/edit/:id", component: TitleCrudComponent }
+      { path: "titles/edit/:id", component: TitleCrudComponent },
+      { path: "queries/1/a", component: Query1AComponent },
+      { path: "queries/1/b", component: Query1BComponent }
     ])
   ],
   exports: [  
