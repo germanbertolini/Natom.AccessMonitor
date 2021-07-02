@@ -10,6 +10,7 @@
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
       <a class="nav-item nav-link active" id="nav-general-tab" data-toggle="tab" href="#nav-general" role="tab" aria-controls="nav-home" aria-selected="true">General</a>
       <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-presence" role="tab" aria-controls="nav-presence" aria-selected="false">Presencialidad</a>
+      <a class="nav-item nav-link" id="nav-valores-tab" data-toggle="tab" href="#nav-valores" role="tab" aria-controls="nav-valores" aria-selected="false">Valores</a>
     </div>
   </nav>
 
@@ -279,13 +280,45 @@
       </div>
     </div>
 
+    <div class="tab-pane fade" id="nav-valores" role="tabpanel" aria-labelledby="nav-valores-tab">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Valor hora trabajada</label>
+                    <div class="input-group input-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          value="150,00" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Valor hora extra trabajada</label>
+                    <div class="input-group input-sm">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          value="120,00" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
 
   
   <div class="row crud-footer">
     <div class="col-md-12">
-      <button class="btn btn-danger btn-circular left" (click)="onCancelClick()" data-toggle="tooltip" data-placement="top" title="Cancelar"><i class="fa fa-times"></i></button>
-      <button class="btn btn-success btn-circular right" (click)="onSaveClick()" data-toggle="tooltip" data-placement="top" title="Guardar"><i class="fa fa-check"></i></button>
+      <button class="btn btn-danger btn-circular left" (click)="onCancelClick()" data-toggle="tooltip" data-placement="right" title="Cancelar"><i class="fa fa-times"></i></button>
+      <button class="btn btn-success btn-circular right" (click)="onSaveClick()" data-toggle="tooltip" data-placement="left" title="Guardar"><i class="fa fa-check"></i></button>
     </div>
   </div>
 </div>

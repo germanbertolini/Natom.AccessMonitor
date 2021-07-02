@@ -28,6 +28,7 @@ import { SidebarModule } from 'ng-sidebar';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
 import { Query1AComponent } from './views/queries/1/A/query-1-a.component';
 import { Query1BComponent } from './views/queries/1/B/query-1-b.component';
+import { MeOrganizationComponent } from './views/me/organization/me-organization.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { Query1BComponent } from './views/queries/1/B/query-1-b.component';
     UsersComponent,
     UserCrudComponent,
     MeProfileComponent,
+    MeOrganizationComponent,
     DocketsComponent,
     DocketCrudComponent,
     TitlesComponent,
@@ -70,6 +72,7 @@ import { Query1BComponent } from './views/queries/1/B/query-1-b.component';
       { path: "users/new", component: UserCrudComponent },
       { path: "users/edit/:id", component: UserCrudComponent },
       { path: "me/profile", component: MeProfileComponent },
+      { path: "me/organization", component: MeOrganizationComponent },
       { path: 'dockets', component: DocketsComponent },
       { path: "dockets/new", component: DocketCrudComponent },
       { path: "dockets/edit/:id", component: DocketCrudComponent },
