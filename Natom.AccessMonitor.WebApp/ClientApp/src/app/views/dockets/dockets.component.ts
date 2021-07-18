@@ -27,6 +27,10 @@ export class DocketsComponent implements OnInit {
     this.confirmDialog = confirmDialogService;
   }
 
+  onReportWorkedHoursClick(id: string) {
+    this.router.navigate(['/reports/worked-hours/by_docket/' + id]);
+  }
+
   onEditClick(id: string) {
     this.router.navigate(['/dockets/edit/' + id]);
   }

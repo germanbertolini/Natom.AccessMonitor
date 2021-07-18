@@ -29,7 +29,8 @@
             <td>{{ docket.employee_dni }}</td>
             <td>{{ docket.employee_title }}</td>
             <td>
-              <a class="btn btn-primary btn-sm edit-smt-btn" (click)="onEditClick(docket.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
+              <a class="btn btn-warning btn-sm report-worked-hours-smt-btn" (click)="onReportWorkedHoursClick(docket.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Ver reporte Horas trabajadas"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
+              <a class="btn btn-primary btn-sm edit-smt-btn spacingLeft" (click)="onEditClick(docket.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
               <a class="btn btn-danger btn-sm delete-smt-btn spacingLeft" (click)="onDeleteClick(docket.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>
             </td>
           </tr>

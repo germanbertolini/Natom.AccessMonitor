@@ -29,6 +29,8 @@ import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.compon
 import { Query1AComponent } from './views/queries/1/A/query-1-a.component';
 import { Query1BComponent } from './views/queries/1/B/query-1-b.component';
 import { MeOrganizationComponent } from './views/me/organization/me-organization.component';
+import { ReportsAttendanceByDeviceComponent } from './views/reports/attendance/reports-attendance-by-device.component';
+import { ReportsWorkedHoursByDocketComponent } from './views/reports/worked-hours/reports-worked-hours-by-docket.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { MeOrganizationComponent } from './views/me/organization/me-organization
     DevicesSyncConfigComponent,
     Query1AComponent,
     Query1BComponent,
+    ReportsAttendanceByDeviceComponent,
+    ReportsWorkedHoursByDocketComponent,
     ConfirmDialogComponent
   ],
   imports: [
@@ -80,7 +84,9 @@ import { MeOrganizationComponent } from './views/me/organization/me-organization
       { path: "titles/new", component: TitleCrudComponent },
       { path: "titles/edit/:id", component: TitleCrudComponent },
       { path: "queries/1/a", component: Query1AComponent },
-      { path: "queries/1/b", component: Query1BComponent }
+      { path: "queries/1/b", component: Query1BComponent },
+      { path: "reports/attendance/by_device", component: ReportsAttendanceByDeviceComponent },
+      { path: "reports/worked-hours/by_docket/:id", component: ReportsWorkedHoursByDocketComponent }
     ])
   ],
   exports: [  
