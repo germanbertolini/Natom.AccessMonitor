@@ -15,18 +15,15 @@ import { DataTablesResponse } from "../../../classes/data-tables-response";
 })
 
 export class MeOrganizationComponent implements OnInit {
-  private readonly httpClient: HttpClient;
-  private readonly router: Router;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
 
   model: Organization;
 
-  constructor(httpClientService: HttpClient, routerService: Router, routeService: ActivatedRoute, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private routeService: ActivatedRoute,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+
     this.model = new Organization();
 
     //MOCK
@@ -43,13 +40,13 @@ export class MeOrganizationComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.confirmDialog.showConfirm("¿Descartar cambios?", function() {
+    this.confirmDialogService.showConfirm("¿Descartar cambios?", function() {
       window.history.back();
     });
   }
 
   onSaveClick() {
-    this.notifier.notify('success', 'Configuración guardada correctamente.');
+    this.notifierService.notify('success', 'Configuración guardada correctamente.');
   }
 
   ngOnInit(): void {

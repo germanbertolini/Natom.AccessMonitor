@@ -15,31 +15,28 @@ import { DataTablesResponse } from "../../../classes/data-tables-response";
 })
 
 export class TitleCrudComponent implements OnInit {
-  private readonly httpClient: HttpClient;
-  private readonly router: Router;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
 
   crud: CRUDView<Title>;
 
-  constructor(httpClientService: HttpClient, routerService: Router, routeService: ActivatedRoute, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private routeService: ActivatedRoute,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+                
     this.crud = new CRUDView<Title>(routeService);
     this.crud.model = new Title();
   }
 
   onCancelClick() {
-    this.confirmDialog.showConfirm("¿Descartar cambios?", function() {
+    this.confirmDialogService.showConfirm("¿Descartar cambios?", function() {
       window.history.back();
     });
   }
 
   onSaveClick() {
-    this.notifier.notify('success', 'Cargo guardado correctamente.');
-    this.router.navigate(['/titles']);
+    this.notifierService.notify('success', 'Cargo guardado correctamente.');
+    this.routerService.navigate(['/titles']);
   }
 
   ngOnInit(): void {

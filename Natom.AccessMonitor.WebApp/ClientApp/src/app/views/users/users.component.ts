@@ -10,31 +10,27 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
   selector: 'app-users',
   templateUrl: './users.component.html'
 })
-export class UsersComponent implements OnInit {  
-  private readonly router: Router;
-  private readonly httpClient: HttpClient;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
+export class UsersComponent implements OnInit {
 
   dtUsers: DataTables.Settings = {};
   Users: User[];
   Noty: any;
 
-  constructor(httpClientService: HttpClient, routerService: Router, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+                
   }
 
   onEditClick(id: string) {
-    this.router.navigate(['/users/edit/' + id]);
+    this.routerService.navigate(['/users/edit/' + id]);
   }
 
   onDeleteClick(id: string) {
     console.log(id);
-    let notifier = this.notifier;
-    this.confirmDialog.showConfirm("Desea eliminar el usuario?", function () {  
+    let notifier = this.notifierService;
+    this.confirmDialogService.showConfirm("Desea eliminar el usuario?", function () {  
       notifier.notify('success', 'Usuario eliminado con éxito.');
     });
   }

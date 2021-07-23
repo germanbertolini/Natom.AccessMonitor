@@ -13,19 +13,15 @@ import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-
 })
 
 export class DevicesSyncConfigComponent implements OnInit {
-  private readonly httpClient: HttpClient;
-  private readonly router: Router;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
-
   crud: CRUDView<DeviceSyncConfig>;
   dtDevices: DataTables.Settings = {};
 
-  constructor(httpClientService: HttpClient, routerService: Router, routeService: ActivatedRoute, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private routeService: ActivatedRoute,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+
     this.crud = new CRUDView<DeviceSyncConfig>(routeService);
     this.crud.model = new DeviceSyncConfig();
 
@@ -35,14 +31,14 @@ export class DevicesSyncConfigComponent implements OnInit {
   }
 
   onCancelClick() {
-    this.confirmDialog.showConfirm("¿Descartar cambios?", function() {
+    this.confirmDialogService.showConfirm("¿Descartar cambios?", function() {
       window.history.back();
     });
   }
 
   onSaveClick() {
-    this.notifier.notify('success', 'Opciones de sincronización guardadas correctamente.');
-    this.router.navigate(['/devices']);
+    this.notifierService.notify('success', 'Opciones de sincronización guardadas correctamente.');
+    this.routerService.navigate(['/devices']);
   }
 
   ngOnInit(): void {

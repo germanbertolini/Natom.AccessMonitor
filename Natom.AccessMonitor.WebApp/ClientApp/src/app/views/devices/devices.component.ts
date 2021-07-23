@@ -12,30 +12,25 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
   templateUrl: './devices.component.html'
 })
 export class DevicesComponent implements OnInit {
-  private readonly router: Router;
-  private readonly httpClient: HttpClient;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
-
   dtDevices: DataTables.Settings = {};
   Devices: Device[];
   Noty: any;
 
-  constructor(httpClientService: HttpClient, routerService: Router, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+    
   }
 
   onEditClick(id: string) {
-    this.router.navigate(['/devices/edit/' + id]);
+    this.routerService.navigate(['/devices/edit/' + id]);
   }
 
   onDeleteClick(id: string) {
     console.log(id);
-    let notifier = this.notifier;
-    this.confirmDialog.showConfirm("Desea eliminar el dispositivo?", function () {  
+    let notifier = this.notifierService;
+    this.confirmDialogService.showConfirm("Desea eliminar el dispositivo?", function () {  
       notifier.notify('success', 'Dispositivo eliminado con éxito.');
     });
   }

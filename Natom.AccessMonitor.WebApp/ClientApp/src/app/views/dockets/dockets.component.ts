@@ -11,34 +11,29 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
   templateUrl: './dockets.component.html'
 })
 export class DocketsComponent implements OnInit {  
-  private readonly router: Router;
-  private readonly httpClient: HttpClient;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
-
   dtDockets: DataTables.Settings = {};
   Dockets: Docket[];
   Noty: any;
 
-  constructor(httpClientService: HttpClient, routerService: Router, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+                
   }
 
   onReportWorkedHoursClick(id: string) {
-    this.router.navigate(['/reports/worked-hours/by_docket/' + id]);
+    this.routerService.navigate(['/reports/worked-hours/by_docket/' + id]);
   }
 
   onEditClick(id: string) {
-    this.router.navigate(['/dockets/edit/' + id]);
+    this.routerService.navigate(['/dockets/edit/' + id]);
   }
 
   onDeleteClick(id: string) {
     console.log(id);
-    let notifier = this.notifier;
-    this.confirmDialog.showConfirm("Desea eliminar el legajo?", function () {  
+    let notifier = this.notifierService;
+    this.confirmDialogService.showConfirm("Desea eliminar el legajo?", function () {  
       notifier.notify('success', 'Legajo eliminado con éxito.');
     });
   }

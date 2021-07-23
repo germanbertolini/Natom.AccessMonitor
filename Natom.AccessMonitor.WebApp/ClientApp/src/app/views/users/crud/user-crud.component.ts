@@ -14,31 +14,27 @@ import { DataTablesResponse } from "../../../classes/data-tables-response";
 })
 
 export class UserCrudComponent implements OnInit {
-  private readonly httpClient: HttpClient;
-  private readonly router: Router;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
 
   crud: CRUDView<User>;
 
-  constructor(httpClientService: HttpClient, routerService: Router, routeService: ActivatedRoute, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private routeService: ActivatedRoute,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
     this.crud = new CRUDView<User>(routeService);
     this.crud.model = new User();
   }
 
   onCancelClick() {
-    this.confirmDialog.showConfirm("¿Descartar cambios?", function() {
+    this.confirmDialogService.showConfirm("¿Descartar cambios?", function() {
       window.history.back();
     });
   }
 
   onSaveClick() {
-    this.notifier.notify('success', 'Usuario guardado correctamente.');
-    this.router.navigate(['/users']);
+    this.notifierService.notify('success', 'Usuario guardado correctamente.');
+    this.routerService.navigate(['/users']);
   }
 
   ngOnInit(): void {

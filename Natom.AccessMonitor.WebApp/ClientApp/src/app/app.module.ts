@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { NgChartjsModule } from 'ng-chartjs';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
@@ -31,6 +29,9 @@ import { Query1BComponent } from './views/queries/1/B/query-1-b.component';
 import { MeOrganizationComponent } from './views/me/organization/me-organization.component';
 import { ReportsAttendanceByDeviceComponent } from './views/reports/attendance/reports-attendance-by-device.component';
 import { ReportsWorkedHoursByDocketComponent } from './views/reports/worked-hours/reports-worked-hours-by-docket.component';
+import { AppRoutingModule } from './app.routing.module';
+import { ChartsModule, ThemeService } from 'ng2-charts';
+import { ErrorPageComponent } from './views/error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ReportsWorkedHoursByDocketComponent } from './views/reports/worked-hour
     NavMenuComponent,
     NavSidebarComponent,
     HomeComponent,
+    ErrorPageComponent,
     DevicesComponent,
     DeviceCrudComponent,
     UsersComponent,
@@ -65,35 +67,14 @@ import { ReportsWorkedHoursByDocketComponent } from './views/reports/worked-hour
     NotifierModule,
     BrowserModule,
     CommonModule,
-    NgChartjsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'devices', component: DevicesComponent },
-      { path: "devices/new", component: DeviceCrudComponent },
-      { path: "devices/edit/:id", component: DeviceCrudComponent },
-      { path: "devices/sync/config", component: DevicesSyncConfigComponent },
-      { path: 'users', component: UsersComponent },
-      { path: "users/new", component: UserCrudComponent },
-      { path: "users/edit/:id", component: UserCrudComponent },
-      { path: "me/profile", component: MeProfileComponent },
-      { path: "me/organization", component: MeOrganizationComponent },
-      { path: 'dockets', component: DocketsComponent },
-      { path: "dockets/new", component: DocketCrudComponent },
-      { path: "dockets/edit/:id", component: DocketCrudComponent },
-      { path: 'titles', component: TitlesComponent },
-      { path: "titles/new", component: TitleCrudComponent },
-      { path: "titles/edit/:id", component: TitleCrudComponent },
-      { path: "queries/1/a", component: Query1AComponent },
-      { path: "queries/1/b", component: Query1BComponent },
-      { path: "reports/attendance/by_device", component: ReportsAttendanceByDeviceComponent },
-      { path: "reports/worked-hours/by_docket/:id", component: ReportsWorkedHoursByDocketComponent }
-    ])
+    AppRoutingModule,
+    ChartsModule
   ],
   exports: [  
     ConfirmDialogComponent  
   ], 
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [ ConfirmDialogService ],
+  providers: [ ConfirmDialogService, ThemeService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

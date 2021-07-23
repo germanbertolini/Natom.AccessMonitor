@@ -14,19 +14,15 @@ import { DataTablesResponse } from "../../../classes/data-tables-response";
 })
 
 export class MeProfileComponent implements OnInit {
-  private readonly httpClient: HttpClient;
-  private readonly router: Router;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
-
   crud: CRUDView<User>;
   dtDevices: DataTables.Settings = {};
 
-  constructor(httpClientService: HttpClient, routerService: Router, routeService: ActivatedRoute, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private routeService: ActivatedRoute,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+                
     this.crud = new CRUDView<User>(routeService);
     this.crud.model = new User();
 
@@ -47,8 +43,8 @@ export class MeProfileComponent implements OnInit {
   }
 
   onChangePasswordClick() {
-    let notifier = this.notifier;
-    this.confirmDialog.showConfirm("¿Realmente desea cambiar su clave?", function() {
+    let notifier = this.notifierService;
+    this.confirmDialogService.showConfirm("¿Realmente desea cambiar su clave?", function() {
       notifier.notify('info', 'Se ha enviado un mail a su casilla de correo.');
     });
   }

@@ -11,31 +11,27 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
   selector: 'app-titles',
   templateUrl: './titles.component.html'
 })
-export class TitlesComponent implements OnInit {  
-  private readonly router: Router;
-  private readonly httpClient: HttpClient;
-  private readonly notifier: NotifierService;
-  private readonly confirmDialog: ConfirmDialogService;
+export class TitlesComponent implements OnInit {
 
   dtTitles: DataTables.Settings = {};
   Titles: Title[];
   Noty: any;
 
-  constructor(httpClientService: HttpClient, routerService: Router, notifierService: NotifierService, confirmDialogService: ConfirmDialogService) {
-    this.httpClient = httpClientService;
-    this.router = routerService;
-    this.notifier = notifierService;
-    this.confirmDialog = confirmDialogService;
+  constructor(private httpClientService: HttpClient,
+              private routerService: Router,
+              private notifierService: NotifierService,
+              private confirmDialogService: ConfirmDialogService) {
+                
   }
 
   onEditClick(id: string) {
-    this.router.navigate(['/titles/edit/' + id]);
+    this.routerService.navigate(['/titles/edit/' + id]);
   }
 
   onDeleteClick(id: string) {
     console.log(id);
-    let notifier = this.notifier;
-    this.confirmDialog.showConfirm("Desea eliminar el cargo?", function () {  
+    let notifier = this.notifierService;
+    this.confirmDialogService.showConfirm("Desea eliminar el cargo?", function () {  
       notifier.notify('success', 'Cargo eliminado con éxito.');
     });
   }
