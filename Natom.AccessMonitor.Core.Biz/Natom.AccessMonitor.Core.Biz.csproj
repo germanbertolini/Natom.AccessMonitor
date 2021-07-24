@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Managers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Natom.AccessMonitor.Core.DataAccess\Natom.AccessMonitor.Core.DataAccess.csproj" />
+    <ProjectReference Include="..\Natom.AccessMonitor.Services.Mailer\Natom.AccessMonitor.Services.Mailer.csproj" />
+  </ItemGroup>
+
+</Project>
