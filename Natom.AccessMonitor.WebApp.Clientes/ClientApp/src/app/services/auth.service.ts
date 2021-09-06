@@ -10,10 +10,12 @@ import { User } from "../classes/models/user.model";
 export class AuthService {
   private _current_user: User;
   private _current_token: string;
+  private _current_permissions: Array<string>;
   
   constructor() {
     this._current_user = null;
     this._current_token = null;
+    this._current_permissions = null;
   }
 
   public getCurrentUser() {
@@ -24,13 +26,19 @@ export class AuthService {
     return this._current_token;
   }
 
+  public getCurrentPermissions() {
+    return this._current_permissions;
+  }
+
   public Login(name: string, password: string): LoginResult {
     //MOCK RESPUESTA API
     let response = new ApiResult<LoginResult>();
     if (name == "gbertolini" && password == "1234") {
       response.success = true;
       response.message = null;
+      
       response.data = new LoginResult();
+
       response.data.User = new User();
       response.data.User.encrypted_id = "adssdadas123e213132";
       response.data.User.first_name = "German";
@@ -42,6 +50,11 @@ export class AuthService {
       response.data.User.business_role_name = "Administrador";
       response.data.User.country_icon = "arg";
       response.data.Token = "98cb7b439xbx349c8273bc98b73c48927c9";
+
+      response.data.Permissions = new Array<string>();
+      response.data.Permissions.push("/");
+      response.data.Permissions.push("/queries/1/a");
+      response.data.Permissions.push("/queries/1/b");
     }
     else {
       response.success = false;
@@ -55,6 +68,9 @@ export class AuthService {
       
     this._current_user = response.data.User;
     this._current_token = response.data.Token;
+    this._current_permissions = response.data.Permissions.map(function(permission) {
+      return permission.toLowerCase();
+    });
 
     return response.data;
   }

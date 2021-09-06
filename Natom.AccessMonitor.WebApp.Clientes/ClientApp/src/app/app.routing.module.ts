@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { AuthGuard } from "./guards/auth.guards";
 import { DeviceCrudComponent } from "./views/devices/crud/device-crud.component";
 import { DevicesComponent } from "./views/devices/devices.component";
 import { DevicesSyncConfigComponent } from "./views/devices/sync/config/devices-sync-config.component";
@@ -19,29 +20,30 @@ import { UserCrudComponent } from "./views/users/crud/user-crud.component";
 import { UsersComponent } from "./views/users/users.component";
 
 const appRoutes: Routes = [
-    { path: '', component: HomeComponent, pathMatch: 'full' },
-    { path: 'error-page', component: ErrorPageComponent, data: { message: "Se ha producido un error" } },
-    { path: 'forbidden', component: ErrorPageComponent, data: { message: "No tienes permisos" } },
-    { path: 'not-found', component: ErrorPageComponent, data: { message: "No se encontró la ruta solicitada" } },
-    { path: 'devices', component: DevicesComponent },
-    { path: "devices/new", component: DeviceCrudComponent },
-    { path: "devices/edit/:id", component: DeviceCrudComponent },
-    { path: "devices/sync/config", component: DevicesSyncConfigComponent },
-    { path: 'users', component: UsersComponent },
-    { path: "users/new", component: UserCrudComponent },
-    { path: "users/edit/:id", component: UserCrudComponent },
-    { path: "me/profile", component: MeProfileComponent },
-    { path: "me/organization", component: MeOrganizationComponent },
-    { path: 'dockets', component: DocketsComponent },
-    { path: "dockets/new", component: DocketCrudComponent },
-    { path: "dockets/edit/:id", component: DocketCrudComponent },
-    { path: 'titles', component: TitlesComponent },
-    { path: "titles/new", component: TitleCrudComponent },
-    { path: "titles/edit/:id", component: TitleCrudComponent },
-    { path: "queries/1/a", component: Query1AComponent },
-    { path: "queries/1/b", component: Query1BComponent },
-    { path: "reports/attendance/by_device", component: ReportsAttendanceByDeviceComponent },
-    { path: "reports/worked-hours/by_docket/:id", component: ReportsWorkedHoursByDocketComponent }
+    { path: 'login', component: HomeComponent, pathMatch: 'full' },
+    { canActivate: [ AuthGuard ], path: '', component: HomeComponent, pathMatch: 'full' },
+    { canActivate: [ AuthGuard ], path: 'error-page', component: ErrorPageComponent, data: { message: "Se ha producido un error" } },
+    { canActivate: [ AuthGuard ], path: 'forbidden', component: ErrorPageComponent, data: { message: "No tienes permisos" } },
+    { canActivate: [ AuthGuard ], path: 'not-found', component: ErrorPageComponent, data: { message: "No se encontró la ruta solicitada" } },
+    { canActivate: [ AuthGuard ], path: 'devices', component: DevicesComponent },
+    { canActivate: [ AuthGuard ], path: "devices/new", component: DeviceCrudComponent },
+    { canActivate: [ AuthGuard ], path: "devices/edit/:id", component: DeviceCrudComponent },
+    { canActivate: [ AuthGuard ], path: "devices/sync/config", component: DevicesSyncConfigComponent },
+    { canActivate: [ AuthGuard ], path: 'users', component: UsersComponent },
+    { canActivate: [ AuthGuard ], path: "users/new", component: UserCrudComponent },
+    { canActivate: [ AuthGuard ], path: "users/edit/:id", component: UserCrudComponent },
+    { canActivate: [ AuthGuard ], path: "me/profile", component: MeProfileComponent },
+    { canActivate: [ AuthGuard ], path: "me/organization", component: MeOrganizationComponent },
+    { canActivate: [ AuthGuard ], path: 'dockets', component: DocketsComponent },
+    { canActivate: [ AuthGuard ], path: "dockets/new", component: DocketCrudComponent },
+    { canActivate: [ AuthGuard ], path: "dockets/edit/:id", component: DocketCrudComponent },
+    { canActivate: [ AuthGuard ], path: 'titles', component: TitlesComponent },
+    { canActivate: [ AuthGuard ], path: "titles/new", component: TitleCrudComponent },
+    { canActivate: [ AuthGuard ], path: "titles/edit/:id", component: TitleCrudComponent },
+    { canActivate: [ AuthGuard ], path: "queries/1/a", component: Query1AComponent },
+    { canActivate: [ AuthGuard ], path: "queries/1/b", component: Query1BComponent },
+    { canActivate: [ AuthGuard ], path: "reports/attendance/by_device", component: ReportsAttendanceByDeviceComponent },
+    { canActivate: [ AuthGuard ], path: "reports/worked-hours/by_docket/:id", component: ReportsWorkedHoursByDocketComponent }
 ]
 
 @NgModule({
