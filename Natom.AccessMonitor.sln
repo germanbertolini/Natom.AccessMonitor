@@ -9,9 +9,9 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Natom.AccessMonitor.DbSecur
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Natom.AccessMonitor.DbLogs", "Natom.AccessMonitor.DbLogs\Natom.AccessMonitor.DbLogs.sqlproj", "{F3A25CBF-1DDE-47E1-A86A-5D215AFD0B90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Sync.Receiver", "Natom.AccessMonitor.Sync.Receiver\Natom.AccessMonitor.Sync.Receiver.csproj", "{945B4C82-BCD2-4460-9671-7DA612C96476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Sync.Receiver", "Natom.AccessMonitor.Sync.Receiver\Natom.AccessMonitor.Sync.Receiver.csproj", "{945B4C82-BCD2-4460-9671-7DA612C96476}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Sync.Transmitter", "Natom.AccessMonitor.Sync.Transmitter\Natom.AccessMonitor.Sync.Transmitter.csproj", "{EDE59740-6554-43A6-9C7E-91AB73CA560A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Sync.Transmitter", "Natom.AccessMonitor.Sync.Transmitter\Natom.AccessMonitor.Sync.Transmitter.csproj", "{EDE59740-6554-43A6-9C7E-91AB73CA560A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Db", "Db", "{B9CEDFA4-736E-4F2B-B3AA-575EB1989B8A}"
 EndProject
@@ -21,23 +21,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{8C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workers", "Workers", "{C0C192BC-AEC0-4E93-B425-65FD78E2686E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Workers.Mailer", "Natom.AccessMonitor.Workers.Mailer\Natom.AccessMonitor.Workers.Mailer.csproj", "{F721D612-B6D3-40CC-9B6B-364E414BD585}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Workers.Mailer", "Natom.AccessMonitor.Workers.Mailer\Natom.AccessMonitor.Workers.Mailer.csproj", "{F721D612-B6D3-40CC-9B6B-364E414BD585}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Services.Auth", "Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj", "{59EF3B61-53EB-4F55-89F1-7E6CD1665101}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Services.Auth", "Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj", "{59EF3B61-53EB-4F55-89F1-7E6CD1665101}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Services.Logger", "Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj", "{1AB3EC32-2A34-4954-8C4E-3D5940CBBEA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Services.Logger", "Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj", "{1AB3EC32-2A34-4954-8C4E-3D5940CBBEA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Services.Mailer", "Natom.AccessMonitor.Services.Mailer\Natom.AccessMonitor.Services.Mailer.csproj", "{AE86F806-250F-4B85-BA14-603BA8F07909}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Services.Mailer", "Natom.AccessMonitor.Services.Mailer\Natom.AccessMonitor.Services.Mailer.csproj", "{AE86F806-250F-4B85-BA14-603BA8F07909}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Core.Biz", "Natom.AccessMonitor.Core.Biz\Natom.AccessMonitor.Core.Biz.csproj", "{700ECFBB-2495-4D45-8D9D-E5CFAC9B6E9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Core.Biz", "Natom.AccessMonitor.Core.Biz\Natom.AccessMonitor.Core.Biz.csproj", "{700ECFBB-2495-4D45-8D9D-E5CFAC9B6E9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Core.DataAccess", "Natom.AccessMonitor.Core.DataAccess\Natom.AccessMonitor.Core.DataAccess.csproj", "{D63608E4-DC5C-4D4B-94C7-DCB22F20267B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Core.DataAccess", "Natom.AccessMonitor.Core.DataAccess\Natom.AccessMonitor.Core.DataAccess.csproj", "{D63608E4-DC5C-4D4B-94C7-DCB22F20267B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{93008EA3-0ECB-4D25-8CC4-1AECA8ADCAAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.WebServices.Auth", "Natom.AccessMonitor.WebServices.Auth\Natom.AccessMonitor.WebServices.Auth.csproj", "{30B603D2-95F5-4848-BE77-74DCAA929420}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.Services.Configuration", "Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj", "{F004614B-286C-45B5-8B93-ED8A7427F364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Services.Configuration", "Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj", "{F004614B-286C-45B5-8B93-ED8A7427F364}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Natom.AccessMonitor.DbConfig", "Natom.AccessMonitor.DbConfig\Natom.AccessMonitor.DbConfig.sqlproj", "{7E38F135-6D96-48C1-87B3-E3E8D0D70FFF}"
 EndProject
@@ -95,10 +93,6 @@ Global
 		{D63608E4-DC5C-4D4B-94C7-DCB22F20267B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D63608E4-DC5C-4D4B-94C7-DCB22F20267B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D63608E4-DC5C-4D4B-94C7-DCB22F20267B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30B603D2-95F5-4848-BE77-74DCAA929420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30B603D2-95F5-4848-BE77-74DCAA929420}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30B603D2-95F5-4848-BE77-74DCAA929420}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30B603D2-95F5-4848-BE77-74DCAA929420}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F004614B-286C-45B5-8B93-ED8A7427F364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F004614B-286C-45B5-8B93-ED8A7427F364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F004614B-286C-45B5-8B93-ED8A7427F364}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -125,7 +119,6 @@ Global
 		{AE86F806-250F-4B85-BA14-603BA8F07909} = {8C5A94BC-F23A-4171-B1EF-C5D42C4D837B}
 		{700ECFBB-2495-4D45-8D9D-E5CFAC9B6E9C} = {93008EA3-0ECB-4D25-8CC4-1AECA8ADCAAC}
 		{D63608E4-DC5C-4D4B-94C7-DCB22F20267B} = {93008EA3-0ECB-4D25-8CC4-1AECA8ADCAAC}
-		{30B603D2-95F5-4848-BE77-74DCAA929420} = {8C5A94BC-F23A-4171-B1EF-C5D42C4D837B}
 		{F004614B-286C-45B5-8B93-ED8A7427F364} = {8C5A94BC-F23A-4171-B1EF-C5D42C4D837B}
 		{7E38F135-6D96-48C1-87B3-E3E8D0D70FFF} = {B9CEDFA4-736E-4F2B-B3AA-575EB1989B8A}
 	EndGlobalSection
