@@ -1,6 +1,6 @@
 using System;
 
-namespace Natom.AccessMonitor.WebApp
+namespace Natom.AccessMonitor.WebApp.Clientes
 {
     public class WeatherForecast
     {
