@@ -18,13 +18,14 @@ import { TitleCrudComponent } from "./views/titles/crud/title-crud.component";
 import { TitlesComponent } from "./views/titles/titles.component";
 import { UserCrudComponent } from "./views/users/crud/user-crud.component";
 import { UsersComponent } from "./views/users/users.component";
+import { LoginComponent } from "./views/login/login.component";
 
 const appRoutes: Routes = [
-    { path: 'login', component: HomeComponent, pathMatch: 'full' },
+    { path: 'login', component: LoginComponent, pathMatch: 'full' },
     { canActivate: [ AuthGuard ], path: '', component: HomeComponent, pathMatch: 'full' },
-    { canActivate: [ AuthGuard ], path: 'error-page', component: ErrorPageComponent, data: { message: "Se ha producido un error" } },
-    { canActivate: [ AuthGuard ], path: 'forbidden', component: ErrorPageComponent, data: { message: "No tienes permisos" } },
-    { canActivate: [ AuthGuard ], path: 'not-found', component: ErrorPageComponent, data: { message: "No se encontró la ruta solicitada" } },
+    { path: 'error-page', component: ErrorPageComponent, data: { message: "Se ha producido un error" } },
+    { path: 'forbidden', component: ErrorPageComponent, data: { message: "No tienes permisos" } },
+    { path: 'not-found', component: ErrorPageComponent, data: { message: "No se encontró la ruta solicitada" } },
     { canActivate: [ AuthGuard ], path: 'devices', component: DevicesComponent },
     { canActivate: [ AuthGuard ], path: "devices/new", component: DeviceCrudComponent },
     { canActivate: [ AuthGuard ], path: "devices/edit/:id", component: DeviceCrudComponent },

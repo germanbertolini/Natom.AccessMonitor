@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,15 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AppComponent {
   title = 'app';
   sidebarOpened = false;
-
-  constructor(private router: Router) {
+  isLoggedIn = false;
+  
+  constructor(private router: Router,
+              private authService: AuthService) {
 
     router.events.subscribe((val) => {
+
+        this.isLoggedIn = authService.getCurrentUser() !== null;
+
         //SI HAY CAMBIO DE URL
         (<any>$('[data-toggle="tooltip"]')).tooltip('dispose');
 

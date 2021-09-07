@@ -37,6 +37,20 @@ import { Subject } from 'rxjs';
             }  
         });  
     }
+
+    showError(message: string, okClickFn: () => void = undefined): any {  
+        const that = this;  
+        (<any>$('[data-toggle="tooltip"]')).tooltip('hide');
+        this.subject.next({  
+            type: 'error',  
+            text: message,
+            onOkClick(): any {  
+                that.subject.next();
+                if (okClickFn !== undefined)  
+                    okClickFn();  
+            }  
+        });  
+    }
   
     getMessage(): Observable<any> {  
         return this.subject.asObservable();  

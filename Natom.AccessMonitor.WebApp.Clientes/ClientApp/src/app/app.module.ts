@@ -32,12 +32,14 @@ import { ReportsWorkedHoursByDocketComponent } from './views/reports/worked-hour
 import { AppRoutingModule } from './app.routing.module';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { ErrorPageComponent } from './views/error-page/error-page.component';
+import { LoginComponent } from './views/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     NavSidebarComponent,
+    LoginComponent,
     HomeComponent,
     ErrorPageComponent,
     DevicesComponent,

@@ -14,13 +14,23 @@
 
         <!-- OK DIALOG -->
         <div *ngIf="message?.type == 'ok'" class="modal-content">
-            <div class="modal-body">
-              <p class="text-center confirm-message">{{message.text}}</p>  
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" (click)="message.onOkClick()">OK</button>
-            </div>
+          <div class="modal-body">
+            <p class="text-center confirm-message">{{message.text}}</p>  
           </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="message.onOkClick()">OK</button>
+          </div>
+        </div>
+
+        <!-- ERROR DIALOG -->
+        <div *ngIf="message?.type == 'error'" class="modal-content">
+          <div class="modal-body">
+            <p class="text-center confirm-message">{{message.text}}</p>  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" (click)="message.onOkClick()">OK</button>
+          </div>
+        </div>
 
     </div>
 </div>

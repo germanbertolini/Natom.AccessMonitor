@@ -30,10 +30,10 @@ export class AuthService {
     return this._current_permissions;
   }
 
-  public Login(name: string, password: string): LoginResult {
+  public Login(email: string, password: string): LoginResult {
     //MOCK RESPUESTA API
     let response = new ApiResult<LoginResult>();
-    if (name == "gbertolini" && password == "1234") {
+    if (email === "german.bertolini@gmail.com" && password === "1234") {
       response.success = true;
       response.message = null;
       
