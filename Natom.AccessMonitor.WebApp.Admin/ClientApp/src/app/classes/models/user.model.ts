@@ -4,6 +4,7 @@ export class User {
     public last_name: string;
     public picture_url: string;
     public email: string;
+    public state: string;
     public registered_at: Date;
     public business_name: string;
     public business_role_name: string;

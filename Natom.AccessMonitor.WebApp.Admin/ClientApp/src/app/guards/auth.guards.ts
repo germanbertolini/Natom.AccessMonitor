@@ -24,11 +24,12 @@ export class AuthGuard implements CanActivate {
             return false;
         }
 
-        if (this._authService.getCurrentPermissions().indexOf(state.url.toLowerCase()) < 0)
-        {
-            this._router.navigate(['/forbidden']);
-            return false;
-        }
+        //POR AHORA EN LA APLICACIÓN DE ADMIN CON QUE HAYA LOGUEADO LO DEJAMOS OPERAR!
+        // if (this._authService.getCurrentPermissions().indexOf(state.url.toLowerCase()) < 0)
+        // {
+        //     this._router.navigate(['/forbidden']);
+        //     return false;
+        // }
 
         return true;
 

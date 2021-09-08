@@ -2,19 +2,18 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { Title } from "src/app/classes/models/title.model";
-import { User } from "src/app/classes/models/user.model";
+import { Client } from "src/app/classes/models/client.model";
+import { Country } from "src/app/classes/models/country.model";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
-  selector: 'app-titles',
-  templateUrl: './titles.component.html'
+  selector: 'app-clients',
+  templateUrl: './clients.component.html'
 })
-export class TitlesComponent implements OnInit {
-
-  dtTitles: DataTables.Settings = {};
-  Titles: Title[];
+export class ClientsComponent implements OnInit {  
+  dtClients: DataTables.Settings = {};
+  Clients: Client[];
   Noty: any;
 
   constructor(private httpClientService: HttpClient,
@@ -25,20 +24,20 @@ export class TitlesComponent implements OnInit {
   }
 
   onEditClick(id: string) {
-    this.routerService.navigate(['/titles/edit/' + id]);
+    this.routerService.navigate(['/clients/edit/' + id]);
   }
 
   onDeleteClick(id: string) {
     console.log(id);
     let notifier = this.notifierService;
-    this.confirmDialogService.showConfirm("Desea eliminar el cargo?", function () {  
-      notifier.notify('success', 'Cargo eliminado con éxito.');
+    this.confirmDialogService.showConfirm("Desea dar de baja al cliente?", function () {  
+      notifier.notify('success', 'Cliente dado de baja con éxito.');
     });
   }
 
   ngOnInit(): void {
 
-    this.dtTitles = {
+    this.dtClients = {
       pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
@@ -78,22 +77,50 @@ export class TitlesComponent implements OnInit {
         //    }
         //  }
         //  );
-        this.Titles = [
+        this.Clients = [
           {
-            encrypted_id: "asddas123132",
-            name: "Jefe de Mantenimiento"
+            encrypted_id: "231987213987987",
+            razon_social: "Roque Perez S.A.",
+            nombre_fantasia: "",
+            cuit: "11-11111111-3",
+            registered_at: new Date('2019-02-26T00:00:00'),
+            email: "",
+            phone: "",
+            address: "",
+            city: "",
+            state: "",
+            users: [],
+            country: {
+              encrypted_id: "132987132987",
+              name: "Argentina",
+              icon: "arg.png"
+            }
           },
           {
-            encrypted_id: "2398n23984n",
-            name: "Manufactura"
+            encrypted_id: "231987987023879",
+            razon_social: "Techint S.A.",
+            nombre_fantasia: "",
+            cuit: "11-11111111-4",
+            registered_at: new Date('2019-02-26T00:00:00'),
+            email: "",
+            phone: "",
+            address: "",
+            city: "",
+            state: "",
+            users: [],
+            country: {
+              encrypted_id: "132987132987",
+              name: "Argentina",
+              icon: "arg.png"
+            }
           }
         ];
         callback({
-          recordsTotal: this.Titles.length,
-          recordsFiltered: this.Titles.length,
+          recordsTotal: this.Clients.length,
+          recordsFiltered: this.Clients.length,
           data: [] //Siempre vacío para delegarle el render a Angular
         });
-        if (this.Titles.length > 0) {
+        if (this.Clients.length > 0) {
           $('.dataTables_empty').hide();
         }
         else {
@@ -104,7 +131,10 @@ export class TitlesComponent implements OnInit {
         }, 300);
       },
       columns: [
-        { data: 'name' }
+        { data: 'cuit' },
+        { data: 'razon_social' },
+        { data: "registered_at" },
+        { data: 'country.name' }
       ]
     };
   }
