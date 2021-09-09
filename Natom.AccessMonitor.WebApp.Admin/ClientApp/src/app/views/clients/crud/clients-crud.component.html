@@ -10,7 +10,7 @@
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
       <a class="nav-item nav-link active" id="nav-general-tab" data-toggle="tab" href="#nav-general" role="tab" aria-controls="nav-home" aria-selected="true">General</a>
       <a class="nav-item nav-link" id="nav-users-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users" aria-selected="false">Usuarios</a>
-      <a class="nav-item nav-link" id="nav-devices-tab" data-toggle="tab" href="#nav-devices" role="tab" aria-controls="nav-devices" aria-selected="false">Sincronizadores</a>
+      <a class="nav-item nav-link" id="nav-syncs-tab" data-toggle="tab" href="#nav-syncs" role="tab" aria-controls="nav-syncs" aria-selected="false">Sincronizadores</a>
     </div>
   </nav>
 
@@ -218,8 +218,39 @@
         </div>        
     </div>
 
-    <div class="tab-pane fade" id="nav-devices" role="tabpanel" aria-labelledby="nav-devices-tab">
-        
+    <div class="tab-pane fade" id="nav-syncs" role="tabpanel" aria-labelledby="nav-syncs-tab">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="alert alert-success" role="alert">
+            Los sincronizadores se enrolan desde el índice de Clientes
+          </div>
+        </div>
+      </div>
+      <hr class="divider" />
+      <div class="row">
+        <div class="col-md-12">
+          <table datatable [dtOptions]="dtSyncs" class="table table-striped table-bordered dt-responsive nowrap">
+            <thead>
+              <tr>
+                <th>Sincronizador</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let sync of crud.model.syncs" >
+                <td>{{ sync.device_id }}</td>
+                <td>{{ sync.name }}</td>
+                <td>{{ sync.state }}</td>
+                <td>
+                  <a class="btn btn-danger btn-sm delete-smt-btn spacingLeft" (click)="onDeleteSyncClick(sync.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div> 
     </div>
   </div>
 

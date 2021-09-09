@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
 import { Client } from "src/app/classes/models/client.model";
+import { Syncronizer } from "src/app/classes/models/syncronizer.model";
 import { User } from "src/app/classes/models/user.model";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
@@ -18,6 +19,7 @@ export class ClientsCrudComponent implements OnInit {
   crud: CRUDView<Client>;
   crudUser: User;
   dtUsers: DataTables.Settings = {};
+  dtSyncs: DataTables.Settings = {};
 
   constructor(private httpClientService: HttpClient,
               private routerService: Router,
@@ -28,6 +30,7 @@ export class ClientsCrudComponent implements OnInit {
     this.crudUser = new User();
     this.crud.model = new Client();
     this.crud.model.users = new Array<User>();
+    this.crud.model.syncs = new Array<Syncronizer>();
   }
 
   onCancelClick() {
@@ -42,11 +45,14 @@ export class ClientsCrudComponent implements OnInit {
   }
 
   onDeleteUserClick(encrypted_id: string) {
-    console.log(encrypted_id);
     this.confirmDialogService.showConfirm("¿Está seguro de eliminar el Usuario?", () => {
-      console.log(encrypted_id);
       this.crud.model.users = this.crud.model.users.filter(i => i.encrypted_id !== encrypted_id);
-      console.log (this.crud.model.users);
+    });
+  }
+
+  onDeleteSyncClick(encrypted_id: string) {
+    this.confirmDialogService.showConfirm("¿Está seguro de eliminar el Sincronizador?", () => {
+      this.crud.model.syncs = this.crud.model.syncs.filter(i => i.encrypted_id !== encrypted_id);
     });
   }
 

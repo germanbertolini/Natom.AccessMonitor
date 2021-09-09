@@ -13,5 +13,6 @@ export class Client {
     public state: string;
     public country: Country;
     public users: Array<User>;
+    public syncs: Array<Syncronizer>;
     public registered_at: Date;
 }
