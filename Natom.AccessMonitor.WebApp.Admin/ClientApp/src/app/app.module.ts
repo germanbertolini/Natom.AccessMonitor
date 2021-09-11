@@ -18,6 +18,7 @@ import { SidebarModule } from 'ng-sidebar';
 import { AppRoutingModule } from './app.routing.module';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { LoginComponent } from './views/login/login.component';
+import { NewSyncComponent } from './views/clients/modals/new-sync.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { LoginComponent } from './views/login/login.component';
     HomeComponent,
     ClientsComponent,
     ClientsCrudComponent,
+    NewSyncComponent,
     ConfirmDialogComponent
   ],
   imports: [

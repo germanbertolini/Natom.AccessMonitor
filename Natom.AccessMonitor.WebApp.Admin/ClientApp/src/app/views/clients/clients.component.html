@@ -1,3 +1,5 @@
+<modal-new-sync></modal-new-sync>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-10">
@@ -27,6 +29,7 @@
             <td>{{ client.registered_at   |  date:'dd/MM/yyyy' }}</td>
             <td>{{ client.country.name }}</td>
             <td>
+              <a class="btn btn-warning btn-sm new-sync-smt-btn spacingLeft" (click)="onNewSyncClick(client.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Enrolar sincronizador"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;<i class="fa fa-refresh" aria-hidden="true"></i></a>
               <a class="btn btn-primary btn-sm edit-smt-btn spacingLeft" (click)="onEditClick(client.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
               <a class="btn btn-danger btn-sm delete-smt-btn spacingLeft" (click)="onDeleteClick(client.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>
             </td>

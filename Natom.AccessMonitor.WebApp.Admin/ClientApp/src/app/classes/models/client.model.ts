@@ -1,4 +1,5 @@
 import { Country } from "./country.model";
+import { Syncronizer } from "./syncronizer.model";
 import { User } from "./user.model";
 
 export class Client {

@@ -1,26 +1,33 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
 import { Client } from "src/app/classes/models/client.model";
-import { Country } from "src/app/classes/models/country.model";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
+import { NewSyncComponent } from "./modals/new-sync.component";
 
 @Component({
   selector: 'app-clients',
   templateUrl: './clients.component.html'
 })
-export class ClientsComponent implements OnInit {  
+export class ClientsComponent implements OnInit {
+  @ViewChild(NewSyncComponent, { static: false })
+  newSyncComponent: NewSyncComponent;
+
   dtClients: DataTables.Settings = {};
   Clients: Client[];
-  Noty: any;
 
   constructor(private httpClientService: HttpClient,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
                 
+  }
+
+  onNewSyncClick(id: string) {
+    console.log("new click");
+    this.newSyncComponent.Show(id);
   }
 
   onEditClick(id: string) {
@@ -90,6 +97,7 @@ export class ClientsComponent implements OnInit {
             city: "",
             state: "",
             users: [],
+            syncs: [],
             country: {
               encrypted_id: "132987132987",
               name: "Argentina",
@@ -108,6 +116,7 @@ export class ClientsComponent implements OnInit {
             city: "",
             state: "",
             users: [],
+            syncs: [],
             country: {
               encrypted_id: "132987132987",
               name: "Argentina",
