@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Natom.AccessMonitor.Extensions;
+using Natom.AccessMonitor.Services.Configuration.PackageConfig;
 
 namespace Natom.AccessMonitor.Sync.Receiver
 {
@@ -20,7 +21,10 @@ namespace Natom.AccessMonitor.Sync.Receiver
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddConfigurationService();
+            services
+                .AddHttpClient()
+                .AddConfigurationService(refreshTimeMS: 30000)
+                .AddLoggerService(systemName: typeof(Startup).Assembly.GetName().Name, insertEachMS: 30000, bulkInsertSize: 10000);
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

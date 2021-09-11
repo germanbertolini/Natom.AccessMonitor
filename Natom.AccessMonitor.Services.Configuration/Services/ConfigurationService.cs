@@ -24,11 +24,16 @@ namespace Natom.AccessMonitor.Services.Configuration.Services
             var configData = await _repository.GetConfigAsync();
             var newConfig = new Dictionary<string, string>();
             foreach (var config in configData)
-                newConfig.Add(config.Key, config.Value);
+                newConfig.Add(config.Clave, config.Valor);
             _config = newConfig;
         }
 
-        public string GetValue(string key)
-                        => _config[key];
+        public async Task<string> GetValueAsync(string key)
+        {
+            while (_config == null || _config.Count == 0)
+                await Task.Delay(50);
+
+            return _config[key];
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace Natom.AccessMonitor.Services.Configuration.Entities
 {
     public class Config
     {
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public string Clave { get; set; }
+        public string Valor { get; set; }
     }
 }

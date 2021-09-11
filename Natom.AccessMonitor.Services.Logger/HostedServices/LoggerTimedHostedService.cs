@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
-using Natom.AccessMonitor.Services.Configuration.PackageConfig;
 using Natom.AccessMonitor.Services.Configuration.Services;
+using Natom.AccessMonitor.Services.Logger.PackageConfig;
+using Natom.AccessMonitor.Services.Logger.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +9,25 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Natom.AccessMonitor.Services.Configuration.HostedServices
+namespace Natom.AccessMonitor.Services.Logger.HostedServices
 {
-    public class ConfigTimedHostedService : IHostedService, IDisposable
+    public class LoggerTimedHostedService : IHostedService, IDisposable
     {
-        private readonly ConfigurationService _configService;
-        private readonly ConfigurationServiceConfig _config;
+        private readonly LoggerService _loggerService;
+        private readonly LoggerServiceConfig _config;
 
         private int executionCount = 0;
         private Timer _timer;
 
-        public ConfigTimedHostedService(IServiceProvider serviceProvider)
+        public LoggerTimedHostedService(IServiceProvider serviceProvider)
         {
-            _configService = (ConfigurationService)serviceProvider.GetService(typeof(ConfigurationService));
-            _config = (ConfigurationServiceConfig)serviceProvider.GetService(typeof(ConfigurationServiceConfig));
+            _loggerService = (LoggerService)serviceProvider.GetService(typeof(LoggerService));
+            _config = (LoggerServiceConfig)serviceProvider.GetService(typeof(LoggerServiceConfig));
         }
 
         public Task StartAsync(CancellationToken stoppingToken)
         {
-            _timer = new Timer(DoWork, null, 0, _config.RefreshTimeMS);
+            _timer = new Timer(DoWork, null, _config.InsertEachMS, _config.InsertEachMS);
 
             return Task.CompletedTask;
         }
@@ -36,8 +37,8 @@ namespace Natom.AccessMonitor.Services.Configuration.HostedServices
             var count = Interlocked.Increment(ref executionCount);
             try
             {
-                if (_configService != null)
-                    _configService.RefreshAsync().Wait();
+                if (_loggerService != null)
+                    _loggerService.BulkInsertAsync().Wait();
             }
             catch (Exception ex)
             {

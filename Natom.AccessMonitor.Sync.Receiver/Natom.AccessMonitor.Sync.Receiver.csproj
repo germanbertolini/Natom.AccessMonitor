@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Natom.AccessMonitor.Core.Biz\Natom.AccessMonitor.Core.Biz.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj" />
+    <ProjectReference Include="..\Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj" />
   </ItemGroup>
 
 </Project>
