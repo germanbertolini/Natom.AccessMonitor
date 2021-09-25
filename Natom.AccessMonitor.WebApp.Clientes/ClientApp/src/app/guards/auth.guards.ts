@@ -24,11 +24,12 @@ export class AuthGuard implements CanActivate {
             return false;
         }
 
-        if (this._authService.getCurrentPermissions().indexOf(state.url.toLowerCase()) < 0)
-        {
-            this._router.navigate(['/forbidden']);
-            return false;
-        }
+        //GERMAN 24/09/2021: LO DEJO COMENTADO ASI LA GENTE LO PUEDE IR PROBANDO!
+        //if (this._authService.getCurrentPermissions().indexOf(state.url.toLowerCase()) < 0)
+        //{
+        //    this._router.navigate(['/forbidden']);
+        //    return false;
+        //}
 
         return true;
 

@@ -16,7 +16,7 @@ body {
   
   .login-container {
     margin-top: 10%;
-    border: 1px solid #CCD1D1;
+    border: none;
     border-radius: 5px;
     max-width: 50%;
     z-index: 1;

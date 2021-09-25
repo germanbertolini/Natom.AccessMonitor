@@ -33,6 +33,7 @@ import { AppRoutingModule } from './app.routing.module';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { ErrorPageComponent } from './views/error-page/error-page.component';
 import { LoginComponent } from './views/login/login.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ import { LoginComponent } from './views/login/login.component';
     ConfirmDialogComponent  
   ], 
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  providers: [ ConfirmDialogService, ThemeService ],
+  providers: [ ConfirmDialogService, ThemeService, CookieService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
