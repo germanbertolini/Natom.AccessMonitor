@@ -1,16 +1,282 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4CA0306E-9649-4FA9-98FF-4EB9A04A8130}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Natom.AccessMonitor.Sync.Transmitter</RootNamespace>
+    <AssemblyName>BioAnviz +</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
-
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Folder Include="SyncQueue\" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj" />
+    <Compile Include="Entities\TransmitterConfig.cs" />
+    <Compile Include="frmConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConfig.Designer.cs">
+      <DependentUpon>frmConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ConfigService.cs" />
+    <Compile Include="Services\EncryptService.cs" />
+    <Compile Include="Services\NetworkService.cs" />
+    <EmbeddedResource Include="frmConfig.resx">
+      <DependentUpon>frmConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Assets\IconPack\.DS_Store" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
   </ItemGroup>
-
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Icon.ico" />
+    <Content Include="Assets\Icon.png" />
+    <Content Include="Assets\IconLarge.png" />
+    <Content Include="Assets\IconMedium.png" />
+    <Content Include="Assets\IconPack\Arrow Down.png" />
+    <Content Include="Assets\IconPack\Arrow Left.png" />
+    <Content Include="Assets\IconPack\Arrow Right.png" />
+    <Content Include="Assets\IconPack\Arrow Up.png" />
+    <Content Include="Assets\IconPack\Black Board 2.png" />
+    <Content Include="Assets\IconPack\Black Board.png" />
+    <Content Include="Assets\IconPack\Bluetooth.png" />
+    <Content Include="Assets\IconPack\Bookmarks 2.png" />
+    <Content Include="Assets\IconPack\Bookmarks.png" />
+    <Content Include="Assets\IconPack\Box Add.png" />
+    <Content Include="Assets\IconPack\Box Down.png" />
+    <Content Include="Assets\IconPack\Box Remove.png" />
+    <Content Include="Assets\IconPack\Box Up.png" />
+    <Content Include="Assets\IconPack\Box.png" />
+    <Content Include="Assets\IconPack\Briefcase.png" />
+    <Content Include="Assets\IconPack\Bug.png" />
+    <Content Include="Assets\IconPack\Button Add.png" />
+    <Content Include="Assets\IconPack\Button Burn.png" />
+    <Content Include="Assets\IconPack\Button Check.png" />
+    <Content Include="Assets\IconPack\Button Color Circle.png" />
+    <Content Include="Assets\IconPack\Button Eject.png" />
+    <Content Include="Assets\IconPack\Button Help.png" />
+    <Content Include="Assets\IconPack\Button Info.png" />
+    <Content Include="Assets\IconPack\Button Load.png" />
+    <Content Include="Assets\IconPack\Button Next.png" />
+    <Content Include="Assets\IconPack\Button Pause.png" />
+    <Content Include="Assets\IconPack\Button Play.png" />
+    <Content Include="Assets\IconPack\Button Previous.png" />
+    <Content Include="Assets\IconPack\Button Record Active.png" />
+    <Content Include="Assets\IconPack\Button Record.png" />
+    <Content Include="Assets\IconPack\Button Remove.png" />
+    <Content Include="Assets\IconPack\Button RSS.png" />
+    <Content Include="Assets\IconPack\Button Stop.png" />
+    <Content Include="Assets\IconPack\Button White Add.png" />
+    <Content Include="Assets\IconPack\Button White Check.png" />
+    <Content Include="Assets\IconPack\Button White Help.png" />
+    <Content Include="Assets\IconPack\Button White Info.png" />
+    <Content Include="Assets\IconPack\Button White Load.png" />
+    <Content Include="Assets\IconPack\Button White Remove.png" />
+    <Content Include="Assets\IconPack\Button White RSS.png" />
+    <Content Include="Assets\IconPack\Button White Stop.png" />
+    <Content Include="Assets\IconPack\Calendar 2.png" />
+    <Content Include="Assets\IconPack\Calendar.png" />
+    <Content Include="Assets\IconPack\Camera.png" />
+    <Content Include="Assets\IconPack\Chart Bar.png" />
+    <Content Include="Assets\IconPack\Chart Pie.png" />
+    <Content Include="Assets\IconPack\Chart.png" />
+    <Content Include="Assets\IconPack\Checkbox Empty.png" />
+    <Content Include="Assets\IconPack\Checkbox Full.png" />
+    <Content Include="Assets\IconPack\Clock Alarm.png" />
+    <Content Include="Assets\IconPack\Clock.png" />
+    <Content Include="Assets\IconPack\CMD Key.png" />
+    <Content Include="Assets\IconPack\Cocktail.png" />
+    <Content Include="Assets\IconPack\Cog.png" />
+    <Content Include="Assets\IconPack\Comment Add.png" />
+    <Content Include="Assets\IconPack\Comment Edit.png" />
+    <Content Include="Assets\IconPack\Comment Remove.png" />
+    <Content Include="Assets\IconPack\Comment.png" />
+    <Content Include="Assets\IconPack\Computer Off.png" />
+    <Content Include="Assets\IconPack\Computer On.png" />
+    <Content Include="Assets\IconPack\Contact.png" />
+    <Content Include="Assets\IconPack\Contacts Add.png" />
+    <Content Include="Assets\IconPack\Contacts Remove.png" />
+    <Content Include="Assets\IconPack\Contacts Sync.png" />
+    <Content Include="Assets\IconPack\Contacts.png" />
+    <Content Include="Assets\IconPack\Credit Card PayPal.png" />
+    <Content Include="Assets\IconPack\Credit Card.png" />
+    <Content Include="Assets\IconPack\Dashboard.png" />
+    <Content Include="Assets\IconPack\Database Add.png" />
+    <Content Include="Assets\IconPack\Database Remove.png" />
+    <Content Include="Assets\IconPack\Database.png" />
+    <Content Include="Assets\IconPack\Desktop.png" />
+    <Content Include="Assets\IconPack\Disc Blu Ray.png" />
+    <Content Include="Assets\IconPack\Disc DVD.png" />
+    <Content Include="Assets\IconPack\Document 1 Add.png" />
+    <Content Include="Assets\IconPack\Document 1 Edit.png" />
+    <Content Include="Assets\IconPack\Document 1 Remove.png" />
+    <Content Include="Assets\IconPack\Document 1.png" />
+    <Content Include="Assets\IconPack\Document 2 Add.png" />
+    <Content Include="Assets\IconPack\Document 2 Edit.png" />
+    <Content Include="Assets\IconPack\Document 2 Remove.png" />
+    <Content Include="Assets\IconPack\Document 2.png" />
+    <Content Include="Assets\IconPack\Document Blueprint.png" />
+    <Content Include="Assets\IconPack\Document Checklist.png" />
+    <Content Include="Assets\IconPack\Drawer Closed.png" />
+    <Content Include="Assets\IconPack\Drawer Open.png" />
+    <Content Include="Assets\IconPack\File Add.png" />
+    <Content Include="Assets\IconPack\File Receive.png" />
+    <Content Include="Assets\IconPack\File Remove.png" />
+    <Content Include="Assets\IconPack\File Send.png" />
+    <Content Include="Assets\IconPack\File.png" />
+    <Content Include="Assets\IconPack\Finder.png" />
+    <Content Include="Assets\IconPack\Folder Add.png" />
+    <Content Include="Assets\IconPack\Folder Remove.png" />
+    <Content Include="Assets\IconPack\Folder Smart.png" />
+    <Content Include="Assets\IconPack\Folder Sync.png" />
+    <Content Include="Assets\IconPack\Folder.png" />
+    <Content Include="Assets\IconPack\Fonts.png" />
+    <Content Include="Assets\IconPack\Globe Active.png" />
+    <Content Include="Assets\IconPack\Globe Inactive.png" />
+    <Content Include="Assets\IconPack\Glyph Add.png" />
+    <Content Include="Assets\IconPack\Glyph Check.png" />
+    <Content Include="Assets\IconPack\Glyph Remove.png" />
+    <Content Include="Assets\IconPack\Home.png" />
+    <Content Include="Assets\IconPack\IM 2.png" />
+    <Content Include="Assets\IconPack\IM.png" />
+    <Content Include="Assets\IconPack\iPad.png" />
+    <Content Include="Assets\IconPack\iPhone.png" />
+    <Content Include="Assets\IconPack\Light Bulb Off.png" />
+    <Content Include="Assets\IconPack\Light Bulb On.png" />
+    <Content Include="Assets\IconPack\Link.png" />
+    <Content Include="Assets\IconPack\Lock Closed.png" />
+    <Content Include="Assets\IconPack\Lock Open.png" />
+    <Content Include="Assets\IconPack\Love.png" />
+    <Content Include="Assets\IconPack\Magic Wand.png" />
+    <Content Include="Assets\IconPack\Mail Add.png" />
+    <Content Include="Assets\IconPack\Mail Edit.png" />
+    <Content Include="Assets\IconPack\Mail Forward.png" />
+    <Content Include="Assets\IconPack\Mail Open 1.png" />
+    <Content Include="Assets\IconPack\Mail Open 2.png" />
+    <Content Include="Assets\IconPack\Mail Receive.png" />
+    <Content Include="Assets\IconPack\Mail Remove.png" />
+    <Content Include="Assets\IconPack\Mail Reply.png" />
+    <Content Include="Assets\IconPack\Mail Send.png" />
+    <Content Include="Assets\IconPack\Mail.png" />
+    <Content Include="Assets\IconPack\Maps.png" />
+    <Content Include="Assets\IconPack\Mobile Phone.png" />
+    <Content Include="Assets\IconPack\Money Bundle.png" />
+    <Content Include="Assets\IconPack\Money.png" />
+    <Content Include="Assets\IconPack\Movies.png" />
+    <Content Include="Assets\IconPack\Music Blue.png" />
+    <Content Include="Assets\IconPack\Music Green.png" />
+    <Content Include="Assets\IconPack\Music Red.png" />
+    <Content Include="Assets\IconPack\News Add.png" />
+    <Content Include="Assets\IconPack\News Remove.png" />
+    <Content Include="Assets\IconPack\News.png" />
+    <Content Include="Assets\IconPack\Note Pinned.png" />
+    <Content Include="Assets\IconPack\Note Sticky.png" />
+    <Content Include="Assets\IconPack\Pencil.png" />
+    <Content Include="Assets\IconPack\Pictures.png" />
+    <Content Include="Assets\IconPack\Printer.png" />
+    <Content Include="Assets\IconPack\Private.png" />
+    <Content Include="Assets\IconPack\Ruler.png" />
+    <Content Include="Assets\IconPack\Search Add.png" />
+    <Content Include="Assets\IconPack\Search Remove.png" />
+    <Content Include="Assets\IconPack\Search.png" />
+    <Content Include="Assets\IconPack\Sign Public.png" />
+    <Content Include="Assets\IconPack\Sign Warning.png" />
+    <Content Include="Assets\IconPack\Smiley Happy.png" />
+    <Content Include="Assets\IconPack\Smiley Sad.png" />
+    <Content Include="Assets\IconPack\Speaker.png" />
+    <Content Include="Assets\IconPack\Star Off.png" />
+    <Content Include="Assets\IconPack\Star On.png" />
+    <Content Include="Assets\IconPack\Stop 2.png" />
+    <Content Include="Assets\IconPack\Stop.png" />
+    <Content Include="Assets\IconPack\System Activity Monitor.png" />
+    <Content Include="Assets\IconPack\System Equalizer.png" />
+    <Content Include="Assets\IconPack\System Preferences.png" />
+    <Content Include="Assets\IconPack\System Terminal.png" />
+    <Content Include="Assets\IconPack\Trash Empty.png" />
+    <Content Include="Assets\IconPack\Trash Full.png" />
+    <Content Include="Assets\IconPack\Trash Shredder.png" />
+    <Content Include="Assets\IconPack\TV Off.png" />
+    <Content Include="Assets\IconPack\TV On.png" />
+    <Content Include="Assets\IconPack\User.png" />
+    <Content Include="Assets\IconPack\Users.png" />
+    <Content Include="Assets\IconPack\WiFi Singal.png" />
+    <Content Include="Assets\IconPack\Window Move.png" />
+    <Content Include="Assets\IconPack\Window Resize.png" />
+    <Content Include="Assets\IconPack\Window.png" />
+    <Content Include="Assets\IconSmall.png" />
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
