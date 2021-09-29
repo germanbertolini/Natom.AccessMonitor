@@ -19,12 +19,19 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 {
                     if (System.IO.File.Exists("transmitter.cfg"))
                     {
-                        var config = System.IO.File.ReadAllText("transmitter.cfg");
-                        var passwd = NetworkService.GetMacAddress().ToString();
-                        config = EncryptService.Decrypt(config, passwd);
-                        var configBytes = System.Convert.FromBase64String(config);
-                        config = System.Text.Encoding.UTF8.GetString(configBytes);
-                        _config = JsonConvert.DeserializeObject<TransmitterConfig>(config);
+                        try
+                        {
+                            var config = System.IO.File.ReadAllText("transmitter.cfg");
+                            var passwd = NetworkService.GetMacAddress().ToString();
+                            config = EncryptService.Decrypt(config, passwd);
+                            var configBytes = System.Convert.FromBase64String(config);
+                            config = System.Text.Encoding.UTF8.GetString(configBytes);
+                            _config = JsonConvert.DeserializeObject<TransmitterConfig>(config);
+                        }
+                        catch (Exception ex)
+                        {
+                            _config = null;
+                        }
                     }
                 }
                 return _config;

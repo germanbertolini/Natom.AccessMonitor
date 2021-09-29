@@ -31,8 +31,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConfig));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.txtServicioURL = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -42,34 +42,39 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.groupBox1.Controls.Add(this.txtServicioURL);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(13, 13);
+            this.groupBox1.Location = new System.Drawing.Point(10, 11);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(775, 71);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(581, 58);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "SERVICIO";
             // 
+            // txtServicioURL
+            // 
+            this.txtServicioURL.Location = new System.Drawing.Point(107, 21);
+            this.txtServicioURL.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtServicioURL.Name = "txtServicioURL";
+            this.txtServicioURL.Size = new System.Drawing.Size(458, 20);
+            this.txtServicioURL.TabIndex = 1;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 29);
+            this.label1.Location = new System.Drawing.Point(16, 24);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 17);
+            this.label1.Size = new System.Drawing.Size(88, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "URL del servicio:";
             // 
-            // txtServicioURL
-            // 
-            this.txtServicioURL.Location = new System.Drawing.Point(143, 26);
-            this.txtServicioURL.Name = "txtServicioURL";
-            this.txtServicioURL.Size = new System.Drawing.Size(609, 22);
-            this.txtServicioURL.TabIndex = 1;
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(679, 247);
+            this.btnSave.Location = new System.Drawing.Point(509, 87);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(109, 32);
+            this.btnSave.Size = new System.Drawing.Size(82, 26);
             this.btnSave.TabIndex = 1;
             this.btnSave.Text = "GUARDAR";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -77,16 +82,17 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // 
             // frmConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(35)))), ((int)(((byte)(36)))));
-            this.ClientSize = new System.Drawing.Size(800, 292);
+            this.ClientSize = new System.Drawing.Size(600, 125);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "frmConfig";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Configuración";
             this.Load += new System.EventHandler(this.frmConfig_Load);
             this.groupBox1.ResumeLayout(false);

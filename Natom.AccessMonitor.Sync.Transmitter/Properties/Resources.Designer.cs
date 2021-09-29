@@ -63,6 +63,26 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _007_authentic {
+            get {
+                object obj = ResourceManager.GetObject("007-authentic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap authentic {
+            get {
+                object obj = ResourceManager.GetObject("authentic", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Button_White_Add {
             get {
                 object obj = ResourceManager.GetObject("Button White Add", resourceCulture);
@@ -86,6 +106,26 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Properties {
         internal static System.Drawing.Bitmap IconMedium {
             get {
                 object obj = ResourceManager.GetObject("IconMedium", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap influencer {
+            get {
+                object obj = ResourceManager.GetObject("influencer", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap repost {
+            get {
+                object obj = ResourceManager.GetObject("repost", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
