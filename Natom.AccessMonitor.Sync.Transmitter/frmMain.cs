@@ -1,4 +1,5 @@
-﻿using Natom.AccessMonitor.Sync.Transmitter.Services;
+﻿using Natom.AccessMonitor.Sync.Transmitter.Entities.DTO;
+using Natom.AccessMonitor.Sync.Transmitter.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -121,12 +122,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private async void toolStripButton2_Click(object sender, EventArgs e)
         {
-
+            await ActivarAsync();
         }
 
-        private void Activar()
+        private async Task ActivarAsync()
         {
             if (string.IsNullOrEmpty(ConfigService.Config?.ServiceURL))
             {
@@ -134,6 +135,19 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 return;
             }
 
+            var data = new StartActivationHandshakeDto
+            {
+                InstanceId = ConfigService.Config.InstanceId,
+                InstallationAlias = ConfigService.Config.InstallationAlias,
+                InstallerName = ConfigService.Config.InstallerName,
+                ClientName = ConfigService.Config.ClientName,
+                ClientCUIT = ConfigService.Config.ClientCUIT
+            };
+
+            Uri baseUri = new Uri(ConfigService.Config.ServiceURL);
+            Uri startHandshakeUri = new Uri(baseUri, "Activacion/StartHandshake");
+            var response = await NetworkService.DoHttpPostAsync<dynamic>(startHandshakeUri.AbsoluteUri, data);
+            var secretKey = response.Data.secretKey;
 
         }
     }

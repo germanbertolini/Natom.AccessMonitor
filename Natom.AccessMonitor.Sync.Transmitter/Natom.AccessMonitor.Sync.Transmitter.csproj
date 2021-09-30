@@ -51,8 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\DTO\StartActivationHandshakeDto.cs" />
     <Compile Include="Entities\TransmitterConfig.cs" />
-    <Compile Include="Entities\TransmitterDTO.cs" />
+    <Compile Include="Entities\DTO\TransmitterResponseDto.cs" />
     <Compile Include="StatusForms\frmCheckConnection.cs">
       <SubType>Form</SubType>
     </Compile>

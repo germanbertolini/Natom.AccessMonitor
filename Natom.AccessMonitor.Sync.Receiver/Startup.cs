@@ -24,6 +24,7 @@ namespace Natom.AccessMonitor.Sync.Receiver
             services
                 .AddHttpClient()
                 .AddConfigurationService(refreshTimeMS: 30000)
+                .AddCacheService()
                 .AddLoggerService(systemName: typeof(Startup).Assembly.GetName().Name, insertEachMS: 30000, bulkInsertSize: 10000);
 
             services.AddControllers();

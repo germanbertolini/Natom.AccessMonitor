@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Natom.AccessMonitor.Sync.Receiver.Entities;
+using Natom.AccessMonitor.Sync.Receiver.Entities.DTO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Natom.AccessMonitor.Sync.Receiver.Controllers
 {
@@ -28,7 +24,7 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
         [ActionName("HealthCheckForTransmitter")]
         public IActionResult GetHealthCheckForTransmitter()
         {
-            return Ok(new TransmitterDTO { Success = true });
+            return Ok(new TransmitterResponseDto { Success = true });
         }
     }
 }

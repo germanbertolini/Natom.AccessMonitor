@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Natom.AccessMonitor.Sync.Transmitter.Entities
+namespace Natom.AccessMonitor.Sync.Transmitter.Entities.DTO
 {
-    public class TransmitterDTO
+    public class TransmitterResponseDto
     {
         [JsonProperty("success")]
         public bool Success { get; set; }
@@ -16,7 +16,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
         public string Error { get; set; }
     }
 
-    public class TransmitterDTO<TObject> : TransmitterDTO
+    public class TransmitterResponseDto<TObject> : TransmitterResponseDto
     {
         [JsonProperty("data")]
         public TObject Data { get; set; }

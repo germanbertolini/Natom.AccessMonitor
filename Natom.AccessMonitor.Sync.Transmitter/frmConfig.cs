@@ -34,11 +34,41 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 return;
             }
 
+            if (string.IsNullOrEmpty(txtInstalacionAlias.Text))
+            {
+                MessageBox.Show("Debes definirle un Alias a esta instalación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtQuienInstala.Text))
+            {
+                MessageBox.Show("Debes indicar tu nombre en 'Quién instala'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtRazonSocial.Text))
+            {
+                MessageBox.Show("Debes ingresar Razon social / Nombre fantasía del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(txtCUIT.Text))
+            {
+                MessageBox.Show("Debes ingresar CUIT del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+
             if (await ValidarConexionAsync())
             {
                 var config = new TransmitterConfig
                 {
-                    ServiceURL = txtServicioURL.Text
+                    ServiceURL = txtServicioURL.Text,
+                    InstallationAlias = txtInstalacionAlias.Text,
+                    InstallerName = txtQuienInstala.Text,
+                    ClientName = txtRazonSocial.Text,
+                    ClientCUIT = txtCUIT.Text
                 };
                 ConfigService.Save(config);
 

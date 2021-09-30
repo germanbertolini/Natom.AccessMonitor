@@ -15,7 +15,13 @@ as (select * from (values
 ('Logging.Discord.Exception.WebhookUrl', 'https://discordapp.com/api/webhooks/886361496127410236/ejrf8oEsGk8ehv18nLQChhkgmUHGrqvGbZN7ZbELk7O-FxQgsEkNMUFJBEso9crLTJW3', 'URL del Webhook de Discord para avisos ''Exception''.'),
 ('WebApp.Admin.URL','http://localhost:4202','URL de acceso a la aplicación de Administradores'),
 ('WebApp.Clientes.URL','http://localhost:4201','URL de acceso a la aplicación de Clientes'),
-('ConnectionStrings.DbLogs', 'Data Source=localhost; Initial Catalog=AccessMonitor_Logs; Integrated Security=SSPI;', 'ConnectionString de la base de datos de Logs')
+('ConnectionStrings.DbLogs', 'Data Source=localhost; Initial Catalog=AccessMonitor_Logs; Integrated Security=SSPI;', 'ConnectionString de la base de datos de Logs'),
+('Cache.RedisServer.IP','localhost','IP del servidor Redis'),
+('Cache.RedisServer.Port','6379','Puerto del servidor Redis'),
+('Cache.RedisServer.Ssl','False','Si utilizar o no SSL en la conexión a Redis'),
+('Cache.RedisServer.KeepAlive','30','Configuración de Redis'),
+('Cache.RedisServer.ConnectTimeout','15000','Configuración de Redis'),
+('Cache.RedisServer.SyncTimeout','15000','Configuración de Redis')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([Clave],[Valor],[Description]))
 merge	[dbo].[Config] as t

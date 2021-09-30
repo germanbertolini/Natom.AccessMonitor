@@ -1,4 +1,4 @@
-﻿using Natom.AccessMonitor.Sync.Transmitter.Entities;
+﻿using Natom.AccessMonitor.Sync.Transmitter.Entities.DTO;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,21 +28,21 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             return null;
         }
 
-        public async static Task<TransmitterDTO> DoHttpPostAsync(string url, object contentToSend)
+        public async static Task<TransmitterResponseDto> DoHttpPostAsync(string url, object contentToSend)
         {
-            TransmitterDTO result = null;
+            TransmitterResponseDto result = null;
             var content = await _DoHttpPostAsync(url, contentToSend);
             if (!string.IsNullOrEmpty(content))
-                result = JsonConvert.DeserializeObject<TransmitterDTO>(content);
+                result = JsonConvert.DeserializeObject<TransmitterResponseDto>(content);
             return result;
         }
 
-        public async static Task<TransmitterDTO<TResult>> DoHttpPostAsync<TResult>(string url, object contentToSend)
+        public async static Task<TransmitterResponseDto<TResult>> DoHttpPostAsync<TResult>(string url, object contentToSend)
         {
-            TransmitterDTO<TResult> result = null;
+            TransmitterResponseDto<TResult> result = null;
             var content = await _DoHttpPostAsync(url, contentToSend);
             if (!string.IsNullOrEmpty(content))
-                result = JsonConvert.DeserializeObject<TransmitterDTO<TResult>>(content);
+                result = JsonConvert.DeserializeObject<TransmitterResponseDto<TResult>>(content);
             return result;
         }
 
@@ -68,34 +68,31 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
 
             using (HttpWebResponse response = (HttpWebResponse)await request.GetResponseAsync())
             {
-                if (response.ContentLength > 0)
+                using (Stream stream = response.GetResponseStream())
                 {
-                    using (Stream stream = response.GetResponseStream())
-                    {
-                        StreamReader reader = new StreamReader(stream, Encoding.UTF8);
-                        contentResponse = await reader.ReadToEndAsync();
-                    }
+                    StreamReader reader = new StreamReader(stream, Encoding.UTF8);
+                    contentResponse = await reader.ReadToEndAsync();
                 }
             }
 
             return contentResponse;
         }
 
-        public async static Task<TransmitterDTO> DoHttpGetAsync(string url)
+        public async static Task<TransmitterResponseDto> DoHttpGetAsync(string url)
         {
-            TransmitterDTO result = null;
+            TransmitterResponseDto result = null;
             var content = await _DoHttpGetAsync(url);
             if (!string.IsNullOrEmpty(content))
-                result = JsonConvert.DeserializeObject<TransmitterDTO>(content);
+                result = JsonConvert.DeserializeObject<TransmitterResponseDto>(content);
             return result;
         }
 
-        public async static Task<TransmitterDTO<TResult>> DoHttpGetAsync<TResult>(string url)
+        public async static Task<TransmitterResponseDto<TResult>> DoHttpGetAsync<TResult>(string url)
         {
-            TransmitterDTO<TResult> result = null;
+            TransmitterResponseDto<TResult> result = null;
             var content = await _DoHttpGetAsync(url);
             if (!string.IsNullOrEmpty(content))
-                result = JsonConvert.DeserializeObject<TransmitterDTO<TResult>>(content);
+                result = JsonConvert.DeserializeObject<TransmitterResponseDto<TResult>>(content);
             return result;
         }
 
