@@ -44,8 +44,6 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            object accessTokenWithPermissions = null;
-
             this.Init(context);
             try
             {
@@ -64,15 +62,15 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
                         throw new HandledException("'Authorization' inválido.");
 
                     var authorization = headerValuesForAuthorization.ToString();
-                    accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
-                    //_permissionService.ValidatePermission(accessToken.Roles, _actionRequested);
+                    var accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
+                    ValidatePermission(accessTokenWithPermissions.Permissions, _actionRequested);
                                         
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Token autorizado");
                 }
             }
             catch (HandledException ex)
             {
-                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, accessTokenWithPermissions);
+                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken);
 
                 context.HttpContext.Response.StatusCode = 403;
                 context.Result = new ContentResult()
@@ -92,6 +90,24 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
             }
         }
 
+        private void ValidatePermission(List<string> permissions, string actionRequested)
+        {
+            bool hasPermission = false;
+            foreach (var permission in permissions)
+            {
+                if (permission.Contains("*"))
+                    hasPermission = actionRequested.StartsWith(permission.Replace("*", ""));
+                else
+                    hasPermission = actionRequested.Equals(permission);
+
+                if (hasPermission)
+                    break;
+            }
+
+            if (!hasPermission)
+                throw new HandledException("Permisos insuficientes.");
+        }
+
         private void Init(AuthorizationFilterContext context)
         {
             var actionDescriptor = ((ControllerActionDescriptor)context.ActionDescriptor);
@@ -106,7 +122,7 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
             _controller = actionDescriptor.RouteValues["controller"].ToLower();
             _action = actionDescriptor.RouteValues["action"].ToLower();
             _urlRequested = String.Format("[{0}] {1} {2}", context.HttpContext.Request.Scheme.ToUpper(), context.HttpContext.Request.Method, context.HttpContext.Request.Path.Value);
-            _actionRequested = actionDescriptor.ControllerTypeInfo.FullName + "." + actionDescriptor.RouteValues["action"];
+            _actionRequested = actionDescriptor.ControllerTypeInfo.Name + "." + actionDescriptor.RouteValues["action"];
             
             var hostname = Dns.GetHostName();
             var port = context.HttpContext.Connection.LocalPort;
