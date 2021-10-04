@@ -46,6 +46,7 @@ namespace Natom.AccessMonitor.Services.Logger.Repository
                        "        ,[AppVersion] " +
                        "        ,[Lang] " +
                        "        ,[Scope] " +
+                       "        ,[InstanceId] " +
                        "        ,[HostName] " +
                        "        ,[Port]) " +
                        "    VALUES " +
@@ -59,6 +60,7 @@ namespace Natom.AccessMonitor.Services.Logger.Repository
                        "        ,@AppVersion " +
                        "        ,@Lang " +
                        "        ,@Scope " +
+                       "        ,@InstanceId " +
                        "        ,@HostName " +
                        "        ,@Port); ";
 

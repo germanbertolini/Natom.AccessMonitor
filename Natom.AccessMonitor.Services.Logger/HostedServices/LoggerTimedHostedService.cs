@@ -49,6 +49,16 @@ namespace Natom.AccessMonitor.Services.Logger.HostedServices
         public Task StopAsync(CancellationToken stoppingToken)
         {
             _timer?.Change(Timeout.Infinite, 0);
+
+            //CORREMOS EL BULKINSERT MIENTRAS HAYA PENDIENTES DE BULKEAR. HASTA 5 CICLOS PERMITIMOS, MAS NO.
+            int cycles = 0;
+            while (_loggerService.PendingToBulkCounter() > 0 && cycles < 5)
+            {
+                if (_loggerService != null)
+                    _loggerService.BulkInsertAsync().Wait();
+                cycles++;
+            }
+
             return Task.CompletedTask;
         }
 

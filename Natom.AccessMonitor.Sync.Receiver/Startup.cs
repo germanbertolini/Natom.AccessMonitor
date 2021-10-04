@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Natom.AccessMonitor.Extensions;
 using Natom.AccessMonitor.Services.Configuration.PackageConfig;
+using Natom.AccessMonitor.Sync.Receiver.Filters;
 
 namespace Natom.AccessMonitor.Sync.Receiver
 {
@@ -22,12 +24,19 @@ namespace Natom.AccessMonitor.Sync.Receiver
         public void ConfigureServices(IServiceCollection services)
         {
             services
+                .AddSingleton<IHttpContextAccessor, HttpContextAccessor>()
                 .AddHttpClient()
                 .AddConfigurationService(refreshTimeMS: 30000)
                 .AddCacheService()
-                .AddLoggerService(systemName: typeof(Startup).Assembly.GetName().Name, insertEachMS: 30000, bulkInsertSize: 10000);
+                .AddAuthService(scope: "Sync.Receiver")
+                .AddLoggerService(systemName: "Sync.Receiver", insertEachMS: 30000, bulkInsertSize: 10000);
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(AuthorizationFilter));
+                options.Filters.Add(typeof(ResultFilter));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Natom.AccessMonitor.Sync.Receiver", Version = "v1" });

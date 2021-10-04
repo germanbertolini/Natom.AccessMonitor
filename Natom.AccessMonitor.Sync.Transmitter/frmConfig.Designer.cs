@@ -35,15 +35,15 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.label1 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtCUIT = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.txtRazonSocial = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.txtInstalacionAlias = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtCUIT = new System.Windows.Forms.TextBox();
             this.txtQuienInstala = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtInstalacionAlias = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -55,9 +55,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(10, 11);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(581, 58);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
@@ -66,7 +66,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // txtServicioURL
             // 
             this.txtServicioURL.Location = new System.Drawing.Point(107, 21);
-            this.txtServicioURL.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtServicioURL.Margin = new System.Windows.Forms.Padding(2);
             this.txtServicioURL.Name = "txtServicioURL";
             this.txtServicioURL.Size = new System.Drawing.Size(458, 20);
             this.txtServicioURL.TabIndex = 1;
@@ -83,11 +83,13 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // 
             // btnSave
             // 
+            this.btnSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.Location = new System.Drawing.Point(510, 287);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(2);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(82, 26);
-            this.btnSave.TabIndex = 1;
+            this.btnSave.TabIndex = 99999;
             this.btnSave.Text = "GUARDAR";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -107,6 +109,24 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "CLIENTE";
+            // 
+            // txtCUIT
+            // 
+            this.txtCUIT.Location = new System.Drawing.Point(181, 53);
+            this.txtCUIT.Margin = new System.Windows.Forms.Padding(2);
+            this.txtCUIT.Name = "txtCUIT";
+            this.txtCUIT.Size = new System.Drawing.Size(384, 20);
+            this.txtCUIT.TabIndex = 3;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(142, 56);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(35, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "CUIT:";
             // 
             // txtRazonSocial
             // 
@@ -142,42 +162,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "ESTA INSTALACIÓN DE SINCRONIZADOR";
             // 
-            // txtInstalacionAlias
-            // 
-            this.txtInstalacionAlias.Location = new System.Drawing.Point(181, 21);
-            this.txtInstalacionAlias.Margin = new System.Windows.Forms.Padding(2);
-            this.txtInstalacionAlias.Name = "txtInstalacionAlias";
-            this.txtInstalacionAlias.Size = new System.Drawing.Size(384, 20);
-            this.txtInstalacionAlias.TabIndex = 1;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(16, 24);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(136, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Alias / Nombre (referencia):";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(142, 56);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(35, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "CUIT:";
-            // 
-            // txtCUIT
-            // 
-            this.txtCUIT.Location = new System.Drawing.Point(181, 53);
-            this.txtCUIT.Margin = new System.Windows.Forms.Padding(2);
-            this.txtCUIT.Name = "txtCUIT";
-            this.txtCUIT.Size = new System.Drawing.Size(384, 20);
-            this.txtCUIT.TabIndex = 3;
-            // 
             // txtQuienInstala
             // 
             this.txtQuienInstala.Location = new System.Drawing.Point(181, 51);
@@ -196,6 +180,24 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.label5.TabIndex = 2;
             this.label5.Text = "Nombre de quién instala:";
             // 
+            // txtInstalacionAlias
+            // 
+            this.txtInstalacionAlias.Location = new System.Drawing.Point(181, 21);
+            this.txtInstalacionAlias.Margin = new System.Windows.Forms.Padding(2);
+            this.txtInstalacionAlias.Name = "txtInstalacionAlias";
+            this.txtInstalacionAlias.Size = new System.Drawing.Size(384, 20);
+            this.txtInstalacionAlias.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(16, 24);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(136, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Alias / Nombre (referencia):";
+            // 
             // frmConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -208,7 +210,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmConfig";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Configuración";

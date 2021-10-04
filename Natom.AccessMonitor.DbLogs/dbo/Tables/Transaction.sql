@@ -9,6 +9,7 @@
   [AppVersion] VARCHAR(10) DEFAULT NULL,
   [Lang] char(2) DEFAULT NULL,
   [Scope] VARCHAR(20) NOT NULL,
+  [InstanceId] VARCHAR(32) NULL,
   [HostName] VARCHAR(50) DEFAULT NULL,
   [Port] INT DEFAULT NULL
 )

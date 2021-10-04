@@ -16,6 +16,7 @@ as (select * from (values
 ('WebApp.Admin.URL','http://localhost:4202','URL de acceso a la aplicación de Administradores'),
 ('WebApp.Clientes.URL','http://localhost:4201','URL de acceso a la aplicación de Clientes'),
 ('ConnectionStrings.DbLogs', 'Data Source=localhost; Initial Catalog=AccessMonitor_Logs; Integrated Security=SSPI;', 'ConnectionString de la base de datos de Logs'),
+('ConnectionStrings.DbSecurity', 'Data Source=localhost; Initial Catalog=AccessMonitor_Security; Integrated Security=SSPI;', 'ConnectionString de la base de datos de Security'),
 ('Cache.RedisServer.IP','localhost','IP del servidor Redis'),
 ('Cache.RedisServer.Port','6379','Puerto del servidor Redis'),
 ('Cache.RedisServer.Ssl','False','Si utilizar o no SSL en la conexión a Redis'),

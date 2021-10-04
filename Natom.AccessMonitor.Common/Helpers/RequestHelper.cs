@@ -39,6 +39,9 @@ namespace Natom.AccessMonitor.Common.Helpers
                     os += ";" + String.Join(';', matches.ToList().Select(m => m.Value));
                 }
 
+                //WINDOWS APPLICATIONS
+                os = os.Replace("Microsoft ", string.Empty);
+
             }
             return os;
         }

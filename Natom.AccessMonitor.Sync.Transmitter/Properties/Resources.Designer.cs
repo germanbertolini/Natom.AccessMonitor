@@ -63,6 +63,16 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _001_activation {
+            get {
+                object obj = ResourceManager.GetObject("001-activation", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _007_authentic {
             get {
                 object obj = ResourceManager.GetObject("007-authentic", resourceCulture);

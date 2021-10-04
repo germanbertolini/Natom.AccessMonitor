@@ -20,6 +20,8 @@ namespace Natom.AccessMonitor.Services.Logger.Entities
 
         public string Scope { get; set; }
 
+        public string InstanceId { get; set; }
+
         public string HostName { get; set; }
         public int? Port { get; set; }
     }

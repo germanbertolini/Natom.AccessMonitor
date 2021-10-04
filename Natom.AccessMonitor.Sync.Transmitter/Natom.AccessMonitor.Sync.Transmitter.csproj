@@ -38,8 +38,20 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Polly, Version=7.0.0.0, Culture=neutral, PublicKeyToken=c8a3ffc3f8f825cc, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.7.2.2\lib\netstandard1.1\Polly.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -54,6 +66,7 @@
     <Compile Include="Entities\DTO\StartActivationHandshakeDto.cs" />
     <Compile Include="Entities\TransmitterConfig.cs" />
     <Compile Include="Entities\DTO\TransmitterResponseDto.cs" />
+    <Compile Include="Services\ActivationService.cs" />
     <Compile Include="StatusForms\frmCheckConnection.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +91,12 @@
     <Compile Include="StatusForms\frmAuthentication.Designer.cs">
       <DependentUpon>frmAuthentication.cs</DependentUpon>
     </Compile>
+    <Compile Include="StatusForms\frmActivating.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatusForms\frmActivating.Designer.cs">
+      <DependentUpon>frmActivating.cs</DependentUpon>
+    </Compile>
     <Compile Include="StatusForms\frmSync.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StatusForms\frmAuthentication.resx">
       <DependentUpon>frmAuthentication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusForms\frmActivating.resx">
+      <DependentUpon>frmActivating.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatusForms\frmSync.resx">
       <DependentUpon>frmSync.cs</DependentUpon>
@@ -306,6 +328,7 @@
     <Content Include="Assets\IconPack\Window.png" />
     <Content Include="Assets\IconSmall.png" />
     <Content Include="Icon.ico" />
+    <None Include="Resources\001-activation.png" />
     <None Include="Resources\007-authentic.png" />
     <None Include="Resources\authentic.png" />
     <None Include="Resources\influencer.png" />

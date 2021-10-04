@@ -25,6 +25,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            toolStripButtonActivate.Visible = false;
             ValidarConfig();
         }
 
@@ -116,9 +117,15 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private void ValidarActivacion()
         {
-            if (true)
+            timerValidaActivacion.Enabled = true;
+            if (ConfigService.Config?.ActivatedAt == null && !toolStripButtonActivate.Visible)
             {
                 MostrarToolStripAlerta("SINCRONIZADOR PENDIENTE DE ACTIVACIÓN");
+                toolStripButtonActivate.Visible = true;
+            }
+            else if (ConfigService.Config?.ActivatedAt != null && toolStripButtonActivate.Visible)
+            {
+                toolStripButtonActivate.Visible = false;
             }
         }
 
@@ -129,26 +136,49 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private async Task ActivarAsync()
         {
-            if (string.IsNullOrEmpty(ConfigService.Config?.ServiceURL))
+            try
             {
-                MessageBox.Show("Debes configurar primero la URL del servicio desde la ventana 'Configuraciones'.", "BioAnviz+   |   Activación", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (string.IsNullOrEmpty(ConfigService.Config?.ServiceURL))
+                {
+                    MessageBox.Show("Debes configurar primero la URL del servicio desde la ventana 'Configuraciones'.", "BioAnviz+   |   Activación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                toolStripButtonActivate.Enabled = false;
+
+                var form = new frmActivating();
+                form.Show();
+                form.SetStatus("CONECTANDO CON SERVIDOR...");
+                var accessToken = await ActivationService.StartAsync();
+                ConfigService.Config.AccessToken = accessToken;
+                
+                form.Focus();
+                form.SetStatus("¡NO CIERRE EL PROGRAMA!               ESPERANDO APROBACIÓN DEL ADMIN");
+                await ActivationService.WaitForAprobacionAsync();
+                
+                form.Focus();
+                form.SetStatus("FINALIZANDO ACTIVACIÓN...");
+                ActivationService.Activate();
+                var definitiveAccessToken = await ActivationService.ConfirmActivationAsync();
+                ConfigService.Config.AccessToken = definitiveAccessToken;
+                ConfigService.Save(ConfigService.Config);
+
+                OcultarToolStripAlerta();
+                toolStripButtonActivate.Visible = false;
+                form.Close();
+
+                MessageBox.Show("¡Sincronizador activado correctamente!", "BioAnviz+   |   Activación", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            var data = new StartActivationHandshakeDto
+            catch (Exception ex)
             {
-                InstanceId = ConfigService.Config.InstanceId,
-                InstallationAlias = ConfigService.Config.InstallationAlias,
-                InstallerName = ConfigService.Config.InstallerName,
-                ClientName = ConfigService.Config.ClientName,
-                ClientCUIT = ConfigService.Config.ClientCUIT
-            };
+                MessageBox.Show(ex.Message, "BioAnviz+   |   Activación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                toolStripButtonActivate.Enabled = true;
+            }
+        }
 
-            Uri baseUri = new Uri(ConfigService.Config.ServiceURL);
-            Uri startHandshakeUri = new Uri(baseUri, "Activacion/StartHandshake");
-            var response = await NetworkService.DoHttpPostAsync<dynamic>(startHandshakeUri.AbsoluteUri, data);
-            var secretKey = response.Data.secretKey;
-
+        private void timerValidaActivacion_Tick(object sender, EventArgs e)
+        {
+            ValidarActivacion();
         }
     }
 }

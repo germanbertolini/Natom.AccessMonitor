@@ -26,5 +26,11 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
 
         [JsonProperty("cu")]
         public string ClientCUIT { get; set; }
+
+        [JsonProperty("a")]
+        public DateTime? ActivatedAt { get; set; }
+
+        [JsonProperty("l")]
+        public string AccessToken { get; set; }
     }
 }

@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Common.Helpers;
+using Natom.AccessMonitor.Services.Auth.Entities;
+using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.Services.Logger.Entities;
 using Natom.AccessMonitor.Services.Logger.Services;
 using System;
@@ -20,6 +22,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
         private readonly IServiceProvider _serviceProvider;
         private readonly IHttpContextAccessor _accessor;
         private readonly LoggerService _loggerService;
+        private readonly AuthService _authService;
+        private readonly AccessToken _accessToken;
 
         private string _controller = null;
         private string _action = null;
@@ -31,41 +35,44 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
         public AuthorizationFilter(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-
             _loggerService = (LoggerService)serviceProvider.GetService(typeof(LoggerService));
-
+            _authService = (AuthService)serviceProvider.GetService(typeof(AuthService));
             _accessor = (IHttpContextAccessor)serviceProvider.GetService(typeof(IHttpContextAccessor));
+            _transaction = (Transaction)serviceProvider.GetService(typeof(Transaction));
+            _accessToken = (AccessToken)serviceProvider.GetService(typeof(AccessToken));
         }
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            object accessToken = null;
+            object accessTokenWithPermissions = null;
 
             this.Init(context);
             try
             {
+                _loggerService.LogInfo(_transaction.TraceTransactionId, "Inicio de transacción");
+
                 //VALIDACIONES DE SEGURIDAD
-                if (!_controller.Equals("security") && !_action.Equals("getecho"))
+                if (_controller.Equals("echo") || (_controller.Equals("activation") && _action.Equals("start")))
+                    _loggerService.LogInfo(_transaction.TraceTransactionId, "Operación sin token permitida");
+                else
                 {
-                    var headerValuesForAuthorization = context.HttpContext.Request.Cookies["Authorization"];
-                    if (headerValuesForAuthorization == null || headerValuesForAuthorization.Count() == 0)
+                    var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];
+                    if (headerValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(headerValuesForAuthorization.ToString()))
                         throw new HandledException("Se debe enviar el 'Authorization'.");
 
                     if (!headerValuesForAuthorization.ToString().StartsWith("Bearer"))
                         throw new HandledException("'Authorization' inválido.");
 
-                    string authorization = headerValuesForAuthorization.ToString().Replace("Bearer ", "");
-
-                    //accessToken = await _authService.DecodeAndValidateTokenAsync(authorization, _transactionService.Language);
+                    var authorization = headerValuesForAuthorization.ToString();
+                    accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
                     //_permissionService.ValidatePermission(accessToken.Roles, _actionRequested);
-                    
-                    
+                                        
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Token autorizado");
                 }
             }
             catch (HandledException ex)
             {
-                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, accessToken);
+                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, accessTokenWithPermissions);
 
                 context.HttpContext.Response.StatusCode = 403;
                 context.Result = new ContentResult()
@@ -92,6 +99,7 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
             var agent = context.HttpContext.Request.Headers["User-Agent"].ToString();
             var os = RequestHelper.GetOSFromUserAgent(agent);
             if (os != null && os.Length > 30) os = os.Substring(0, 30);
+            var instanceId = GetInstanceId(context);
             var appVersion = GetAppVersion(context);
             var lang = GetLanguage(context);
 
@@ -100,13 +108,12 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
             _urlRequested = String.Format("[{0}] {1} {2}", context.HttpContext.Request.Scheme.ToUpper(), context.HttpContext.Request.Method, context.HttpContext.Request.Path.Value);
             _actionRequested = actionDescriptor.ControllerTypeInfo.FullName + "." + actionDescriptor.RouteValues["action"];
             
-            var scope = typeof(Startup).Assembly.GetName().Name;
             var hostname = Dns.GetHostName();
             var port = context.HttpContext.Connection.LocalPort;
 
             int? userId = null;
 
-            _transaction = _loggerService.CreateTransaction(scope, lang, ip, _urlRequested, _actionRequested, userId, os, appVersion, hostname, port);
+            _loggerService.CreateTransaction(_transaction, lang, ip, _urlRequested, _actionRequested, userId, os, appVersion, hostname, port, instanceId);
         }
 
         private string GetRealIP(AuthorizationFilterContext context)
@@ -129,13 +136,22 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
             return appVersion;
         }
 
+        private string GetInstanceId(AuthorizationFilterContext context)
+        {
+            var headerValue = context.HttpContext.Request.Headers["INSTANCE_ID"];
+            var instanceId = headerValue.Count() == 0 || String.IsNullOrWhiteSpace(headerValue.ToString())
+                                    ? null
+                                    : headerValue.ToString();
+            return instanceId;
+        }
+
         private string GetLanguage(AuthorizationFilterContext context)
         {
             var headerValue = context.HttpContext.Request.Headers["LANG"];
             var lang = headerValue.Count() == 0 || String.IsNullOrWhiteSpace(headerValue.ToString())
                                     ? null
                                     : headerValue.ToString();
-            return lang;
+            return lang.ToUpper();
         }
     }
 }

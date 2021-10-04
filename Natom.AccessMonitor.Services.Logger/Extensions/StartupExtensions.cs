@@ -2,6 +2,7 @@
 using Natom.AccessMonitor.Services.Logger.PackageConfig;
 using Natom.AccessMonitor.Services.Logger.HostedServices;
 using Natom.AccessMonitor.Services.Logger.Services;
+using Natom.AccessMonitor.Services.Logger.Entities;
 
 namespace Natom.AccessMonitor.Extensions
 {
@@ -19,6 +20,8 @@ namespace Natom.AccessMonitor.Extensions
                 InsertEachMS = insertEachMS,
                 BulkInsertSize = bulkInsertSize
             });
+
+            service.AddScoped<Transaction>();
 
             if (!_hostedServiceAdded)
             {

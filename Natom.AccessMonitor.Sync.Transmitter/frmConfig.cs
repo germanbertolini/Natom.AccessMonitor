@@ -62,14 +62,16 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
             if (await ValidarConexionAsync())
             {
-                var config = new TransmitterConfig
-                {
-                    ServiceURL = txtServicioURL.Text,
-                    InstallationAlias = txtInstalacionAlias.Text,
-                    InstallerName = txtQuienInstala.Text,
-                    ClientName = txtRazonSocial.Text,
-                    ClientCUIT = txtCUIT.Text
-                };
+                var config = ConfigService.Config;
+                if (config == null)
+                    config = new TransmitterConfig();
+
+                config.ServiceURL = txtServicioURL.Text;
+                config.InstallationAlias = txtInstalacionAlias.Text;
+                config.InstallerName = txtQuienInstala.Text;
+                config.ClientName = txtRazonSocial.Text;
+                config.ClientCUIT = txtCUIT.Text;
+
                 ConfigService.Save(config);
 
                 this.Close();

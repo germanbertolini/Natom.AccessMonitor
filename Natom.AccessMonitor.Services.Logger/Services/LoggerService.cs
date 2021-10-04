@@ -25,6 +25,8 @@ namespace Natom.AccessMonitor.Services.Logger.Services
         private List<Transaction> _transactions;
         private List<TransactionLog> _transactionLogs;
 
+        public int PendingToBulkCounter() => _transactions.Count + _transactionLogs.Count;
+
         public LoggerService(ConfigurationService configuration, DiscordService discordService, LoggerServiceConfig config)
         {
             _config = config;
@@ -82,28 +84,26 @@ namespace Natom.AccessMonitor.Services.Logger.Services
             }
         }
 
-        public Transaction CreateTransaction(string scope, string lang, string ip, string urlRequested, string actionRequested, long? userId, string os, string appVersion, string hostName, int? port)
+        public void CreateTransaction(Transaction currentTransaction, string lang, string ip, string urlRequested, string actionRequested, long? userId, string os, string appVersion, string hostName, int? port, string instanceId = null)
         {
+            string scope = _config.SystemName;
             if (scope.Length > 20) scope = scope.Substring(0, 20);
 
-            var trace = new Transaction()
-            {
-                IP = ip,
-                TraceTransactionId = Guid.NewGuid().ToString("N"),
-                Scope = scope,
-                Lang = lang,
-                DateTime = DateTime.Now,
-                UrlRequested = urlRequested,
-                ActionRequested = actionRequested,
-                UserId = userId,
-                OS = os,
-                AppVersion = appVersion,
-                HostName = hostName,
-                Port = port
-            };
-            _transactions.Add(trace);
+            currentTransaction.IP = ip;
+            currentTransaction.TraceTransactionId = Guid.NewGuid().ToString("N");
+            currentTransaction.Scope = scope;
+            currentTransaction.Lang = lang;
+            currentTransaction.DateTime = DateTime.Now;
+            currentTransaction.UrlRequested = urlRequested;
+            currentTransaction.ActionRequested = actionRequested;
+            currentTransaction.UserId = userId;
+            currentTransaction.OS = os;
+            currentTransaction.AppVersion = appVersion;
+            currentTransaction.HostName = hostName;
+            currentTransaction.Port = port;
+            currentTransaction.InstanceId = instanceId;
 
-            return trace;
+            _transactions.Add(currentTransaction);
         }
 
         /// <summary>
