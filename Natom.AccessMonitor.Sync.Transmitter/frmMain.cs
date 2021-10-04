@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,21 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         private void frmMain_Load(object sender, EventArgs e)
         {
             toolStripButtonActivate.Visible = false;
+            ValidarPermisosEscritura();
             ValidarConfig();
+        }
+
+        private void ValidarPermisosEscritura()
+        {
+            try
+            {
+                Directory.CreateDirectory("Logs");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Se requieren permisos de escritura en la carpeta de instalación. Asigne permisos y vuelva a intentarlo.", "BioAnviz+   |   Permisos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
         }
 
         private void ValidarConfig()
@@ -87,7 +102,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
             catch (Exception ex)
             {
-                
+
             }
 
             return valido;
@@ -117,15 +132,22 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private void ValidarActivacion()
         {
-            timerValidaActivacion.Enabled = true;
-            if (ConfigService.Config?.ActivatedAt == null && !toolStripButtonActivate.Visible)
+            try
             {
-                MostrarToolStripAlerta("SINCRONIZADOR PENDIENTE DE ACTIVACIÓN");
-                toolStripButtonActivate.Visible = true;
+                timerValidaActivacion.Enabled = true;
+                if (ConfigService.Config?.ActivatedAt == null && !toolStripButtonActivate.Visible)
+                {
+                    MostrarToolStripAlerta("SINCRONIZADOR PENDIENTE DE ACTIVACIÓN");
+                    toolStripButtonActivate.Visible = true;
+                }
+                else if (ConfigService.Config?.ActivatedAt != null && toolStripButtonActivate.Visible)
+                {
+                    toolStripButtonActivate.Visible = false;
+                }
             }
-            else if (ConfigService.Config?.ActivatedAt != null && toolStripButtonActivate.Visible)
+            catch (Exception ex)
             {
-                toolStripButtonActivate.Visible = false;
+                LoggingService.LogException(ex);
             }
         }
 
@@ -171,6 +193,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
             catch (Exception ex)
             {
+                LoggingService.LogException(ex);
                 MessageBox.Show(ex.Message, "BioAnviz+   |   Activación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolStripButtonActivate.Enabled = true;
             }

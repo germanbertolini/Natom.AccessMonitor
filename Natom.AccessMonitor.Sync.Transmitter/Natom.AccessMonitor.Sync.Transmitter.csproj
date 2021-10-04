@@ -67,6 +67,7 @@
     <Compile Include="Entities\TransmitterConfig.cs" />
     <Compile Include="Entities\DTO\TransmitterResponseDto.cs" />
     <Compile Include="Services\ActivationService.cs" />
+    <Compile Include="Services\LoggingService.cs" />
     <Compile Include="StatusForms\frmCheckConnection.cs">
       <SubType>Form</SubType>
     </Compile>
