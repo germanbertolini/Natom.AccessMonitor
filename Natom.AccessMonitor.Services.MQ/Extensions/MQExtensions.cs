@@ -1,8 +1,7 @@
 ﻿using EasyNetQ;
 using Microsoft.Extensions.DependencyInjection;
 using Natom.AccessMonitor.Services.Configuration.Services;
-using Natom.AccessMonitor.Sync.Receiver.Entities.MQ;
-using Natom.AccessMonitor.Sync.Receiver.Services;
+using Natom.AccessMonitor.Services.MQ.Services;
 using System;
 using System.Collections.Generic;
 
@@ -10,7 +9,7 @@ namespace Natom.AccessMonitor.Extensions
 {
     public static class MQExtensions
     {
-        public static IServiceCollection AddMQProducerService(this IServiceCollection services, ConfigurationMQ mqConfiguration, bool enableSsl = false)
+        public static IServiceCollection AddMQProducerService(this IServiceCollection services)
         {            
             services.AddSingleton(serviceProvider => {
 
@@ -42,6 +41,13 @@ namespace Natom.AccessMonitor.Extensions
             services.AddTransient(serviceProvider => new MQProducerService(serviceProvider));
             services.AddScoped<MQService>();
             services.AddSingleton<MQContingencyService>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMQConsumerService(this IServiceCollection services)
+        {
+            services.AddSingleton(serviceProvider => new MQConsumerService(serviceProvider));
 
             return services;
         }

@@ -1,4 +1,4 @@
-﻿using Natom.AccessMonitor.Sync.Receiver.Entities.MQ;
+﻿using Natom.AccessMonitor.Services.MQ.Entities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Natom.AccessMonitor.Sync.Receiver.Services
+namespace Natom.AccessMonitor.Services.MQ.Services
 {
     public class MQContingencyService
     {

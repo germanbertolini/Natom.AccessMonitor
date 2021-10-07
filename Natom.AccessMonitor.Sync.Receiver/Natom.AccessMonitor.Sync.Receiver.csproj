@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyNetQ" Version="6.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
@@ -15,6 +14,8 @@
     <ProjectReference Include="..\Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Services.Cache\Natom.AccessMonitor.Services.Cache.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj" />
+    <ProjectReference Include="..\Natom.AccessMonitor.Services.MQ\Natom.AccessMonitor.Services.MQ.csproj" />
+    <ProjectReference Include="..\Natom.AccessMonitor.Sync.Entities\Natom.AccessMonitor.Sync.Entities.csproj" />
   </ItemGroup>
 
 </Project>

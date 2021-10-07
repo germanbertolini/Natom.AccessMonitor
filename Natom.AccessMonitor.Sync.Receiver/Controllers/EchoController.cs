@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Natom.AccessMonitor.Sync.Receiver.Entities.DTO;
+using Natom.AccessMonitor.Sync.Entities.DTO;
 using System;
 
 namespace Natom.AccessMonitor.Sync.Receiver.Controllers

@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Natom.AccessMonitor.Extensions;
-using Natom.AccessMonitor.Sync.Receiver.Entities.MQ;
 using Natom.AccessMonitor.Sync.Receiver.Filters;
 
 namespace Natom.AccessMonitor.Sync.Receiver
@@ -30,13 +29,7 @@ namespace Natom.AccessMonitor.Sync.Receiver
                 .AddCacheService()
                 .AddAuthService(scope: "Sync.Receiver")
                 .AddLoggerService(systemName: "Sync.Receiver", insertEachMS: 30000, bulkInsertSize: 10000)
-                .AddMQProducerService(new ConfigurationMQ
-                {
-                    HostName = "",
-                    Port = 0,
-                    UserName = "",
-                    Password = ""
-                }, enableSsl: false);
+                .AddMQProducerService();
 
 
             services.AddControllers(options =>
