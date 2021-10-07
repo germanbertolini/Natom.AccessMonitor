@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using Natom.AccessMonitor.Services.Auth.Entities;
 using Natom.AccessMonitor.Services.Logger.Entities;
+using Natom.AccessMonitor.Services.Logger.Services;
 
 namespace Natom.AccessMonitor.Sync.Receiver.Controllers
 {
@@ -19,11 +20,14 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
     {
         private readonly AuthService _authService;
         private readonly CacheService _cacheService;
-        
+        private readonly DiscordService _discordService;
+
+
         public ActivationController(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _authService = (AuthService)serviceProvider.GetService(typeof(AuthService));
             _cacheService = (CacheService)serviceProvider.GetService(typeof(CacheService));
+            _discordService = (DiscordService)serviceProvider.GetService(typeof(DiscordService));
         }
 
         [HttpPost]
@@ -60,7 +64,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
         {
             try
             {
-                var activated = await CheckForActivationAsync(_accessToken.SyncInstanceId);
+                var synchronizer = await GetSynchronizerStatusAsync(_accessToken.SyncInstanceId);
+                var activated = synchronizer?.ActivatedAt != null;
 
                 return Ok(new TransmitterResponseDto<dynamic>
                 {
@@ -81,8 +86,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
         {
             try
             {
-                var activated = await CheckForActivationAsync(_accessToken.SyncInstanceId);
-                if (!activated)
+                var synchronizer = await GetSynchronizerStatusAsync(_accessToken.SyncInstanceId);
+                if (synchronizer?.ActivatedAt == null)
                     throw new Exception("El sincronizador no fue activado.");
 
                 //await UpdateFinalActivationTimeAsync(_accessToken.SyncInstanceId);
@@ -96,10 +101,23 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
                 long tokenDurationMinutes = 60 * 24 * 30 * 12 * 30; //30 AÑOS
                 var definitiveAccessToken = await _authService.CreateTokenForSynchronizerAsync(instanceId: _accessToken.SyncInstanceId, userName: _accessToken.UserFullName, clientId: null, clientName: _accessToken.ClientFullName, permissions, tokenDurationMinutes);
 
+                //DESTRUIREMOS EL TOKEN TEMPORAL DENTRO DE 10 SEGUNDOS YA QUE PUEDE ESTAR CONSULTANDO EL ESTADO DEL SERVICIO
+                //var accessTokenScope = _accessToken.Scope;
+                //var accessTokenKey = _accessToken.Key;
+                //_ = Task.Run(async () =>
+                //{
+                //    await Task.Delay(10000);
+                //    _authService.DestroyTokenAsync(accessTokenScope, accessTokenKey);
+                //});
+
+                //NOTIFICAMOS VIA DISCORD LA NUEVA ACTIVACIÓN
+                _ = Task.Run(() => _discordService.LogInfoAsync("Nuevo sincronizador activado.", _transaction.TraceTransactionId, synchronizer));
+
+
                 return Ok(new TransmitterResponseDto<dynamic>
                 {
                     Success = true,
-                    Data = new { activated, accessToken = definitiveAccessToken.ToJwtEncoded() }
+                    Data = new { activated = true, accessToken = definitiveAccessToken.ToJwtEncoded() }
                 });
             }
             catch (Exception ex)
@@ -124,16 +142,15 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
             await _cacheService.SetValueAsync($"Sync.Receiver.Activation.Queue.{synchronizer.InstanceId}", JsonConvert.SerializeObject(synchronizer), TimeSpan.FromHours(2));
         }
 
-        private async Task<bool> CheckForActivationAsync(string instanceId)
+        private async Task<PendingToActivateDto> GetSynchronizerStatusAsync(string instanceId)
         {
-            bool activated = false;
+            PendingToActivateDto synchronizer = null;
             var data = await _cacheService.GetValueAsync($"Sync.Receiver.Activation.Queue.{instanceId}");
             if (!string.IsNullOrEmpty(data))
             {
-                var synchronizer = JsonConvert.DeserializeObject<PendingToActivateDto>(data);
-                activated = synchronizer.ActivatedAt.HasValue;
+                synchronizer = JsonConvert.DeserializeObject<PendingToActivateDto>(data);
             }
-            return activated;
+            return synchronizer;
         }
 
         private async Task RemoveFromActivationQueueAsync(string instanceId)

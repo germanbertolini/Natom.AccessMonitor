@@ -63,11 +63,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\DTO\MovementDto.cs" />
+    <Compile Include="Entities\DTO\DataBlockForSyncDto.cs" />
     <Compile Include="Entities\DTO\StartActivationHandshakeDto.cs" />
+    <Compile Include="Entities\DeviceConfig.cs" />
     <Compile Include="Entities\TransmitterConfig.cs" />
     <Compile Include="Entities\DTO\TransmitterResponseDto.cs" />
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\LoggingService.cs" />
+    <Compile Include="Services\DevicesService.cs" />
     <Compile Include="StatusForms\frmCheckConnection.cs">
       <SubType>Form</SubType>
     </Compile>

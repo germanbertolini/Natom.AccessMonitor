@@ -22,7 +22,12 @@ as (select * from (values
 ('Cache.RedisServer.Ssl','False','Si utilizar o no SSL en la conexión a Redis'),
 ('Cache.RedisServer.KeepAlive','30','Configuración de Redis'),
 ('Cache.RedisServer.ConnectTimeout','15000','Configuración de Redis'),
-('Cache.RedisServer.SyncTimeout','15000','Configuración de Redis')
+('Cache.RedisServer.SyncTimeout','15000','Configuración de Redis'),
+('RabbitMQ.Host', 'localhost', 'IP / Host del servidor RabbitMQ'),
+('RabbitMQ.Port', '5672', 'Puerto del servidor RabbitMQ'),
+('RabbitMQ.UserName', 'admin', 'Credenciales RabbitMQ'),
+('RabbitMQ.Password', '1234', 'Credenciales RabbitMQ'),
+('RabbitMQ.EnabbleSSL', 'False', 'Si utilizar o no SSL en la conexión a RabbitMQ')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([Clave],[Valor],[Description]))
 merge	[dbo].[Config] as t

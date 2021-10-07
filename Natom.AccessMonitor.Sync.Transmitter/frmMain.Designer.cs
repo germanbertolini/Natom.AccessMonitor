@@ -43,9 +43,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripServiceStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripStatusSyncDevices = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripAlert = new System.Windows.Forms.ToolStripStatusLabel();
             this.timerToolStripAlert = new System.Windows.Forms.Timer(this.components);
             this.timerValidaActivacion = new System.Windows.Forms.Timer(this.components);
+            this.timerRelojes = new System.Windows.Forms.Timer(this.components);
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -130,7 +133,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // 
             this.pictureBox1.Image = global::Natom.AccessMonitor.Sync.Transmitter.Properties.Resources.IconMedium;
             this.pictureBox1.Location = new System.Drawing.Point(208, 171);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(280, 113);
             this.pictureBox1.TabIndex = 1;
@@ -138,9 +141,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // 
             // statusStrip1
             // 
+            this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripServiceStatus,
+            this.toolStripStatusLabel2,
+            this.toolStripStatusSyncDevices,
             this.toolStripAlert});
             this.statusStrip1.Location = new System.Drawing.Point(0, 373);
             this.statusStrip1.Name = "statusStrip1";
@@ -163,12 +169,28 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.toolStripServiceStatus.Size = new System.Drawing.Size(76, 17);
             this.toolStripServiceStatus.Text = "Desconocido";
             // 
+            // toolStripStatusLabel2
+            // 
+            this.toolStripStatusLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(109, 17);
+            this.toolStripStatusLabel2.Text = "|  Sync dispositivos:";
+            // 
+            // toolStripStatusSyncDevices
+            // 
+            this.toolStripStatusSyncDevices.BackColor = System.Drawing.Color.Transparent;
+            this.toolStripStatusSyncDevices.ForeColor = System.Drawing.Color.Gray;
+            this.toolStripStatusSyncDevices.Name = "toolStripStatusSyncDevices";
+            this.toolStripStatusSyncDevices.Size = new System.Drawing.Size(76, 17);
+            this.toolStripStatusSyncDevices.Text = "Desconocido";
+            // 
             // toolStripAlert
             // 
             this.toolStripAlert.BackColor = System.Drawing.Color.Transparent;
             this.toolStripAlert.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.toolStripAlert.Name = "toolStripAlert";
-            this.toolStripAlert.Size = new System.Drawing.Size(456, 17);
+            this.toolStripAlert.Size = new System.Drawing.Size(271, 17);
             this.toolStripAlert.Spring = true;
             this.toolStripAlert.Text = "toolStripAlert";
             this.toolStripAlert.Visible = false;
@@ -184,6 +206,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.timerValidaActivacion.Interval = 5000;
             this.timerValidaActivacion.Tick += new System.EventHandler(this.timerValidaActivacion_Tick);
             // 
+            // timerRelojes
+            // 
+            this.timerRelojes.Enabled = true;
+            this.timerRelojes.Interval = 1000;
+            this.timerRelojes.Tick += new System.EventHandler(this.timerRelojes_Tick);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -194,7 +222,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -228,6 +256,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         private System.Windows.Forms.Timer timerToolStripAlert;
         private System.Windows.Forms.ToolStripButton toolStripButtonActivate;
         private System.Windows.Forms.Timer timerValidaActivacion;
+        private System.Windows.Forms.Timer timerRelojes;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusSyncDevices;
     }
 }
 

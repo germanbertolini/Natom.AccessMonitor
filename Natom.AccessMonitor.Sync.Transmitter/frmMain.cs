@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -28,7 +29,23 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         {
             toolStripButtonActivate.Visible = false;
             ValidarPermisosEscritura();
+            RefrescarStatusDispositivosAsync().Wait();
             ValidarConfig();
+
+            //MOCK
+            ConfigService.Config.Devices = new List<Entities.DeviceConfig>();
+            ConfigService.Config.Devices.Add(new Entities.DeviceConfig()
+            {
+                DeviceId = 14092,
+                Name = "Porteria principal",
+                AddedAt = DateTime.Now
+            });
+            ConfigService.Config.Devices.Add(new Entities.DeviceConfig()
+            {
+                DeviceId = 15428,
+                Name = "Porteria proveedores",
+                AddedAt = DateTime.Now
+            });
         }
 
         private void ValidarPermisosEscritura()
@@ -114,12 +131,18 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             toolStripAlert.Visible = true;
             toolStripAlert.BackColor = toolStripAlertColorA;
             toolStripAlert.Text = texto.ToUpper();
+
+            toolStripStatusSyncDevices.Visible = false;
+            toolStripStatusLabel2.Visible = false;
         }
 
         public void OcultarToolStripAlerta()
         {
             timerToolStripAlert.Enabled = false;
             toolStripAlert.Visible = false;
+
+            toolStripStatusSyncDevices.Visible = true;
+            toolStripStatusLabel2.Visible = true;
         }
 
         private void timerToolStripAlert_Tick(object sender, EventArgs e)
@@ -158,6 +181,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private async Task ActivarAsync()
         {
+            var form = new frmActivating();
             try
             {
                 if (string.IsNullOrEmpty(ConfigService.Config?.ServiceURL))
@@ -168,7 +192,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
                 toolStripButtonActivate.Enabled = false;
 
-                var form = new frmActivating();
                 form.Show();
                 form.SetStatus("CONECTANDO CON SERVIDOR...");
                 var accessToken = await ActivationService.StartAsync();
@@ -193,6 +216,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
             catch (Exception ex)
             {
+                form.Close();
+                ActivationService.Inactivate();
                 LoggingService.LogException(ex);
                 MessageBox.Show(ex.Message, "BioAnviz+   |   Activación", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 toolStripButtonActivate.Enabled = true;
@@ -202,6 +227,115 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         private void timerValidaActivacion_Tick(object sender, EventArgs e)
         {
             ValidarActivacion();
+        }
+
+        DateTime _lastDevicesCheck = DateTime.MinValue;
+        private async Task RefrescarStatusDispositivosAsync()
+        {
+            try
+            {
+                if (DevicesService.IsSynchronizing())
+                {
+                    toolStripStatusSyncDevices.Text = "Sincronizando...";
+                    toolStripStatusSyncDevices.ForeColor = Color.Blue;
+                }
+                else
+                {
+                    if (ConfigService.Config?.Devices == null || ConfigService.Config.Devices.Count == 0)
+                    {
+                        toolStripStatusSyncDevices.Text = "Sin dispositivos";
+                        toolStripStatusSyncDevices.ForeColor = Color.DarkGray;
+                    }
+                    else
+                    {
+                        if ((DateTime.Now - _lastDevicesCheck).TotalSeconds >= 30)
+                        {
+                            _lastDevicesCheck = DateTime.Now;
+
+                            toolStripStatusSyncDevices.Text = "Verificando...";
+                            toolStripStatusSyncDevices.ForeColor = Color.DarkGray;
+
+                            var disconnected = await DevicesService.GetDisconnectedDevicesAsync(ConfigService.Config.Devices);
+                            if (disconnected.Count > 0)
+                            {
+                                toolStripStatusSyncDevices.Text = "¡Requiere atención!";
+                                toolStripStatusSyncDevices.ForeColor = Color.Orange;
+                            }
+                            else
+                            {
+                                toolStripStatusSyncDevices.Text = "Normal";
+                                toolStripStatusSyncDevices.ForeColor = Color.Green;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                toolStripStatusSyncDevices.Text = "ERROR";
+                toolStripStatusSyncDevices.ForeColor = Color.Red;
+                LoggingService.LogException(ex);
+            }
+        }
+
+        DateTime _lastDevicesSync = DateTime.MinValue;
+        DateTime _lastServerSync = DateTime.MinValue;
+        private async void timerRelojes_Tick(object sender, EventArgs e)
+        {
+            if (ConfigService.Config == null)
+                return;
+
+            //ANTES QUE NADA: SETEAMOS ESTE TIMER PARA QUE CORRA CADA 10 SEGUNDOS
+            timerRelojes.Interval = 10000;
+                
+            //TAREA 1: REFRESCAR EN TIEMPO REAL STATUS DE RELOJES
+            await RefrescarStatusDispositivosAsync();
+
+            //TAREA 2: OBTENER LA DATA DESDE LOS RELOJES (Asincrónica)
+            if (ConfigService.Config.Devices != null
+                        && ConfigService.Config.Devices.Count > 0
+                        && (DateTime.Now - _lastDevicesSync).TotalMinutes >= ConfigService.Config.SyncFromDevicesMinutes)
+            {
+                _lastDevicesSync = DateTime.Now;
+                _ = Task.Run(() =>
+                                    {
+                                        try
+                                        {
+                                            CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds((ConfigService.Config.SyncFromDevicesMinutes * 60) - 5)).Token;
+                                            DevicesService.GetAndStoreRecordsFromDevices(ConfigService.Config.Devices, cancellationToken);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            LoggingService.LogException(ex);
+                                        }
+                                    });
+            }
+
+            //TAREA 3: SINCRONIZAR LA DATA STOREADA AL SERVIDOR
+            if (ConfigService.Config.ActivatedAt.HasValue && (DateTime.Now - _lastServerSync).TotalMinutes >= ConfigService.Config.SyncToServerMinutes)
+            {
+                if ((DateTime.Now - ConfigService.Config.ActivatedAt.Value).TotalMinutes >= 1) //ESPERAMOS 1 MINUTO DESPUES DE ACTIVAR EL SINCRONIZADOR PARA QUE SE ACOMODEN LOS DATOS EN EL SERVIDOR
+                {
+                    _lastServerSync = DateTime.Now;
+
+                    toolStripStatusSyncDevices.Text = "Sincronizando...";
+                    toolStripStatusSyncDevices.ForeColor = Color.Blue;
+
+                    _ = Task.Run(async () =>
+                    {
+                        try
+                        {
+                            CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds((ConfigService.Config.SyncToServerMinutes * 60) - 5)).Token;
+                            await DevicesService.SyncStoredDataToServerAsync(ConfigService.Config.Devices, cancellationToken);
+                        }
+                        catch (Exception ex)
+                        {
+                            LoggingService.LogException(ex);
+                        }
+                    });
+                }
+            }
+
         }
     }
 }

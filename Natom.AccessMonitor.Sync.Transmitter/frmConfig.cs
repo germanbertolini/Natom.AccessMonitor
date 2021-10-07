@@ -23,7 +23,16 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private void frmConfig_Load(object sender, EventArgs e)
         {
-            txtServicioURL.Text = ConfigService.Config?.ServiceURL;
+            if (ConfigService.Config != null)
+            {
+                txtServicioURL.Text = ConfigService.Config.ServiceURL;
+                txtInstalacionAlias.Text = ConfigService.Config.InstallationAlias;
+                txtQuienInstala.Text = ConfigService.Config.InstallerName;
+                txtRazonSocial.Text = ConfigService.Config.ClientName;
+                txtCUIT.Text = ConfigService.Config.ClientCUIT;
+                txtMinutosRelojes.Text = ConfigService.Config.SyncFromDevicesMinutes.ToString();
+                txtMinutosSincronizacion.Text = ConfigService.Config.SyncToServerMinutes.ToString();
+            }
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -58,7 +67,19 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 return;
             }
 
+            int syncFromDevicesMinutes;
+            if (!int.TryParse(txtMinutosRelojes.Text, out syncFromDevicesMinutes))
+            {
+                MessageBox.Show("Debes ingresar un valor numérico para el intervalo en minutos de lectura de relojes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            int syncToServerMinutes;
+            if (!int.TryParse(txtMinutosSincronizacion.Text, out syncToServerMinutes))
+            {
+                MessageBox.Show("Debes ingresar un valor numérico para el intervalo en minutos de sincronización al servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (await ValidarConexionAsync())
             {
@@ -71,6 +92,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 config.InstallerName = txtQuienInstala.Text;
                 config.ClientName = txtRazonSocial.Text;
                 config.ClientCUIT = txtCUIT.Text;
+                config.SyncFromDevicesMinutes = syncFromDevicesMinutes;
+                config.SyncToServerMinutes = syncToServerMinutes;
 
                 ConfigService.Save(config);
 
@@ -105,6 +128,11 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
 
             return valido;
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
