@@ -11,6 +11,7 @@ using System.Linq;
 using Natom.AccessMonitor.Services.Auth.Entities;
 using Natom.AccessMonitor.Services.Logger.Entities;
 using Natom.AccessMonitor.Services.Logger.Services;
+using Natom.AccessMonitor.Sync.Receiver.Repositories;
 
 namespace Natom.AccessMonitor.Sync.Receiver.Controllers
 {
@@ -43,8 +44,17 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
                 var tokenDurationMinutes = 2 * 60; //TOKEN TEMPORAL VALIDO POR 2 HORAS
                 var authToken = await _authService.CreateTokenForSynchronizerAsync(instanceId: instanceInfo.InstanceId, userName: instanceInfo.InstallationAlias, clientId: null, clientName: instanceInfo.ClientName, permissions, tokenDurationMinutes);
 
+                var syncRepository = new SynchronizerRepository(_configurationService);
+                await syncRepository.InsertAsPendingAsync(new Entities.Models.Synchronizer
+                {
+                    InstanceId = instanceInfo.InstanceId,
+                    InstallationAlias = instanceInfo.InstallationAlias,
+                    InstallerName = instanceInfo.InstallerName,
+                    InstalledAt = DateTime.Now
+                });
+
                 await AddToActivationQueueAsync(instanceInfo);
-                
+
                 return Ok(new TransmitterResponseDto<dynamic>
                 {
                     Success = true,
@@ -90,7 +100,10 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
                 if (synchronizer?.ActivatedAt == null)
                     throw new Exception("El sincronizador no fue activado.");
 
-                //await UpdateFinalActivationTimeAsync(_accessToken.SyncInstanceId);
+                int clientId = synchronizer.ActivatedToClientId.Value;
+
+                var syncRepository = new SynchronizerRepository(_configurationService);
+                await syncRepository.MarkAsCompletedAsync(_accessToken.SyncInstanceId, clientId);
 
                 await RemoveFromActivationQueueAsync(_accessToken.SyncInstanceId);
 
@@ -98,8 +111,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
                 {
                     $"{typeof(SyncController).Name}.*"
                 };
-                long tokenDurationMinutes = 60 * 24 * 30 * 12 * 30; //30 AÑOS
-                var definitiveAccessToken = await _authService.CreateTokenForSynchronizerAsync(instanceId: _accessToken.SyncInstanceId, userName: _accessToken.UserFullName, clientId: null, clientName: _accessToken.ClientFullName, permissions, tokenDurationMinutes);
+                long tokenDurationMinutes = 60 * 24 * 30 * 12 * 100; //100 AÑOS
+                var definitiveAccessToken = await _authService.CreateTokenForSynchronizerAsync(instanceId: _accessToken.SyncInstanceId, userName: _accessToken.UserFullName, clientId, clientName: _accessToken.ClientFullName, permissions, tokenDurationMinutes);
 
                 //DESTRUIREMOS EL TOKEN TEMPORAL DENTRO DE 10 SEGUNDOS YA QUE PUEDE ESTAR CONSULTANDO EL ESTADO DEL SERVICIO
                 //var accessTokenScope = _accessToken.Scope;

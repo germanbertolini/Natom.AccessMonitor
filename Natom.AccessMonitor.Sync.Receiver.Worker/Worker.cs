@@ -1,8 +1,10 @@
+using Natom.AccessMonitor.Services.Configuration.Services;
 using Natom.AccessMonitor.Services.MQ.Entities;
 using Natom.AccessMonitor.Services.MQ.Exceptions;
 using Natom.AccessMonitor.Services.MQ.WorkerUtilities;
 using Natom.AccessMonitor.Services.MQ.WorkerUtilities.Config;
 using Natom.AccessMonitor.Sync.Entities.DTO;
+using Natom.AccessMonitor.Sync.Receiver.Worker.Repository;
 using Newtonsoft.Json;
 using System;
 using System.Data.SqlClient;
@@ -13,9 +15,11 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
 {
     public class Worker : CycleWorkerMQ<Worker, MessageMQ, WorkerMQConfig>
     {
+        private readonly ConfigurationService _configuration;
+
         public Worker(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-
+            _configuration = (ConfigurationService)serviceProvider.GetService(typeof(ConfigurationService));
         }
 
         /// <summary>
@@ -50,11 +54,17 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
             }
         }
 
-        private Task DataBlockToBulkInsertAsync(MessageMQ message, CancellationToken cancellationToken)
+        private async Task DataBlockToBulkInsertAsync(MessageMQ message, CancellationToken cancellationToken)
         {
             var lastSyncRegistered = message.CreationDateTime;
             var dataBlock = JsonConvert.DeserializeObject<DataBlockForSyncDto>(message.Message);
-            throw new NotImplementedException();
+
+            var movementsRepository = new MovementsRepository(_configuration);
+            await movementsRepository.BulkInsertAsync(message.ProducerInfo.ClientId, message.ProducerInfo.SyncInstanceId, lastSyncRegistered: message.CreationDateTime, dataBlock);
+
+            var synchronizerRepository = new SynchronizerRepository(_configuration);
+            await synchronizerRepository.UpdateLastSyncAsync(lastSyncRegistered, message.ProducerInfo.SyncInstanceId);
+            await synchronizerRepository.AddOrUpdateDeviceInfoAsync(message.ProducerInfo.SyncInstanceId, dataBlock.DeviceId, dataBlock.DeviceName);
         }
     }
 }

@@ -43,6 +43,10 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
                 {
                     Topic = "DataBlockToBulkInsert",
                     CreationDateTime = DateTime.Now,
+                    ProducerInfo = new ProducerInfoMQ {
+                        ClientId = _accessToken.ClientId.Value,
+                        SyncInstanceId = _accessToken.SyncInstanceId
+                    },
                     Message = content
                 };
                 await _mqService.PublishAsync(message, queue);

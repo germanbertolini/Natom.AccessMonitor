@@ -10,7 +10,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities.DTO
     public class MovementDto
     {
         [JsonProperty("dn")]
-        public ulong DocketNumber { get; set; }
+        public long DocketNumber { get; set; }
 
         [JsonProperty("t")]
         public string MovementType { get; set; }

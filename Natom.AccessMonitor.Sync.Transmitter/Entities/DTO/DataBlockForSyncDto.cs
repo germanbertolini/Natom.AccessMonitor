@@ -10,7 +10,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities.DTO
     public class DataBlockForSyncDto
     {
         [JsonProperty("i")]
-        public ulong DeviceId { get; set; }
+        public long DeviceId { get; set; }
 
         [JsonProperty("n")]
         public string DeviceName { get; set; }

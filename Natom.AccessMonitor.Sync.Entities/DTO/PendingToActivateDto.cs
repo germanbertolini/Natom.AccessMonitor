@@ -14,5 +14,6 @@ namespace Natom.AccessMonitor.Sync.Entities.DTO
         public string ClientCUIT { get; set; }
         public DateTime DateTime { get; set; }
         public DateTime? ActivatedAt { get; set; }
+        public int? ActivatedToClientId { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var data = new DataBlockForSyncDto();
-                data.DeviceId = device.DeviceId;
+                data.DeviceId = (long)device.DeviceId;
                 data.DeviceName = device.Name;
 
                 //INICIO MOCK
@@ -58,7 +58,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                     data.Movements.Add(new MovementDto()
                     {
                         DateTime = DateTime.Now.AddSeconds(-random.Next(1, 50)),
-                        DocketNumber = docketNumber,
+                        DocketNumber = (long)docketNumber,
                         MovementType = statusPersonas[docketNumber] ? "I" : "O"
                     });
 
