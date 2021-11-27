@@ -337,5 +337,17 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
 
         }
+
+        private void vincularDispositivoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new frmRelojes();
+            form.Show();
+        }
+
+        private void verTodosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new frmRelojEditNew();
+            form.Show();
+        }
     }
 }

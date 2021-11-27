@@ -69,6 +69,24 @@
     <Compile Include="Entities\DeviceConfig.cs" />
     <Compile Include="Entities\TransmitterConfig.cs" />
     <Compile Include="Entities\DTO\TransmitterResponseDto.cs" />
+    <Compile Include="frmRelojEditNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRelojEditNew.Designer.cs">
+      <DependentUpon>frmRelojEditNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRelojes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRelojes.Designer.cs">
+      <DependentUpon>frmRelojes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConfig.Designer.cs">
+      <DependentUpon>frmConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,17 +96,17 @@
     <Compile Include="Services\ActivationService.cs" />
     <Compile Include="Services\LoggingService.cs" />
     <Compile Include="Services\DevicesService.cs" />
+    <Compile Include="StatusForms\frmCheckRelojes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatusForms\frmCheckRelojes.Designer.cs">
+      <DependentUpon>frmCheckRelojes.cs</DependentUpon>
+    </Compile>
     <Compile Include="StatusForms\frmCheckConnection.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="StatusForms\frmCheckConnection.Designer.cs">
       <DependentUpon>frmCheckConnection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmConfig.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmConfig.Designer.cs">
-      <DependentUpon>frmConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="StatusForms\frmAuthentication.cs">
       <SubType>Form</SubType>
@@ -113,14 +131,23 @@
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\EncryptService.cs" />
     <Compile Include="Services\NetworkService.cs" />
-    <EmbeddedResource Include="frmMain.resx">
-      <DependentUpon>frmMain.cs</DependentUpon>
+    <EmbeddedResource Include="frmRelojEditNew.resx">
+      <DependentUpon>frmRelojEditNew.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="StatusForms\frmCheckConnection.resx">
-      <DependentUpon>frmCheckConnection.cs</DependentUpon>
+    <EmbeddedResource Include="frmRelojes.resx">
+      <DependentUpon>frmRelojes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmConfig.resx">
       <DependentUpon>frmConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusForms\frmCheckRelojes.resx">
+      <DependentUpon>frmCheckRelojes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StatusForms\frmCheckConnection.resx">
+      <DependentUpon>frmCheckConnection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="StatusForms\frmAuthentication.resx">
       <DependentUpon>frmAuthentication.cs</DependentUpon>

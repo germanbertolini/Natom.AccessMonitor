@@ -32,14 +32,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.vincularDispositivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.verTodosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButtonActivate = new System.Windows.Forms.ToolStripButton();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripServiceStatus = new System.Windows.Forms.ToolStripStatusLabel();
@@ -49,9 +42,16 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.timerToolStripAlert = new System.Windows.Forms.Timer(this.components);
             this.timerValidaActivacion = new System.Windows.Forms.Timer(this.components);
             this.timerRelojes = new System.Windows.Forms.Timer(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.vincularDispositivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.verTodosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButtonActivate = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -64,80 +64,14 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.toolStripButtonActivate});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(592, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(789, 27);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(107, 24);
-            this.toolStripButton1.Text = "Configuración";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 27);
-            // 
-            // toolStripDropDownButton1
-            // 
-            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.vincularDispositivoToolStripMenuItem,
-            this.toolStripSeparator2,
-            this.verTodosToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
-            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(77, 24);
-            this.toolStripDropDownButton1.Text = "Relojes";
-            // 
-            // vincularDispositivoToolStripMenuItem
-            // 
-            this.vincularDispositivoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.vincularDispositivoToolStripMenuItem.Image = global::Natom.AccessMonitor.Sync.Transmitter.Properties.Resources.Button_White_Add;
-            this.vincularDispositivoToolStripMenuItem.Name = "vincularDispositivoToolStripMenuItem";
-            this.vincularDispositivoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.vincularDispositivoToolStripMenuItem.Text = "Vincular reloj";
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(144, 6);
-            // 
-            // verTodosToolStripMenuItem
-            // 
-            this.verTodosToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.verTodosToolStripMenuItem.Name = "verTodosToolStripMenuItem";
-            this.verTodosToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
-            this.verTodosToolStripMenuItem.Text = "Ver todos";
-            // 
-            // toolStripButtonActivate
-            // 
-            this.toolStripButtonActivate.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.toolStripButtonActivate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.toolStripButtonActivate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.toolStripButtonActivate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.toolStripButtonActivate.ForeColor = System.Drawing.Color.White;
-            this.toolStripButtonActivate.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonActivate.Image")));
-            this.toolStripButtonActivate.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonActivate.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
-            this.toolStripButtonActivate.Name = "toolStripButtonActivate";
-            this.toolStripButtonActivate.Size = new System.Drawing.Size(128, 24);
-            this.toolStripButtonActivate.Text = "CLICK PARA ACTIVAR";
-            this.toolStripButtonActivate.Click += new System.EventHandler(this.toolStripButton2_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::Natom.AccessMonitor.Sync.Transmitter.Properties.Resources.IconMedium;
-            this.pictureBox1.Location = new System.Drawing.Point(208, 171);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(280, 113);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
             // 
             // statusStrip1
             // 
@@ -148,9 +82,10 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.toolStripStatusLabel2,
             this.toolStripStatusSyncDevices,
             this.toolStripAlert});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 373);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 460);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(592, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(1, 0, 19, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(789, 26);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -158,7 +93,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // 
             this.toolStripStatusLabel1.BackColor = System.Drawing.Color.Transparent;
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(45, 17);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(57, 20);
             this.toolStripStatusLabel1.Text = "Estado:";
             // 
             // toolStripServiceStatus
@@ -166,7 +101,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.toolStripServiceStatus.BackColor = System.Drawing.Color.Transparent;
             this.toolStripServiceStatus.ForeColor = System.Drawing.Color.Gray;
             this.toolStripServiceStatus.Name = "toolStripServiceStatus";
-            this.toolStripServiceStatus.Size = new System.Drawing.Size(76, 17);
+            this.toolStripServiceStatus.Size = new System.Drawing.Size(96, 20);
             this.toolStripServiceStatus.Text = "Desconocido";
             // 
             // toolStripStatusLabel2
@@ -174,7 +109,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.toolStripStatusLabel2.BackColor = System.Drawing.Color.Transparent;
             this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.ControlText;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(109, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(136, 20);
             this.toolStripStatusLabel2.Text = "|  Sync dispositivos:";
             // 
             // toolStripStatusSyncDevices
@@ -182,7 +117,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.toolStripStatusSyncDevices.BackColor = System.Drawing.Color.Transparent;
             this.toolStripStatusSyncDevices.ForeColor = System.Drawing.Color.Gray;
             this.toolStripStatusSyncDevices.Name = "toolStripStatusSyncDevices";
-            this.toolStripStatusSyncDevices.Size = new System.Drawing.Size(76, 17);
+            this.toolStripStatusSyncDevices.Size = new System.Drawing.Size(96, 20);
             this.toolStripStatusSyncDevices.Text = "Desconocido";
             // 
             // toolStripAlert
@@ -190,7 +125,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.toolStripAlert.BackColor = System.Drawing.Color.Transparent;
             this.toolStripAlert.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.toolStripAlert.Name = "toolStripAlert";
-            this.toolStripAlert.Size = new System.Drawing.Size(271, 17);
+            this.toolStripAlert.Size = new System.Drawing.Size(384, 20);
             this.toolStripAlert.Spring = true;
             this.toolStripAlert.Text = "toolStripAlert";
             this.toolStripAlert.Visible = false;
@@ -212,17 +147,85 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.timerRelojes.Interval = 1000;
             this.timerRelojes.Tick += new System.EventHandler(this.timerRelojes_Tick);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::Natom.AccessMonitor.Sync.Transmitter.Properties.Resources.IconMedium;
+            this.pictureBox1.Location = new System.Drawing.Point(277, 210);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(373, 139);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(126, 24);
+            this.toolStripButton1.Text = "Configuración";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripDropDownButton1
+            // 
+            this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.vincularDispositivoToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.verTodosToolStripMenuItem});
+            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+            this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(91, 24);
+            this.toolStripDropDownButton1.Text = "Relojes";
+            // 
+            // vincularDispositivoToolStripMenuItem
+            // 
+            this.vincularDispositivoToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.vincularDispositivoToolStripMenuItem.Image = global::Natom.AccessMonitor.Sync.Transmitter.Properties.Resources.Button_White_Add;
+            this.vincularDispositivoToolStripMenuItem.Name = "vincularDispositivoToolStripMenuItem";
+            this.vincularDispositivoToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.vincularDispositivoToolStripMenuItem.Text = "Vincular reloj";
+            this.vincularDispositivoToolStripMenuItem.Click += new System.EventHandler(this.vincularDispositivoToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(221, 6);
+            // 
+            // verTodosToolStripMenuItem
+            // 
+            this.verTodosToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.verTodosToolStripMenuItem.Name = "verTodosToolStripMenuItem";
+            this.verTodosToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.verTodosToolStripMenuItem.Text = "Ver todos";
+            this.verTodosToolStripMenuItem.Click += new System.EventHandler(this.verTodosToolStripMenuItem_Click);
+            // 
+            // toolStripButtonActivate
+            // 
+            this.toolStripButtonActivate.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripButtonActivate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.toolStripButtonActivate.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonActivate.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.toolStripButtonActivate.ForeColor = System.Drawing.Color.White;
+            this.toolStripButtonActivate.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonActivate.Image")));
+            this.toolStripButtonActivate.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonActivate.Margin = new System.Windows.Forms.Padding(0, 1, 10, 2);
+            this.toolStripButtonActivate.Name = "toolStripButtonActivate";
+            this.toolStripButtonActivate.Size = new System.Drawing.Size(166, 24);
+            this.toolStripButtonActivate.Text = "CLICK PARA ACTIVAR";
+            this.toolStripButtonActivate.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
             // frmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(35)))), ((int)(((byte)(36)))));
-            this.ClientSize = new System.Drawing.Size(592, 395);
+            this.ClientSize = new System.Drawing.Size(789, 486);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.toolStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -231,9 +234,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
