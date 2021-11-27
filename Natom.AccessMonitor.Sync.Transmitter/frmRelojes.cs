@@ -1,4 +1,5 @@
-﻿using Natom.AccessMonitor.Sync.Transmitter.Entities;
+﻿using Anviz.SDK;
+using Natom.AccessMonitor.Sync.Transmitter.Entities;
 using Natom.AccessMonitor.Sync.Transmitter.Services;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 {
     public partial class frmRelojes : Form
     {
+        private Dictionary<string, string> RelojesStatus;
+
+
         public frmRelojes()
         {
             InitializeComponent();
@@ -23,116 +27,107 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private void frmRelojes_Load(object sender, EventArgs e)
         {
-            if (ConfigService.Config != null)
+            if (ConfigService.Config == null)
             {
-                txtServicioURL.Text = ConfigService.Config.ServiceURL;
-                txtInstalacionAlias.Text = ConfigService.Config.InstallationAlias;
-                txtQuienInstala.Text = ConfigService.Config.InstallerName;
-                txtRazonSocial.Text = ConfigService.Config.ClientName;
-                txtCUIT.Text = ConfigService.Config.ClientCUIT;
-                txtMinutosRelojes.Text = ConfigService.Config.SyncFromDevicesMinutes.ToString();
-                txtMinutosSincronizacion.Text = ConfigService.Config.SyncToServerMinutes.ToString();
-            }
-        }
-
-        private async void btnSave_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtServicioURL.Text))
-            {
-                MessageBox.Show("Debes ingresar una URL de servicio.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(txtInstalacionAlias.Text))
-            {
-                MessageBox.Show("Debes definirle un Alias a esta instalación.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(txtQuienInstala.Text))
-            {
-                MessageBox.Show("Debes indicar tu nombre en 'Quién instala'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(txtRazonSocial.Text))
-            {
-                MessageBox.Show("Debes ingresar Razon social / Nombre fantasía del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(txtCUIT.Text))
-            {
-                MessageBox.Show("Debes ingresar CUIT del cliente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            int syncFromDevicesMinutes;
-            if (!int.TryParse(txtMinutosRelojes.Text, out syncFromDevicesMinutes))
-            {
-                MessageBox.Show("Debes ingresar un valor numérico para el intervalo en minutos de lectura de relojes.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            int syncToServerMinutes;
-            if (!int.TryParse(txtMinutosSincronizacion.Text, out syncToServerMinutes))
-            {
-                MessageBox.Show("Debes ingresar un valor numérico para el intervalo en minutos de sincronización al servidor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (await ValidarConexionAsync())
-            {
-                var config = ConfigService.Config;
-                if (config == null)
-                    config = new TransmitterConfig();
-
-                config.ServiceURL = txtServicioURL.Text;
-                config.InstallationAlias = txtInstalacionAlias.Text;
-                config.InstallerName = txtQuienInstala.Text;
-                config.ClientName = txtRazonSocial.Text;
-                config.ClientCUIT = txtCUIT.Text;
-                config.SyncFromDevicesMinutes = syncFromDevicesMinutes;
-                config.SyncToServerMinutes = syncToServerMinutes;
-
-                ConfigService.Save(config);
-
+                MessageBox.Show("No se encuentra la configuración!");
                 this.Close();
+                return;
+            }
+
+            ObtenerEstadoRelojes();
+            RefrescarListado();
+        }
+
+        private void ObtenerEstadoRelojes()
+        {
+            RelojesStatus = new Dictionary<string, string>();
+            if (ConfigService.Config.Devices != null)
+            {
+                var form = new frmCheckRelojes();
+                form.Show();
+                form.SetStatus("INTENTANDO CONECTAR CON RELOJ...");
+
+                var tasks = new List<Task>();
+                ConfigService.Config.Devices.ForEach(device =>
+                {
+                    tasks.Add(Task.Run(() =>
+                    {
+                        if (ValidarConexionAsync(device).GetAwaiter().GetResult())
+                            RelojesStatus.Add(device.RelojId, "CONECTADO");
+                        else
+                            RelojesStatus.Add(device.RelojId, "DESCONECTADO");
+                    }));
+                });
+
+                Task.WaitAll(tasks.ToArray());
+                form.Close();
             }
         }
 
-        private async Task<bool> ValidarConexionAsync()
+        private void RefrescarListado()
         {
-            var form = new frmCheckConnection();
+            dataGridView1.Rows.Clear();
+            if (ConfigService.Config.Devices != null)
+            {
+                ConfigService.Config.Devices.ForEach(device =>
+                {
+                    dataGridView1.Rows.Add(new object[] {
+                        device.Name,
+                        device.DeviceHost,
+                        DateTime.MinValue.ToString("dd/mm/yyyy HH:mm:ss") + " hs",
+                        RelojesStatus[device.RelojId]
+                    });
+                });
+            }
+        }
+
+        private async Task<bool> ValidarConexionAsync(DeviceConfig device)
+        {
             bool valido = false;
+
             try
             {
-                form.Show();
-                form.SetStatus("INTENTANDO CONECTAR CON SERVIDOR...");
+                
 
-                Uri baseUri = new Uri(txtServicioURL.Text);
-                Uri healthCheckUri = new Uri(baseUri, "Echo/HealthCheckForTransmitter");
-                var response = await NetworkService.DoHttpGetAsync(healthCheckUri.AbsoluteUri);
-                if (!response.Success)
-                    throw new Exception("Error del lado del Servidor.");
+                var manager = new AnvizManager();
+                manager.ConnectionUser = device.User;
+                manager.ConnectionPassword = device.Password;
+                manager.AuthenticateConnection = device.AuthenticateConnection;
+
+                await manager.Connect(device.DeviceHost, (int)device.DevicePort);
 
                 valido = true;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"No se pudo establecer la conexión con el servidor. Verifique la URL ingresada.\n\n{(ex.InnerException?.InnerException??ex.InnerException??ex).Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //MessageBox.Show($"No se pudo establecer la conexión con el reloj.\n\n{(ex.InnerException?.InnerException ?? ex.InnerException ?? ex).Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
-                form.Close();
+                
             }
 
             return valido;
         }
 
-        private void label6_Click(object sender, EventArgs e)
+        private void btnNuevoReloj_Click(object sender, EventArgs e)
         {
+            var form = new frmRelojEditNew();
+            form.Show();
+            this.Close();
+        }
 
+        private void btnEditarReloj_Click(object sender, EventArgs e)
+        {
+            var form = new frmRelojEditNew(editMode: true, relojId: "asd123");
+            form.Show();
+            this.Close();
+        }
+
+        private void btnRefrescar_Click(object sender, EventArgs e)
+        {
+            ObtenerEstadoRelojes();
+            RefrescarListado();
         }
     }
 }

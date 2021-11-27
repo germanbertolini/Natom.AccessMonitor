@@ -1,4 +1,5 @@
-﻿using Natom.AccessMonitor.Sync.Transmitter.Entities;
+﻿using Anviz.SDK;
+using Natom.AccessMonitor.Sync.Transmitter.Entities;
 using Natom.AccessMonitor.Sync.Transmitter.Services;
 using System;
 using System.Collections.Generic;
@@ -16,8 +17,25 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 {
     public partial class frmRelojEditNew : Form
     {
-        public frmRelojEditNew()
+        private bool IsEditMode { get; set; }
+        private string RelojId { get; set; }
+
+        public frmRelojEditNew(bool editMode = false, string relojId = null)
         {
+            IsEditMode = editMode;
+            if (IsEditMode && !string.IsNullOrEmpty(relojId))
+            {
+                RelojId = relojId;
+                var reloj = ConfigService.Config.Devices.First(d => d.RelojId.Equals(relojId));
+                Guid.NewGuid().ToString("N");
+                txtIP.Text = reloj.DeviceHost;
+                txtPuerto.Text = reloj.DevicePort.ToString();
+                txtUsuario.Text = reloj.User;
+                txtClave.Text = reloj.Password;
+                checkBox1.Checked = reloj.AuthenticateConnection;
+                txtAlias.Text = Name;
+            }
+
             InitializeComponent();
         }
 
@@ -26,22 +44,28 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             txtPuerto.Text = "5010"; //POR DEFECTO
         }
 
-        private async Task<bool> ValidarConexionAsync()
+        private async Task<DeviceConfig> ValidarConexionAsync()
         {
             var form = new frmCheckRelojes();
-            bool valido = false;
+            DeviceConfig toReturn = null;
             try
             {
                 form.Show();
                 form.SetStatus("INTENTANDO CONECTAR CON RELOJ...");
 
-                Uri baseUri = new Uri(txtServicioURL.Text);
-                Uri healthCheckUri = new Uri(baseUri, "Echo/HealthCheckForTransmitter");
-                var response = await NetworkService.DoHttpGetAsync(healthCheckUri.AbsoluteUri);
-                if (!response.Success)
-                    throw new Exception("Error del lado del Servidor.");
+                this.Enabled = false;
 
-                valido = true;
+                var manager = new AnvizManager();
+                manager.ConnectionUser = txtUsuario.Text;
+                manager.ConnectionPassword = txtClave.Text;
+                manager.AuthenticateConnection = checkBox1.Checked; //true;
+
+                var device = await manager.Connect(txtIP.Text, Convert.ToInt32(txtPuerto.Text));
+
+                toReturn = new DeviceConfig
+                {
+                    DeviceId = device.DeviceId
+                };
             }
             catch (Exception ex)
             {
@@ -50,9 +74,10 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             finally
             {
                 form.Close();
+                this.Enabled = true;
             }
 
-            return valido;
+            return toReturn;
         }
 
         private async void btnGuardar_Click(object sender, EventArgs e)
@@ -72,6 +97,13 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             if (string.IsNullOrEmpty(txtIP.Text))
             {
                 MessageBox.Show("Debes ingresar la dirección IP del Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Regex ip = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+            if (ip.Matches(txtIP.Text).Count < 1)
+            {
+                MessageBox.Show("Debes ingresar una dirección IP del Reloj válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -101,21 +133,46 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
 
 
-            if (await ValidarConexionAsync())
+            DeviceConfig device;
+            if ((device = await ValidarConexionAsync()) != null)
             {
-                var config = ConfigService.Config;
-                if (config == null)
-                    config = new TransmitterConfig();
+                if (!IsEditMode) //NUEVO
+                {
+                    var config = ConfigService.Config;
+                    if (config.Devices == null)
+                        config.Devices = new List<DeviceConfig>();
 
-                config.ServiceURL = txtServicioURL.Text;
-                config.InstallationAlias = txtAlias.Text;
-                config.InstallerName = txtQuienInstala.Text;
-                config.ClientName = txtIP.Text;
-                config.ClientCUIT = txtPuerto.Text;
-                config.SyncFromDevicesMinutes = port;
-                config.SyncToServerMinutes = syncToServerMinutes;
+                    config.Devices.Add(new DeviceConfig
+                    {
+                        RelojId = Guid.NewGuid().ToString("N"),
+                        DeviceId = device.DeviceId,
+                        DeviceHost = txtIP.Text,
+                        DevicePort = Convert.ToUInt32(txtPuerto.Text),
+                        User = txtUsuario.Text,
+                        Password = txtClave.Text,
+                        AuthenticateConnection = checkBox1.Checked,
+                        Name = txtAlias.Text,
+                        AddedAt = DateTime.Now,
+                        LastConfigUpdateAt = null
+                    });
 
-                ConfigService.Save(config);
+                    ConfigService.Save(config);
+                }
+                else //EDICION
+                {
+                    var config = ConfigService.Config;
+                    var reloj = config.Devices.First(d => d.RelojId.Equals(this.RelojId));
+                    reloj.DeviceId = device.DeviceId;
+                    reloj.DeviceHost = txtIP.Text;
+                    reloj.DevicePort = Convert.ToUInt32(txtPuerto.Text);
+                    reloj.User = txtUsuario.Text;
+                    reloj.Password = txtClave.Text;
+                    reloj.AuthenticateConnection = checkBox1.Checked;
+                    reloj.Name = txtAlias.Text;
+                    reloj.LastConfigUpdateAt = DateTime.Now;
+
+                    ConfigService.Save(config);
+                }
 
                 this.Close();
             }
@@ -126,6 +183,13 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             if (string.IsNullOrEmpty(txtIP.Text))
             {
                 MessageBox.Show("Debes ingresar la dirección IP del Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            Regex ip = new Regex(@"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b");
+            if (ip.Matches(txtIP.Text).Count < 1)
+            {
+                MessageBox.Show("Debes ingresar una dirección IP del Reloj válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

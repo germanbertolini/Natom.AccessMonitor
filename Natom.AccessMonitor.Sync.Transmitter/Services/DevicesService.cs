@@ -33,8 +33,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             _synchronizingDevices = true;
 
             //INICIO MOCK
-            Dictionary<ulong, bool> statusPersonas = new Dictionary<ulong, bool>();
-            var random = new Random();
+            //Dictionary<ulong, bool> statusPersonas = new Dictionary<ulong, bool>();
+            //var random = new Random();
             //FIN MOCK
 
             foreach (var device in devices)
@@ -46,24 +46,24 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 data.DeviceName = device.Name;
 
                 //INICIO MOCK
-                data.Movements = new List<MovementDto>();
-                for (int i = 0; i < 200000; i ++)
-                {
-                    ulong docketNumber = (ulong)random.Next(0, 10);
-                    if (!statusPersonas.ContainsKey(docketNumber))
-                        statusPersonas.Add(docketNumber, true);
-                    else
-                        statusPersonas[docketNumber] = !statusPersonas[docketNumber];
+                //data.Movements = new List<MovementDto>();
+                //for (int i = 0; i < 200000; i ++)
+                //{
+                //    ulong docketNumber = (ulong)random.Next(0, 10);
+                //    if (!statusPersonas.ContainsKey(docketNumber))
+                //        statusPersonas.Add(docketNumber, true);
+                //    else
+                //        statusPersonas[docketNumber] = !statusPersonas[docketNumber];
 
-                    data.Movements.Add(new MovementDto()
-                    {
-                        DateTime = DateTime.Now.AddSeconds(-random.Next(1, 50)),
-                        DocketNumber = (long)docketNumber,
-                        MovementType = statusPersonas[docketNumber] ? "I" : "O"
-                    });
+                //    data.Movements.Add(new MovementDto()
+                //    {
+                //        DateTime = DateTime.Now.AddSeconds(-random.Next(1, 50)),
+                //        DocketNumber = (long)docketNumber,
+                //        MovementType = statusPersonas[docketNumber] ? "I" : "O"
+                //    });
 
-                    cancellationToken.ThrowIfCancellationRequested();
-                }
+                //    cancellationToken.ThrowIfCancellationRequested();
+                //}
                 //FIN MOCK
 
                 var strData = JsonConvert.SerializeObject(data);

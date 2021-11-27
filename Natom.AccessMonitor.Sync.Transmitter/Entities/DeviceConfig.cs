@@ -8,6 +8,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
 {
     public class DeviceConfig
     {
+        public string RelojId { get; set; }
         public ulong DeviceId { get; set; }
         public string DeviceHost { get; set; }
         public uint DevicePort { get; set; }
@@ -17,5 +18,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
 
         public string Name { get; set; }
         public DateTime AddedAt { get; set; }
+        public DateTime? LastConfigUpdateAt { get; set; }
     }
 }

@@ -33,19 +33,19 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             ValidarConfig();
 
             //MOCK
-            ConfigService.Config.Devices = new List<Entities.DeviceConfig>();
-            ConfigService.Config.Devices.Add(new Entities.DeviceConfig()
-            {
-                DeviceId = 14092,
-                Name = "Porteria principal",
-                AddedAt = DateTime.Now
-            });
-            ConfigService.Config.Devices.Add(new Entities.DeviceConfig()
-            {
-                DeviceId = 15428,
-                Name = "Porteria proveedores",
-                AddedAt = DateTime.Now
-            });
+            //ConfigService.Config.Devices = new List<Entities.DeviceConfig>();
+            //ConfigService.Config.Devices.Add(new Entities.DeviceConfig()
+            //{
+            //    DeviceId = 14092,
+            //    Name = "Porteria principal",
+            //    AddedAt = DateTime.Now
+            //});
+            //ConfigService.Config.Devices.Add(new Entities.DeviceConfig()
+            //{
+            //    DeviceId = 15428,
+            //    Name = "Porteria proveedores",
+            //    AddedAt = DateTime.Now
+            //});
         }
 
         private void ValidarPermisosEscritura()
@@ -340,13 +340,13 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private void vincularDispositivoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new frmRelojes();
+            var form = new frmRelojEditNew();
             form.Show();
         }
 
         private void verTodosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var form = new frmRelojEditNew();
+            var form = new frmRelojes();
             form.Show();
         }
     }
