@@ -78,11 +78,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             var tasks = new List<Task>();
             var connectedDevices = new List<DeviceConfig>();
             var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
+
             ConfigService.Devices.ForEach(device =>
             {
                 tasks.Add(Task.Run(() =>
                 {
-                    var connected = DevicesService.ValidarConexionAsync(device).GetAwaiter().GetResult();
+                    var connected = device.ConnectionWrapper.TryConnectionAsync().GetAwaiter().GetResult();
                     if (connected && !cancellationToken.IsCancellationRequested)
                         connectedDevices.Add(device);
                 }, cancellationToken));
@@ -94,52 +95,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             return connectedDevices;
         }
 
-        public static async Task<bool> ValidarConexionAsync(DeviceConfig device)
-        {
-            bool valido = false;
-
-            try
-            {
-                await DevicesService.ThrowIfConexionInvalidaAsync(device);
-                valido = true;
-            }
-            catch (Exception ex)
-            {
-                //NADA
-            }
-
-            return valido;
-        }
-
-        public static async Task<DeviceConfig> ThrowIfConexionInvalidaAsync(DeviceConfig device)
-        {
-            DeviceConfig toReturn = null;
-
-            try
-            {
-
-
-                var manager = new AnvizManager();
-                manager.ConnectionUser = device.User;
-                manager.ConnectionPassword = device.Password;
-                manager.AuthenticateConnection = device.AuthenticateConnection;
-
-                var anvizDevice = await manager.TryConnection(device.DeviceHost, (int)device.DevicePort);
-
-                toReturn = new DeviceConfig
-                {
-                    DeviceId = anvizDevice.DeviceId
-                };
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-
-            return toReturn;
-        }
-
-        public static void GetAndStoreRecordsFromDevices(List<DeviceConfig> devices, CancellationToken cancellationToken, bool resyncAllRegisters = false)
+        public static async Task GetAndStoreRecordsFromDevicesAsync(List<DeviceConfig> devices, CancellationToken cancellationToken, bool resyncAllRegisters = false)
         {
             if (!Directory.Exists(cStorageFolderName))
                 Directory.CreateDirectory(cStorageFolderName);
@@ -161,7 +117,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
 
                 try
                 {
-                    data.Movements = DevicesService.GetMovementsFromDeviceAsync(device, onlyNew: !resyncAllRegisters, cancellationToken).GetAwaiter().GetResult();
+                    data.Movements = await device.ConnectionWrapper.GetMovementsAsync(onlyNew: !resyncAllRegisters, cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -204,45 +160,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             }
 
             _synchronizingDevices = false;
-        }
-
-        public static async Task RebootAsync(DeviceConfig device)
-        {
-            var manager = new AnvizManager();
-
-            manager.ConnectionUser = device.User;
-            manager.ConnectionPassword = device.Password;
-            manager.AuthenticateConnection = device.AuthenticateConnection;
-
-            var anvizDevice = await manager.Connect(device.DeviceHost, (int)device.DevicePort);
-            await anvizDevice.RebootDevice();
-        }
-
-        private static async Task<List<MovementDto>> GetMovementsFromDeviceAsync(DeviceConfig device, bool onlyNew, CancellationToken cancellationToken)
-        {
-            var manager = new AnvizManager();
-
-            manager.ConnectionUser = device.User;
-            manager.ConnectionPassword = device.Password;
-            manager.AuthenticateConnection = device.AuthenticateConnection;
-
-            var anvizDevice = await manager.Connect(device.DeviceHost, (int)device.DevicePort);
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var records = await anvizDevice.DownloadRecords(onlyNew);
-
-            if (onlyNew && records.Count > 0)
-                await anvizDevice.ClearNewRecords(amount: (ulong)records.Count);    //MARCAMOS LOS REGISTROS COMO QUE DEJARON DE SER NUEVOS PARA QUE NO LOS TRAIGA EN LA PROXIMA LECTURA!
-
-            var movements = records.Select(record => new MovementDto
-            {
-                DocketNumber = (long)record.UserCode,
-                DateTime = record.DateTime,
-                MovementType = record.RecordType == 129 ? "O" : "I"
-            }).ToList();
-
-            return movements;
         }
 
         public static async Task SyncStoredDataToServerAsync(List<DeviceConfig> devices, CancellationToken cancellationToken)

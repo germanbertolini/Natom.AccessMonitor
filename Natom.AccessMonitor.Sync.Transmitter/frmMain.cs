@@ -304,7 +304,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                                         try
                                         {
                                             CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds((ConfigService.Config.SyncFromDevicesMinutes * 60) - 5)).Token;
-                                            DevicesService.GetAndStoreRecordsFromDevices(ConfigService.Devices, cancellationToken);
+                                            DevicesService.GetAndStoreRecordsFromDevicesAsync(ConfigService.Devices, cancellationToken).Wait();
                                         }
                                         catch (Exception ex)
                                         {

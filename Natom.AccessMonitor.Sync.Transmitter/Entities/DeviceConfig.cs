@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Anviz.SDK.Responses;
+using Natom.AccessMonitor.Sync.Transmitter.DeviceWrappers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
 {
     public class DeviceConfig
     {
+        [JsonIgnore]
+        public IDeviceWrapper ConnectionWrapper { get; set; }
+
         [JsonProperty("rid")]
         public string RelojId { get; set; }
 
@@ -41,5 +46,20 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
 
         [JsonProperty("lca")]
         public DateTime? LastConfigUpdateAt { get; set; }
+
+        [JsonProperty("sn")]
+        public string DeviceSerialNumber { get; set; }
+
+        [JsonProperty("mdl")]
+        public string DeviceModel { get; set; }
+
+        [JsonProperty("brd")]
+        public string DeviceBrand { get; set; }
+
+        [JsonProperty("dtf")]
+        public DateFormat DeviceDateTimeFormat { get; set; }
+
+        [JsonProperty("fvs")]
+        public string DeviceFirmwareVersion { get; set; }
     }
 }

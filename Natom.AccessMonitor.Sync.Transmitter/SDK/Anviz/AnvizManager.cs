@@ -4,6 +4,12 @@ using System.Threading.Tasks;
 
 namespace Anviz.SDK
 {
+    public class AnvizConnectionWrapper
+    {
+        public TcpClient DeviceSocket { get; set; }
+        public AnvizDevice AnvizDevice { get; set; }
+    }
+
     public class AnvizManager
     {
         private TcpListener server;
@@ -12,21 +18,27 @@ namespace Anviz.SDK
         public string ConnectionPassword { get; set; } = "12345";
         public bool AuthenticateConnection { get; set; } = false;
 
-        public async Task<AnvizDevice> Connect(string host, int port = 5010)
+        public async Task<AnvizConnectionWrapper> Connect(string host, int port = 5010)
         {
             var DeviceSocket = new TcpClient();
             await DeviceSocket.ConnectAsync(host, port);
-            return await GetDevice(DeviceSocket);
+            return new AnvizConnectionWrapper
+            {
+                DeviceSocket = DeviceSocket,
+                AnvizDevice = await GetDevice(DeviceSocket)
+            };
         }
 
         //Hecho por German
-        public async Task<AnvizDevice> TryConnection(string host, int port = 5010)
+        public bool IsConnected(TcpClient DeviceSocket)
         {
-            var DeviceSocket = new TcpClient();
-            await DeviceSocket.ConnectAsync(host, port);
-            var deviceInfo = await GetDevice(DeviceSocket);
+            return DeviceSocket.Connected;
+        }
+
+        //Hecho por German
+        public async void Disconnect(TcpClient DeviceSocket)
+        {
             DeviceSocket.Close();
-            return deviceInfo;
         }
 
         public void Listen(int port = 5010)

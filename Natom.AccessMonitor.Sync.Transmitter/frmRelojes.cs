@@ -135,6 +135,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 devices = devices.Where(d => d.RelojId != reloj.RelojId).ToList();
                 ConfigService.SaveDevices(devices);
 
+                reloj.ConnectionWrapper.Disconnect();
+
                 btnRefrescar_Click(sender, e);
             }
         }
@@ -157,7 +159,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                     form.Show();
                     form.SetStatus("ENVIANDO SEÑAL AL RELOJ...");
 
-                    DevicesService.RebootAsync(reloj).Wait();
+                    reloj.ConnectionWrapper.SendRebootSignalAsync().Wait();
 
                     form.Close();
 
@@ -171,7 +173,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
         }
 
-        private void btnResync_Click(object sender, EventArgs e)
+        private async void btnResync_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count == 0)
             {
@@ -188,7 +190,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                     form.Show();
                     form.SetStatus("RESINCRONIZANDO EQUIPO...");
 
-                    DevicesService.GetAndStoreRecordsFromDevices(new List<DeviceConfig> { reloj }, default, resyncAllRegisters: true);
+                    await DevicesService.GetAndStoreRecordsFromDevicesAsync(new List<DeviceConfig> { reloj }, default, resyncAllRegisters: true);
 
                     form.Close();
 

@@ -1,4 +1,5 @@
 ﻿using Anviz.SDK;
+using Natom.AccessMonitor.Sync.Transmitter.DeviceWrappers;
 using Natom.AccessMonitor.Sync.Transmitter.Entities;
 using Natom.AccessMonitor.Sync.Transmitter.Services;
 using System;
@@ -41,17 +42,22 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 checkBox1.Checked = reloj.AuthenticateConnection;
                 txtAlias.Text = reloj.Name;
                 txtQuienInstala.Text = reloj.InstalledBy;
+                cboTipo.SelectedIndex = 0;
             }
             else
             {
                 txtPuerto.Text = "5010"; //POR DEFECTO
+                cboTipo.SelectedIndex = 0;
             }
+
+            txtUsuario.Enabled = checkBox1.Checked;
+            txtClave.Enabled = checkBox1.Checked;
         }
 
         private async Task<DeviceConfig> ValidarConexionAsync()
         {
             var form = new frmCheckRelojes();
-            DeviceConfig toReturn = null;
+            DeviceConfig device = null;
             try
             {
                 form.Show();
@@ -59,18 +65,21 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
                 this.Enabled = false;
 
-                var deviceParams = new DeviceConfig
+                device = new DeviceConfig
                 {
                     User = txtUsuario.Text,
                     Password = txtClave.Text,
                     AuthenticateConnection = checkBox1.Checked,
                     DeviceHost = txtIP.Text.Trim(),
-                    DevicePort = Convert.ToUInt32(txtPuerto.Text)
+                    DevicePort = Convert.ToUInt32(txtPuerto.Text),
+                    DeviceBrand = "Anviz", //cboTipo.SelectedIndex == 0 ? "Anviz" : "Sarasa"
                 };
-                toReturn = await DevicesService.ThrowIfConexionInvalidaAsync(deviceParams);
+                device.ConnectionWrapper = new AnvizDeviceWrapper(device); //cboTipo.SelectedIndex == 0 ? new AnvizConnectionWrapper() : new OtroWrapper
+                await device.ConnectionWrapper.TryConnectionAsync(raiseException: true);
             }
             catch (Exception ex)
             {
+                device = null;
                 MessageBox.Show($"No se pudo establecer la conexión con el reloj. Verifique los parámetros de conexión ingresados.\n\n{(ex.InnerException?.InnerException??ex.InnerException??ex).Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -79,7 +88,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 this.Enabled = true;
             }
 
-            return toReturn;
+            return device;
         }
 
         private async void btnGuardar_Click(object sender, EventArgs e)
@@ -122,21 +131,25 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 return;
             }
 
-            if (string.IsNullOrEmpty(txtUsuario.Text))
+            if (checkBox1.Checked)
             {
-                MessageBox.Show("Debes ingresar el usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (string.IsNullOrEmpty(txtUsuario.Text))
+                {
+                    MessageBox.Show("Debes ingresar el usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (string.IsNullOrEmpty(txtClave.Text))
+                {
+                    MessageBox.Show("Debes ingresar la clave del usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
-            if (string.IsNullOrEmpty(txtClave.Text))
-            {
-                MessageBox.Show("Debes ingresar la clave del usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
 
             if (!IsEditMode)
             {
-                if (ConfigService.Devices.Any(d => d.DeviceHost.Equals(txtIP.Text.Trim())))
+                if (ConfigService.Devices != null && ConfigService.Devices.Any(d => d.DeviceHost.Equals(txtIP.Text.Trim())))
                 {
                     MessageBox.Show("Ya se encuentra configurado un Reloj con misma IP.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -144,48 +157,50 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             }
 
 
-            DeviceConfig device;
-            if ((device = await ValidarConexionAsync()) != null)
+            if (!IsEditMode) //NUEVO
             {
-                if (!IsEditMode) //NUEVO
+                DeviceConfig device = await ValidarConexionAsync();
+                if (device != null)
                 {
                     var devices = ConfigService.Devices;
                     if (devices == null)
                         devices = new List<DeviceConfig>();
 
-                    devices.Add(new DeviceConfig
-                    {
-                        RelojId = Guid.NewGuid().ToString("N"),
-                        DeviceId = device.DeviceId,
-                        DeviceHost = txtIP.Text.Trim(),
-                        DevicePort = Convert.ToUInt32(txtPuerto.Text),
-                        User = txtUsuario.Text,
-                        Password = txtClave.Text,
-                        AuthenticateConnection = checkBox1.Checked,
-                        Name = txtAlias.Text,
-                        AddedAt = DateTime.Now,
-                        LastConfigUpdateAt = null,
-                        InstalledBy = txtQuienInstala.Text
-                    });
+
+                    device.RelojId = Guid.NewGuid().ToString("N");
+                    device.Name = txtAlias.Text;
+                    device.AddedAt = DateTime.Now;
+                    device.LastConfigUpdateAt = null;
+                    device.InstalledBy = txtQuienInstala.Text;
+
+                    devices.Add(device);
 
                     ConfigService.SaveDevices(devices);
-                }
-                else //EDICION
-                {
-                    var devices = ConfigService.Devices;
-                    var reloj = devices.First(d => d.RelojId.Equals(this.RelojId));
-                    reloj.DeviceId = device.DeviceId;
-                    reloj.DeviceHost = txtIP.Text.Trim();
-                    reloj.DevicePort = Convert.ToUInt32(txtPuerto.Text);
-                    reloj.User = txtUsuario.Text;
-                    reloj.Password = txtClave.Text;
-                    reloj.AuthenticateConnection = checkBox1.Checked;
-                    reloj.Name = txtAlias.Text;
-                    reloj.LastConfigUpdateAt = DateTime.Now;
-                    reloj.InstalledBy = txtQuienInstala.Text;
 
-                    ConfigService.SaveDevices(devices);
+                    this.Close();
                 }
+            }
+            else //EDICION
+            {
+                var devices = ConfigService.Devices;
+                var reloj = devices.First(d => d.RelojId.Equals(this.RelojId));
+                reloj.ConnectionWrapper.Disconnect();
+
+                DeviceConfig device = await ValidarConexionAsync();
+                reloj.DeviceId = device.DeviceId;
+                reloj.Name = txtAlias.Text;
+                reloj.LastConfigUpdateAt = DateTime.Now;
+                reloj.InstalledBy = txtQuienInstala.Text;
+                reloj.DeviceBrand = device.DeviceBrand;
+                reloj.DeviceDateTimeFormat = device.DeviceDateTimeFormat;
+                reloj.DeviceFirmwareVersion = device.DeviceFirmwareVersion;
+                reloj.DeviceHost = device.DeviceHost;
+                reloj.DeviceModel = device.DeviceModel;
+                reloj.DevicePort = device.DevicePort;
+                reloj.DeviceSerialNumber = device.DeviceSerialNumber;
+                device.ConnectionWrapper.Disconnect();
+
+                ConfigService.SaveDevices(devices);
 
                 this.Close();
             }
@@ -219,21 +234,36 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 return;
             }
 
-            if (string.IsNullOrEmpty(txtUsuario.Text))
+            if (checkBox1.Checked)
             {
-                MessageBox.Show("Debes ingresar el usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+                if (string.IsNullOrEmpty(txtUsuario.Text))
+                {
+                    MessageBox.Show("Debes ingresar el usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-            if (string.IsNullOrEmpty(txtClave.Text))
-            {
-                MessageBox.Show("Debes ingresar la clave del usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                if (string.IsNullOrEmpty(txtClave.Text))
+                {
+                    MessageBox.Show("Debes ingresar la clave del usuario configurado en el Reloj.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
             if (await ValidarConexionAsync() != null)
             {
                 MessageBox.Show("¡Conexión exitosa!", "Mensaje", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            txtUsuario.Enabled = checkBox1.Checked;
+            txtClave.Enabled = checkBox1.Checked;
+
+            if (checkBox1.Checked && string.IsNullOrEmpty(txtUsuario.Text) && string.IsNullOrEmpty(txtClave.Text))
+            {
+                txtUsuario.Text = "admin";
+                txtClave.Text = "12345";
             }
         }
     }

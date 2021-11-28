@@ -70,6 +70,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                             var devicesBytes = System.Convert.FromBase64String(devices);
                             devices = System.Text.Encoding.UTF8.GetString(devicesBytes);
                             _devices = JsonConvert.DeserializeObject<List<DeviceConfig>>(devices);
+
+                            _devices.ForEach(device =>
+                            {
+                                if (device.DeviceBrand.ToLower().Equals("anviz"))
+                                    device.ConnectionWrapper = new DeviceWrappers.AnvizDeviceWrapper(device);
+                            });
                         }
                         catch (Exception ex)
                         {
@@ -90,6 +96,15 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             System.IO.File.WriteAllText("devices.cfg", devices);
 
             _devices = newDevices;
+
+            _devices.ForEach(device =>
+            {
+                if (device.ConnectionWrapper == null)
+                {
+                    if (device.DeviceBrand.ToLower().Equals("anviz"))
+                        device.ConnectionWrapper = new DeviceWrappers.AnvizDeviceWrapper(device);
+                }
+            });
         }
     }
 }

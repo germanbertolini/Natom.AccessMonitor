@@ -31,12 +31,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRelojEditNew));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtClave = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.txtPuerto = new System.Windows.Forms.TextBox();
             this.txtIP = new System.Windows.Forms.TextBox();
@@ -48,18 +42,24 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.label3 = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnProbarConexion = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.txtClave = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cboTipo = new System.Windows.Forms.ComboBox();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.cboTipo);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.txtClave);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.txtUsuario);
-            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.txtPuerto);
             this.groupBox2.Controls.Add(this.txtIP);
@@ -74,63 +74,10 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "PARÁMETROS DE CONEXIÓN";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(550, 110);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(181, 21);
-            this.checkBox1.TabIndex = 80;
-            this.checkBox1.Text = "(destildado por defecto)";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(376, 110);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(136, 17);
-            this.label7.TabIndex = 56;
-            this.label7.Text = "Autenticar conexión:";
-            // 
-            // txtClave
-            // 
-            this.txtClave.Location = new System.Drawing.Point(550, 65);
-            this.txtClave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtClave.Name = "txtClave";
-            this.txtClave.Size = new System.Drawing.Size(202, 22);
-            this.txtClave.TabIndex = 70;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(465, 68);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(47, 17);
-            this.label6.TabIndex = 54;
-            this.label6.Text = "Clave:";
-            // 
-            // txtUsuario
-            // 
-            this.txtUsuario.Location = new System.Drawing.Point(161, 65);
-            this.txtUsuario.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(202, 22);
-            this.txtUsuario.TabIndex = 60;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(62, 68);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(61, 17);
-            this.label4.TabIndex = 52;
-            this.label4.Text = "Usuario:";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(458, 29);
+            this.label1.Location = new System.Drawing.Point(580, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(54, 17);
             this.label1.TabIndex = 51;
@@ -138,7 +85,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // 
             // txtPuerto
             // 
-            this.txtPuerto.Location = new System.Drawing.Point(550, 26);
+            this.txtPuerto.Location = new System.Drawing.Point(672, 32);
             this.txtPuerto.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtPuerto.Name = "txtPuerto";
             this.txtPuerto.Size = new System.Drawing.Size(78, 22);
@@ -146,7 +93,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // 
             // txtIP
             // 
-            this.txtIP.Location = new System.Drawing.Point(161, 26);
+            this.txtIP.Location = new System.Drawing.Point(318, 32);
             this.txtIP.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtIP.Name = "txtIP";
             this.txtIP.Size = new System.Drawing.Size(202, 22);
@@ -155,7 +102,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(99, 29);
+            this.label2.Location = new System.Drawing.Point(256, 35);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(24, 17);
             this.label2.TabIndex = 0;
@@ -241,6 +188,89 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.btnProbarConexion.UseVisualStyleBackColor = false;
             this.btnProbarConexion.Click += new System.EventHandler(this.btnProbarConexion_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtClave);
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.txtUsuario);
+            this.groupBox1.Controls.Add(this.label4);
+            this.groupBox1.Controls.Add(this.checkBox1);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
+            this.groupBox1.Location = new System.Drawing.Point(24, 93);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(728, 121);
+            this.groupBox1.TabIndex = 81;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Autenticación con Usuario y Clave";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(50, 31);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(382, 21);
+            this.checkBox1.TabIndex = 80;
+            this.checkBox1.Text = "AUTENTICACIÓN ACTIVADA (Requiere usuario y clave)";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // txtClave
+            // 
+            this.txtClave.Location = new System.Drawing.Point(499, 60);
+            this.txtClave.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtClave.Name = "txtClave";
+            this.txtClave.Size = new System.Drawing.Size(151, 22);
+            this.txtClave.TabIndex = 84;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(414, 63);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(47, 17);
+            this.label6.TabIndex = 82;
+            this.label6.Text = "Clave:";
+            // 
+            // txtUsuario
+            // 
+            this.txtUsuario.Location = new System.Drawing.Point(188, 62);
+            this.txtUsuario.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.Size = new System.Drawing.Size(151, 22);
+            this.txtUsuario.TabIndex = 83;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(89, 65);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(61, 17);
+            this.label4.TabIndex = 81;
+            this.label4.Text = "Usuario:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(21, 35);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(40, 17);
+            this.label7.TabIndex = 82;
+            this.label7.Text = "Tipo:";
+            // 
+            // cboTipo
+            // 
+            this.cboTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTipo.Enabled = false;
+            this.cboTipo.FormattingEnabled = true;
+            this.cboTipo.Items.AddRange(new object[] {
+            "Anviz"});
+            this.cboTipo.Location = new System.Drawing.Point(74, 32);
+            this.cboTipo.Name = "cboTipo";
+            this.cboTipo.Size = new System.Drawing.Size(121, 24);
+            this.cboTipo.TabIndex = 83;
+            // 
             // frmRelojEditNew
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -262,6 +292,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -278,12 +310,14 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Button btnProbarConexion;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtClave;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ComboBox cboTipo;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -63,6 +63,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeviceWrappers\AnvizDeviceWrapper.cs" />
+    <Compile Include="DeviceWrappers\IDeviceWrapper.cs" />
     <Compile Include="Entities\DTO\MovementDto.cs" />
     <Compile Include="Entities\DTO\DataBlockForSyncDto.cs" />
     <Compile Include="Entities\DTO\StartActivationHandshakeDto.cs" />

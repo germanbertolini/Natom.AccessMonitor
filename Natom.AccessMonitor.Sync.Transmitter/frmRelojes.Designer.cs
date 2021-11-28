@@ -181,6 +181,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.btnReiniciar.TabIndex = 110006;
             this.btnReiniciar.Text = "REINICIAR";
             this.btnReiniciar.UseVisualStyleBackColor = false;
+            this.btnReiniciar.Visible = false;
             this.btnReiniciar.Click += new System.EventHandler(this.btnReiniciar_Click);
             // 
             // frmRelojes
