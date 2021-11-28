@@ -261,7 +261,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                             if (disconnected.Count > 0)
                             {
                                 toolStripStatusSyncDevices.Text = "¡Relojes SIN CONEXIÓN!";
-                                toolStripStatusSyncDevices.ForeColor = Color.Orange;
+                                toolStripStatusSyncDevices.ForeColor = Color.Red;
                             }
                             else
                             {

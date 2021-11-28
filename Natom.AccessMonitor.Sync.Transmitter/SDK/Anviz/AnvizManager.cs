@@ -19,6 +19,7 @@ namespace Anviz.SDK
             return await GetDevice(DeviceSocket);
         }
 
+        //Hecho por German
         public async Task<AnvizDevice> TryConnection(string host, int port = 5010)
         {
             var DeviceSocket = new TcpClient();

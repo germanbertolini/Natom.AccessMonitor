@@ -80,12 +80,16 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 btnRefrescar.Enabled = true;
                 btnEliminarReloj.Enabled = true;
                 btnEditarReloj.Enabled = true;
+                btnResync.Enabled = true;
+                btnReiniciar.Enabled = true;
             }
             else
             {
                 btnRefrescar.Enabled = false;
                 btnEliminarReloj.Enabled = false;
                 btnEditarReloj.Enabled = false;
+                btnResync.Enabled = false;
+                btnReiniciar.Enabled = false;
             }
         }
 
@@ -132,6 +136,69 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 ConfigService.SaveDevices(devices);
 
                 btnRefrescar_Click(sender, e);
+            }
+        }
+
+        private void btnReiniciar_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show($"Debes seleccionar primero el Reloj a Reiniciar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var reloj = ConfigService.Devices[dataGridView1.SelectedRows[0].Index];
+            var form = new frmCheckRelojes();
+
+            if (MessageBox.Show($"¿Está seguro que desea APAGAR y VOLVER A ENCENDER el Reloj '{reloj.Name}'?", "APAGAR y VOLVER A ENCENDER", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    form.Show();
+                    form.SetStatus("ENVIANDO SEÑAL AL RELOJ...");
+
+                    DevicesService.RebootAsync(reloj).Wait();
+
+                    form.Close();
+
+                    MessageBox.Show($"Señal enviada con éxito al equipo", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    form.Close();
+                    MessageBox.Show($"Se produjo un error al intentar enviar la señal.\n\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void btnResync_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show($"Debes seleccionar primero el Reloj a Resincronizar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var reloj = ConfigService.Devices[dataGridView1.SelectedRows[0].Index];
+            var form = new frmCheckRelojes();
+            if (MessageBox.Show($"Está solicitando RESINCRONIZAR todo el registro de Ingresos y Egresos del Reloj '{reloj.Name}'. Esto puede llegar a demorar unos minutos.\n¿Desea continuar?", "Resincronizar registro por completo", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                try
+                {
+                    form.Show();
+                    form.SetStatus("RESINCRONIZANDO EQUIPO...");
+
+                    DevicesService.GetAndStoreRecordsFromDevices(new List<DeviceConfig> { reloj }, default, resyncAllRegisters: true);
+
+                    form.Close();
+
+                    MessageBox.Show($"¡Resincronización realizada con éxito! En los próximos minutos se verán reflejados los datos en la aplicación Web.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    form.Close();
+                    MessageBox.Show($"Se produjo un error al intentar resincronizar el equipo.\n\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

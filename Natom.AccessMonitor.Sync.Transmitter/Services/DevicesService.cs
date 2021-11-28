@@ -139,7 +139,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             return toReturn;
         }
 
-        public static void GetAndStoreRecordsFromDevices(List<DeviceConfig> devices, CancellationToken cancellationToken)
+        public static void GetAndStoreRecordsFromDevices(List<DeviceConfig> devices, CancellationToken cancellationToken, bool resyncAllRegisters = false)
         {
             if (!Directory.Exists(cStorageFolderName))
                 Directory.CreateDirectory(cStorageFolderName);
@@ -158,6 +158,20 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 var data = new DataBlockForSyncDto();
                 data.DeviceId = (long)device.DeviceId;
                 data.DeviceName = device.Name;
+
+                try
+                {
+                    data.Movements = DevicesService.GetMovementsFromDeviceAsync(device, onlyNew: !resyncAllRegisters, cancellationToken).GetAwaiter().GetResult();
+                }
+                catch (Exception ex)
+                {
+                    string e = ex.ToString();
+                    
+                    if (resyncAllRegisters) //SI ES RESINCRONIZACIÓN COMPLETA, SE DEBE ELEVAR EL ERROR YA QUE EN ESTOS CASOS NO HAY PROXIMO LLAMADO PARA REINTENTAR
+                        throw ex;
+
+                    continue; //SI FALLA, SE DEJA REINTENTO PARA PROXIMO LLAMADO
+                }
 
                 //INICIO MOCK
                 //data.Movements = new List<MovementDto>();
@@ -190,6 +204,45 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
             }
 
             _synchronizingDevices = false;
+        }
+
+        public static async Task RebootAsync(DeviceConfig device)
+        {
+            var manager = new AnvizManager();
+
+            manager.ConnectionUser = device.User;
+            manager.ConnectionPassword = device.Password;
+            manager.AuthenticateConnection = device.AuthenticateConnection;
+
+            var anvizDevice = await manager.Connect(device.DeviceHost, (int)device.DevicePort);
+            await anvizDevice.RebootDevice();
+        }
+
+        private static async Task<List<MovementDto>> GetMovementsFromDeviceAsync(DeviceConfig device, bool onlyNew, CancellationToken cancellationToken)
+        {
+            var manager = new AnvizManager();
+
+            manager.ConnectionUser = device.User;
+            manager.ConnectionPassword = device.Password;
+            manager.AuthenticateConnection = device.AuthenticateConnection;
+
+            var anvizDevice = await manager.Connect(device.DeviceHost, (int)device.DevicePort);
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var records = await anvizDevice.DownloadRecords(onlyNew);
+
+            if (onlyNew && records.Count > 0)
+                await anvizDevice.ClearNewRecords(amount: (ulong)records.Count);    //MARCAMOS LOS REGISTROS COMO QUE DEJARON DE SER NUEVOS PARA QUE NO LOS TRAIGA EN LA PROXIMA LECTURA!
+
+            var movements = records.Select(record => new MovementDto
+            {
+                DocketNumber = (long)record.UserCode,
+                DateTime = record.DateTime,
+                MovementType = record.RecordType == 129 ? "O" : "I"
+            }).ToList();
+
+            return movements;
         }
 
         public static async Task SyncStoredDataToServerAsync(List<DeviceConfig> devices, CancellationToken cancellationToken)

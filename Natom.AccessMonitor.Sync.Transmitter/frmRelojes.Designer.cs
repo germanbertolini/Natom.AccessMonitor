@@ -39,6 +39,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.IP = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UltimaSincronizacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnResync = new System.Windows.Forms.Button();
+            this.btnReiniciar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -151,12 +153,44 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.Estado.Name = "Estado";
             this.Estado.Width = 150;
             // 
+            // btnResync
+            // 
+            this.btnResync.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.btnResync.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnResync.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnResync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnResync.Location = new System.Drawing.Point(271, 501);
+            this.btnResync.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnResync.Name = "btnResync";
+            this.btnResync.Size = new System.Drawing.Size(147, 32);
+            this.btnResync.TabIndex = 110005;
+            this.btnResync.Text = "RESYNC TODO";
+            this.btnResync.UseVisualStyleBackColor = false;
+            this.btnResync.Click += new System.EventHandler(this.btnResync_Click);
+            // 
+            // btnReiniciar
+            // 
+            this.btnReiniciar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnReiniciar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnReiniciar.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnReiniciar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnReiniciar.Location = new System.Drawing.Point(424, 501);
+            this.btnReiniciar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.btnReiniciar.Name = "btnReiniciar";
+            this.btnReiniciar.Size = new System.Drawing.Size(123, 32);
+            this.btnReiniciar.TabIndex = 110006;
+            this.btnReiniciar.Text = "REINICIAR";
+            this.btnReiniciar.UseVisualStyleBackColor = false;
+            this.btnReiniciar.Click += new System.EventHandler(this.btnReiniciar_Click);
+            // 
             // frmRelojes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(35)))), ((int)(((byte)(36)))));
-            this.ClientSize = new System.Drawing.Size(981, 544);
+            this.ClientSize = new System.Drawing.Size(984, 544);
+            this.Controls.Add(this.btnReiniciar);
+            this.Controls.Add(this.btnResync);
             this.Controls.Add(this.btnRefrescar);
             this.Controls.Add(this.btnEliminarReloj);
             this.Controls.Add(this.btnEditarReloj);
@@ -184,5 +218,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         private System.Windows.Forms.DataGridViewTextBoxColumn IP;
         private System.Windows.Forms.DataGridViewTextBoxColumn UltimaSincronizacion;
         private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
+        private System.Windows.Forms.Button btnResync;
+        private System.Windows.Forms.Button btnReiniciar;
     }
 }
