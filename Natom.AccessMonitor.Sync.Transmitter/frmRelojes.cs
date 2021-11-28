@@ -41,73 +41,52 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         private void ObtenerEstadoRelojes()
         {
             RelojesStatus = new Dictionary<string, string>();
-            if (ConfigService.Config.Devices != null)
+            var devices = ConfigService.Devices;
+            if (devices != null)
             {
                 var form = new frmCheckRelojes();
                 form.Show();
                 form.SetStatus("INTENTANDO CONECTAR CON RELOJ...");
 
-                var tasks = new List<Task>();
-                ConfigService.Config.Devices.ForEach(device =>
+                var connectedDevices = DevicesService.GetConnectedDevicesAsync(devices).GetAwaiter().GetResult();
+                devices.ForEach(device =>
                 {
-                    tasks.Add(Task.Run(() =>
-                    {
-                        if (ValidarConexionAsync(device).GetAwaiter().GetResult())
-                            RelojesStatus.Add(device.RelojId, "CONECTADO");
-                        else
-                            RelojesStatus.Add(device.RelojId, "DESCONECTADO");
-                    }));
+                    if (connectedDevices.Any(d => d.RelojId.Equals(device.RelojId)))
+                        RelojesStatus.Add(device.RelojId, "CONECTADO");
+                    else
+                        RelojesStatus.Add(device.RelojId, "DESCONECTADO");
                 });
 
-                Task.WaitAll(tasks.ToArray());
                 form.Close();
             }
         }
 
         private void RefrescarListado()
         {
+            var ultimasSyncs = DevicesService.GetLastDeviceSynchronization();
+
             dataGridView1.Rows.Clear();
-            if (ConfigService.Config.Devices != null)
+            if (ConfigService.Devices != null && ConfigService.Devices.Count > 0)
             {
-                ConfigService.Config.Devices.ForEach(device =>
+                ConfigService.Devices.ForEach(device =>
                 {
                     dataGridView1.Rows.Add(new object[] {
                         device.Name,
                         device.DeviceHost,
-                        DateTime.MinValue.ToString("dd/mm/yyyy HH:mm:ss") + " hs",
+                        ultimasSyncs.ContainsKey(device.RelojId) ? ultimasSyncs[device.RelojId].ToString("dd/MM/yyyy HH:mm:ss") + " hs" : "NUNCA",
                         RelojesStatus[device.RelojId]
                     });
                 });
+                btnRefrescar.Enabled = true;
+                btnEliminarReloj.Enabled = true;
+                btnEditarReloj.Enabled = true;
             }
-        }
-
-        private async Task<bool> ValidarConexionAsync(DeviceConfig device)
-        {
-            bool valido = false;
-
-            try
+            else
             {
-                
-
-                var manager = new AnvizManager();
-                manager.ConnectionUser = device.User;
-                manager.ConnectionPassword = device.Password;
-                manager.AuthenticateConnection = device.AuthenticateConnection;
-
-                await manager.Connect(device.DeviceHost, (int)device.DevicePort);
-
-                valido = true;
+                btnRefrescar.Enabled = false;
+                btnEliminarReloj.Enabled = false;
+                btnEditarReloj.Enabled = false;
             }
-            catch (Exception ex)
-            {
-                //MessageBox.Show($"No se pudo establecer la conexión con el reloj.\n\n{(ex.InnerException?.InnerException ?? ex.InnerException ?? ex).Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                
-            }
-
-            return valido;
         }
 
         private void btnNuevoReloj_Click(object sender, EventArgs e)
@@ -119,7 +98,14 @@ namespace Natom.AccessMonitor.Sync.Transmitter
 
         private void btnEditarReloj_Click(object sender, EventArgs e)
         {
-            var form = new frmRelojEditNew(editMode: true, relojId: "asd123");
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show($"Debes seleccionar primero el Reloj a Editar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var reloj = ConfigService.Devices[dataGridView1.SelectedRows[0].Index];
+            var form = new frmRelojEditNew(editMode: true, reloj.RelojId);
             form.Show();
             this.Close();
         }
@@ -128,6 +114,25 @@ namespace Natom.AccessMonitor.Sync.Transmitter
         {
             ObtenerEstadoRelojes();
             RefrescarListado();
+        }
+
+        private void btnEliminarReloj_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show($"Debes seleccionar primero el Reloj a Eliminar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var reloj = ConfigService.Devices[dataGridView1.SelectedRows[0].Index];
+            if (MessageBox.Show($"¿Está seguro que desea ELIMINAR el Reloj '{reloj.Name}'?", "Eliminar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                var devices = ConfigService.Devices;
+                devices = devices.Where(d => d.RelojId != reloj.RelojId).ToList();
+                ConfigService.SaveDevices(devices);
+
+                btnRefrescar_Click(sender, e);
+            }
         }
     }
 }

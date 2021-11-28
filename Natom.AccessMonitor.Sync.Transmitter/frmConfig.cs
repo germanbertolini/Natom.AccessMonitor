@@ -95,7 +95,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 config.SyncFromDevicesMinutes = syncFromDevicesMinutes;
                 config.SyncToServerMinutes = syncToServerMinutes;
 
-                ConfigService.Save(config);
+                ConfigService.SaveConfig(config);
 
                 this.Close();
             }

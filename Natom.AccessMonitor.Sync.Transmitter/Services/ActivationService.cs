@@ -43,13 +43,13 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
         public static void Activate()
         {
             ConfigService.Config.ActivatedAt = DateTime.Now;
-            ConfigService.Save(ConfigService.Config);
+            ConfigService.SaveConfig(ConfigService.Config);
         }
 
         public static void Inactivate()
         {
             ConfigService.Config.ActivatedAt = null;
-            ConfigService.Save(ConfigService.Config);
+            ConfigService.SaveConfig(ConfigService.Config);
         }
 
         public static async Task<string> ConfirmActivationAsync()

@@ -38,8 +38,5 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
 
         [JsonProperty("md")]
         public int SyncFromDevicesMinutes { get; set; }
-
-        [JsonProperty("d")]
-        public List<DeviceConfig> Devices { get; set; }
     }
 }

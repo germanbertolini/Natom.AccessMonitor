@@ -206,7 +206,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 ActivationService.Activate();
                 var definitiveAccessToken = await ActivationService.ConfirmActivationAsync();
                 ConfigService.Config.AccessToken = definitiveAccessToken;
-                ConfigService.Save(ConfigService.Config);
+                ConfigService.SaveConfig(ConfigService.Config);
 
                 OcultarToolStripAlerta();
                 toolStripButtonActivate.Visible = false;
@@ -241,7 +241,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                 }
                 else
                 {
-                    if (ConfigService.Config?.Devices == null || ConfigService.Config.Devices.Count == 0)
+                    if (ConfigService.Devices == null || ConfigService.Devices.Count == 0)
                     {
                         toolStripStatusSyncDevices.Text = "Sin dispositivos";
                         toolStripStatusSyncDevices.ForeColor = Color.DarkGray;
@@ -255,10 +255,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                             toolStripStatusSyncDevices.Text = "Verificando...";
                             toolStripStatusSyncDevices.ForeColor = Color.DarkGray;
 
-                            var disconnected = await DevicesService.GetDisconnectedDevicesAsync(ConfigService.Config.Devices);
+                            var devices = ConfigService.Devices;
+                            var connected = await DevicesService.GetConnectedDevicesAsync(devices);
+                            var disconnected = devices.Where(d => !connected.Any(c => d.RelojId.Equals(c.RelojId))).ToList();
                             if (disconnected.Count > 0)
                             {
-                                toolStripStatusSyncDevices.Text = "¡Requiere atención!";
+                                toolStripStatusSyncDevices.Text = "¡Relojes SIN CONEXIÓN!";
                                 toolStripStatusSyncDevices.ForeColor = Color.Orange;
                             }
                             else
@@ -292,8 +294,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             await RefrescarStatusDispositivosAsync();
 
             //TAREA 2: OBTENER LA DATA DESDE LOS RELOJES (Asincrónica)
-            if (ConfigService.Config.Devices != null
-                        && ConfigService.Config.Devices.Count > 0
+            if (ConfigService.Devices != null
+                        && ConfigService.Devices.Count > 0
                         && (DateTime.Now - _lastDevicesSync).TotalMinutes >= ConfigService.Config.SyncFromDevicesMinutes)
             {
                 _lastDevicesSync = DateTime.Now;
@@ -302,7 +304,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                                         try
                                         {
                                             CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds((ConfigService.Config.SyncFromDevicesMinutes * 60) - 5)).Token;
-                                            DevicesService.GetAndStoreRecordsFromDevices(ConfigService.Config.Devices, cancellationToken);
+                                            DevicesService.GetAndStoreRecordsFromDevices(ConfigService.Devices, cancellationToken);
                                         }
                                         catch (Exception ex)
                                         {
@@ -326,7 +328,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                         try
                         {
                             CancellationToken cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds((ConfigService.Config.SyncToServerMinutes * 60) - 5)).Token;
-                            await DevicesService.SyncStoredDataToServerAsync(ConfigService.Config.Devices, cancellationToken);
+                            await DevicesService.SyncStoredDataToServerAsync(ConfigService.Devices, cancellationToken);
                         }
                         catch (Exception ex)
                         {

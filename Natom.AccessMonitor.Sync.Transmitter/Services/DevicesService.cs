@@ -1,4 +1,5 @@
-﻿using Natom.AccessMonitor.Sync.Transmitter.Entities;
+﻿using Anviz.SDK;
+using Natom.AccessMonitor.Sync.Transmitter.Entities;
 using Natom.AccessMonitor.Sync.Transmitter.Entities.DTO;
 using Newtonsoft.Json;
 using System;
@@ -17,12 +18,125 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
         private const string cStoragePassword = "S1ncr0n1z4c10N";
         private static bool _synchronizingDevices = false;
         private static bool _synchronizingServer = false;
+        private static Dictionary<string, DateTime> _lastSynchronizing = null;
+
 
         public static bool IsSynchronizing() => _synchronizingDevices || _synchronizingServer;
 
-        public static Task<List<DeviceConfig>> GetDisconnectedDevicesAsync(List<DeviceConfig> devices)
+        public static void SetLastDeviceSynchronization(string relojId, DateTime lastSync)
         {
-            return Task.FromResult(new List<DeviceConfig>());
+            if (_lastSynchronizing == null)
+                _lastSynchronizing = new Dictionary<string, DateTime>();
+
+            if (!_lastSynchronizing.ContainsKey(relojId))
+                _lastSynchronizing.Add(relojId, lastSync);
+
+            _lastSynchronizing[relojId] = lastSync;
+
+            try
+            {
+                var data = JsonConvert.SerializeObject(_lastSynchronizing);
+                var dataBytes = System.Text.Encoding.UTF8.GetBytes(data);
+                data = System.Convert.ToBase64String(dataBytes);
+                data = EncryptService.Encrypt(data, cStoragePassword);
+                System.IO.File.WriteAllText("synchronization.info", data);
+            }
+            catch (Exception ex)
+            {
+                string e = ex.ToString();
+                //NADA, VOLVERA A REINTENTAR EN EL PROXIMO LLAMADO
+            }
+        }
+
+        public static Dictionary<string, DateTime> GetLastDeviceSynchronization()
+        {
+            if (_lastSynchronizing == null && File.Exists("synchronization.info"))
+            {
+                try
+                {
+                    var data = System.IO.File.ReadAllText("synchronization.info");
+                    data = EncryptService.Decrypt(data, cStoragePassword);
+                    var dataBytes = System.Convert.FromBase64String(data);
+                    data = System.Text.Encoding.UTF8.GetString(dataBytes);
+                    _lastSynchronizing = JsonConvert.DeserializeObject<Dictionary<string, DateTime>>(data);
+                }
+                catch (Exception ex)
+                {
+                    string e = ex.ToString();
+                    /* NADA */
+                }
+            }
+
+            if (_lastSynchronizing == null)
+                _lastSynchronizing = new Dictionary<string, DateTime>();
+
+            return _lastSynchronizing;
+        }
+
+        public static async Task<List<DeviceConfig>> GetConnectedDevicesAsync(List<DeviceConfig> devices)
+        {
+            var tasks = new List<Task>();
+            var connectedDevices = new List<DeviceConfig>();
+            var cancellationToken = new CancellationTokenSource(TimeSpan.FromSeconds(5)).Token;
+            ConfigService.Devices.ForEach(device =>
+            {
+                tasks.Add(Task.Run(() =>
+                {
+                    var connected = DevicesService.ValidarConexionAsync(device).GetAwaiter().GetResult();
+                    if (connected && !cancellationToken.IsCancellationRequested)
+                        connectedDevices.Add(device);
+                }, cancellationToken));
+            });
+
+            while (!cancellationToken.IsCancellationRequested && tasks.Any(task => !task.IsCompleted && !task.IsFaulted && !task.IsCanceled))
+                Task.Delay(100).Wait();
+
+            return connectedDevices;
+        }
+
+        public static async Task<bool> ValidarConexionAsync(DeviceConfig device)
+        {
+            bool valido = false;
+
+            try
+            {
+                await DevicesService.ThrowIfConexionInvalidaAsync(device);
+                valido = true;
+            }
+            catch (Exception ex)
+            {
+                //NADA
+            }
+
+            return valido;
+        }
+
+        public static async Task<DeviceConfig> ThrowIfConexionInvalidaAsync(DeviceConfig device)
+        {
+            DeviceConfig toReturn = null;
+
+            try
+            {
+
+
+                var manager = new AnvizManager();
+                manager.ConnectionUser = device.User;
+                manager.ConnectionPassword = device.Password;
+                manager.AuthenticateConnection = device.AuthenticateConnection;
+
+                var anvizDevice = await manager.TryConnection(device.DeviceHost, (int)device.DevicePort);
+
+                toReturn = new DeviceConfig
+                {
+                    DeviceId = anvizDevice.DeviceId
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return toReturn;
         }
 
         public static void GetAndStoreRecordsFromDevices(List<DeviceConfig> devices, CancellationToken cancellationToken)
@@ -71,6 +185,8 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 strData = System.Convert.ToBase64String(dataBytes);
                 strData = EncryptService.Encrypt(strData, cStoragePassword);
                 System.IO.File.WriteAllText($"{cStorageFolderName}\\{Guid.NewGuid():N}", strData);
+
+                SetLastDeviceSynchronization(device.RelojId, DateTime.Now);
             }
 
             _synchronizingDevices = false;

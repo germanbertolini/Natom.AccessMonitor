@@ -66,9 +66,11 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.UltimaSincronizacion,
             this.Estado});
             this.dataGridView1.Location = new System.Drawing.Point(13, 12);
+            this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(956, 413);
             this.dataGridView1.TabIndex = 100001;
             // 
@@ -100,6 +102,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.btnEliminarReloj.TabIndex = 100003;
             this.btnEliminarReloj.Text = "ELIMINAR";
             this.btnEliminarReloj.UseVisualStyleBackColor = false;
+            this.btnEliminarReloj.Click += new System.EventHandler(this.btnEliminarReloj_Click);
             // 
             // btnRefrescar
             // 
@@ -122,8 +125,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.Nombre.HeaderText = "Nombre";
             this.Nombre.MinimumWidth = 6;
             this.Nombre.Name = "Nombre";
-            this.Nombre.ReadOnly = true;
-            this.Nombre.Width = 230;
+            this.Nombre.Width = 180;
             // 
             // IP
             // 
@@ -131,7 +133,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.IP.HeaderText = "IP";
             this.IP.MinimumWidth = 6;
             this.IP.Name = "IP";
-            this.IP.ReadOnly = true;
             this.IP.Width = 150;
             // 
             // UltimaSincronizacion
@@ -140,7 +141,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.UltimaSincronizacion.HeaderText = "Ultima sincronización";
             this.UltimaSincronizacion.MinimumWidth = 6;
             this.UltimaSincronizacion.Name = "UltimaSincronizacion";
-            this.UltimaSincronizacion.ReadOnly = true;
             this.UltimaSincronizacion.Width = 200;
             // 
             // Estado
@@ -149,7 +149,6 @@ namespace Natom.AccessMonitor.Sync.Transmitter
             this.Estado.HeaderText = "Estado";
             this.Estado.MinimumWidth = 6;
             this.Estado.Name = "Estado";
-            this.Estado.ReadOnly = true;
             this.Estado.Width = 150;
             // 
             // frmRelojes

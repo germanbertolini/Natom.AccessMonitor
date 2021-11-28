@@ -19,6 +19,15 @@ namespace Anviz.SDK
             return await GetDevice(DeviceSocket);
         }
 
+        public async Task<AnvizDevice> TryConnection(string host, int port = 5010)
+        {
+            var DeviceSocket = new TcpClient();
+            await DeviceSocket.ConnectAsync(host, port);
+            var deviceInfo = await GetDevice(DeviceSocket);
+            DeviceSocket.Close();
+            return deviceInfo;
+        }
+
         public void Listen(int port = 5010)
         {
             Listen(new IPEndPoint(IPAddress.Any, port));
