@@ -43,15 +43,18 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
 
                 try
                 {
-                    await connection.RetryableExecuteAsync(sql, from m in dataBlock.Movements
-                                                                select new
-                                                                {
-                                                                    InstanceId = syncInstanceId,
-                                                                    DeviceId = dataBlock.DeviceId,
-                                                                    DateTime = m.DateTime,
-                                                                    DocketNumber = m.DocketNumber,
-                                                                    MovementType = m.MovementType
-                                                                });
+                    if (dataBlock.Movements != null)
+                    {
+                        await connection.RetryableExecuteAsync(sql, from m in dataBlock.Movements
+                                                                    select new
+                                                                    {
+                                                                        InstanceId = syncInstanceId,
+                                                                        DeviceId = dataBlock.DeviceId,
+                                                                        DateTime = m.DateTime,
+                                                                        DocketNumber = m.DocketNumber,
+                                                                        MovementType = m.MovementType
+                                                                    });
+                    }
                 }
                 catch (Exception ex)
                 {

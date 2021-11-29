@@ -57,7 +57,7 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities
         public string DeviceBrand { get; set; }
 
         [JsonProperty("dtf")]
-        public DateFormat DeviceDateTimeFormat { get; set; }
+        public string DeviceDateTimeFormat { get; set; }
 
         [JsonProperty("fvs")]
         public string DeviceFirmwareVersion { get; set; }

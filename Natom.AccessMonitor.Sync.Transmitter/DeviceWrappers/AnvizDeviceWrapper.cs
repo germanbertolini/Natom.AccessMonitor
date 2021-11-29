@@ -83,8 +83,14 @@ namespace Natom.AccessMonitor.Sync.Transmitter.DeviceWrappers
                     _device.DeviceId = _connection.AnvizDevice.DeviceId;
                     _device.DeviceSerialNumber = SN;
                     _device.DeviceModel = Model;
-                    _device.DeviceDateTimeFormat = basicSettings.DateFormat;
                     _device.DeviceFirmwareVersion = basicSettings.Firmware;
+
+                    switch (basicSettings.DateFormat)
+                    {
+                        case Anviz.SDK.Responses.DateFormat.DDMMYY:     _device.DeviceDateTimeFormat = "DDMMYY";    break;
+                        case Anviz.SDK.Responses.DateFormat.MMDDYY:     _device.DeviceDateTimeFormat = "MMDDYY";    break;
+                        case Anviz.SDK.Responses.DateFormat.YYMMDD:     _device.DeviceDateTimeFormat = "YYMMDD";    break;
+                    }
                 }
 
                 isValidConnection = true;

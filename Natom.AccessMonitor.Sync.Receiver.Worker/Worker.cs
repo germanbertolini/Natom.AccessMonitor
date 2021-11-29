@@ -64,7 +64,9 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
 
             var synchronizerRepository = new SynchronizerRepository(_configuration);
             await synchronizerRepository.UpdateLastSyncAsync(lastSyncRegistered, message.ProducerInfo.SyncInstanceId);
-            await synchronizerRepository.AddOrUpdateDeviceInfoAsync(message.ProducerInfo.SyncInstanceId, dataBlock.DeviceId, dataBlock.DeviceName);
+            await synchronizerRepository.AddOrUpdateDeviceInfoAsync(message.ProducerInfo.SyncInstanceId, dataBlock.DeviceId, dataBlock.DeviceName,
+                                                                    dataBlock.LastConfigurationAt, dataBlock.DeviceSerialNumber, dataBlock.DeviceModel,
+                                                                    dataBlock.DeviceBrand, dataBlock.DeviceDateTimeFormat, dataBlock.DeviceFirmwareVersion);
         }
     }
 }

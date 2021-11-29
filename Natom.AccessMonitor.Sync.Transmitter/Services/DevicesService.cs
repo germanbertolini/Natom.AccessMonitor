@@ -118,6 +118,12 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 var data = new DataBlockForSyncDto();
                 data.DeviceId = (long)device.DeviceId;
                 data.DeviceName = device.Name;
+                data.LastConfigurationAt = device.LastConfigUpdateAt ?? device.AddedAt;
+                data.DeviceSerialNumber = device.DeviceSerialNumber;
+                data.DeviceModel = device.DeviceModel;
+                data.DeviceBrand = device.DeviceBrand;
+                data.DeviceDateTimeFormat = device.DeviceDateTimeFormat;
+                data.DeviceFirmwareVersion = device.DeviceFirmwareVersion;
 
 #if DEBUG       
                 //INICIO MOCK
