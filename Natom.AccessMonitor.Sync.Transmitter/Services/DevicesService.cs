@@ -102,10 +102,14 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
 
             _synchronizingDevices = true;
 
+
+#if DEBUG   
             //INICIO MOCK
-            //Dictionary<ulong, bool> statusPersonas = new Dictionary<ulong, bool>();
-            //var random = new Random();
+            Dictionary<ulong, bool> statusPersonas = new Dictionary<ulong, bool>();
+            var random = new Random();
             //FIN MOCK
+#endif      
+
 
             foreach (var device in devices)
             {
@@ -115,6 +119,31 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 data.DeviceId = (long)device.DeviceId;
                 data.DeviceName = device.Name;
 
+#if DEBUG       
+                //INICIO MOCK
+                data.Movements = new List<MovementDto>();
+                for (int i = 0; i < 200000; i++)
+                {
+                    ulong docketNumber = (ulong)random.Next(0, 10);
+                    if (!statusPersonas.ContainsKey(docketNumber))
+                        statusPersonas.Add(docketNumber, true);
+                    else
+                        statusPersonas[docketNumber] = !statusPersonas[docketNumber];
+
+                    data.Movements.Add(new MovementDto()
+                    {
+                        DateTime = DateTime.Now.AddSeconds(-random.Next(1, 50)),
+                        DocketNumber = (long)docketNumber,
+                        MovementType = statusPersonas[docketNumber] ? "I" : "O"
+                    });
+
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+                //FIN MOCK
+
+#else           
+
+                //OBTIENE LOS DATOS PEGANDOLE AL RELOJ
                 try
                 {
                     data.Movements = await device.ConnectionWrapper.GetMovementsAsync(onlyNew: !resyncAllRegisters, cancellationToken);
@@ -122,39 +151,20 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 catch (Exception ex)
                 {
                     string e = ex.ToString();
-                    
+
                     if (resyncAllRegisters) //SI ES RESINCRONIZACIÓN COMPLETA, SE DEBE ELEVAR EL ERROR YA QUE EN ESTOS CASOS NO HAY PROXIMO LLAMADO PARA REINTENTAR
                         throw ex;
 
                     continue; //SI FALLA, SE DEJA REINTENTO PARA PROXIMO LLAMADO
                 }
 
-                //INICIO MOCK
-                //data.Movements = new List<MovementDto>();
-                //for (int i = 0; i < 200000; i ++)
-                //{
-                //    ulong docketNumber = (ulong)random.Next(0, 10);
-                //    if (!statusPersonas.ContainsKey(docketNumber))
-                //        statusPersonas.Add(docketNumber, true);
-                //    else
-                //        statusPersonas[docketNumber] = !statusPersonas[docketNumber];
-
-                //    data.Movements.Add(new MovementDto()
-                //    {
-                //        DateTime = DateTime.Now.AddSeconds(-random.Next(1, 50)),
-                //        DocketNumber = (long)docketNumber,
-                //        MovementType = statusPersonas[docketNumber] ? "I" : "O"
-                //    });
-
-                //    cancellationToken.ThrowIfCancellationRequested();
-                //}
-                //FIN MOCK
+#endif
 
                 var strData = JsonConvert.SerializeObject(data);
-                var dataBytes = System.Text.Encoding.UTF8.GetBytes(strData);
-                strData = System.Convert.ToBase64String(dataBytes);
+                var dataBytes = Encoding.UTF8.GetBytes(strData);
+                strData = Convert.ToBase64String(dataBytes);
                 strData = EncryptService.Encrypt(strData, cStoragePassword);
-                System.IO.File.WriteAllText($"{cStorageFolderName}\\{Guid.NewGuid():N}", strData);
+                File.WriteAllText($"{cStorageFolderName}\\{Guid.NewGuid():N}", strData);
 
                 SetLastDeviceSynchronization(device.RelojId, DateTime.Now);
             }

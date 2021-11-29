@@ -5,6 +5,7 @@ using Natom.AccessMonitor.Services.Logger.Entities;
 using Natom.AccessMonitor.Services.Logger.PackageConfig;
 using Natom.AccessMonitor.Services.Logger.Repository;
 using Newtonsoft.Json;
+using Nito.AsyncEx;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,9 @@ namespace Natom.AccessMonitor.Services.Logger.Services
         private readonly LoggerServiceConfig _config;
         private readonly ConfigurationService _configuration;
         private readonly DiscordService _discordService;
+
+        private readonly AsyncLock _lockBulkInsertTransactions = new AsyncLock();
+        private readonly AsyncLock _lockBulkInsertTransactionLogs = new AsyncLock();
 
         private DateTime _lastExceptionOnDiscord;
         private DateTime _lastExceptionLogsOnDiscord;
@@ -47,10 +51,13 @@ namespace Natom.AccessMonitor.Services.Logger.Services
 
             try
             {
-                await repository.BulkInsertAsync(transactionsToCopy);
+                using (await _lockBulkInsertTransactions.LockAsync())
+                {
+                    await repository.BulkInsertAsync(transactionsToCopy);
 
-                //HACER BULK INSERT DE LOS TRANSACTIONS EXTRAIDOS
-                _transactions.RemoveRange(0, transactionsToCopy.Count);
+                    //HACER BULK INSERT DE LOS TRANSACTIONS EXTRAIDOS
+                    _transactions.RemoveRange(0, transactionsToCopy.Count);
+                }
             }
             catch (Exception ex)
             {
@@ -68,10 +75,13 @@ namespace Natom.AccessMonitor.Services.Logger.Services
             
             try
             {
-                await repository.BulkInsertAsync(transactionLogsToCopy);
+                using (await _lockBulkInsertTransactionLogs.LockAsync())
+                {
+                    await repository.BulkInsertAsync(transactionLogsToCopy);
 
-                //HACER BULK INSERT DE LOS TRANSACTIONS EXTRAIDOS
-                _transactionLogs.RemoveRange(0, transactionLogsToCopy.Count);
+                    //HACER BULK INSERT DE LOS TRANSACTIONS EXTRAIDOS
+                    _transactionLogs.RemoveRange(0, transactionLogsToCopy.Count);
+                }
             }
             catch (Exception ex)
             {
