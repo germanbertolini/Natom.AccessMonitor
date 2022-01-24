@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Managers\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\_services\Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj" />
+    <ProjectReference Include="..\..\_services\Natom.AccessMonitor.Services.Mailer\Natom.AccessMonitor.Services.Mailer.csproj" />
+    <ProjectReference Include="..\Natom.AccessMonitor.Common\Natom.AccessMonitor.Common.csproj" />
+    <ProjectReference Include="..\Natom.AccessMonitor.Core.DataAccess\Natom.AccessMonitor.Core.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>

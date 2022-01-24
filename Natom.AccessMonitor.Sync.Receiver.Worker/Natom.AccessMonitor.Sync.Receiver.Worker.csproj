@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.MQ\Natom.AccessMonitor.Services.MQ.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Sync.Entities\Natom.AccessMonitor.Sync.Entities.csproj" />
+    <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj" />
+    <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj" />
+    <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.MQ\Natom.AccessMonitor.Services.MQ.csproj" />
   </ItemGroup>
 </Project>

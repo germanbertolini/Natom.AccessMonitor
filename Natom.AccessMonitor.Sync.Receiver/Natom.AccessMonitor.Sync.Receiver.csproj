@@ -12,12 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Natom.AccessMonitor.Core.Biz\Natom.AccessMonitor.Core.Biz.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.Cache\Natom.AccessMonitor.Services.Cache.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Services.MQ\Natom.AccessMonitor.Services.MQ.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Sync.Entities\Natom.AccessMonitor.Sync.Entities.csproj" />
+    <ProjectReference Include="..\_core\Natom.AccessMonitor.Core.Biz\Natom.AccessMonitor.Core.Biz.csproj" />
+    <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj" />
+    <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Cache\Natom.AccessMonitor.Services.Cache.csproj" />
+    <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj" />
+    <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.MQ\Natom.AccessMonitor.Services.MQ.csproj" />
   </ItemGroup>
 
 </Project>
