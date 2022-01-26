@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\_core\Natom.AccessMonitor.Common\Natom.AccessMonitor.Common.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Services.Cache\Natom.AccessMonitor.Services.Cache.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj" />
   </ItemGroup>

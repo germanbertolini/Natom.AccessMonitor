@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Services.Auth.Entities;
 using Natom.AccessMonitor.Services.Auth.Entities.Models;
 using Natom.AccessMonitor.Services.Auth.Exceptions;
@@ -10,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,6 +30,44 @@ namespace Natom.AccessMonitor.Services.Auth.Services
             _cacheService = (CacheService)serviceProvider.GetService(typeof(CacheService));
             _mapper = (Mapper)serviceProvider.GetService(typeof(Mapper));
             _config = (AuthServiceConfig)serviceProvider.GetService(typeof(AuthServiceConfig));
+        }
+
+        public async Task<Usuario> AuthenticateUserAsync(string email, string password)
+        {
+            string scope = _config.Scope;
+
+            var repository = new UsuarioRepository(_serviceProvider);
+            var usuario = await repository.GetByEmailAndScopeAsync(email, scope);
+
+            if (usuario == null)
+                throw new HandledException("El usuario no existe");
+
+            if (usuario.FechaHoraBaja.HasValue)
+                throw new HandledException("Usuario dado de baja");
+
+            if (!string.IsNullOrEmpty(usuario.SecretConfirmacion) && usuario.FechaHoraConfirmacionEmail == null)
+                throw new HandledException("Revise su casilla de correo electrónico para establecer la contraseña");
+
+            if (!usuario.Clave.Equals(CreateMD5(password)))
+                throw new HandledException("Usuario y/o clave incorrecta");
+
+            return usuario;
+        }
+
+        private static string CreateMD5(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
         }
 
         public async Task<AccessToken> CreateTokenAsync(int? userId, string userName, int? clientId, string clientName, List<string> permissions, long tokenDurationMinutes)

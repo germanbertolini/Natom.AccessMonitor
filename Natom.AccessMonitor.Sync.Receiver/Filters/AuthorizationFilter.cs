@@ -166,8 +166,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
             var headerValue = context.HttpContext.Request.Headers["LANG"];
             var lang = headerValue.Count() == 0 || String.IsNullOrWhiteSpace(headerValue.ToString())
                                     ? null
-                                    : headerValue.ToString();
-            return lang.ToUpper();
+                                    : headerValue.ToString().ToUpper();
+            return lang;
         }
     }
 }

@@ -64,15 +64,7 @@
     <Build Include="dbo\Stored procedures\sp_movements_preinsert.sql" />
     <Build Include="dbo\Tables\Place.sql" />
     <Build Include="dbo\Tables\Goal.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Natom.AccessMonitor.DbSecurity\Natom.AccessMonitor.DbSecurity.sqlproj">
-      <Name>Natom.AccessMonitor.DbSecurity</Name>
-      <Project>{40213dc5-12c7-49d6-80f5-336b80a2078c}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>DB_SECURITY</DatabaseSqlCmdVariable>
-    </ProjectReference>
+    <Build Include="dbo\Tables\Cliente.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">

@@ -65,5 +65,24 @@
     <Build Include="dbo\Tables\Device.sql" />
     <Build Include="dbo\Tables\Synchronizer.sql" />
     <Build Include="dbo\Stored Procedures\sp_device_add_or_update.sql" />
+    <Build Include="dbo\Tables\Permiso.sql" />
+    <Build Include="dbo\Tables\Usuario.sql" />
+    <Build Include="dbo\Tables\UsuarioPermiso.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_select_by_email_and_scope.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Natom.AccessMonitor.DbMaster\Natom.AccessMonitor.DbMaster.sqlproj">
+      <Name>Natom.AccessMonitor.DbMaster</Name>
+      <Project>{2ba0020b-ec1a-4a83-9996-636ace03ab4f}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>DbMaster</DatabaseSqlCmdVariable>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="DbMaster">
+      <DefaultValue>AccessMonitor_Master</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
 </Project>
