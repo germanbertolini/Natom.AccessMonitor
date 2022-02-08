@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Common.Helpers;
 using Natom.AccessMonitor.Services.Auth.Entities;
+using Natom.AccessMonitor.Services.Auth.Exceptions;
 using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.Services.Logger.Entities;
 using Natom.AccessMonitor.Services.Logger.Services;
@@ -66,6 +67,16 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
 
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Token autorizado");
                 }
+            }
+            catch (InvalidTokenException ex)
+            {
+                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken);
+
+                context.HttpContext.Response.StatusCode = 403;
+                context.Result = new ContentResult()
+                {
+                    Content = ex.Message
+                };
             }
             catch (HandledException ex)
             {

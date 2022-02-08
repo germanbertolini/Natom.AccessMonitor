@@ -1,4 +1,5 @@
 ﻿using Natom.AccessMonitor.Services.Auth.Entities.Models;
+using Natom.AccessMonitor.Services.Auth.Entities.Results;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Services;
 using Newtonsoft.Json;
 using System;
@@ -33,7 +34,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
         [JsonProperty("permisos")]
         public List<string> Permisos { get; set; }
 
-        public UserDTO From(Usuario entity, string status = null)
+        public UserDTO From(Usuario entity)
         {
             EncryptedId = EncryptionService.Encrypt(entity.UsuarioId);
             FirstName = entity.Nombre;
@@ -41,10 +42,37 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
             Email = entity.Email;
             PictureURL = "assets/img/user-photo.png";
             RegisteredAt = entity.FechaHoraAlta;
-            Status = status;
             Permisos = entity.Permisos?.Select(permiso => EncryptionService.Encrypt(permiso.PermisoId)).ToList();
 
             return this;
+        }
+
+        public UserDTO From(spUsuariosListByClienteAndScopeResult entity)
+        {
+            EncryptedId = EncryptionService.Encrypt(entity.UsuarioId);
+            FirstName = entity.Nombre;
+            LastName = entity.Apellido;
+            Email = entity.Usuario;
+            PictureURL = "assets/img/user-photo.png";
+            RegisteredAt = entity.FechaHoraAlta;
+            Status = entity.Estado;
+
+            return this;
+        }
+
+        public Usuario ToModel(string scope)
+        {
+            var usuarioId = EncryptionService.Decrypt<int>(this.EncryptedId);
+            return new Usuario
+            {
+                UsuarioId = usuarioId,
+                Scope = scope,
+                Nombre = this.FirstName,
+                Apellido = this.LastName,
+                Email = this.Email,
+                FechaHoraAlta = this.RegisteredAt,
+                Permisos = this.Permisos.Select(p => new UsuarioPermiso { UsuarioId = usuarioId, PermisoId = EncryptionService.Decrypt<string>(p) }).ToList()
+    };
         }
     }
 }

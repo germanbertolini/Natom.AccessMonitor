@@ -26,7 +26,7 @@ namespace Natom.AccessMonitor.Services.Configuration.Services
             var configData = await _repository.GetConfigAsync();
             var newConfig = new Dictionary<string, string>();
             foreach (var config in configData)
-                newConfig.Add(config.Clave, config.Valor);
+                newConfig.Add(config.Clave.ToLower(), config.Valor);
             _config = newConfig;
             _refreshing = false;
         }
@@ -39,7 +39,7 @@ namespace Natom.AccessMonitor.Services.Configuration.Services
                 await Task.Delay(50);
             }
 
-            return _config[key];
+            return _config[key.ToLower()];
         }
     }
 }

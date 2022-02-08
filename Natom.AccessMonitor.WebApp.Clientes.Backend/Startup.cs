@@ -30,7 +30,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend
                 .AddConfigurationService(refreshTimeMS: 30000)
                 .AddCacheService()
                 .AddAuthService(scope: "WebApp.Clientes")
-                .AddLoggerService(systemName: "WebApp.Clientes", insertEachMS: 30000, bulkInsertSize: 10000);
+                .AddLoggerService(systemName: "WebApp.Clientes", insertEachMS: 30000, bulkInsertSize: 10000)
+                .AddMailService();
 
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

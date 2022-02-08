@@ -3,5 +3,5 @@
 	[PermisoId] NVARCHAR(50) NOT NULL,
 	[Scope] NVARCHAR(20) NOT NULL,
 	[Descripcion] NVARCHAR(200),
-	PRIMARY KEY (PermisoId)
+	PRIMARY KEY (PermisoId, Scope)
 );

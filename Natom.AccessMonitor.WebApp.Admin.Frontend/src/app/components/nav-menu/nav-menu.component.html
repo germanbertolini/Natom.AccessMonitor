@@ -21,30 +21,24 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="authService.can('abm_clientes')">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Clientes
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" [routerLink]="['/clients']">Ver todos</a>
               <a class="dropdown-item" [routerLink]="['/clients/new']">Nuevo cliente</a>
-              <!-- <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Consulta tipo Y</a>
-              <a class="dropdown-item" href="#">Consulta tipo Z</a> -->
             </div>
           </li>
-          <!-- <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="authService.can('abm_usuarios')">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Consultas 2
+              SysAdmins
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">Consulta tipo A</a>
-              <a class="dropdown-item" href="#">Consulta tipo B</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Consulta tipo Y</a>
-              <a class="dropdown-item" href="#">Consulta tipo Z</a>
+              <a class="dropdown-item" [routerLink]="['/users']">Ver todos</a>
+              <a class="dropdown-item" [routerLink]="['/users/new']">Nuevo SysAdmin</a>
             </div>
-          </li> -->
+          </li>
         </ul>
       </div>
 
@@ -58,7 +52,7 @@
               Usuario
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" [routerLink]="['/logout']"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar sesión</a>
+              <a class="dropdown-item" (click)="authService.logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar sesión</a>
             </div>
           </li>
         </ul>

@@ -23,6 +23,7 @@ namespace Natom.AccessMonitor.Services.Auth.Services
         private readonly CacheService _cacheService;
         private readonly AuthServiceConfig _config;
         private readonly Mapper _mapper;
+        private readonly IDictionary<string, string> _endpointPermissions;
 
         public AuthService(IServiceProvider serviceProvider)
         {
@@ -30,6 +31,7 @@ namespace Natom.AccessMonitor.Services.Auth.Services
             _cacheService = (CacheService)serviceProvider.GetService(typeof(CacheService));
             _mapper = (Mapper)serviceProvider.GetService(typeof(Mapper));
             _config = (AuthServiceConfig)serviceProvider.GetService(typeof(AuthServiceConfig));
+            _endpointPermissions = new Dictionary<string, string>();
         }
 
         public async Task<Usuario> AuthenticateUserAsync(string email, string password)
@@ -68,6 +70,17 @@ namespace Natom.AccessMonitor.Services.Auth.Services
                 }
                 return sb.ToString();
             }
+        }
+
+        public void RegisterEndpointPermission(string endpoint, string permiso)
+        {
+            _endpointPermissions.Add(endpoint, permiso);
+        }
+
+        public bool EndpointTienePermiso(string endpoint, string permiso)
+        {
+            return !_endpointPermissions.ContainsKey(endpoint)
+                    || (_endpointPermissions.ContainsKey(endpoint) && _endpointPermissions[endpoint].Contains(permiso));
         }
 
         public async Task<AccessToken> CreateTokenAsync(int? userId, string userName, int? clientId, string clientName, List<string> permissions, long tokenDurationMinutes)

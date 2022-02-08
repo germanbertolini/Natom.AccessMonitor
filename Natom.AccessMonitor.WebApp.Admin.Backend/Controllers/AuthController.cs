@@ -51,6 +51,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                         Email = usuarioAdmin,
                         FechaHoraAlta = DateTime.Now
                     };
+                    permissions.Add("abm_usuarios");
                 }
                 else
                 {

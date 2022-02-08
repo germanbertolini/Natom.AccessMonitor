@@ -4,6 +4,7 @@ using Natom.AccessMonitor.Services.Auth.Entities;
 using Natom.AccessMonitor.Services.Configuration.Services;
 using Natom.AccessMonitor.Services.Logger.Entities;
 using Natom.AccessMonitor.Services.Logger.Services;
+using Natom.AccessMonitor.Services.Mailer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         protected readonly ConfigurationService _configurationService;
         protected readonly LoggerService _loggerService;
         protected readonly Transaction _transaction;
+        protected readonly MailService _mailService;
         protected readonly AccessToken _accessToken;
 
         public BaseController(IServiceProvider serviceProvider)
@@ -28,6 +30,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
 
             _accessToken = (AccessToken)serviceProvider.GetService(typeof(AccessToken));
             _transaction = (Transaction)serviceProvider.GetService(typeof(Transaction));
+            _mailService = (MailService)serviceProvider.GetService(typeof(MailService));
         }
 
         protected string GetAuthorizationFromHeader()

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Common.Helpers;
 using Natom.AccessMonitor.Services.Auth.Entities;
+using Natom.AccessMonitor.Services.Auth.Exceptions;
 using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.Services.Logger.Entities;
 using Natom.AccessMonitor.Services.Logger.Services;
@@ -49,7 +50,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
                 _loggerService.LogInfo(_transaction.TraceTransactionId, "Inicio de transacción");
 
                 //VALIDACIONES DE SEGURIDAD
-                if (_controller.Equals("auth") || (_controller.Equals("users") && _action.Equals("confirm")))
+                if (_controller.Equals("auth") || (_controller.Equals("users") && (_action.Equals("confirm") || _action.Equals("recover"))))
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Operación sin token permitida");
                 else
                 {
@@ -66,6 +67,16 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
 
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Token autorizado");
                 }
+            }
+            catch (InvalidTokenException ex)
+            {
+                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken);
+
+                context.HttpContext.Response.StatusCode = 403;
+                context.Result = new ContentResult()
+                {
+                    Content = ex.Message
+                };
             }
             catch (HandledException ex)
             {
@@ -94,10 +105,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
             bool hasPermission = false;
             foreach (var permission in permissions)
             {
-                if (permission.Contains("*"))
-                    hasPermission = actionRequested.StartsWith(permission.Replace("*", ""));
-                else
-                    hasPermission = actionRequested.Equals(permission);
+                hasPermission = _authService.EndpointTienePermiso(actionRequested, permission);
 
                 if (hasPermission)
                     break;
@@ -121,7 +129,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
             _controller = actionDescriptor.RouteValues["controller"].ToLower();
             _action = actionDescriptor.RouteValues["action"].ToLower();
             _urlRequested = String.Format("[{0}] {1} {2}", context.HttpContext.Request.Scheme.ToUpper(), context.HttpContext.Request.Method, context.HttpContext.Request.Path.Value);
-            _actionRequested = actionDescriptor.ControllerTypeInfo.Name + "." + actionDescriptor.RouteValues["action"];
+            _actionRequested = actionDescriptor.ControllerTypeInfo.FullName + "." + actionDescriptor.RouteValues["action"];
 
             var hostname = Dns.GetHostName();
             var port = context.HttpContext.Connection.LocalPort;

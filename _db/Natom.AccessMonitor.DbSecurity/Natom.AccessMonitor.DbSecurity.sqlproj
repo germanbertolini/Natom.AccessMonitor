@@ -59,6 +59,7 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\Stored Procedures" />
+    <Folder Include="dbo\Types" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Token.sql" />
@@ -69,6 +70,17 @@
     <Build Include="dbo\Tables\Usuario.sql" />
     <Build Include="dbo\Tables\UsuarioPermiso.sql" />
     <Build Include="dbo\Stored Procedures\sp_usuarios_select_by_email_and_scope.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_list_by_cliente_and_scope.sql" />
+    <Build Include="dbo\Stored Procedures\sp_permisos_select_by_scope.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_select_by_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_baja.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_confirmar.sql" />
+    <Build Include="dbo\Types\ID_int_list.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_create.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_update.sql" />
+    <Build Include="dbo\Types\ID_char50_list.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_recover_by_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_usuarios_recover_by_email.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Natom.AccessMonitor.DbMaster\Natom.AccessMonitor.DbMaster.sqlproj">
@@ -84,5 +96,8 @@
       <DefaultValue>AccessMonitor_Master</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

@@ -34,7 +34,13 @@ as (select * from (values
 ('RabbitMQ.Port', '5672', 'Puerto del servidor RabbitMQ'),
 ('RabbitMQ.UserName', 'admin', 'Credenciales RabbitMQ'),
 ('RabbitMQ.Password', '1234', 'Credenciales RabbitMQ'),
-('RabbitMQ.EnabbleSSL', 'False', 'Si utilizar o no SSL en la conexión a RabbitMQ')
+('RabbitMQ.EnabbleSSL', 'False', 'Si utilizar o no SSL en la conexión a RabbitMQ'),
+('Mailing.SenderName', 'BioAnviz+', 'Servicio de mailing: Nombre fantasia emisor'),
+('Mailing.SMTP.User', 'no-reply@w1362013.ferozo.com', 'Servicio de mailing: Usuario SMTP'),
+('Mailing.SMTP.Password', '6uC/Vz78qJ', 'Servicio de mailing: Clave del usuario SMTP'),
+('Mailing.SMTP.Host', 'mail.w1362013.ferozo.com', 'Servicio de mailing: Dirección Host SMTP'),
+('Mailing.SMTP.Port', '587', 'Servicio de mailing: Puerto Host SMTP'),
+('Mailing.SMTP.EnableSSL', 'False', 'Servicio de mailing: Usar SMTP con SSL')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([Clave],[Valor],[Description]))
 merge	[dbo].[Config] as t

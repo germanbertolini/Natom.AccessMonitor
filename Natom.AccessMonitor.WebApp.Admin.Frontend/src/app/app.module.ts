@@ -3,6 +3,15 @@ import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@a
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
+//Local imports
+import localeEsAR from '@angular/common/locales/es-AR';
+
+//Register local imports
+import { registerLocaleData } from '@angular/common';
+import { NgbDateCustomParserFormatter, NgbdDatepickerPopup } from './utils/datepicker/datepicker-popup';
+registerLocaleData(localeEsAR, 'es-AR');
+
+//Components
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './views/home/home.component';
@@ -26,7 +35,10 @@ import { ApiService } from './services/api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SpinnerLoadingService } from './components/spinner-loading/spinner-loading.service';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateCustomParserFormatter } from './utils/datepicker/datepicker-popup';
+import { ErrorPageComponent } from './views/error-page/error-page.component';
+import { UsersComponent } from './views/users/users.component';
+import { UserCrudComponent } from './views/users/crud/user-crud.component';
+import { UserConfirmComponent } from './views/users/confirm/user-confirm.component';
 
 
 
@@ -42,11 +54,15 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
   declarations: [
     AppComponent,
     NavMenuComponent,
+    ErrorPageComponent,
     SpinnerLoadingComponent,
     LoginComponent,
     HomeComponent,
     ClientsComponent,
     ClientsCrudComponent,
+    UsersComponent,
+    UserCrudComponent,
+    UserConfirmComponent,
     NewSyncComponent,
     ConfirmDialogComponent
   ],

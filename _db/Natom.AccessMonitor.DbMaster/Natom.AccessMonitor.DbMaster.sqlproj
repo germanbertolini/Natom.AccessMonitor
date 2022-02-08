@@ -65,6 +65,7 @@
     <Build Include="dbo\Tables\Place.sql" />
     <Build Include="dbo\Tables\Goal.sql" />
     <Build Include="dbo\Tables\Cliente.sql" />
+    <Build Include="dbo\Stored procedures\sp_history_insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">

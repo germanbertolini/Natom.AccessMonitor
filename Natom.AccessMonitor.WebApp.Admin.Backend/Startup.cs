@@ -5,8 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Natom.AccessMonitor.Extensions;
+using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.Services.Configuration.Services;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Filters;
+using System.Reflection;
 
 namespace Natom.AccessMonitor.WebApp.Admin.Backend
 {
@@ -30,7 +32,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend
                 .AddConfigurationService(refreshTimeMS: 30000)
                 .AddCacheService()
                 .AddAuthService(scope: "WebApp.Admin")
-                .AddLoggerService(systemName: "WebApp.Admin", insertEachMS: 30000, bulkInsertSize: 10000);
+                .AddLoggerService(systemName: "WebApp.Admin", insertEachMS: 30000, bulkInsertSize: 10000)
+                .AddMailService();
 
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
@@ -50,7 +53,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ConfigurationService configurationService)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ConfigurationService configurationService, AuthService authService)
         {
             _frontEndAddress = configurationService.GetValueAsync("WebApp.Admin.URL").GetAwaiter().GetResult();
             if (_frontEndAddress.EndsWith('/'))
@@ -71,6 +74,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend
             {
                 endpoints.MapControllers();
             });
+
+            app.InitPermissions(Assembly.GetExecutingAssembly(), authService);
         }
     }
 }
