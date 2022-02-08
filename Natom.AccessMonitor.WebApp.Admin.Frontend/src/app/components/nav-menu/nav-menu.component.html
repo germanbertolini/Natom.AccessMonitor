@@ -21,15 +21,6 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item dropdown" *ngIf="authService.can('abm_clientes')">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Clientes
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" [routerLink]="['/clients']">Ver todos</a>
-              <a class="dropdown-item" [routerLink]="['/clients/new']">Nuevo cliente</a>
-            </div>
-          </li>
           <li class="nav-item dropdown" *ngIf="authService.can('abm_usuarios')">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               SysAdmins
@@ -37,6 +28,15 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" [routerLink]="['/users']">Ver todos</a>
               <a class="dropdown-item" [routerLink]="['/users/new']">Nuevo SysAdmin</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown" *ngIf="authService.can('abm_clientes')">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Clientes
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" [routerLink]="['/clients']">Ver todos</a>
+              <a class="dropdown-item" [routerLink]="['/clients/new']">Nuevo cliente</a>
             </div>
           </li>
         </ul>

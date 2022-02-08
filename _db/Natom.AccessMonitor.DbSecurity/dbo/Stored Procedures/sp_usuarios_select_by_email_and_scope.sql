@@ -17,7 +17,8 @@ BEGIN
 		LEFT JOIN [$(DbMaster)].[dbo].[Cliente] C WITH(NOLOCK) ON C.ClienteId = U.ClienteId
 	WHERE
 		U.[Email] = @Email
-		AND U.[Scope] = @Scope;
+		AND U.[Scope] = @Scope
+		AND U.FechaHoraBaja IS NULL;
 
 
 	--Devuelve Resultset con los datos del usuario
