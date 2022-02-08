@@ -29,3 +29,11 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+/_db/Natom.AccessMonitor.DbConfig/Natom.AccessMonitor.DbConfig.dbmdl
+/_db/Natom.AccessMonitor.DbConfig/Natom.AccessMonitor.DbConfig.jfm
+/_db/Natom.AccessMonitor.DbLogs/Natom.AccessMonitor.DbLogs.dbmdl
+/_db/Natom.AccessMonitor.DbLogs/Natom.AccessMonitor.DbLogs.jfm
+/_db/Natom.AccessMonitor.DbMaster/Natom.AccessMonitor.DbMaster.dbmdl
+/_db/Natom.AccessMonitor.DbMaster/Natom.AccessMonitor.DbMaster.jfm
+/_db/Natom.AccessMonitor.DbSecurity/Natom.AccessMonitor.DbSecurity.dbmdl
+/_db/Natom.AccessMonitor.DbSecurity/Natom.AccessMonitor.DbSecurity.jfm
