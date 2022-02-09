@@ -11,6 +11,9 @@ import { UserConfirmComponent } from "./views/users/confirm/user-confirm.compone
 import { ClientesComponent } from "./views/clientes/clientes.component";
 import { ClienteCrudComponent } from "./views/clientes/crud/cliente-crud.component";
 import { ABMClientesGuard } from "./guards/clientes/abm.clientes.guards";
+import { UsuarioClientesCrudComponent } from "./views/clientes/usuarios/crud/usuario-clientes-crud.component";
+import { UsuariosClientesComponent } from "./views/clientes/usuarios/usuarios-clientes.component";
+import { ABMUsuariosClientesGuard } from "./guards/clientes/abm.usuarios.clientes.guards";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -25,6 +28,9 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard, ABMClientesGuard ], path: 'clientes', component: ClientesComponent },
     { canActivate: [ AuthGuard, ABMClientesGuard ], path: "clientes/new", component: ClienteCrudComponent },
     { canActivate: [ AuthGuard, ABMClientesGuard ], path: "clientes/edit/:id", component: ClienteCrudComponent },
+    { canActivate: [ AuthGuard, ABMUsuariosClientesGuard ], path: 'clientes/:id_cliente/users', component: UsuariosClientesComponent },
+    { canActivate: [ AuthGuard, ABMUsuariosClientesGuard ], path: "clientes/:id_cliente/users/new", component: UsuarioClientesCrudComponent },
+    { canActivate: [ AuthGuard, ABMUsuariosClientesGuard ], path: "clientes/:id_cliente/users/edit/:id", component: UsuarioClientesCrudComponent },
 ]
 
 @NgModule({

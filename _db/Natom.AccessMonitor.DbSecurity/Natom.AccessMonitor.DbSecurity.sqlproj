@@ -85,6 +85,9 @@
     <Build Include="dbo\Stored Procedures\sp_token_delete.sql" />
   </ItemGroup>
   <ItemGroup>
+    <PostDeploy Include="dbo\Script.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Natom.AccessMonitor.DbMaster\Natom.AccessMonitor.DbMaster.sqlproj">
       <Name>Natom.AccessMonitor.DbMaster</Name>
       <Project>{2ba0020b-ec1a-4a83-9996-636ace03ab4f}</Project>
@@ -95,11 +98,8 @@
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DbMaster">
-      <DefaultValue>AccessMonitor_Master</DefaultValue>
+      <DefaultValue>Natom.AccessMonitor.DbMaster</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
-  </ItemGroup>
-  <ItemGroup>
-    <PostDeploy Include="dbo\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

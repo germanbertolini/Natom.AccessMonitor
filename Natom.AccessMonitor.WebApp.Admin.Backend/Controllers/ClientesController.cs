@@ -27,6 +27,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         // POST: clientes/list?filter={filter}
         [HttpPost]
         [ActionName("list")]
+        [TienePermiso(Permiso = "abm_clientes")]
         public async Task<IActionResult> PostListAsync([FromBody] DataTableRequestDTO request, [FromQuery] string status = null)
         {
             try
@@ -61,6 +62,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         // GET: clientes/basics/data?encryptedId={encryptedId}
         [HttpGet]
         [ActionName("basics/data")]
+        [TienePermiso(Permiso = "abm_clientes")]
         public async Task<IActionResult> GetBasicsDataAsync([FromQuery] string encryptedId = null)
         {
             try
@@ -102,6 +104,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         // POST: clientes/save
         [HttpPost]
         [ActionName("save")]
+        [TienePermiso(Permiso = "abm_clientes")]
         public async Task<IActionResult> PostSaveAsync([FromBody] ClienteDTO clienteDto)
         {
             try
@@ -162,6 +165,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         // DELETE: clientes/disable?encryptedId={encryptedId}
         [HttpDelete]
         [ActionName("disable")]
+        [TienePermiso(Permiso = "abm_clientes")]
         public async Task<IActionResult> DeleteAsync([FromQuery] string encryptedId)
         {
             try
@@ -192,6 +196,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         // POST: clientes/enable?encryptedId={encryptedId}
         [HttpPost]
         [ActionName("enable")]
+        [TienePermiso(Permiso = "abm_clientes")]
         public async Task<IActionResult> EnableAsync([FromQuery] string encryptedId)
         {
             try

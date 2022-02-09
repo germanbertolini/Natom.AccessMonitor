@@ -16,4 +16,6 @@ export class Client {
     public users: Array<UserDTO>;
     public syncs: Array<SyncronizerDTO>;
     public registered_at: Date;
+    public cliente_encrypted_id: string;
+    public cliente_nombre: string;
 }

@@ -38,6 +38,8 @@ import { UserCrudComponent } from './views/users/crud/user-crud.component';
 import { UserConfirmComponent } from './views/users/confirm/user-confirm.component';
 import { ClientesComponent } from './views/clientes/clientes.component';
 import { ClienteCrudComponent } from './views/clientes/crud/cliente-crud.component';
+import { UsuarioClientesCrudComponent } from './views/clientes/usuarios/crud/usuario-clientes-crud.component';
+import { UsuariosClientesComponent } from './views/clientes/usuarios/usuarios-clientes.component';
 
 
 
@@ -62,6 +64,8 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     UsersComponent,
     UserCrudComponent,
     UserConfirmComponent,
+    UsuariosClientesComponent,
+    UsuarioClientesCrudComponent,
     ConfirmDialogComponent
   ],
   imports: [

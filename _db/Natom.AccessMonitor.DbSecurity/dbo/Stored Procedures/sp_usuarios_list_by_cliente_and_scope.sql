@@ -25,13 +25,14 @@ BEGIN
 		ELSE
 			'Activo'
 		END AS Estado,
-		COALESCE(C.RazonSocial, 'Natom') AS ClienteRazonSocial,
-		C.CUIT AS ClienteCUIT
+		COALESCE(C.Nombre + ' ' + C.Apellido, C.RazonSocial, 'Natom') AS ClienteRazonSocial,
+		T.Descripcion + ' ' + C.NumeroDocumento AS ClienteCUIT
 	INTO
 		#TMP_USUARIOS
 	FROM
 		[dbo].[Usuario] U WITH(NOLOCK)
 		LEFT JOIN [$(DbMaster)].[dbo].[Cliente] C WITH(NOLOCK) ON C.ClienteId = U.ClienteId
+		LEFT JOIN [$(DbMaster)].[dbo].[TipoDocumento] T WITH(NOLOCK) ON T.TipoDocumentoId = C.TipoDocumentoId
 	WHERE
 		U.Scope = @Scope
 		AND U.ClienteId = COALESCE(@ClienteId, 0)

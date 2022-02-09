@@ -37,6 +37,7 @@
             <td>{{ cliente.tipoDocumento }} {{ cliente.numeroDocumento }}</td>
             <td>{{ cliente.localidad }}</td>
             <td>
+              <a *ngIf="authService.can('abm_clientes_usuarios')" class="btn btn-warning btn-sm user-smt-btn spacingLeft" (click)="onUsersClick(cliente.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Administrar usuarios"><i class="fa fa-user" aria-hidden="true"></i></a>
               <a *ngIf="authService.can('abm_clientes')" class="btn btn-primary btn-sm edit-smt-btn spacingLeft" (click)="onEditClick(cliente.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
               <a *ngIf="authService.can('abm_clientes') && cliente.activo" class="btn btn-danger btn-sm disable-smt-btn spacingLeft" (click)="onDisableClick(cliente.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Dar de baja"><i class="fa fa-times" aria-hidden="true"></i></a>
               <a *ngIf="authService.can('abm_clientes') && !cliente.activo" class="btn btn-success btn-sm enable-smt-btn spacingLeft" (click)="onEnableClick(cliente.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Dar de alta"><i class="fa fa-check" aria-hidden="true"></i></a>

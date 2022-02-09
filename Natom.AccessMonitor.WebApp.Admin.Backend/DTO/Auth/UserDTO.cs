@@ -34,6 +34,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
         [JsonProperty("permisos")]
         public List<string> Permisos { get; set; }
 
+        [JsonProperty("cliente_encrypted_id")]
+        public string ClienteEncryptedId { get; set; }
+
+        [JsonProperty("cliente_nombre")]
+        public string ClienteNombre { get; set; }
+
         public UserDTO From(Usuario entity)
         {
             EncryptedId = EncryptionService.Encrypt(entity.UsuarioId);
@@ -56,6 +62,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
             PictureURL = "assets/img/user-photo.png";
             RegisteredAt = entity.FechaHoraAlta;
             Status = entity.Estado;
+            ClienteNombre = entity.ClienteRazonSocial;
 
             return this;
         }
@@ -71,6 +78,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
                 Apellido = this.LastName,
                 Email = this.Email,
                 FechaHoraAlta = this.RegisteredAt,
+                ClienteId = EncryptionService.Decrypt<int?>(this.ClienteEncryptedId) ?? 0,
                 Permisos = this.Permisos.Select(p => new UsuarioPermiso { UsuarioId = usuarioId, PermisoId = EncryptionService.Decrypt<string>(p) }).ToList()
     };
         }

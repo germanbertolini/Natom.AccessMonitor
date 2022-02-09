@@ -116,7 +116,7 @@ namespace Natom.AccessMonitor.Services.Auth.Services
             };
         }
 
-        public async Task DestroyTokenAsync(int? userId, string scope = null)
+        public async Task DestroyTokenAsync(int userId, string scope = null)
         {
             if (string.IsNullOrEmpty(scope))
                 scope = _config.Scope;

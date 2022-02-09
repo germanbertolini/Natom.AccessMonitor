@@ -51,7 +51,37 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
 
                 //VALIDACIONES DE SEGURIDAD
                 if (_controller.Equals("auth") || (_controller.Equals("users") && _action.Equals("confirm")))
+                {
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Operación sin token permitida");
+
+                    if (_controller.Equals("auth") && _action.Equals("logout"))
+                    {
+                        try
+                        {
+                            var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];
+                            if (headerValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(headerValuesForAuthorization.ToString()))
+                                throw new HandledException("Se debe enviar el 'Authorization'.");
+
+                            if (!headerValuesForAuthorization.ToString().StartsWith("Bearer"))
+                                throw new HandledException("'Authorization' inválido.");
+
+                            var authorization = headerValuesForAuthorization.ToString();
+                            var accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
+                        }
+                        catch (InvalidTokenException) { /* NADA */ }
+                        catch (HandledException) { /* NADA */ }
+                        catch (Exception ex)
+                        {
+                            _loggerService.LogException(_transaction?.TraceTransactionId, ex);
+
+                            context.HttpContext.Response.StatusCode = 500;
+                            context.Result = new ContentResult()
+                            {
+                                Content = "Se ha producido un error interno al autenticar."
+                            };
+                        }
+                    }
+                }
                 else
                 {
                     var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];

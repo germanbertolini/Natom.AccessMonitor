@@ -1,5 +1,6 @@
 export class UserDTO {
     public encrypted_id: string;
+    public cliente_encrypted_id: string;
     public first_name: string;
     public last_name: string;
     public picture_url: string;

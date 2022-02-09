@@ -92,7 +92,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                await _authService.DestroyTokenAsync(_accessToken.UserId, scope: "WebApp.Admin");
+                if (_accessToken.UserId.HasValue)
+                    await _authService.DestroyTokenAsync(_accessToken.UserId.Value, scope: "WebApp.Admin");
 
                 return Ok(new ApiResultDTO
                 {

@@ -4,9 +4,11 @@ set nocount on;
 ;with cte_data([PermisoId],[Scope],[Descripcion])
 as (select * from (values
 --//////////////////////////////////////////////////////////////////////////////////////////////////
-('abm_usuarios','WebApp.Admin','ABM Usuarios Sysadmin'),
+('abm_usuarios','WebApp.Admin','ABM SysAdmins'),
 ('abm_clientes','WebApp.Admin','ABM Clientes'),
+('abm_clientes_usuarios', 'WebApp.Admin', 'ABM Usuarios de clientes'),
 
+('*','WebApp.Clientes','Permiso total'),
 ('abm_usuarios','WebApp.Clientes','ABM Usuarios')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([PermisoId],[Scope],[Descripcion]))
