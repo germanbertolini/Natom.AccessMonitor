@@ -3,11 +3,14 @@ using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Core.Biz.Entities.Models;
 using Natom.AccessMonitor.Core.Biz.Managers;
 using Natom.AccessMonitor.Services.Auth.Attributes;
+using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Autocomplete;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Clientes;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.DataTable;
+using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Synchronizers;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Zonas;
+using Natom.AccessMonitor.WebApp.Admin.Backend.Repositories;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Services;
 using System;
 using System.Collections.Generic;
@@ -20,8 +23,11 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
     [Route("[controller]/[action]")]
     public class ClientesController : BaseController
     {
+        private readonly AuthService _authService;
+
         public ClientesController(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            this._authService = (AuthService)serviceProvider.GetService(typeof(AuthService));
         }
 
         // POST: clientes/list?filter={filter}
@@ -211,6 +217,107 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 return Ok(new ApiResultDTO
                 {
                     Success = true
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
+        // POST: clientes/syncs/list?encryptedId={encryptedId}
+        [HttpPost]
+        [ActionName("syncs/list")]
+        [TienePermiso(Permiso = "abm_clientes_dispositivos")]
+        public async Task<IActionResult> PostListSincronizadoresAsync([FromBody] DataTableRequestDTO request, [FromQuery] string encryptedId = null)
+        {
+            try
+            {
+                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+
+                var repository = new SynchronizerRepository(_configurationService);
+                var synchronizers = await repository.ListByClienteAsync(clienteId, request.Search.Value, request.Start, request.Length);
+
+                return Ok(new ApiResultDTO<DataTableResponseDTO<SyncDTO>>
+                {
+                    Success = true,
+                    Data = new DataTableResponseDTO<SyncDTO>
+                    {
+                        RecordsTotal = synchronizers.FirstOrDefault()?.TotalRegistros ?? 0,
+                        RecordsFiltered = synchronizers.FirstOrDefault()?.TotalFiltrados ?? 0,
+                        Records = synchronizers.Select(sync => new SyncDTO().From(sync)).ToList()
+                    }
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
+        // DELETE: clientes/syncs/delete?encryptedId={encryptedId}
+        [HttpDelete]
+        [ActionName("syncs/delete")]
+        [TienePermiso(Permiso = "abm_clientes_dispositivos")]
+        public async Task<IActionResult> DeleteSyncAsync([FromQuery] string encryptedId)
+        {
+            try
+            {
+                var syncInstanceId = EncryptionService.Decrypt<string>(Uri.UnescapeDataString(encryptedId));
+
+                var manager = new SynchronizerRepository(_configurationService);
+                var tokens = await manager.BajaAsync(syncInstanceId);
+
+                tokens.ForEach(async (token) => await _authService.DestroyTokenAsync(token));
+
+                return Ok(new ApiResultDTO
+                {
+                    Success = true
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
+        // POST: clientes/syncs/devices/list?encryptedId={encryptedId}
+        [HttpPost]
+        [ActionName("syncs/devices/list")]
+        [TienePermiso(Permiso = "abm_clientes_dispositivos")]
+        public async Task<IActionResult> PostListDispositivosAsync([FromBody] DataTableRequestDTO request, [FromQuery] string encryptedId = null)
+        {
+            try
+            {
+                var syncInstanceId = EncryptionService.Decrypt<string>(Uri.UnescapeDataString(encryptedId));
+
+                var repository = new SynchronizerRepository(_configurationService);
+                var devices = await repository.ListDevicesBySyncAsync(syncInstanceId, request.Search.Value, request.Start, request.Length);
+
+                return Ok(new ApiResultDTO<DataTableResponseDTO<DeviceDTO>>
+                {
+                    Success = true,
+                    Data = new DataTableResponseDTO<DeviceDTO>
+                    {
+                        RecordsTotal = devices.FirstOrDefault()?.TotalRegistros ?? 0,
+                        RecordsFiltered = devices.FirstOrDefault()?.TotalFiltrados ?? 0,
+                        Records = devices.Select(dev => new DeviceDTO().From(dev)).ToList()
+                    }
                 });
             }
             catch (HandledException ex)

@@ -83,6 +83,9 @@
     <Build Include="dbo\Stored Procedures\sp_usuarios_recover_by_email.sql" />
     <Build Include="dbo\Stored Procedures\sp_token_select_by_userid_and_scope.sql" />
     <Build Include="dbo\Stored Procedures\sp_token_delete.sql" />
+    <Build Include="dbo\Stored Procedures\sp_synchronizers_list_by_cliente.sql" />
+    <Build Include="dbo\Stored Procedures\sp_device_list_by_syncid.sql" />
+    <Build Include="dbo\Stored Procedures\sp_synchronizer_baja_by_id.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Script.PostDeployment.sql" />

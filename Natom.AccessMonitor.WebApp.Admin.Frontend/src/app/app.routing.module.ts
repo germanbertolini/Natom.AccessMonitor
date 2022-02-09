@@ -14,6 +14,10 @@ import { ABMClientesGuard } from "./guards/clientes/abm.clientes.guards";
 import { UsuarioClientesCrudComponent } from "./views/clientes/usuarios/crud/usuario-clientes-crud.component";
 import { UsuariosClientesComponent } from "./views/clientes/usuarios/usuarios-clientes.component";
 import { ABMUsuariosClientesGuard } from "./guards/clientes/abm.usuarios.clientes.guards";
+import { SyncClientesCrudComponent } from "./views/clientes/syncs/crud/sync-clientes-crud.component";
+import { SyncsClientesComponent } from "./views/clientes/syncs/syncs-clientes.component";
+import { ABMSyncsClientesGuard } from "./guards/clientes/abm.syncs.clientes.guards";
+import { DevicesSyncsClientesComponent } from "./views/clientes/syncs/devices/devices-syncs-clientes.component";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -31,6 +35,10 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard, ABMUsuariosClientesGuard ], path: 'clientes/:id_cliente/users', component: UsuariosClientesComponent },
     { canActivate: [ AuthGuard, ABMUsuariosClientesGuard ], path: "clientes/:id_cliente/users/new", component: UsuarioClientesCrudComponent },
     { canActivate: [ AuthGuard, ABMUsuariosClientesGuard ], path: "clientes/:id_cliente/users/edit/:id", component: UsuarioClientesCrudComponent },
+    { canActivate: [ AuthGuard, ABMSyncsClientesGuard ], path: 'clientes/:id_cliente/syncs', component: SyncsClientesComponent },
+    { canActivate: [ AuthGuard, ABMSyncsClientesGuard ], path: "clientes/:id_cliente/syncs/new", component: SyncClientesCrudComponent },
+    { canActivate: [ AuthGuard, ABMSyncsClientesGuard ], path: "clientes/:id_cliente/syncs/edit/:id", component: SyncClientesCrudComponent },
+    { canActivate: [ AuthGuard, ABMSyncsClientesGuard ], path: "clientes/:id_cliente/syncs/devices/:id", component: DevicesSyncsClientesComponent },
 ]
 
 @NgModule({

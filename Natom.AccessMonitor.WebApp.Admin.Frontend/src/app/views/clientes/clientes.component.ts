@@ -38,6 +38,10 @@ export class ClientesComponent implements OnInit {
     });
   }
 
+  onSyncsClick(id: string) {
+    this.routerService.navigate(['/clientes/' + encodeURIComponent(id) + "/syncs"]);
+  }
+
   onUsersClick(id: string) {
     this.routerService.navigate(['/clientes/' + encodeURIComponent(id) + "/users"]);
   }

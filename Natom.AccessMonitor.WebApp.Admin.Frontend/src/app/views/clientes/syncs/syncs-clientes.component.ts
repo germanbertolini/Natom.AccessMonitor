@@ -5,21 +5,21 @@ import { DataTableDirective } from "angular-datatables/src/angular-datatables.di
 import { NotifierService } from "angular-notifier";
 import { DataTableDTO } from "src/app/classes/data-table-dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
-import { UserDTO } from "src/app/classes/dto/user.dto";
 import { ApiService } from "src/app/services/api.service";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
+import { SyncDTO } from "src/app/classes/dto/sync.dto";
 
 @Component({
-  selector: 'app-usuarios-clientes',
-  templateUrl: './usuarios-clientes.component.html'
+  selector: 'app-syncs-clientes',
+  templateUrl: './syncs-clientes.component.html'
 })
-export class UsuariosClientesComponent implements OnInit {
+export class SyncsClientesComponent implements OnInit {
 
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
-  dtUsers: DataTables.Settings = {};
-  Users: UserDTO[];
+  dtSyncs: DataTables.Settings = {};
+  Syncs: SyncDTO[];
   Noty: any;
   clienteId: string;
 
@@ -32,11 +32,11 @@ export class UsuariosClientesComponent implements OnInit {
   }
 
   onNewClick() {
-    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/users/new']);
+    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/syncs/new']);
   }
 
-  onEditClick(id: string) {
-    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/users/edit/' + encodeURIComponent(id)]);
+  onDevicesClick(id: string) {
+    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/syncs/devices/' + encodeURIComponent(id)]);
   }
 
   onDeleteClick(id: string) {
@@ -45,40 +45,14 @@ export class UsuariosClientesComponent implements OnInit {
     let apiService = this.apiService;
     let dataTableInstance = this.dtElement.dtInstance;
 
-    this.confirmDialogService.showConfirm("Desea eliminar el usuario?", function () {  
-      apiService.DoDELETE<ApiResult<any>>("users/clientes/delete?encryptedId=" + encodeURIComponent(id), /*headers*/ null,
+    this.confirmDialogService.showConfirm("¿Desea eliminar el sincronizador? Esto implica la desconexión para siempre de los equipos a menos que se realice una instalación nueva del Sincronizador de forma presencial.", function () {  
+      apiService.DoDELETE<ApiResult<any>>("clientes/syncs/delete?encryptedId=" + encodeURIComponent(id), /*headers*/ null,
                                             (response) => {
                                               if (!response.success) {
                                                 confirmDialogService.showError(response.message);
                                               }
                                               else {
-                                                notifier.notify('success', 'Usuario eliminado con éxito.');
-                                                dataTableInstance.then((dtInstance: DataTables.Api) => {
-                                                  dtInstance.ajax.reload()
-                                                });
-                                              }
-                                            },
-                                            (errorMessage) => {
-                                              confirmDialogService.showError(errorMessage);
-                                            });
-      
-    });
-  }
-
-  onRecoverClick(id: string) {
-    let notifier = this.notifierService;
-    let confirmDialogService = this.confirmDialogService;
-    let apiService = this.apiService;
-    let dataTableInstance = this.dtElement.dtInstance;
-
-    this.confirmDialogService.showConfirm("Desea recuperar la clave del usuario? (Esto lo inactivará hasta confirmar el correo)", function () {  
-      apiService.DoPOST<ApiResult<any>>("users/clientes/recover_by_id?encryptedId=" + encodeURIComponent(id), {}, /*headers*/ null,
-                                            (response) => {
-                                              if (!response.success) {
-                                                confirmDialogService.showError(response.message);
-                                              }
-                                              else {
-                                                notifier.notify('success', 'Email de recuperación enviado con éxito.');
+                                                notifier.notify('success', 'Sincronizador eliminado con éxito.');
                                                 dataTableInstance.then((dtInstance: DataTables.Api) => {
                                                   dtInstance.ajax.reload()
                                                 });
@@ -93,7 +67,7 @@ export class UsuariosClientesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.dtUsers = {
+    this.dtSyncs = {
       pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
@@ -115,7 +89,7 @@ export class UsuariosClientesComponent implements OnInit {
         },
       },
       ajax: (dataTablesParameters: any, callback) => {
-        this.apiService.DoPOST<ApiResult<DataTableDTO<UserDTO>>>("users/clientes/list?encryptedId=" + encodeURIComponent(this.clienteId), dataTablesParameters, /*headers*/ null,
+        this.apiService.DoPOST<ApiResult<DataTableDTO<SyncDTO>>>("clientes/syncs/list?encryptedId=" + encodeURIComponent(this.clienteId), dataTablesParameters, /*headers*/ null,
                       (response) => {
                         if (!response.success) {
                           this.confirmDialogService.showError(response.message);
@@ -126,8 +100,8 @@ export class UsuariosClientesComponent implements OnInit {
                             recordsFiltered: response.data.recordsFiltered,
                             data: [] //Siempre vacío para delegarle el render a Angular
                           });
-                          this.Users = response.data.records;
-                          if (this.Users.length > 0) {
+                          this.Syncs = response.data.records;
+                          if (this.Syncs.length > 0) {
                             $('.dataTables_empty').hide();
                           }
                           else {
@@ -143,10 +117,10 @@ export class UsuariosClientesComponent implements OnInit {
                       });
       },
       columns: [
-        { data: 'first_name' },
-        { data: 'last_name' },
-        { data: "email" },
-        { data: 'registered_at' },
+        { data: 'alias' },
+        { data: 'instalacion' },
+        { data: 'ultima_sync' },
+        { data: 'equipo' },
         { data: 'status' },
         { data: '' } //BOTONERA
       ]
