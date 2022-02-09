@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\_core\Natom.AccessMonitor.Common\Natom.AccessMonitor.Common.csproj" />
+    <ProjectReference Include="..\_core\Natom.AccessMonitor.Core.Biz\Natom.AccessMonitor.Core.Biz.csproj" />
     <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Auth\Natom.AccessMonitor.Services.Auth.csproj" />
     <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Logger\Natom.AccessMonitor.Services.Logger.csproj" />
     <ProjectReference Include="..\_services\Natom.AccessMonitor.Services.Mailer\Natom.AccessMonitor.Services.Mailer.csproj" />

@@ -66,11 +66,16 @@
     <Build Include="dbo\Tables\Goal.sql" />
     <Build Include="dbo\Tables\Cliente.sql" />
     <Build Include="dbo\Stored procedures\sp_history_insert.sql" />
+    <Build Include="dbo\Tables\Zona.sql" />
+    <Build Include="dbo\Tables\TipoDocumento.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">
       <DefaultValue>AccessMonitor_Security</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="dbo\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

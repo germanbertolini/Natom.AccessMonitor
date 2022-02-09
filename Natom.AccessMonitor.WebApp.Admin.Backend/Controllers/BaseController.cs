@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using Natom.AccessMonitor.Core.Biz.Managers;
 using Natom.AccessMonitor.Services.Auth.Entities;
 using Natom.AccessMonitor.Services.Configuration.Services;
 using Natom.AccessMonitor.Services.Logger.Entities;
@@ -20,6 +21,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         protected readonly Transaction _transaction;
         protected readonly MailService _mailService;
         protected readonly AccessToken _accessToken;
+
+        protected Task RegistrarAccionAsync(int clienteId, int entityId, string entityName, string accion)
+                        => new BaseManager(_serviceProvider).RegistrarEnHistoricoCambiosAsync(clienteId, entityId, entityName, accion, (int?)_transaction?.UserId ?? 0);
 
         public BaseController(IServiceProvider serviceProvider)
         {

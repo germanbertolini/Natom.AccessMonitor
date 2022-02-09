@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Natom.AccessMonitor.Core.Biz.Extensions;
 using Natom.AccessMonitor.Extensions;
 using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.Services.Configuration.Services;
@@ -33,7 +34,11 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend
                 .AddCacheService()
                 .AddAuthService(scope: "WebApp.Admin")
                 .AddLoggerService(systemName: "WebApp.Admin", insertEachMS: 30000, bulkInsertSize: 10000)
-                .AddMailService();
+                .AddMailService()
+                .AddCoreBiz(scope: "WebApp.Admin");
+
+
+            
 
 
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>

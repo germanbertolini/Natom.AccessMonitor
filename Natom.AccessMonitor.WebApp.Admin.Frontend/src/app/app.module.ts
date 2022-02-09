@@ -21,13 +21,10 @@ import { NotifierModule } from 'angular-notifier';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogService } from './components/confirm-dialog/confirm-dialog.service';
-import { ClientsComponent } from './views/clients/clients.component';
-import { ClientsCrudComponent } from './views/clients/crud/clients-crud.component';
 import { SidebarModule } from 'ng-sidebar';
 import { AppRoutingModule } from './app.routing.module';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { LoginComponent } from './views/login/login.component';
-import { NewSyncComponent } from './views/clients/modals/new-sync.component';
 import { SpinnerLoadingComponent } from './components/spinner-loading/spinner-loading.component';
 import { AppConfig } from './classes/app-config';
 import { JsonAppConfigService } from './services/json-app-config.service';
@@ -39,6 +36,8 @@ import { ErrorPageComponent } from './views/error-page/error-page.component';
 import { UsersComponent } from './views/users/users.component';
 import { UserCrudComponent } from './views/users/crud/user-crud.component';
 import { UserConfirmComponent } from './views/users/confirm/user-confirm.component';
+import { ClientesComponent } from './views/clientes/clientes.component';
+import { ClienteCrudComponent } from './views/clientes/crud/cliente-crud.component';
 
 
 
@@ -58,12 +57,11 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     SpinnerLoadingComponent,
     LoginComponent,
     HomeComponent,
-    ClientsComponent,
-    ClientsCrudComponent,
+    ClientesComponent,
+    ClienteCrudComponent,
     UsersComponent,
     UserCrudComponent,
     UserConfirmComponent,
-    NewSyncComponent,
     ConfirmDialogComponent
   ],
   imports: [

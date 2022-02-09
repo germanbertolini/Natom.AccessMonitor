@@ -63,7 +63,11 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
 
                     var authorization = headerValuesForAuthorization.ToString();
                     var accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
+
+                    _transaction.UserId = _accessToken.UserId;
+
                     ValidatePermission(accessTokenWithPermissions.Permissions, _actionRequested);
+
 
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Token autorizado");
                 }
@@ -137,9 +141,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
             var hostname = Dns.GetHostName();
             var port = context.HttpContext.Connection.LocalPort;
 
-            int? userId = null;
-
-            _loggerService.CreateTransaction(_transaction, lang, ip, _urlRequested, _actionRequested, userId, os, appVersion, hostname, port, instanceId);
+            _loggerService.CreateTransaction(_transaction, lang, ip, _urlRequested, _actionRequested, _accessToken?.UserId, os, appVersion, hostname, port, instanceId);
         }
 
         private string GetRealIP(AuthorizationFilterContext context)
