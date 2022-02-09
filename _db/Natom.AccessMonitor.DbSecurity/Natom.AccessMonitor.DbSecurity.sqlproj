@@ -81,6 +81,8 @@
     <Build Include="dbo\Types\ID_char50_list.sql" />
     <Build Include="dbo\Stored Procedures\sp_usuarios_recover_by_id.sql" />
     <Build Include="dbo\Stored Procedures\sp_usuarios_recover_by_email.sql" />
+    <Build Include="dbo\Stored Procedures\sp_token_select_by_userid_and_scope.sql" />
+    <Build Include="dbo\Stored Procedures\sp_token_delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Natom.AccessMonitor.DbMaster\Natom.AccessMonitor.DbMaster.sqlproj">

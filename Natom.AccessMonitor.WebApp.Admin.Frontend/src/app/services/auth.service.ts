@@ -42,13 +42,29 @@ export class AuthService {
   }
 
   public logout(cancelRedirect: boolean = false) {
-    this.cookieService.delete('Auth.Current.User');
-    this.cookieService.delete('Auth.Current.Token');
-    this.cookieService.delete('Auth.Current.Permissions');
-    this.cookieService.delete('Authorization', "/");
+    let _cancelRedirect = cancelRedirect;
+    let _cookieService = this.cookieService;
+    let _confirmDialogService = this.confirmDialogService;
+    let _baseURL = this.getBaseURL();
+    
+    this.apiService.DoPOST<ApiResult<LoginResult>>("auth/logout", {}, /*headers*/ null,
+                      (response) => {
+                        if (!response.success) {
+                          _confirmDialogService.showError(response.message);
+                        }
+                        else {
+                          _cookieService.delete('Auth.Current.User');
+                          _cookieService.delete('Auth.Current.Token');
+                          _cookieService.delete('Auth.Current.Permissions');
+                          _cookieService.delete('Authorization', "/");
 
-    if (!cancelRedirect)
-      location.href = this.getBaseURL();
+                          if (!_cancelRedirect)
+                            location.href = _baseURL;
+                        }
+                      },
+                      (errorMessage) => {
+                        _confirmDialogService.showError(errorMessage);
+                      });
   }
 
   private getBaseURL() {

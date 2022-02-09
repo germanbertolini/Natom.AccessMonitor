@@ -51,7 +51,22 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
 
                 //VALIDACIONES DE SEGURIDAD
                 if (_controller.Equals("auth") || (_controller.Equals("users") && (_action.Equals("confirm") || _action.Equals("recover"))))
+                {
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Operación sin token permitida");
+
+                    if (_controller.Equals("auth") && _action.Equals("logout"))
+                    {
+                        var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];
+                        if (headerValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(headerValuesForAuthorization.ToString()))
+                            throw new HandledException("Se debe enviar el 'Authorization'.");
+
+                        if (!headerValuesForAuthorization.ToString().StartsWith("Bearer"))
+                            throw new HandledException("'Authorization' inválido.");
+
+                        var authorization = headerValuesForAuthorization.ToString();
+                        var accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
+                    }
+                }
                 else
                 {
                     var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];

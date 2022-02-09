@@ -85,6 +85,31 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
             }
         }
 
+        // POST: auth/logout
+        [HttpPost]
+        [ActionName("logout")]
+        public async Task<IActionResult> PostLogout()
+        {
+            try
+            {
+                await _authService.DestroyTokenAsync(_accessToken.UserId, scope: "WebApp.Admin");
+
+                return Ok(new ApiResultDTO
+                {
+                    Success = true
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
         private void GetClientAndSecretFromAuthorizationBasic(out string client, out string secret)
         {
             client = null;
