@@ -56,6 +56,28 @@ namespace Natom.AccessMonitor.Services.Auth.Repository
             return token;
         }
 
+        public async Task<List<Token>> ListTokensByClientAndScopeAsync(int clientId, string scope)
+        {
+            List<Token> tokens = new List<Token>();
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_token_select_by_clientid_and_scope] @ClientId, @Scope";
+                var _params = new { ClientId = clientId, Scope = scope };
+                tokens = (await db.QueryAsync<Token>(sql, _params)).ToList();
+            }
+            return tokens;
+        }
+
+        public async Task DeleteTokensByClientAndScopeAsync(int clientId, string scope)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_token_delete_by_clientid_and_scope] @ClientId, @Scope";
+                var _params = new { ClientId = clientId, Scope = scope };
+                await db.ExecuteAsync(sql, _params);
+            }
+        }
+
         public async Task DeleteTokenAsync(string tokenKey, string scope)
         {
             using (var db = new SqlConnection(_connectionString))

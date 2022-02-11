@@ -185,6 +185,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 var manager = new ClientesManager(_serviceProvider);
                 await manager.DesactivarClienteAsync(clienteId);
 
+                await _authService.DestroyTokensByScopeAndClientIdAsync(scope: "WebApp.Clientes", clienteId);
+
                 await RegistrarAccionAsync(clienteId: 0, clienteId, nameof(Cliente), "Baja");
 
                 return Ok(new ApiResultDTO
@@ -283,6 +285,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 var tokens = await manager.BajaAsync(syncInstanceId);
 
                 tokens.ForEach(async (token) => await _authService.DestroyTokenAsync(token));
+
+                if (tokens.Count > 0 && tokens.Last().ClientId.HasValue)
+                    await RegistrarAccionAsync(clienteId: 0, tokens.Last().ClientId.Value, nameof(Cliente), "Baja de sincronizador");
 
                 return Ok(new ApiResultDTO
                 {
@@ -413,6 +418,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 dataCache.ActivatedAt = DateTime.Now;
                 dataCache.ActivatedToClientId = clienteId;
                 await _cacheService.SetValueAsync($"Sync.Receiver.Activation.Queue.{instanceId}", dataCache);
+
+
+                await RegistrarAccionAsync(clienteId: 0, clienteId, nameof(Cliente), "Se enlaza sincronizador al cliente");
 
 
                 return Ok(new ApiResultDTO
