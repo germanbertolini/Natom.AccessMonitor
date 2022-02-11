@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Common.Helpers;
 using Natom.AccessMonitor.Services.Auth.Entities;
+using Natom.AccessMonitor.Services.Auth.Exceptions;
 using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.Services.Logger.Entities;
 using Natom.AccessMonitor.Services.Logger.Services;
@@ -68,11 +69,21 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Token autorizado");
                 }
             }
-            catch (HandledException ex)
+            catch (InvalidTokenException ex)
             {
                 _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken);
 
                 context.HttpContext.Response.StatusCode = 403;
+                context.Result = new ContentResult()
+                {
+                    Content = ex.Message
+                };
+            }
+            catch (HandledException ex)
+            {
+                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken);
+
+                context.HttpContext.Response.StatusCode = 400;
                 context.Result = new ContentResult()
                 {
                     Content = ex.Message

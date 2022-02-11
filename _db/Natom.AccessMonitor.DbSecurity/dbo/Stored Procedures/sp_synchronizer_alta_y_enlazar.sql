@@ -8,7 +8,8 @@ BEGIN
 
 	UPDATE [dbo].[Synchronizer]
 	SET ActivatedAt = GETDATE(),
-		ClientId = @ClienteId
+		ClientId = @ClienteId,
+		RemovedAt = NULL
 	WHERE
 		InstanceId = @InstanceId
 

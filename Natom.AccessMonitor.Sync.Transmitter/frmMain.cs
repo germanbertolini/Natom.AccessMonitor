@@ -332,6 +332,14 @@ namespace Natom.AccessMonitor.Sync.Transmitter
                         }
                         catch (Exception ex)
                         {
+                            if (ex.Message.Contains("403")) //FORBIDDEN
+                            {
+                                ActivationService.Inactivate();
+                                toolStripButtonActivate.Visible = false;
+                                toolStripButtonActivate.Enabled = true;
+                                ValidarActivacion();
+                            }
+
                             LoggingService.LogException(ex);
                         }
                     });
