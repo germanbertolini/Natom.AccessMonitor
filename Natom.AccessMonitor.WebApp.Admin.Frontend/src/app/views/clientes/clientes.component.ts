@@ -28,7 +28,7 @@ export class ClientesComponent implements OnInit {
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
-                
+    this.filterStatusValue = "ACTIVOS";
   }
 
   onFiltroEstadoChange(newValue: string) {
@@ -81,7 +81,7 @@ export class ClientesComponent implements OnInit {
     let apiService = this.apiService;
     let dataTableInstance = this.dtElement.dtInstance;
 
-    this.confirmDialogService.showConfirm("Desea dar de baja al cliente?", function () {  
+    this.confirmDialogService.showConfirm("¿Desea dar de baja al cliente? IMPORTANTE: Con la baja del cliente se les bloqueará el acceso a sus usuarios. Los sincronizadores seguirán funcionando y sincronizando. Para una baja definitiva, antes dar de baja cada sincronizador.", function () {  
       apiService.DoDELETE<ApiResult<any>>("clientes/disable?encryptedId=" + encodeURIComponent(id), /*headers*/ null,
                                             (response) => {
                                               if (!response.success) {
