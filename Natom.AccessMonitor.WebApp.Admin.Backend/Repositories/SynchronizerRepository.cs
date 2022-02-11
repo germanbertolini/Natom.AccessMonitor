@@ -54,5 +54,15 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Repositories
             }
             return tokens;
         }
+
+        public async Task ActivarYEnlazarAsync(string instanceId, int clienteId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_synchronizer_alta_y_enlazar] @InstanceId, @ClienteId";
+                var _params = new { InstanceId = instanceId, ClienteId = clienteId };
+                await db.ExecuteAsync(sql, _params);
+            }
+        }
     }
 }

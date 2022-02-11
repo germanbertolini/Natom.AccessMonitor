@@ -41,8 +41,8 @@ import { ClienteCrudComponent } from './views/clientes/crud/cliente-crud.compone
 import { UsuarioClientesCrudComponent } from './views/clientes/usuarios/crud/usuario-clientes-crud.component';
 import { UsuariosClientesComponent } from './views/clientes/usuarios/usuarios-clientes.component';
 import { SyncsClientesComponent } from './views/clientes/syncs/syncs-clientes.component';
-import { SyncClientesCrudComponent } from './views/clientes/syncs/crud/sync-clientes-crud.component';
 import { DevicesSyncsClientesComponent } from './views/clientes/syncs/devices/devices-syncs-clientes.component';
+import { SyncsClientesNewComponent } from './views/clientes/syncs/crud/syncs-clientes-new.component';
 
 
 
@@ -70,7 +70,7 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     UsuariosClientesComponent,
     UsuarioClientesCrudComponent,
     SyncsClientesComponent,
-    SyncClientesCrudComponent,
+    SyncsClientesNewComponent,
     DevicesSyncsClientesComponent,
     ConfirmDialogComponent
   ],

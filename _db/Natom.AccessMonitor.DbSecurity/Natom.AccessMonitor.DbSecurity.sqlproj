@@ -86,6 +86,7 @@
     <Build Include="dbo\Stored Procedures\sp_synchronizers_list_by_cliente.sql" />
     <Build Include="dbo\Stored Procedures\sp_device_list_by_syncid.sql" />
     <Build Include="dbo\Stored Procedures\sp_synchronizer_baja_by_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_synchronizer_alta_y_enlazar.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Script.PostDeployment.sql" />

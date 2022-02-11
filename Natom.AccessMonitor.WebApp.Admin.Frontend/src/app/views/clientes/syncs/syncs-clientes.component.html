@@ -25,8 +25,9 @@
           <tr *ngFor="let sync of Syncs">
             <td>{{ sync.installation_alias }}</td>
             <td>{{ sync.installed_at   |  date:'dd/MM/yyyy' }}<br/><small>Activado {{ sync.activated_at   |  date:'dd/MM/yyyy HH:mm' }} hs</small></td>
-            <td>{{ sync.last_sync_at   |  date:'dd/MM/yyyy HH:mm' }} hs</td>
-            <td><b>{{ sync.devices_count }}</b></td>
+            <td *ngIf="sync.last_sync_at !== null">{{ sync.last_sync_at   |  date:'dd/MM/yyyy HH:mm' }} hs</td>
+            <td *ngIf="sync.last_sync_at === null">- Pendiente de sincronización -</td>
+            <td><b>{{ sync.devices_count }}</b><br/><small *ngIf="sync.devices_count === 0">* Hasta no sincronizar puede variar</small></td>
             <td>{{ sync.activo ? "Habilitado" : "De baja" }}</td>
             <td>
               <a class="btn btn-secondary btn-sm devices-smt-btn spacingLeft" (click)="onDevicesClick(sync.encrypted_instance_id)" data-toggle="tooltip" data-placement="top" title="Ver dispositivos enlazados"><i class="fa fa-th" aria-hidden="true"></i>&nbsp;<i class="fa fa-clock-o" aria-hidden="true"></i></a>

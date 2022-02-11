@@ -23,7 +23,19 @@ namespace Natom.AccessMonitor.Sync.Receiver.Repositories
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                await connection.InsertAsync(synchronizer);
+                try
+                {
+                    await connection.InsertAsync(synchronizer);
+                }
+                catch (SqlException ex)
+                {
+                    if (!ex.Message.Contains("Violation of PRIMARY KEY constraint 'PK_Synchronizer'"))
+                        throw ex;
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 

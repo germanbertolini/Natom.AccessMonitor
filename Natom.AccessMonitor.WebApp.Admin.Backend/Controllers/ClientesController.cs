@@ -4,6 +4,7 @@ using Natom.AccessMonitor.Core.Biz.Entities.Models;
 using Natom.AccessMonitor.Core.Biz.Managers;
 using Natom.AccessMonitor.Services.Auth.Attributes;
 using Natom.AccessMonitor.Services.Auth.Services;
+using Natom.AccessMonitor.Services.Cache.Services;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Autocomplete;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Clientes;
@@ -12,6 +13,7 @@ using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Synchronizers;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Zonas;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Repositories;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Services;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +26,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
     public class ClientesController : BaseController
     {
         private readonly AuthService _authService;
+        private readonly CacheService _cacheService;
 
         public ClientesController(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            this._authService = (AuthService)serviceProvider.GetService(typeof(AuthService));
+            _authService = (AuthService)serviceProvider.GetService(typeof(AuthService));
+            _cacheService = (CacheService)serviceProvider.GetService(typeof(CacheService));
         }
 
         // POST: clientes/list?filter={filter}
@@ -318,6 +322,102 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                         RecordsFiltered = devices.FirstOrDefault()?.TotalFiltrados ?? 0,
                         Records = devices.Select(dev => new DeviceDTO().From(dev)).ToList()
                     }
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
+        // POST: clientes/syncs/pending_activation/list?encryptedId={encryptedId}
+        [HttpPost]
+        [ActionName("syncs/pending_activation/list")]
+        [TienePermiso(Permiso = "abm_clientes_dispositivos")]
+        public async Task<IActionResult> PostListSyncsPendientesDeActivarAsync([FromBody] DataTableRequestDTO request)
+        {
+            try
+            {
+                var pendingSyncs = await _cacheService.GetKeyValuesUsingPatternAsync(searchPattern: "Sync.Receiver.Activation.Queue.*");
+                var resultData = new List<PendingToActivateDTO>();
+                pendingSyncs.Keys.ToList().ForEach(key =>
+                {
+                    string data = pendingSyncs[key];
+                    resultData.Add(JsonConvert.DeserializeObject<PendingToActivateDTO>(data));
+                });
+
+                //FILTRADO
+                var filtrados = resultData;
+                if (!string.IsNullOrEmpty(request.Search?.Value))
+                {
+                    string search = request.Search.Value.ToLower();
+                    filtrados = resultData
+                                        .Where(r => r.ClientName.ToLower().Contains(search)
+                                                        || r.ClientCUIT.ToLower().Contains(search)
+                                                        || r.InstallationAlias.ToLower().Contains(search)
+                                                        || r.InstallerName.ToLower().Contains(search))
+                                        .ToList();
+                }
+
+                filtrados = filtrados.Skip(request.Start).Take(request.Length).ToList();
+
+                return Ok(new ApiResultDTO<DataTableResponseDTO<object>>
+                {
+                    Success = true,
+                    Data = new DataTableResponseDTO<object>
+                    {
+                        RecordsTotal = resultData.Count,
+                        RecordsFiltered = filtrados.Count,
+                        Records = filtrados.Select(s => (object) new {
+                            instance_id = s.InstanceId,
+                            client_name = s.ClientName,
+                            client_cuit = s.ClientCUIT,
+                            installation_alias = s.InstallationAlias,
+                            installer_name = s.InstallerName
+                        }).ToList()
+                    }
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
+        // POST: clientes/syncs/activate?encryptedId={encryptedId}&clientId={clientId}
+        [HttpPost]
+        [ActionName("syncs/activate")]
+        [TienePermiso(Permiso = "abm_clientes_dispositivos")]
+        public async Task<IActionResult> PostActivarSyncAsync([FromQuery] string encryptedId, [FromQuery] string clientId)
+        {
+            try
+            {
+                var instanceId = encryptedId;
+                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(clientId));
+
+                var manager = new SynchronizerRepository(_configurationService);
+                await manager.ActivarYEnlazarAsync(instanceId, clienteId);
+
+
+                var dataCache = await _cacheService.GetValueAsync<PendingToActivateDTO>($"Sync.Receiver.Activation.Queue.{instanceId}");
+                dataCache.ActivatedAt = DateTime.Now;
+                dataCache.ActivatedToClientId = clienteId;
+                await _cacheService.SetValueAsync($"Sync.Receiver.Activation.Queue.{instanceId}", dataCache);
+
+
+                return Ok(new ApiResultDTO
+                {
+                    Success = true
                 });
             }
             catch (HandledException ex)
