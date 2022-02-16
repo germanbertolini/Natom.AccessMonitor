@@ -7,6 +7,7 @@ import { DataTableDTO } from "src/app/classes/data-table-dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { UserDTO } from "src/app/classes/dto/user.dto";
 import { ApiService } from "src/app/services/api.service";
+import { AuthService } from "src/app/services/auth.service";
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
@@ -23,6 +24,7 @@ export class UsersComponent implements OnInit {
   Noty: any;
 
   constructor(private apiService: ApiService,
+              private authService: AuthService,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
@@ -141,6 +143,7 @@ export class UsersComponent implements OnInit {
         { data: 'last_name' },
         { data: "email" },
         { data: 'registered_at' },
+        { data: 'rol' },
         { data: 'status' },
         { data: '' } //BOTONERA
       ]

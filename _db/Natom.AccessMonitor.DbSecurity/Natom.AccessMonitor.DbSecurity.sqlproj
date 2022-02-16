@@ -89,6 +89,8 @@
     <Build Include="dbo\Stored Procedures\sp_synchronizer_alta_y_enlazar.sql" />
     <Build Include="dbo\Stored Procedures\sp_token_select_by_clientid_and_scope.sql" />
     <Build Include="dbo\Stored Procedures\sp_token_delete_by_clientid_and_scope.sql" />
+    <Build Include="dbo\Stored Procedures\sp_token_select_by_usuarioid.sql" />
+    <Build Include="dbo\Stored Procedures\sp_token_delete_by_usuarioid.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Script.PostDeployment.sql" />

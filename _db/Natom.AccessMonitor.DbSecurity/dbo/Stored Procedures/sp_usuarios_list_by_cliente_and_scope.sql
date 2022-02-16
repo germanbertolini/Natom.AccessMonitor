@@ -67,11 +67,29 @@ BEGIN
 
 
 	SELECT
-		F.*,
+		F.UsuarioId,
+		F.Usuario,
+		F.Nombre,
+		F.Apellido,
+		F.FechaHoraAlta,
+		F.Estado,
+		F.ClienteRazonSocial,
+		F.ClienteCUIT,
+		CASE WHEN SUM(CASE WHEN UP.PermisoId = '*' THEN 1 ELSE 0 END) > 0 THEN 'Administrador' ELSE 'Administrativo' END AS Rol,
 		@TotalFiltrados AS TotalFiltrados,
 		@TotalRegistros AS TotalRegistros
 	FROM
 		#TMP_USUARIOS_FILTRADOS F
+		LEFT JOIN [dbo].[UsuarioPermiso] UP WITH(NOLOCK) ON UP.UsuarioId = F.UsuarioId
+	GROUP BY
+		F.UsuarioId,
+		F.Usuario,
+		F.Nombre,
+		F.Apellido,
+		F.FechaHoraAlta,
+		F.Estado,
+		F.ClienteRazonSocial,
+		F.ClienteCUIT
 	ORDER BY
 		F.Nombre ASC, F.Apellido ASC
 	OFFSET @Skip ROWS

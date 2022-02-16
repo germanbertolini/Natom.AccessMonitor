@@ -16,6 +16,7 @@ namespace Natom.AccessMonitor.Services.Auth.Entities.Results
         public DateTime FechaHoraAlta { get; set; }
         public string ClienteRazonSocial { get; set; }
         public string ClienteCUIT { get; set; }
+        public string Rol { get; set; }
 
         public int TotalFiltrados { get; set; }
         public int TotalRegistros { get; set; }

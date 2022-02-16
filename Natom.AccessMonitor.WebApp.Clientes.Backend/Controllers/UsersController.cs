@@ -3,6 +3,7 @@ using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Services.Auth.Attributes;
 using Natom.AccessMonitor.Services.Auth.Entities.Models;
 using Natom.AccessMonitor.Services.Auth.Repository;
+using Natom.AccessMonitor.Services.Auth.Services;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Auth;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.DataTable;
@@ -20,8 +21,11 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
     [Route("[controller]/[action]")]
     public class UsersController : BaseController
     {
+        private readonly AuthService _authService;
+
         public UsersController(IServiceProvider serviceProvider) : base(serviceProvider)
         {
+            _authService = (AuthService)serviceProvider.GetService(typeof(AuthService));
         }
 
         // POST: users/list
@@ -164,9 +168,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
             }
         }
 
-        // POST: users/clientes/save
+        // POST: users/save
         [HttpPost]
-        [ActionName("clientes/save")]
+        [ActionName("save")]
         [TienePermiso(Permiso = "abm_usuarios")]
         public async Task<IActionResult> PostSaveClientesAsync([FromBody] UserDTO user)
         {
@@ -214,6 +218,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 var manager = new UsuarioRepository(_serviceProvider);
                 await manager.EliminarUsuarioAsync(usuarioId, (_accessToken.UserId ?? 0));
 
+                await _authService.DestroyTokensByUsuarioIdAsync(usuarioId);
 
                 return Ok(new ApiResultDTO
                 {

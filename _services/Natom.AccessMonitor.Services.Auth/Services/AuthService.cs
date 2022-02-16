@@ -152,6 +152,19 @@ namespace Natom.AccessMonitor.Services.Auth.Services
             await repository.DeleteTokensByClientAndScopeAsync(clientId, scope);
         }
 
+        public async Task DestroyTokensByUsuarioIdAsync(int usuarioId)
+        {
+            var repository = new TokenRepository(_serviceProvider);
+            var tokens = await repository.ListTokensByUsuarioIdAsync(usuarioId);
+
+            foreach (var token in tokens)
+            {
+                await _cacheService.RemoveAsync($"Auth.Tokens.{token.Scope}.{token.Key}");
+            }
+
+            await repository.DeleteTokensByUsuarioIdAsync(usuarioId);
+        }
+
         public async Task<AccessToken> CreateTokenForSynchronizerAsync(string instanceId, string userName, int? clientId, string clientName, List<string> permissions, long tokenDurationMinutes)
         {
             var scope = _config.Scope;

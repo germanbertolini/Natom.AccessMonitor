@@ -72,9 +72,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Auth
             RegisteredAt = entity.FechaHoraAlta;
             Status = entity.Estado;
             BusinessName = entity.ClienteRazonSocial;
-            BusinessRoleName = entity.ClienteRazonSocial.Equals("Natom")
-                                        ? "Administrador Natom"
-                                        : Permisos.Any(p => p.Equals("*")) ? "Administrador" : "Administrativo";
+            BusinessRoleName = entity.Rol;
 
             return this;
         }

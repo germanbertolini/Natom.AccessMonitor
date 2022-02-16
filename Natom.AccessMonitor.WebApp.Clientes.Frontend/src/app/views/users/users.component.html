@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-10">
-      <h3>SysAdmins</h3>
+      <h3>Administrar usuarios</h3>
     </div>
     <div class="col-md-2">
       <button class="btn btn-sm btn-success right" [routerLink]="['/users/new']">[+] Nuevo</button>
@@ -17,6 +17,7 @@
             <th>Apellido</th>
             <th>Email</th>
             <th>Registrado</th>
+            <th>Rol</th>
             <th>Estado</th>
             <th></th>
           </tr>
@@ -27,11 +28,12 @@
             <td>{{ user.last_name }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.registered_at   |  date:'dd/MM/yyyy' }}</td>
+            <td>{{ user.business_role_name }}</td>
             <td>{{ user.status }}</td>
             <td>
               <a *ngIf="user.status !== 'Inactivo'" class="btn btn-warning btn-sm edit-smt-btn" (click)="onRecoverClick(user.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Recuperar clave"><i class="fa fa-key" aria-hidden="true"></i></a>
               <a *ngIf="user.status !== 'Inactivo'" class="btn btn-primary btn-sm edit-smt-btn spacingLeft" (click)="onEditClick(user.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
-              <a *ngIf="user.status !== 'Inactivo'" class="btn btn-danger btn-sm delete-smt-btn spacingLeft" (click)="onDeleteClick(user.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>
+              <a *ngIf="user.status !== 'Inactivo' && user.email !== authService.getCurrentUser().email" class="btn btn-danger btn-sm delete-smt-btn spacingLeft" (click)="onDeleteClick(user.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="fa fa-times" aria-hidden="true"></i></a>
             </td>
           </tr>
         </tbody>
