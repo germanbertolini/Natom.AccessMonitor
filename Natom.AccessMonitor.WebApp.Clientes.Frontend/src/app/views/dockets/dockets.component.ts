@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { Docket } from "src/app/classes/models/docket.model";
+import { DocketDTO } from "src/app/classes/dto/docket.dto";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
@@ -12,7 +12,7 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
 })
 export class DocketsComponent implements OnInit {  
   dtDockets: DataTables.Settings = {};
-  Dockets: Docket[];
+  Dockets: DocketDTO[];
   Noty: any;
 
   constructor(private httpClientService: HttpClient,

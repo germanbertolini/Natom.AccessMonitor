@@ -1,31 +1,76 @@
+import { HttpHeaders } from '@angular/common/http';
+import { toBase64String } from '@angular/compiler/src/output/source_map';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { HandledError } from '../classes/errors/handled.error';
-import { LoginResult } from '../classes/models/auth/login-result.model';
-import { ApiResult } from '../classes/models/shared/api-result.model';
-import { User } from "../classes/models/user.model";
+import { ApiResult } from '../classes/dto/shared/api-result.dto';
+import { UserDTO } from "../classes/dto/user.dto";
+import { ApiService } from './api.service';
+import { Router } from '@angular/router';
+import { ConfirmDialogService } from '../components/confirm-dialog/confirm-dialog.service';
+import { LoginResult } from '../classes/dto/auth/login-result.dto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private _current_user: User;
+  private _current_user: UserDTO;
   private _current_token: string;
   private _current_permissions: Array<string>;
   
-  constructor(private cookieService: CookieService) {
+  constructor(private cookieService: CookieService,
+              private apiService: ApiService,
+              private routerService: Router,
+              private confirmDialogService: ConfirmDialogService) {
     this._current_user = null;
     this._current_token = null;
     this._current_permissions = null;
 
     let userCookieData = this.cookieService.get('Auth.Current.User');
-    if (userCookieData.length > 0) this._current_user = JSON.parse(userCookieData);
+    if (userCookieData.length > 0) this._current_user = JSON.parse(atob(userCookieData));
     
     let tokenCookieData = this.cookieService.get('Auth.Current.Token');
-    if (tokenCookieData.length > 0) this._current_token = JSON.parse(tokenCookieData);
+    if (tokenCookieData.length > 0) this._current_token = JSON.parse(atob(tokenCookieData));
 
     let permissionsCookieData = this.cookieService.get('Auth.Current.Permissions');
-    if (permissionsCookieData.length > 0) this._current_permissions = JSON.parse(permissionsCookieData);
+    if (permissionsCookieData.length > 0) this._current_permissions = JSON.parse(atob(permissionsCookieData));
+
+    apiService.SetOnForbiddenAction(() => {
+      this.confirmDialogService.showError("La sesión expiró.", () => { location.href = this.getBaseURL(); });
+      this.logout(true);
+    });
+  }
+
+  public logout(cancelRedirect: boolean = false) {
+    let _cancelRedirect = cancelRedirect;
+    let _cookieService = this.cookieService;
+    let _confirmDialogService = this.confirmDialogService;
+    let _baseURL = this.getBaseURL();
+    
+    this.apiService.DoPOST<ApiResult<LoginResult>>("auth/logout", {}, /*headers*/ null,
+                      (response) => {
+                        if (!response.success) {
+                          _confirmDialogService.showError(response.message);
+                        }
+                        else {
+                          _cookieService.delete('Auth.Current.User');
+                          _cookieService.delete('Auth.Current.Token');
+                          _cookieService.delete('Auth.Current.Permissions');
+                          _cookieService.delete('Authorization', "/");
+
+                          if (!_cancelRedirect)
+                            location.href = _baseURL;
+                        }
+                      },
+                      (errorMessage) => {
+                        _confirmDialogService.showError(errorMessage);
+                      });
+  }
+
+  private getBaseURL() {
+    var getUrl = window.location;
+    var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
+    return baseUrl;
   }
 
   public getCurrentUser() {
@@ -40,52 +85,37 @@ export class AuthService {
     return this._current_permissions;
   }
 
-  public Login(email: string, password: string): LoginResult {
-    //MOCK RESPUESTA API
+  public can(permission: string) {
+    return this.getCurrentPermissions().indexOf(permission.toLowerCase()) >= 0;
+  }
+  
+  public Login(email: string, password: string, onSuccess: () => void, onError: (errorMessage: string) => void) {
     let response = new ApiResult<LoginResult>();
-    if (email === "admin" && password === "admin") {
-      response.success = true;
-      response.message = null;
-      
-      response.data = new LoginResult();
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Basic ' + btoa(email + ":" + password));
 
-      response.data.User = new User();
-      response.data.User.encrypted_id = "adssdadas123e213132";
-      response.data.User.first_name = "German";
-      response.data.User.last_name = "Bertolini";
-      response.data.User.picture_url = "https://electronicssoftware.net/wp-content/uploads/user.png";
-      response.data.User.email = "admin@bioanvizplus.com";
-      response.data.User.registered_at = new Date('2020-12-28T00:00:00');
-      response.data.User.business_name = "BioAnviz+";
-      response.data.User.business_role_name = "Administrador";
-      response.data.User.country_icon = "arg";
-      response.data.Token = "98cb7b439xbx349c8273bc98b73c48927c9";
+    this.apiService.DoPOST<ApiResult<LoginResult>>("auth/login", {}, headers,
+                      (response) => {
+                        if (!response.success) {
+                          onError(response.message);
+                        }
+                        else {
+                          this._current_user = response.data.user;
+                          this._current_token = response.data.token;
+                          this._current_permissions = response.data.permissions.map(function(permission) {
+                            return permission.toLowerCase();
+                          });
 
-      response.data.Permissions = new Array<string>();
-      response.data.Permissions.push("/");
-      response.data.Permissions.push("/queries/1/a");
-      response.data.Permissions.push("/queries/1/b");
-    }
-    else {
-      response.success = false;
-      response.message = "Usuario y/o clave inválida.";
-      response.data = null;
-    }
-    //FIN MOCK RESPUESTA API
+                          this.cookieService.set('Auth.Current.User', btoa(JSON.stringify(this._current_user)));
+                          this.cookieService.set('Auth.Current.Token', btoa(JSON.stringify(this._current_token)));
+                          this.cookieService.set('Auth.Current.Permissions', btoa(JSON.stringify(this._current_permissions)));
+                          this.cookieService.set('Authorization', 'Bearer ' + this._current_token, null, "/");
 
-    if (!response.success)
-      throw new HandledError(response.message);
-      
-    this._current_user = response.data.User;
-    this._current_token = response.data.Token;
-    this._current_permissions = response.data.Permissions.map(function(permission) {
-      return permission.toLowerCase();
-    });
-
-    this.cookieService.set('Auth.Current.User', JSON.stringify(this._current_user));
-    this.cookieService.set('Auth.Current.Token', JSON.stringify(this._current_token));
-    this.cookieService.set('Auth.Current.Permissions', JSON.stringify(this._current_permissions));
-
-    return response.data;
+                          onSuccess();
+                        }
+                      },
+                      (errorMessage) => {
+                        onError(errorMessage);
+                      });
   }
 }

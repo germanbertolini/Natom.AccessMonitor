@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { User } from "src/app/classes/models/user.model";
+import { UserDTO } from "src/app/classes/dto/user.dto";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
@@ -13,7 +13,7 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
 export class UsersComponent implements OnInit {
 
   dtUsers: DataTables.Settings = {};
-  Users: User[];
+  Users: UserDTO[];
   Noty: any;
 
   constructor(private httpClientService: HttpClient,
@@ -87,7 +87,10 @@ export class UsersComponent implements OnInit {
             business_role_name: "Administrador",
             picture_url: "",
             business_name: "",
-            country_icon: ""
+            country_icon: "",
+            permisos: [],
+            cliente_encrypted_id: "",
+            state: "Prueba"
           },
           {
             encrypted_id: "2398n23984n",
@@ -98,7 +101,10 @@ export class UsersComponent implements OnInit {
             business_role_name: "Administrador",
             picture_url: "",
             business_name: "",
-            country_icon: ""
+            country_icon: "",
+            permisos: [],
+            cliente_encrypted_id: "",
+            state: "Prueba"
           },
           {
             encrypted_id: "13d2123",
@@ -109,7 +115,10 @@ export class UsersComponent implements OnInit {
             business_role_name: "Administrador",
             picture_url: "",
             business_name: "",
-            country_icon: ""
+            country_icon: "",
+            permisos: [],
+            cliente_encrypted_id: "",
+            state: "Prueba"
           },
           {
             encrypted_id: "c424c2423243",
@@ -120,7 +129,10 @@ export class UsersComponent implements OnInit {
             business_role_name: "Operador",
             picture_url: "",
             business_name: "",
-            country_icon: ""
+            country_icon: "",
+            permisos: [],
+            cliente_encrypted_id: "",
+            state: "Prueba"
           },
           {
             encrypted_id: "24098jsda",
@@ -131,7 +143,10 @@ export class UsersComponent implements OnInit {
             business_role_name: "Operador",
             picture_url: "",
             business_name: "",
-            country_icon: ""
+            country_icon: "",
+            permisos: [],
+            cliente_encrypted_id: "",
+            state: "Prueba"
           }
         ];
         callback({

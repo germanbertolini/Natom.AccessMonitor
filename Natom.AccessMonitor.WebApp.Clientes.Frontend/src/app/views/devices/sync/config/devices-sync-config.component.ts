@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { DeviceSyncConfig } from "src/app/classes/models/device.sync_config.model";
+import { DeviceSyncConfigDTO } from "src/app/classes/dto/device.sync_config.dto";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
 
@@ -13,7 +13,7 @@ import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-
 })
 
 export class DevicesSyncConfigComponent implements OnInit {
-  crud: CRUDView<DeviceSyncConfig>;
+  crud: CRUDView<DeviceSyncConfigDTO>;
   dtDevices: DataTables.Settings = {};
 
   constructor(private httpClientService: HttpClient,
@@ -22,8 +22,8 @@ export class DevicesSyncConfigComponent implements OnInit {
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
 
-    this.crud = new CRUDView<DeviceSyncConfig>(routeService);
-    this.crud.model = new DeviceSyncConfig();
+    this.crud = new CRUDView<DeviceSyncConfigDTO>(routeService);
+    this.crud.model = new DeviceSyncConfigDTO();
 
     //MOCK
     this.crud.model.interval_mins = 5;

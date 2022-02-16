@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { User } from "src/app/classes/models/user.model";
+import { UserDTO } from "src/app/classes/dto/user.dto";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
 import { DataTablesResponse } from "../../../classes/data-tables-response";
@@ -15,15 +15,15 @@ import { DataTablesResponse } from "../../../classes/data-tables-response";
 
 export class UserCrudComponent implements OnInit {
 
-  crud: CRUDView<User>;
+  crud: CRUDView<UserDTO>;
 
   constructor(private httpClientService: HttpClient,
               private routerService: Router,
               private routeService: ActivatedRoute,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
-    this.crud = new CRUDView<User>(routeService);
-    this.crud.model = new User();
+    this.crud = new CRUDView<UserDTO>(routeService);
+    this.crud.model = new UserDTO();
   }
 
   onCancelClick() {

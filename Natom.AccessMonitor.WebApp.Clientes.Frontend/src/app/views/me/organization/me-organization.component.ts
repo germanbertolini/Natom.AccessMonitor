@@ -2,8 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { Docket } from "src/app/classes/models/docket.model";
-import { Organization } from "src/app/classes/models/organization.model";
+import { OrganizationDTO } from "src/app/classes/dto/organization.dto";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
 import { DataTablesResponse } from "../../../classes/data-tables-response";
@@ -16,7 +15,7 @@ import { DataTablesResponse } from "../../../classes/data-tables-response";
 
 export class MeOrganizationComponent implements OnInit {
 
-  model: Organization;
+  model: OrganizationDTO;
 
   constructor(private httpClientService: HttpClient,
               private routerService: Router,
@@ -24,7 +23,7 @@ export class MeOrganizationComponent implements OnInit {
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
 
-    this.model = new Organization();
+    this.model = new OrganizationDTO();
 
     //MOCK
     this.model.encrypted_id = "adssdadas123e213132";

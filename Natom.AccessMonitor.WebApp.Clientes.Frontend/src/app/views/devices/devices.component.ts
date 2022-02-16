@@ -3,7 +3,7 @@ import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
 import { DataTablesResponse } from '../../classes/data-tables-response';
-import { Device } from "../../classes/models/device.model";
+import { DeviceDTO } from "../../classes/dto/device.dto";
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
@@ -13,7 +13,7 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
 })
 export class DevicesComponent implements OnInit {
   dtDevices: DataTables.Settings = {};
-  Devices: Device[];
+  Devices: DeviceDTO[];
   Noty: any;
 
   constructor(private httpClientService: HttpClient,

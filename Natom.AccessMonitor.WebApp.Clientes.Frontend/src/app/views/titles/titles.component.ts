@@ -2,8 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { Title } from "src/app/classes/models/title.model";
-import { User } from "src/app/classes/models/user.model";
+import { TitleDTO } from "src/app/classes/dto/title.dto";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
@@ -14,7 +13,7 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
 export class TitlesComponent implements OnInit {
 
   dtTitles: DataTables.Settings = {};
-  Titles: Title[];
+  Titles: TitleDTO[];
   Noty: any;
 
   constructor(private httpClientService: HttpClient,

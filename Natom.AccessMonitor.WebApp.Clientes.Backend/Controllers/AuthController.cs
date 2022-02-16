@@ -58,7 +58,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                     permissions = usuario != null ? usuario.Permisos.Select(p => p.PermisoId).ToList() : new List<string>();
                 }
 
-                var tokenDurationMinutes = Convert.ToInt32(_configurationService.GetValueAsync("WebApp.Clientes.Authentication.TokenDurationMins"));
+                var tokenDurationMinutes = Convert.ToInt32(await _configurationService.GetValueAsync("WebApp.Clientes.Authentication.TokenDurationMins"));
                 var authToken = await _authService.CreateTokenAsync(userId: usuario.UsuarioId, userName: $"{usuario.Nombre} {usuario.Apellido}", clientId: usuario.ClienteId, clientName: usuario.ClienteNombre, permissions, tokenDurationMinutes);
 
 

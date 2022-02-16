@@ -30,6 +30,15 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Auth
         [JsonProperty("status")]
         public string Status { get; set; }
 
+        [JsonProperty("business_name")]
+        public string BusinessName { get; set; }
+
+        [JsonProperty("business_role_name")]
+        public string BusinessRoleName { get; set; }
+
+        [JsonProperty("country_icon")]
+        public string CountryIcon { get; set; }
+
         [JsonProperty("permisos")]
         public List<string> Permisos { get; set; }
 
@@ -39,10 +48,15 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Auth
             FirstName = entity.Nombre;
             LastName = entity.Apellido;
             Email = entity.Email;
-            PictureURL = "assets/img/user-photo.png";
+            PictureURL = "/assets/img/user.png";
             RegisteredAt = entity.FechaHoraAlta;
             Status = status;
             Permisos = entity.Permisos?.Select(permiso => EncryptionService.Encrypt(permiso.PermisoId)).ToList();
+            BusinessName = entity.ClienteNombre;
+            BusinessRoleName = entity.ClienteId == null
+                                        ? "Administrador Natom"
+                                        : Permisos.Any(p => p.Equals("*")) ? "Administrador" : "Administrativo";
+            CountryIcon = "arg";
 
             return this;
         }

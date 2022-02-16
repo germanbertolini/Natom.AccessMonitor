@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core'; 
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,6 +11,10 @@ export class NavMenuComponent {
   @Output() toggleSidebarEvent = new EventEmitter<boolean>();
   isSidebarExpanded = false;
   isExpanded = false;
+
+  constructor(private authService: AuthService) {
+    
+  }
 
   collapse() {
     this.isExpanded = false;

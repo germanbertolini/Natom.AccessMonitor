@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { Device } from "src/app/classes/models/device.model";
+import { DeviceDTO } from "src/app/classes/dto/device.dto";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
 import { DataTablesResponse } from "../../../classes/data-tables-response";
@@ -14,7 +14,7 @@ import { DataTablesResponse } from "../../../classes/data-tables-response";
 })
 
 export class DeviceCrudComponent implements OnInit {
-  crud: CRUDView<Device>;
+  crud: CRUDView<DeviceDTO>;
   dtDevices: DataTables.Settings = {};
   Devices: object[];
 
@@ -23,8 +23,8 @@ export class DeviceCrudComponent implements OnInit {
               private routeService: ActivatedRoute,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
-    this.crud = new CRUDView<Device>(routeService);
-    this.crud.model = new Device();
+    this.crud = new CRUDView<DeviceDTO>(routeService);
+    this.crud.model = new DeviceDTO();
   }
 
   onSearchDeviceClick() {
