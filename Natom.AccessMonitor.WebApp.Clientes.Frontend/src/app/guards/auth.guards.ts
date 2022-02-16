@@ -14,10 +14,15 @@ export class AuthGuard implements CanActivate {
     }
 
     canActivate(
-        next: ActivatedRouteSnapshot,
+        route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> |
         Promise<boolean | UrlTree> | boolean | UrlTree {
         
+        if (this.getCurrentUrl(route) === "/users/confirm/:data")
+        {
+            return true;
+        }
+
         if (this._authService.getCurrentUser() == null)
         {
             this._router.navigate(['/login']);
@@ -34,4 +39,12 @@ export class AuthGuard implements CanActivate {
         return true;
 
     }
+
+    getCurrentUrl(route: ActivatedRouteSnapshot): string {
+        return '/' + route.pathFromRoot
+            .filter(v => v.routeConfig)
+            .map(v => v.routeConfig!.path)
+            .join('/');
+    }
+
 }

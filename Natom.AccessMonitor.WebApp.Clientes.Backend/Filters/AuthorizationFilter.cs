@@ -50,7 +50,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
                 _loggerService.LogInfo(_transaction.TraceTransactionId, "Inicio de transacción");
 
                 //VALIDACIONES DE SEGURIDAD
-                if (_controller.Equals("auth") || (_controller.Equals("users") && _action.Equals("confirm")))
+                if (_controller.Equals("auth") || (_controller.Equals("users") && (_action.Equals("confirm") || _action.Equals("recover"))))
                 {
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Operación sin token permitida");
 

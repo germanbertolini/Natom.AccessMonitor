@@ -16,9 +16,11 @@ import { ReportsWorkedHoursByDocketComponent } from "./views/reports/worked-hour
 import { ErrorPageComponent } from "./views/error-page/error-page.component";
 import { TitleCrudComponent } from "./views/titles/crud/title-crud.component";
 import { TitlesComponent } from "./views/titles/titles.component";
-import { UserCrudComponent } from "./views/users/crud/user-crud.component";
-import { UsersComponent } from "./views/users/users.component";
 import { LoginComponent } from "./views/login/login.component";
+import { UsersComponent } from "./views/users/users.component";
+import { UserCrudComponent } from "./views/users/crud/user-crud.component";
+import { UserConfirmComponent } from "./views/users/confirm/user-confirm.component";
+import { ABMUsuariosGuard } from "./guards/usuarios/abm.usuarios.guards";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -30,9 +32,10 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard ], path: "devices/new", component: DeviceCrudComponent },
     { canActivate: [ AuthGuard ], path: "devices/edit/:id", component: DeviceCrudComponent },
     { canActivate: [ AuthGuard ], path: "devices/sync/config", component: DevicesSyncConfigComponent },
-    { canActivate: [ AuthGuard ], path: 'users', component: UsersComponent },
-    { canActivate: [ AuthGuard ], path: "users/new", component: UserCrudComponent },
-    { canActivate: [ AuthGuard ], path: "users/edit/:id", component: UserCrudComponent },
+    { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: 'users', component: UsersComponent },
+    { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: "users/new", component: UserCrudComponent },
+    { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: "users/edit/:id", component: UserCrudComponent },
+    { canActivate: [ AuthGuard ], path: "users/confirm/:data", component: UserConfirmComponent },
     { canActivate: [ AuthGuard ], path: "me/profile", component: MeProfileComponent },
     { canActivate: [ AuthGuard ], path: "me/organization", component: MeOrganizationComponent },
     { canActivate: [ AuthGuard ], path: 'dockets', component: DocketsComponent },

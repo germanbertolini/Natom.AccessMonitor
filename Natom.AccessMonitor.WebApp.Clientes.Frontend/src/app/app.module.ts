@@ -23,8 +23,6 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogService } from './components/confirm-dialog/confirm-dialog.service';
 import { MeProfileComponent } from './views/me/profile/me-profile.component';
-import { UsersComponent } from './views/users/users.component';
-import { UserCrudComponent } from './views/users/crud/user-crud.component';
 import { DocketsComponent } from './views/dockets/dockets.component';
 import { DocketCrudComponent } from './views/dockets/crud/docket-crud.component';
 import { TitleCrudComponent } from './views/titles/crud/title-crud.component';
@@ -48,6 +46,9 @@ import { JsonAppConfigService } from './services/json-app-config.service';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { SpinnerLoadingService } from './components/spinner-loading/spinner-loading.service';
 import { ApiService } from './services/api.service';
+import { UsersComponent } from './views/users/users.component';
+import { UserCrudComponent } from './views/users/crud/user-crud.component';
+import { UserConfirmComponent } from './views/users/confirm/user-confirm.component';
 
 export function OnInit(jsonAppConfigService: JsonAppConfigService) {
   return () => {
@@ -67,6 +68,7 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     DeviceCrudComponent,
     UsersComponent,
     UserCrudComponent,
+    UserConfirmComponent,
     MeProfileComponent,
     MeOrganizationComponent,
     DocketsComponent,

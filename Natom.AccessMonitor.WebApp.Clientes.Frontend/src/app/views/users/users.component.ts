@@ -1,9 +1,12 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { DataTableDirective } from "angular-datatables/src/angular-datatables.directive";
 import { NotifierService } from "angular-notifier";
+import { DataTableDTO } from "src/app/classes/data-table-dto";
+import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { UserDTO } from "src/app/classes/dto/user.dto";
-import { DataTablesResponse } from '../../classes/data-tables-response';
+import { ApiService } from "src/app/services/api.service";
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
@@ -12,11 +15,14 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
 })
 export class UsersComponent implements OnInit {
 
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  dtInstance: Promise<DataTables.Api>;
   dtUsers: DataTables.Settings = {};
   Users: UserDTO[];
   Noty: any;
 
-  constructor(private httpClientService: HttpClient,
+  constructor(private apiService: ApiService,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
@@ -24,14 +30,58 @@ export class UsersComponent implements OnInit {
   }
 
   onEditClick(id: string) {
-    this.routerService.navigate(['/users/edit/' + id]);
+    this.routerService.navigate(['/users/edit/' + encodeURIComponent(id)]);
   }
 
   onDeleteClick(id: string) {
-    console.log(id);
     let notifier = this.notifierService;
+    let confirmDialogService = this.confirmDialogService;
+    let apiService = this.apiService;
+    let dataTableInstance = this.dtElement.dtInstance;
+
     this.confirmDialogService.showConfirm("Desea eliminar el usuario?", function () {  
-      notifier.notify('success', 'Usuario eliminado con éxito.');
+      apiService.DoDELETE<ApiResult<any>>("users/delete?encryptedId=" + encodeURIComponent(id), /*headers*/ null,
+                                            (response) => {
+                                              if (!response.success) {
+                                                confirmDialogService.showError(response.message);
+                                              }
+                                              else {
+                                                notifier.notify('success', 'Usuario eliminado con éxito.');
+                                                dataTableInstance.then((dtInstance: DataTables.Api) => {
+                                                  dtInstance.ajax.reload()
+                                                });
+                                              }
+                                            },
+                                            (errorMessage) => {
+                                              confirmDialogService.showError(errorMessage);
+                                            });
+      
+    });
+  }
+
+  onRecoverClick(id: string) {
+    let notifier = this.notifierService;
+    let confirmDialogService = this.confirmDialogService;
+    let apiService = this.apiService;
+    let dataTableInstance = this.dtElement.dtInstance;
+
+    this.confirmDialogService.showConfirm("Desea recuperar la clave del usuario? (Esto lo inactivará hasta confirmar el correo)", function () {  
+      apiService.DoPOST<ApiResult<any>>("users/recover_by_id?encryptedId=" + encodeURIComponent(id), {}, /*headers*/ null,
+                                            (response) => {
+                                              if (!response.success) {
+                                                confirmDialogService.showError(response.message);
+                                              }
+                                              else {
+                                                notifier.notify('success', 'Email de recuperación enviado con éxito.');
+                                                dataTableInstance.then((dtInstance: DataTables.Api) => {
+                                                  dtInstance.ajax.reload()
+                                                });
+                                              }
+                                            },
+                                            (errorMessage) => {
+                                              confirmDialogService.showError(errorMessage);
+                                            });
+      
     });
   }
 
@@ -59,119 +109,44 @@ export class UsersComponent implements OnInit {
         },
       },
       ajax: (dataTablesParameters: any, callback) => {
-        //this.httpClient
-        //  .post<DataTablesResponse>(
-        //    this.connectService.URL + 'read_records_dt.php',
-        //    dataTablesParameters, {}
-        //  ).subscribe(resp => {
-        //    this.Members = resp.data;
-        //    this.NumberOfMembers = resp.data.length;
-        //    $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-        //    callback({
-        //      recordsTotal: resp.recordsTotal,
-        //      recordsFiltered: resp.recordsFiltered,
-        //      data: []
-        //    });
-        //    if (this.NumberOfMembers > 0) {
-        //      $('.dataTables_empty').css('display', 'none');
-        //    }
-        //  }
-        //  );
-        this.Users = [
-          {
-            encrypted_id: "asddas123132",
-            first_name: "German",
-            last_name: "Bertolini",
-            email: "german.bertolini@gmail.com",
-            registered_at: new Date('2020-12-28T00:00:00'),
-            business_role_name: "Administrador",
-            picture_url: "",
-            business_name: "",
-            country_icon: "",
-            permisos: [],
-            cliente_encrypted_id: "",
-            state: "Prueba"
-          },
-          {
-            encrypted_id: "2398n23984n",
-            first_name: "Gaston",
-            last_name: "Sanchez",
-            email: "gaston.sanchez@gmail.com",
-            registered_at: new Date('2019-02-26T00:00:00'),
-            business_role_name: "Administrador",
-            picture_url: "",
-            business_name: "",
-            country_icon: "",
-            permisos: [],
-            cliente_encrypted_id: "",
-            state: "Prueba"
-          },
-          {
-            encrypted_id: "13d2123",
-            first_name: "Mariano",
-            last_name: "Anello",
-            email: "mariano.anello@gmail.com",
-            registered_at: new Date('2019-08-10T00:00:00'),
-            business_role_name: "Administrador",
-            picture_url: "",
-            business_name: "",
-            country_icon: "",
-            permisos: [],
-            cliente_encrypted_id: "",
-            state: "Prueba"
-          },
-          {
-            encrypted_id: "c424c2423243",
-            first_name: "Pedro",
-            last_name: "Lopez",
-            email: "plopez@hotmail.com",
-            registered_at: new Date('2019-10-19T00:00:00'),
-            business_role_name: "Operador",
-            picture_url: "",
-            business_name: "",
-            country_icon: "",
-            permisos: [],
-            cliente_encrypted_id: "",
-            state: "Prueba"
-          },
-          {
-            encrypted_id: "24098jsda",
-            first_name: "Diana",
-            last_name: "Gutierrez",
-            email: "dguti@outlook.com.ar",
-            registered_at: new Date('2019-10-19T00:00:00'),
-            business_role_name: "Operador",
-            picture_url: "",
-            business_name: "",
-            country_icon: "",
-            permisos: [],
-            cliente_encrypted_id: "",
-            state: "Prueba"
-          }
-        ];
-        callback({
-          recordsTotal: this.Users.length,
-          recordsFiltered: this.Users.length,
-          data: [] //Siempre vacío para delegarle el render a Angular
-        });
-        if (this.Users.length > 0) {
-          $('.dataTables_empty').hide();
-        }
-        else {
-          $('.dataTables_empty').show();
-        }
-        setTimeout(function() {
-          (<any>$("tbody tr").find('[data-toggle="tooltip"]')).tooltip();
-        }, 300);
+        this.apiService.DoPOST<ApiResult<DataTableDTO<UserDTO>>>("users/list", dataTablesParameters, /*headers*/ null,
+                      (response) => {
+                        if (!response.success) {
+                          this.confirmDialogService.showError(response.message);
+                        }
+                        else {
+                          callback({
+                            recordsTotal: response.data.recordsTotal,
+                            recordsFiltered: response.data.recordsFiltered,
+                            data: [] //Siempre vacío para delegarle el render a Angular
+                          });
+                          this.Users = response.data.records;
+                          if (this.Users.length > 0) {
+                            $('.dataTables_empty').hide();
+                          }
+                          else {
+                            $('.dataTables_empty').show();
+                          }
+                          setTimeout(function() {
+                            (<any>$("tbody tr").find('[data-toggle="tooltip"]')).tooltip();
+                          }, 300);
+                        }
+                      },
+                      (errorMessage) => {
+                        this.confirmDialogService.showError(errorMessage);
+                      });
       },
       columns: [
         { data: 'first_name' },
         { data: 'last_name' },
         { data: "email" },
         { data: 'registered_at' },
-        { data: 'business_role_name' }
+        { data: 'status' },
+        { data: '' } //BOTONERA
       ]
     };
+
+    console.log(this.dtUsers);
   }
 
 }
