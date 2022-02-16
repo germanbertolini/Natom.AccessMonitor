@@ -26,13 +26,13 @@ export class AuthService {
     this._current_token = null;
     this._current_permissions = null;
 
-    let userCookieData = this.cookieService.get('Auth.Current.User');
+    let userCookieData = this.cookieService.get('Admin.Auth.Current.User');
     if (userCookieData.length > 0) this._current_user = JSON.parse(atob(userCookieData));
     
-    let tokenCookieData = this.cookieService.get('Auth.Current.Token');
+    let tokenCookieData = this.cookieService.get('Admin.Auth.Current.Token');
     if (tokenCookieData.length > 0) this._current_token = JSON.parse(atob(tokenCookieData));
 
-    let permissionsCookieData = this.cookieService.get('Auth.Current.Permissions');
+    let permissionsCookieData = this.cookieService.get('Admin.Auth.Current.Permissions');
     if (permissionsCookieData.length > 0) this._current_permissions = JSON.parse(atob(permissionsCookieData));
 
     apiService.SetOnForbiddenAction(() => {
@@ -53,10 +53,10 @@ export class AuthService {
                           _confirmDialogService.showError(response.message);
                         }
                         else {
-                          _cookieService.delete('Auth.Current.User');
-                          _cookieService.delete('Auth.Current.Token');
-                          _cookieService.delete('Auth.Current.Permissions');
-                          _cookieService.delete('Authorization', "/");
+                          _cookieService.delete('Admin.Auth.Current.User');
+                          _cookieService.delete('Admin.Auth.Current.Token');
+                          _cookieService.delete('Admin.Auth.Current.Permissions');
+                          _cookieService.delete('Admin.Authorization', "/");
 
                           if (!_cancelRedirect)
                             location.href = _baseURL;
@@ -106,10 +106,10 @@ export class AuthService {
                             return permission.toLowerCase();
                           });
 
-                          this.cookieService.set('Auth.Current.User', btoa(JSON.stringify(this._current_user)));
-                          this.cookieService.set('Auth.Current.Token', btoa(JSON.stringify(this._current_token)));
-                          this.cookieService.set('Auth.Current.Permissions', btoa(JSON.stringify(this._current_permissions)));
-                          this.cookieService.set('Authorization', 'Bearer ' + this._current_token, null, "/");
+                          this.cookieService.set('Admin.Auth.Current.User', btoa(JSON.stringify(this._current_user)));
+                          this.cookieService.set('Admin.Auth.Current.Token', btoa(JSON.stringify(this._current_token)));
+                          this.cookieService.set('Admin.Auth.Current.Permissions', btoa(JSON.stringify(this._current_permissions)));
+                          this.cookieService.set('Admin.Authorization', 'Bearer ' + this._current_token, null, "/");
 
                           onSuccess();
                         }

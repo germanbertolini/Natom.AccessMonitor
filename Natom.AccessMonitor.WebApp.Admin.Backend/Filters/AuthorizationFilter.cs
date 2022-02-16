@@ -58,12 +58,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
                     {
                         try
                         {
-                            var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];
+                            var headerValuesForAuthorization = context.HttpContext.Request.Headers["Admin.Authorization"];
                             if (headerValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(headerValuesForAuthorization.ToString()))
-                                throw new HandledException("Se debe enviar el 'Authorization'.");
+                                throw new HandledException("Se debe enviar el 'Admin.Authorization'.");
 
                             if (!headerValuesForAuthorization.ToString().StartsWith("Bearer"))
-                                throw new HandledException("'Authorization' inválido.");
+                                throw new HandledException("'Admin.Authorization' inválido.");
 
                             var authorization = headerValuesForAuthorization.ToString();
                             var accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
@@ -84,12 +84,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
                 }
                 else
                 {
-                    var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];
+                    var headerValuesForAuthorization = context.HttpContext.Request.Headers["Admin.Authorization"];
                     if (headerValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(headerValuesForAuthorization.ToString()))
-                        throw new HandledException("Se debe enviar el 'Authorization'.");
+                        throw new HandledException("Se debe enviar el 'Admin.Authorization'.");
 
                     if (!headerValuesForAuthorization.ToString().StartsWith("Bearer"))
-                        throw new HandledException("'Authorization' inválido.");
+                        throw new HandledException("'Admin.Authorization' inválido.");
 
                     var authorization = headerValuesForAuthorization.ToString();
                     var accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);

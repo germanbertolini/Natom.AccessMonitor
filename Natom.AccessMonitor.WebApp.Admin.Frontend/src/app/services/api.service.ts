@@ -100,9 +100,9 @@ export class ApiService {
         if (headers === null)
             headers = new HttpHeaders();
 
-        let token = atob(this.cookieService.get('Auth.Current.Token'));
-        if (!headers.has("Authorization") && token !== "")
-            headers = headers.append("Authorization", "Bearer " + token.substring(1, token.length - 1));
+        let token = atob(this.cookieService.get('Admin.Auth.Current.Token'));
+        if (!headers.has("Admin.Authorization") && token !== "")
+            headers = headers.append("Admin.Authorization", "Bearer " + token.substring(1, token.length - 1));
 
         return headers;
     }
