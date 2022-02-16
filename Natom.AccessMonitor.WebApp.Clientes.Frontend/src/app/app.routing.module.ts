@@ -14,13 +14,14 @@ import { Query1BComponent } from "./views/queries/1/B/query-1-b.component";
 import { ReportsAttendanceByDeviceComponent } from "./views/reports/attendance/reports-attendance-by-device.component";
 import { ReportsWorkedHoursByDocketComponent } from "./views/reports/worked-hours/reports-worked-hours-by-docket.component";
 import { ErrorPageComponent } from "./views/error-page/error-page.component";
-import { TitleCrudComponent } from "./views/titles/crud/title-crud.component";
-import { TitlesComponent } from "./views/titles/titles.component";
 import { LoginComponent } from "./views/login/login.component";
 import { UsersComponent } from "./views/users/users.component";
 import { UserCrudComponent } from "./views/users/crud/user-crud.component";
 import { UserConfirmComponent } from "./views/users/confirm/user-confirm.component";
 import { ABMUsuariosGuard } from "./guards/usuarios/abm.usuarios.guards";
+import { TitlesComponent } from "./views/titles/titles.component";
+import { TitleCrudComponent } from "./views/titles/crud/title-crud.component";
+import { ABMTitlesGuard } from "./guards/titles/abm.titles.guards";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -41,9 +42,9 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard ], path: 'dockets', component: DocketsComponent },
     { canActivate: [ AuthGuard ], path: "dockets/new", component: DocketCrudComponent },
     { canActivate: [ AuthGuard ], path: "dockets/edit/:id", component: DocketCrudComponent },
-    { canActivate: [ AuthGuard ], path: 'titles', component: TitlesComponent },
-    { canActivate: [ AuthGuard ], path: "titles/new", component: TitleCrudComponent },
-    { canActivate: [ AuthGuard ], path: "titles/edit/:id", component: TitleCrudComponent },
+    { canActivate: [ AuthGuard, ABMTitlesGuard ], path: 'titles', component: TitlesComponent },
+    { canActivate: [ AuthGuard, ABMTitlesGuard ], path: "titles/new", component: TitleCrudComponent },
+    { canActivate: [ AuthGuard, ABMTitlesGuard ], path: "titles/edit/:id", component: TitleCrudComponent },
     { canActivate: [ AuthGuard ], path: "queries/1/a", component: Query1AComponent },
     { canActivate: [ AuthGuard ], path: "queries/1/b", component: Query1BComponent },
     { canActivate: [ AuthGuard ], path: "reports/attendance/by_device", component: ReportsAttendanceByDeviceComponent },
