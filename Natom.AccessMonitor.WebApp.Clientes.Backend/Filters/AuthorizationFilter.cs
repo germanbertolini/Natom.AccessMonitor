@@ -139,10 +139,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
             bool hasPermission = false;
             foreach (var permission in permissions)
             {
-                if (permission.Contains("*"))
-                    hasPermission = actionRequested.StartsWith(permission.Replace("*", ""));
-                else
-                    hasPermission = actionRequested.Equals(permission);
+                hasPermission = _authService.EndpointTienePermiso(actionRequested, permission);
 
                 if (hasPermission)
                     break;

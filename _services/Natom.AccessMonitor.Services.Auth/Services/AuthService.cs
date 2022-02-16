@@ -79,8 +79,12 @@ namespace Natom.AccessMonitor.Services.Auth.Services
 
         public bool EndpointTienePermiso(string endpoint, string permiso)
         {
-            return !_endpointPermissions.ContainsKey(endpoint)
-                    || (_endpointPermissions.ContainsKey(endpoint) && _endpointPermissions[endpoint].Contains(permiso));
+            return permiso.Equals("*")
+                ||
+                (
+                    !_endpointPermissions.ContainsKey(endpoint)
+                        || (_endpointPermissions.ContainsKey(endpoint) && _endpointPermissions[endpoint].Contains(permiso))
+                );
         }
 
         public async Task<AccessToken> CreateTokenAsync(int? userId, string userName, int? clientId, string clientName, List<string> permissions, long tokenDurationMinutes)
