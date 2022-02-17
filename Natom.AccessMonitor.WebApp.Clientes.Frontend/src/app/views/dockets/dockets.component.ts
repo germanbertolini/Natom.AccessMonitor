@@ -1,8 +1,11 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { DataTableDirective } from "angular-datatables";
 import { NotifierService } from "angular-notifier";
-import { DocketDTO } from "src/app/classes/dto/docket.dto";
+import { DataTableDTO } from "src/app/classes/data-table-dto";
+import { DocketListDTO } from "src/app/classes/dto/dockets/docket-list.dto";
+import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
+import { ApiService } from "src/app/services/api.service";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
@@ -11,15 +14,26 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
   templateUrl: './dockets.component.html'
 })
 export class DocketsComponent implements OnInit {  
-  dtDockets: DataTables.Settings = {};
-  Dockets: DocketDTO[];
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  dtInstance: Promise<DataTables.Api>;
+  dtIndex: DataTables.Settings = {};
+  Dockets: DocketListDTO[];
   Noty: any;
+  filterStatusValue: string;
 
-  constructor(private httpClientService: HttpClient,
+  constructor(private apiService: ApiService,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
-                
+    this.filterStatusValue = "ACTIVOS";
+  }
+
+  onFiltroEstadoChange(newValue: string) {
+    this.filterStatusValue = newValue;
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.ajax.reload()
+    });
   }
 
   onReportWorkedHoursClick(id: string) {
@@ -30,17 +44,59 @@ export class DocketsComponent implements OnInit {
     this.routerService.navigate(['/dockets/edit/' + id]);
   }
 
-  onDeleteClick(id: string) {
-    console.log(id);
+  onEnableClick(id: string) {
     let notifier = this.notifierService;
-    this.confirmDialogService.showConfirm("Desea eliminar el legajo?", function () {  
-      notifier.notify('success', 'Legajo eliminado con éxito.');
-    });
+    let confirmDialogService = this.confirmDialogService;
+    let apiService = this.apiService;
+    let dataTableInstance = this.dtElement.dtInstance;
+
+    this.confirmDialogService.showConfirm("Desea dar de alta al legajo?", function () {  
+      apiService.DoPOST<ApiResult<any>>("dockets/enable?encryptedId=" + encodeURIComponent(id), {}, /*headers*/ null,
+                                            (response) => {
+                                              if (!response.success) {
+                                                confirmDialogService.showError(response.message);
+                                              }
+                                              else {
+                                                notifier.notify('success', 'Legajo dado de alta con éxito.');
+                                                dataTableInstance.then((dtInstance: DataTables.Api) => {
+                                                  dtInstance.ajax.reload()
+                                                });
+                                              }
+                                            },
+                                            (errorMessage) => {
+                                              confirmDialogService.showError(errorMessage);
+                                            });
+                                          });
+  }
+
+  onDisableClick(id: string) {
+    let notifier = this.notifierService;
+    let confirmDialogService = this.confirmDialogService;
+    let apiService = this.apiService;
+    let dataTableInstance = this.dtElement.dtInstance;
+
+    this.confirmDialogService.showConfirm("Desea dar de baja al legajo?", function () {  
+      apiService.DoDELETE<ApiResult<any>>("dockets/disable?encryptedId=" + encodeURIComponent(id), /*headers*/ null,
+                                            (response) => {
+                                              if (!response.success) {
+                                                confirmDialogService.showError(response.message);
+                                              }
+                                              else {
+                                                notifier.notify('success', 'Legajo dado de baja con éxito.');
+                                                dataTableInstance.then((dtInstance: DataTables.Api) => {
+                                                  dtInstance.ajax.reload()
+                                                });
+                                              }
+                                            },
+                                            (errorMessage) => {
+                                              confirmDialogService.showError(errorMessage);
+                                            });
+                                          });
   }
 
   ngOnInit(): void {
 
-    this.dtDockets = {
+    this.dtIndex = {
       pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
@@ -62,71 +118,40 @@ export class DocketsComponent implements OnInit {
         },
       },
       ajax: (dataTablesParameters: any, callback) => {
-        //this.httpClient
-        //  .post<DataTablesResponse>(
-        //    this.connectService.URL + 'read_records_dt.php',
-        //    dataTablesParameters, {}
-        //  ).subscribe(resp => {
-        //    this.Members = resp.data;
-        //    this.NumberOfMembers = resp.data.length;
-        //    $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-        //    callback({
-        //      recordsTotal: resp.recordsTotal,
-        //      recordsFiltered: resp.recordsFiltered,
-        //      data: []
-        //    });
-        //    if (this.NumberOfMembers > 0) {
-        //      $('.dataTables_empty').css('display', 'none');
-        //    }
-        //  }
-        //  );
-        this.Dockets = [
-          {
-            encrypted_id: "231987213987987",
-            docket_number: "10001",
-            employee_first_name: "Eduardo",
-            employee_last_name: "Alsina",
-            employee_dni: "24.287.129",
-            employee_title: "Jefe de mantenimiento"
-          },
-          {
-            encrypted_id: "3198xcnn8xnbn",
-            docket_number: "10002",
-            employee_first_name: "Ramiro",
-            employee_last_name: "Garcia",
-            employee_dni: "30.282.123",
-            employee_title: "Manufactura"
-          },
-          {
-            encrypted_id: "3198xcnn8xnbn",
-            docket_number: "10002",
-            employee_first_name: "Ramiro",
-            employee_last_name: "Garcia",
-            employee_dni: "30.282.123",
-            employee_title: "Manufactura"
-          }
-        ];
-        callback({
-          recordsTotal: this.Dockets.length,
-          recordsFiltered: this.Dockets.length,
-          data: [] //Siempre vacío para delegarle el render a Angular
-        });
-        if (this.Dockets.length > 0) {
-          $('.dataTables_empty').hide();
-        }
-        else {
-          $('.dataTables_empty').show();
-        }
-        setTimeout(function() {
-          (<any>$("tbody tr").find('[data-toggle="tooltip"]')).tooltip();
-        }, 300);
+        this.apiService.DoPOST<ApiResult<DataTableDTO<DocketListDTO>>>("dockets/list?status=" + this.filterStatusValue, dataTablesParameters, /*headers*/ null,
+                      (response) => {
+                        if (!response.success) {
+                          this.confirmDialogService.showError(response.message);
+                        }
+                        else {
+                          callback({
+                            recordsTotal: response.data.recordsTotal,
+                            recordsFiltered: response.data.recordsFiltered,
+                            data: [] //Siempre vacío para delegarle el render a Angular
+                          });
+                          this.Dockets = response.data.records;
+                          if (this.Dockets.length > 0) {
+                            $('.dataTables_empty').hide();
+                          }
+                          else {
+                            $('.dataTables_empty').show();
+                          }
+                          setTimeout(function() {
+                            (<any>$("tbody tr").find('[data-toggle="tooltip"]')).tooltip();
+                          }, 300);
+                        }
+                      },
+                      (errorMessage) => {
+                        this.confirmDialogService.showError(errorMessage);
+                      });
       },
       columns: [
         { data: 'docket_number' },
         { data: 'employee_first_name' },
         { data: "employee_last_name" },
         { data: 'employee_dni' },
-        { data: 'employee_title' }
+        { data: 'employee_title' },
+        { data: '', orderable: false } //BOTONERA
       ]
     };
   }

@@ -143,7 +143,7 @@ export class TitlesComponent implements OnInit {
       },
       columns: [
         { data: 'name' },
-        { data: '' } //BOTONERA
+        { data: '', orderable: false } //BOTONERA
       ]
     };
   }

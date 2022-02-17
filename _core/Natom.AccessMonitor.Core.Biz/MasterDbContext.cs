@@ -13,6 +13,8 @@ namespace Natom.AccessMonitor.Core.Biz
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Zona> Zonas { get; set; }
         public DbSet<Title> Titles { get; set; }
+        public DbSet<Docket> Dockets { get; set; }
+        public DbSet<DocketRange> DocketRanges { get; set; }
         public DbSet<TipoDocumento> TiposDocumento { get; set; }
 
 

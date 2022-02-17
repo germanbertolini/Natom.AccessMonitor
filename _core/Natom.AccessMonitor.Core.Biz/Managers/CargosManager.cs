@@ -66,7 +66,8 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
 
                 title = new Title()
                 {
-                    Name = titleDto.Name
+                    Name = titleDto.Name,
+                    ClienteId = titleDto.ClienteId
                 };
 
                 _db.Titles.Add(title);

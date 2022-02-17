@@ -9,7 +9,7 @@
   <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
       <a class="nav-item nav-link active" id="nav-general-tab" data-toggle="tab" href="#nav-general" role="tab" aria-controls="nav-home" aria-selected="true">General</a>
-      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-presence" role="tab" aria-controls="nav-presence" aria-selected="false">Presencialidad</a>
+      <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-presence" role="tab" aria-controls="nav-presence" aria-selected="false" (click)="removePresencePending()">Presencialidad<b *ngIf="this.presencePending === true">&nbsp;&nbsp;<i class="fa fa-circle" style="color:#b31212" aria-hidden="true"></i></b></a>
       <a class="nav-item nav-link" id="nav-valores-tab" data-toggle="tab" href="#nav-valores" role="tab" aria-controls="nav-valores" aria-selected="false">Valores</a>
     </div>
   </nav>
@@ -30,6 +30,7 @@
               type="text"
               class="form-control"
               placeholder="XXXXX"
+              maxlength="20"
               [(ngModel)]="crud.model.docket_number" />
           </div>
         </div>
@@ -40,7 +41,8 @@
               type="text"
               class="form-control"
               placeholder="Nombre"
-              [(ngModel)]="crud.model.employee_first_name" />
+              maxlength="50"
+              [(ngModel)]="crud.model.first_name" />
           </div>
         </div>
         <div class="col-md-3">
@@ -50,17 +52,20 @@
               type="text"
               class="form-control"
               placeholder="Apellido"
-              [(ngModel)]="crud.model.employee_last_name" />
+              maxlength="50"
+              [(ngModel)]="crud.model.last_name" />
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
-            <label for="formGroupExampleInput">DNI</label>
+            <label for="formGroupExampleInput">DNI (sin puntos)</label>
             <input
               type="text"
               class="form-control"
-              placeholder="XX.XXX.XXX"
-              [(ngModel)]="crud.model.employee_dni" />
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+              placeholder="XXXXXXXX"
+              maxlength="15"
+              [(ngModel)]="crud.model.dni" />
           </div>
         </div>
       </div>
@@ -76,10 +81,10 @@
               </div>
               <select
                 class="form-control"
-                size="1">
+                size="1"
+                [(ngModel)]="crud.model.title_encrypted_id">
                 <option value="">Seleccione...</option>
-                <option value="1">Jefe de mantenimiento</option>
-                <option value="2">Manufactura</option>
+                <option *ngFor="let title of Titles; let i = index" value="{{ title.encrypted_id }}">{{ title.name }}</option>
               </select>
             </div>
           </div>
@@ -89,7 +94,21 @@
 
 
     <div class="tab-pane fade" id="nav-presence" role="tabpanel" aria-labelledby="nav-presence-tab">
-      <div class="row" day-of-week="1" style="margin-top:10px;">
+      <div class="row" style="margin-top:10px;">
+        <div class="col-md-6">
+            <div class="material-switch pull-left" style="margin-top: 2px; margin-bottom:10px; margin-left:3rem;"><!-- <div class="material-switch pull-right"> -->
+                <input
+                type="checkbox"
+                style="cursor:pointer;"
+                id="switchRanges"
+                [(ngModel)]="crud.model.apply_ranges"
+                />
+                <label for="switchRanges" class="switch-danger"></label>
+            </div>
+            &nbsp;&nbsp;&nbsp;<b>Aplicar control por rango horario</b>
+        </div>
+      </div>
+      <div class="row" day-of-week="1" style="margin-top:10px;" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">
               <div class="input-group-prepend" style="width:100%">
                   <span class="input-group-text" style="width:100%"><b>Lunes</b></span>
@@ -99,24 +118,24 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde1" placeholder="HH:MM" value="08:00" maxlength="5">
+              <input type="text" class="form-control Desde1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[0].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to1" placeholder="HH:MM" value="13:00" maxlength="5">
+              <input type="text" class="form-control to1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[0].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
           <div class="col-md-5 input-group input-sm">
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde2" placeholder="HH:MM" value="15:00" maxlength="5">
+              <input type="text" class="form-control Desde2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[1].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to2" placeholder="HH:MM" value="23:30" maxlength="5">
+              <input type="text" class="form-control to2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[1].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
       </div>
-      <div class="row" style="margin-top:10px;" day-of-week="2">
+      <div class="row" style="margin-top:10px;" day-of-week="2" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">
               <div class="input-group-prepend" style="width:100%">
                   <span class="input-group-text" style="width:100%"><b>Martes</b></span>
@@ -126,24 +145,24 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde1" placeholder="HH:MM" value="08:00" maxlength="5">
+              <input type="text" class="form-control Desde1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[2].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to1" placeholder="HH:MM" value="13:00" maxlength="5">
+              <input type="text" class="form-control to1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[2].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
           <div class="col-md-5 input-group input-sm">
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde2" placeholder="HH:MM" value="15:00" maxlength="5">
+              <input type="text" class="form-control Desde2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[3].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to2" placeholder="HH:MM" value="23:30" maxlength="5">
+              <input type="text" class="form-control to2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[3].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
       </div>
-      <div class="row" style="margin-top:10px;" day-of-week="3">
+      <div class="row" style="margin-top:10px;" day-of-week="3" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">
               <div class="input-group-prepend" style="width:100%">
                   <span class="input-group-text" style="width:100%"><b>Miércoles</b></span>
@@ -153,24 +172,24 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde1" placeholder="HH:MM" value="08:00" maxlength="5">
+              <input type="text" class="form-control Desde1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[4].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to1" placeholder="HH:MM" value="13:00" maxlength="5">
+              <input type="text" class="form-control to1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[4].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
           <div class="col-md-5 input-group input-sm">
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde2" placeholder="HH:MM" value="15:00" maxlength="5">
+              <input type="text" class="form-control Desde2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[5].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to2" placeholder="HH:MM" value="23:30" maxlength="5">
+              <input type="text" class="form-control to2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[5].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
       </div>
-      <div class="row" style="margin-top:10px;" day-of-week="4">
+      <div class="row" style="margin-top:10px;" day-of-week="4" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">
               <div class="input-group-prepend" style="width:100%">
                   <span class="input-group-text" style="width:100%"><b>Jueves</b></span>
@@ -180,24 +199,24 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde1" placeholder="HH:MM" value="08:00" maxlength="5">
+              <input type="text" class="form-control Desde1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[6].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to1" placeholder="HH:MM" value="13:00" maxlength="5">
+              <input type="text" class="form-control to1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[6].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
           <div class="col-md-5 input-group input-sm">
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde2" placeholder="HH:MM" value="15:00" maxlength="5">
+              <input type="text" class="form-control Desde2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[7].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to2" placeholder="HH:MM" value="23:30" maxlength="5">
+              <input type="text" class="form-control to2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[7].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
       </div>
-      <div class="row" style="margin-top:10px;" day-of-week="5">
+      <div class="row" style="margin-top:10px;" day-of-week="5" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">
               <div class="input-group-prepend" style="width:100%">
                   <span class="input-group-text" style="width:100%"><b>Viernes</b></span>
@@ -207,24 +226,24 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde1" placeholder="HH:MM" value="08:00" maxlength="5">
+              <input type="text" class="form-control Desde1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[8].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to1" placeholder="HH:MM" value="13:00" maxlength="5">
+              <input type="text" class="form-control to1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[8].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
           <div class="col-md-5 input-group input-sm">
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde2" placeholder="HH:MM" value="15:00" maxlength="5">
+              <input type="text" class="form-control Desde2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[9].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to2" placeholder="HH:MM" value="23:30" maxlength="5">
+              <input type="text" class="form-control to2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[9].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
       </div>
-      <div class="row" style="margin-top:10px;" day-of-week="6">
+      <div class="row" style="margin-top:10px;" day-of-week="6" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">
               <div class="input-group-prepend" style="width:100%">
                   <span class="input-group-text" style="width:100%"><b>Sabado</b></span>
@@ -234,24 +253,24 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde1" placeholder="HH:MM" value="08:00" maxlength="5">
+              <input type="text" class="form-control Desde1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[10].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to1" placeholder="HH:MM" value="23:00" maxlength="5">
+              <input type="text" class="form-control to1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[10].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
           <div class="col-md-5 input-group input-sm">
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde2" placeholder="HH:MM" value="" maxlength="5">
+              <input type="text" class="form-control Desde2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[11].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to2" placeholder="HH:MM" value="" maxlength="5">
+              <input type="text" class="form-control to2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[11].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
       </div>
-      <div class="row" style="margin-top:10px;" day-of-week="0">
+      <div class="row" style="margin-top:10px;" day-of-week="0" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">
               <div class="input-group-prepend" style="width:100%">
                   <span class="input-group-text" style="width:100%"><b>Domingo</b></span>
@@ -261,21 +280,21 @@
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde1" placeholder="HH:MM" value="08:00" maxlength="5">
+              <input type="text" class="form-control Desde1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[12].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to1" placeholder="HH:MM" value="23:00" maxlength="5">
+              <input type="text" class="form-control to1" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[12].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
           <div class="col-md-5 input-group input-sm">
               <div class="input-group-prepend">
                   <span class="input-group-text">Desde</span>
               </div>
-              <input type="text" class="form-control Desde2" placeholder="HH:MM" value="" maxlength="5">
+              <input type="text" class="form-control Desde2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[13].from" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
               <div class="input-group-prepend">
                   <span class="input-group-text">Hasta</span>
               </div>
-              <input type="text" class="form-control to2" placeholder="HH:MM" value="" maxlength="5">
+              <input type="text" class="form-control to2" placeholder="HH:MM" [(ngModel)]="crud.model.ranges[13].to" maxlength="5" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 58">
           </div>
       </div>
     </div>
@@ -290,9 +309,11 @@
                             <span class="input-group-text">$</span>
                         </div>
                         <input
-                          type="text"
+                          type="number"
                           class="form-control"
-                          value="150,00" />
+                          placeholder="0,00"
+                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 44"
+                          [(ngModel)]="crud.model.hour_value" />
                     </div>
                 </div>
             </div>
@@ -304,9 +325,11 @@
                             <span class="input-group-text">$</span>
                         </div>
                         <input
-                          type="text"
+                          type="number"
                           class="form-control"
-                          value="120,00" />
+                          placeholder="0,00"
+                          onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 44"
+                          [(ngModel)]="crud.model.extra_hour_value" />
                     </div>
                 </div>
             </div>

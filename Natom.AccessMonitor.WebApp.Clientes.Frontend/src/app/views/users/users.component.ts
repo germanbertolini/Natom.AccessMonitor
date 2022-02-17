@@ -145,7 +145,7 @@ export class UsersComponent implements OnInit {
         { data: 'registered_at' },
         { data: 'rol' },
         { data: 'status' },
-        { data: '' } //BOTONERA
+        { data: '', orderable: false } //BOTONERA
       ]
     };
 
