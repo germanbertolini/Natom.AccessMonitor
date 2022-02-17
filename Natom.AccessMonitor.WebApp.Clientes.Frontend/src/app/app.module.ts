@@ -48,6 +48,10 @@ import { ApiService } from './services/api.service';
 import { UsersComponent } from './views/users/users.component';
 import { UserCrudComponent } from './views/users/crud/user-crud.component';
 import { UserConfirmComponent } from './views/users/confirm/user-confirm.component';
+import { GoalsComponent } from './views/goals/goals.component';
+import { PlaceCrudComponent } from './views/places/crud/place-crud.component';
+import { GoalCrudComponent } from './views/goals/crud/goal-crud.component';
+import { PlacesComponent } from './views/places/places.component';
 
 export function OnInit(jsonAppConfigService: JsonAppConfigService) {
   return () => {
@@ -73,6 +77,10 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     DocketCrudComponent,
     TitlesComponent,
     TitleCrudComponent,
+    PlacesComponent,
+    PlaceCrudComponent,
+    GoalsComponent,
+    GoalCrudComponent,
     DevicesSyncConfigComponent,
     Query1AComponent,
     Query1BComponent,

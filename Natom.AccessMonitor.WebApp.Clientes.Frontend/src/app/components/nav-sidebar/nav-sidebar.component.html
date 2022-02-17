@@ -25,7 +25,6 @@
                     <li><a class="nav-link text-dark" [routerLink]="['/titles']">Administrar Cargos</a></li>
                     <li><a class="nav-link text-dark" [routerLink]="['/dockets']">Administrar Legajos</a></li>
                     <li><a class="nav-link text-dark" [routerLink]="['/users']">Administrar Usuarios</a></li>
-                    <li><a class="nav-link text-dark" [routerLink]="['/devices']">Administrar Dispositivos</a></li>
                 </ul>
             </li>
             <li>
@@ -33,6 +32,14 @@
                 <ul class="option-body" option="my-settings">
                     <li><a class="nav-link text-dark" href="/assets/docs/Documento1.rtf">Documento 1</a></li>
                     <li><a class="nav-link text-dark" href="/assets/docs/Documento2.rtf">Documento 2</a></li>
+                </ul>
+            </li>
+            <li>
+                <div class="option-header" option="config">Configuración</div>
+                <ul class="option-body" option="config">
+                    <li><a class="nav-link text-dark" [routerLink]="['/places']">Configurar Plantas / Oficinas</a></li>
+                    <li><a class="nav-link text-dark" [routerLink]="['/goals']">Configurar Porterías / Accesos</a></li>
+                    <li><a class="nav-link text-dark" [routerLink]="['/devices']">Configurar Dispositivos</a></li>
                 </ul>
             </li>
         </ul>

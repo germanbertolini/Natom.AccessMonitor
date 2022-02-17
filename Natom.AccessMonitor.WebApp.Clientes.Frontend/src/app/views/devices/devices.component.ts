@@ -7,7 +7,7 @@ import { DataTableDTO } from "src/app/classes/data-table-dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { ApiService } from "src/app/services/api.service";
 import { DataTablesResponse } from '../../classes/data-tables-response';
-import { DeviceDTO } from "../../classes/dto/device.dto";
+import { DeviceDTO } from "../../classes/dto/syncs/device.dto";
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
 @Component({
@@ -98,6 +98,7 @@ export class DevicesComponent implements OnInit {
         { data: 'device_id', orderable: false },
         { data: "device_ip", orderable: false },
         { data: 'location', orderable: false },
+        { data: 'sync_name', orderable: false },
         { data: 'status', orderable: false }
       ]
     };
