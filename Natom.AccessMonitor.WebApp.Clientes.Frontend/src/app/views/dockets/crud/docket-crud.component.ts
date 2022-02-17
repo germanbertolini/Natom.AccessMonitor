@@ -185,14 +185,15 @@ export class DocketCrudComponent implements OnInit {
       else {
         if (response.data.entity !== null)
           this.crud.model = response.data.entity;
-          this.Titles = <Array<TitleDTO>>response.data.cargos;
+        
+        this.Titles = <Array<TitleDTO>>response.data.cargos;
 
-          if (this.crud.model.ranges.length === 0)
-            this.setRangeDefault();
+        if (this.crud.model.ranges.length === 0)
+          this.setRangeDefault();
 
-          setTimeout(function() {
-            (<any>$("#docket-crud").find('[data-toggle="tooltip"]')).tooltip();
-          }, 300);
+        setTimeout(function() {
+          (<any>$("#docket-crud").find('[data-toggle="tooltip"]')).tooltip();
+        }, 300);
       }
     },
     (errorMessage) => {

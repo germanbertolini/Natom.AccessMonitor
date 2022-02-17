@@ -15,7 +15,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './views/home/home.component';
 import { DevicesComponent } from './views/devices/devices.component';
-import { DeviceCrudComponent } from './views/devices/crud/device-crud.component';
 import { DataTablesModule } from 'angular-datatables';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { NotifierModule } from 'angular-notifier';
@@ -65,7 +64,6 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     HomeComponent,
     ErrorPageComponent,
     DevicesComponent,
-    DeviceCrudComponent,
     UsersComponent,
     UserCrudComponent,
     UserConfirmComponent,

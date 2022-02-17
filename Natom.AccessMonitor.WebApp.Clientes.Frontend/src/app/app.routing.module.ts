@@ -1,7 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AuthGuard } from "./guards/auth.guards";
-import { DeviceCrudComponent } from "./views/devices/crud/device-crud.component";
 import { DevicesComponent } from "./views/devices/devices.component";
 import { DevicesSyncConfigComponent } from "./views/devices/sync/config/devices-sync-config.component";
 import { DocketCrudComponent } from "./views/dockets/crud/docket-crud.component";
@@ -30,8 +29,6 @@ const appRoutes: Routes = [
     { path: 'forbidden', component: ErrorPageComponent, data: { message: "No tienes permisos" } },
     { path: 'not-found', component: ErrorPageComponent, data: { message: "No se encontró la ruta solicitada" } },
     { canActivate: [ AuthGuard ], path: 'devices', component: DevicesComponent },
-    { canActivate: [ AuthGuard ], path: "devices/new", component: DeviceCrudComponent },
-    { canActivate: [ AuthGuard ], path: "devices/edit/:id", component: DeviceCrudComponent },
     { canActivate: [ AuthGuard ], path: "devices/sync/config", component: DevicesSyncConfigComponent },
     { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: 'users', component: UsersComponent },
     { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: "users/new", component: UserCrudComponent },

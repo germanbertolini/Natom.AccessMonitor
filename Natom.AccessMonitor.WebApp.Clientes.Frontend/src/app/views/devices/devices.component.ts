@@ -1,7 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+import { DataTableDirective } from "angular-datatables";
 import { NotifierService } from "angular-notifier";
+import { DataTableDTO } from "src/app/classes/data-table-dto";
+import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
+import { ApiService } from "src/app/services/api.service";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { DeviceDTO } from "../../classes/dto/device.dto";
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
@@ -12,11 +16,14 @@ import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-di
   templateUrl: './devices.component.html'
 })
 export class DevicesComponent implements OnInit {
-  dtDevices: DataTables.Settings = {};
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
+  dtInstance: Promise<DataTables.Api>;
+  dtIndex: DataTables.Settings = {};
   Devices: DeviceDTO[];
   Noty: any;
 
-  constructor(private httpClientService: HttpClient,
+  constructor(private apiService: ApiService,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
@@ -37,7 +44,7 @@ export class DevicesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.dtDevices = {
+    this.dtIndex = {
       pagingType: 'simple_numbers',
       pageLength: 10,
       serverSide: true,
@@ -59,81 +66,43 @@ export class DevicesComponent implements OnInit {
         },
       },
       ajax: (dataTablesParameters: any, callback) => {
-        //this.httpClient
-        //  .post<DataTablesResponse>(
-        //    this.connectService.URL + 'read_records_dt.php',
-        //    dataTablesParameters, {}
-        //  ).subscribe(resp => {
-        //    this.Members = resp.data;
-        //    this.NumberOfMembers = resp.data.length;
-        //    $('.dataTables_length>label>select, .dataTables_filter>label>input').addClass('form-control-sm');
-        //    callback({
-        //      recordsTotal: resp.recordsTotal,
-        //      recordsFiltered: resp.recordsFiltered,
-        //      data: []
-        //    });
-        //    if (this.NumberOfMembers > 0) {
-        //      $('.dataTables_empty').css('display', 'none');
-        //    }
-        //  }
-        //  );
-        this.Devices = [
-          {
-            nombre: "Portería 1 - Lector 1",
-            device_id: "21987",
-            device_ip: "127.0.0.1",
-            device_user: "admin",
-            device_pass: "1234",
-            status: "Activo",
-            status_is_online: true,
-            encrypted_id: "23498n7234v987h4v2",
-            location: "Planta San Justo"
-          },
-          {
-            nombre: "Portería 1 - Lector 2",
-            device_id: "32487",
-            device_ip: "127.0.0.2",
-            device_user: "admin",
-            device_pass: "1234",
-            status: "Desconectado",
-            status_is_online: false,
-            encrypted_id: "c3187693c1879b987",
-            location: "Planta San Justo"
-          },
-          {
-            nombre: "Portería 2 - Lector 1",
-            device_id: "43987",
-            device_ip: "127.0.0.3",
-            device_user: "admin",
-            device_pass: "1234",
-            status: "Activo",
-            status_is_online: true,
-            encrypted_id: "987b2498724398bc",
-            location: "Planta San Justo"
-          },
-        ];
-        callback({
-          recordsTotal: this.Devices.length,
-          recordsFiltered: this.Devices.length,
-          data: [] //Siempre vacío para delegarle el render a Angular
-        });
-        if (this.Devices.length > 0) {
-          $('.dataTables_empty').hide();
-        }
-        else {
-          $('.dataTables_empty').show();
-        }
-        setTimeout(function() {
-          (<any>$('[data-toggle="tooltip"]')).tooltip();
-        }, 300);
+        this.apiService.DoPOST<ApiResult<DataTableDTO<DeviceDTO>>>("syncs/devices/list", dataTablesParameters, /*headers*/ null,
+                      (response) => {
+                        if (!response.success) {
+                          this.confirmDialogService.showError(response.message);
+                        }
+                        else {
+                          callback({
+                            recordsTotal: response.data.recordsTotal,
+                            recordsFiltered: response.data.recordsFiltered,
+                            data: [] //Siempre vacío para delegarle el render a Angular
+                          });
+                          this.Devices = response.data.records;
+                          if (this.Devices.length > 0) {
+                            $('.dataTables_empty').hide();
+                          }
+                          else {
+                            $('.dataTables_empty').show();
+                          }
+                          setTimeout(function() {
+                            (<any>$("tbody tr").find('[data-toggle="tooltip"]')).tooltip();
+                          }, 300);
+                        }
+                      },
+                      (errorMessage) => {
+                        this.confirmDialogService.showError(errorMessage);
+                      });
       },
       columns: [
-        { data: 'nombre' },
-        { data: 'device_id' },
-        { data: 'estado' },
-        { data: "encrypted_id" }
+        { data: 'nombre', orderable: false },
+        { data: 'device_id', orderable: false },
+        { data: "device_ip", orderable: false },
+        { data: 'location', orderable: false },
+        { data: 'status', orderable: false }
       ]
     };
+
+    (<any>$('[data-toggle="tooltip"]')).tooltip();
   }
 
 }

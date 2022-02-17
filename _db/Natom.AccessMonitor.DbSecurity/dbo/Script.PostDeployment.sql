@@ -12,7 +12,8 @@ as (select * from (values
 ('*','WebApp.Clientes','Permiso total'),
 ('abm_usuarios','WebApp.Clientes','ABM Usuarios'),
 ('abm_titles', 'WebApp.Clientes', 'ABM Cargos'),
-('abm_dockets', 'WebApp.Clientes', 'ABM Legajos')
+('abm_dockets', 'WebApp.Clientes', 'ABM Legajos'),
+('admin_sync', 'WebApp.Clientes', 'Administrar sincronizador / Ver dispositivos')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([PermisoId],[Scope],[Descripcion]))
 merge	[dbo].[Permiso] as t
