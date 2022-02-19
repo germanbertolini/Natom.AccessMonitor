@@ -19,11 +19,11 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                             .Where(t => t.Place.ClientId == clienteId)
                             .CountAsync();
 
-        public async Task<List<Goal>> ObtenerDataTableAsync(int clienteId, int start, int size, string filter, int sortColumnIndex, string sortDirection, string statusFilter)
+        public async Task<List<Goal>> ObtenerDataTableAsync(int start, int size, string filter, int sortColumnIndex, string sortDirection, int placeId, string statusFilter)
         {
             var queryable = _db.Goals
                                 .Include(g => g.Place)
-                                .Where(u => u.Place.ClientId == clienteId);
+                                .Where(u => u.PlaceId == placeId);
 
             //FILTROS
             if (!string.IsNullOrEmpty(filter))

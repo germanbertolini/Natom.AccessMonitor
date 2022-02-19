@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DataTableDirective } from "angular-datatables/src/angular-datatables.directive";
 import { NotifierService } from "angular-notifier";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
@@ -20,12 +20,15 @@ export class GoalsComponent implements OnInit {
   filterStatusValue: string;
   Goals: GoalDTO[];
   Noty: any;
+  place_id: string;
 
   constructor(private apiService: ApiService,
+              private route: ActivatedRoute,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
     this.filterStatusValue = "ACTIVOS";
+    this.place_id = decodeURIComponent(this.route.snapshot.paramMap.get('place_id'));
   }
 
   onFiltroEstadoChange(newValue: string) {
@@ -35,8 +38,12 @@ export class GoalsComponent implements OnInit {
     });
   }
 
+  onNewClick() {
+    this.routerService.navigate(['/goals/' + encodeURIComponent(this.place_id) + '/new']);
+  }
+
   onEditClick(id: string) {
-    this.routerService.navigate(['/goals/edit/' + encodeURIComponent(id)]);
+    this.routerService.navigate(['/goals/' + encodeURIComponent(this.place_id) + '/edit/' + encodeURIComponent(id)]);
   }
 
   onEnableClick(id: string) {
@@ -113,7 +120,7 @@ export class GoalsComponent implements OnInit {
         },
       },
       ajax: (dataTablesParameters: any, callback) => {
-        this.apiService.DoPOST<ApiResult<DataTableDTO<GoalDTO>>>("goals/list?status=" + this.filterStatusValue, dataTablesParameters, /*headers*/ null,
+        this.apiService.DoPOST<ApiResult<DataTableDTO<GoalDTO>>>("goals/list?encryptedId=" + encodeURIComponent(this.place_id) + "&status=" + this.filterStatusValue, dataTablesParameters, /*headers*/ null,
                       (response) => {
                         if (!response.success) {
                           this.confirmDialogService.showError(response.message);

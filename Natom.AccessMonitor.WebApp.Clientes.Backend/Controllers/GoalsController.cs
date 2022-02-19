@@ -22,17 +22,19 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         public GoalsController(IServiceProvider serviceProvider) : base(serviceProvider)
         { }
 
-        // POST: goals/list?filter={filter}
+        // POST: goals/list?encryptedId={encryptedId}&filter={filter}
         [HttpPost]
         [ActionName("list")]
         [TienePermiso(Permiso = "abm_places_goals")]
-        public async Task<IActionResult> PostListAsync([FromBody] DataTableRequestDTO request, [FromQuery] string status = null)
+        public async Task<IActionResult> PostListAsync([FromBody] DataTableRequestDTO request, [FromQuery] string encryptedId, [FromQuery] string status = null)
         {
             try
             {
+                var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+
                 var manager = new GoalsManager(_serviceProvider);
                 var goalsCount = await manager.ObtenerCountAsync(_accessToken.ClientId ?? -1);
-                var goals = await manager.ObtenerDataTableAsync(_accessToken.ClientId ?? -1, request.Start, request.Length, request.Search.Value, request.Order.First().ColumnIndex, request.Order.First().Direction, statusFilter: status);
+                var goals = await manager.ObtenerDataTableAsync(request.Start, request.Length, request.Search.Value, request.Order.First().ColumnIndex, request.Order.First().Direction, placeId, statusFilter: status);
 
                 return Ok(new ApiResultDTO<DataTableResponseDTO<GoalDTO>>
                 {

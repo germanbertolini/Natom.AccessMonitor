@@ -22,14 +22,15 @@ export class GoalCrudComponent implements OnInit {
   Places: Array<PlaceDTO>;
 
   constructor(private apiService: ApiService,
+              private route: ActivatedRoute,
               private routerService: Router,
               private routeService: ActivatedRoute,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
-                
     this.crud = new CRUDView<GoalDTO>(routeService);
     this.crud.model = new GoalDTO();
     this.crud.model.place_encrypted_id = "";
+    this.crud.model.place_encrypted_id = decodeURIComponent(this.route.snapshot.paramMap.get('place_id'));
   }
 
   onCancelClick() {
@@ -64,7 +65,7 @@ export class GoalCrudComponent implements OnInit {
         }
         else {
           this.notifierService.notify('success', 'Portería / Acceso guardado correctamente.');
-          this.routerService.navigate(['/goals']);
+          this.routerService.navigate(['/goals/' + encodeURIComponent(this.crud.model.place_encrypted_id)]);
         }
       },
       (errorMessage) => {

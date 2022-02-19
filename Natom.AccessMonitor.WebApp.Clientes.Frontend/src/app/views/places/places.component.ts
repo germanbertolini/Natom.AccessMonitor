@@ -39,6 +39,10 @@ export class PlacesComponent implements OnInit {
     this.routerService.navigate(['/places/edit/' + encodeURIComponent(id)]);
   }
 
+  onGoalsClick(id: string) {
+    this.routerService.navigate(['/goals/' + encodeURIComponent(id)]);
+  }
+
   onEnableClick(id: string) {
     let notifier = this.notifierService;
     let confirmDialogService = this.confirmDialogService;
