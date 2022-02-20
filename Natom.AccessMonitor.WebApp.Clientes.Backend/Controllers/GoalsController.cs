@@ -58,6 +58,33 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
             }
         }
 
+        // POST: goals/list_actives
+        [HttpPost]
+        [ActionName("list_actives")]
+        public async Task<IActionResult> PostListActivesAsync()
+        {
+            try
+            {
+                var manager = new GoalsManager(_serviceProvider);
+                var goals = await manager.ObtenerActivasAsync(_accessToken.ClientId ?? -1);
+
+                return Ok(new ApiResultDTO<List<GoalDTO>>
+                {
+                    Success = true,
+                    Data = goals.Select(g => new GoalDTO().From(g)).ToList()
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
         // GET: goals/basics/data
         // GET: goals/basics/data?encryptedId={encryptedId}
         [HttpGet]

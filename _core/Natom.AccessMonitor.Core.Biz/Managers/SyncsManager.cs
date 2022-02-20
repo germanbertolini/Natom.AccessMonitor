@@ -27,5 +27,17 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             }
             return devices;
         }
+
+        public async Task AssignDeviceToGoalAsync(int deviceId, int goalId)
+        {
+            var connectionString = await _configuration.GetValueAsync("ConnectionStrings.DbSecurity");
+
+            using (var db = new SqlConnection(connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_device_assign_to_goal] @Id, @GoalId";
+                var _params = new { Id = deviceId, GoalId = goalId };
+                await db.ExecuteAsync(sql, _params);
+            }
+        }
     }
 }

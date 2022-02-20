@@ -1,4 +1,5 @@
 export class DeviceDTO {
+    public encrypted_id: string;
     public encrypted_instance_id: string;
     public nombre: string;
     public device_id: string;

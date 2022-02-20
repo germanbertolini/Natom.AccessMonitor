@@ -8,6 +8,7 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Results
 {
     public class spDeviceListByClientIdResult
     {
+		public int Id { get; set; }
 		public string InstanceId { get; set; }
 		public string DeviceId { get; set; }
 		public string DeviceName { get; set; }

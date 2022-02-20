@@ -12,6 +12,7 @@ BEGIN
 	DECLARE @TotalFiltrados INT = 0;
 	
 	SELECT
+		Dev.Id AS Id,
 		Dev.DeviceId AS DeviceId,
 		Dev.DeviceName AS DeviceName,
 		COALESCE(Dev.LastConfigurationAt, Sync.InstalledAt) AS DeviceLastConfigurationAt,

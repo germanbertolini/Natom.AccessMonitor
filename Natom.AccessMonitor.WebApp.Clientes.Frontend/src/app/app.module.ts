@@ -42,7 +42,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { SpinnerLoadingComponent } from './components/spinner-loading/spinner-loading.component';
 import { AppConfig } from './classes/app-config';
 import { JsonAppConfigService } from './services/json-app-config.service';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SpinnerLoadingService } from './components/spinner-loading/spinner-loading.service';
 import { ApiService } from './services/api.service';
 import { UsersComponent } from './views/users/users.component';
@@ -100,7 +100,8 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     BrowserModule,
     CommonModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+    NgbModule
   ],
   exports: [  
     ConfirmDialogComponent,

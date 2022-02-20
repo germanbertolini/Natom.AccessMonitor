@@ -1,4 +1,5 @@
 ﻿using Natom.AccessMonitor.WebApp.Admin.Backend.Model.Results;
+using Natom.AccessMonitor.WebApp.Admin.Backend.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Synchronizers
 {
     public class DeviceDTO
     {
+		[JsonProperty("encrypted_id")]
+		public string EncryptedId { get; set; }
+
 		[JsonProperty("device_id")]
 		public string DeviceId { get; set; }
 
@@ -32,6 +36,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Synchronizers
 
 		public DeviceDTO From(spDeviceListBySyncIdResult model)
 		{
+			this.EncryptedId = EncryptionService.Encrypt(model.Id);
 			this.DeviceId = model.DeviceId;
 			this.DeviceName = model.DeviceName;
 			this.DeviceLastConfigurationAt = model.DeviceLastConfigurationAt;

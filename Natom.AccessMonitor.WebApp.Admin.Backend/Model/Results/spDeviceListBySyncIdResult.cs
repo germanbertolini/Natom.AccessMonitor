@@ -7,6 +7,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Model.Results
 {
     public class spDeviceListBySyncIdResult
     {
+		public int Id { get; set; }
 		public string DeviceId { get; set; }
 		public string DeviceName { get; set; }
 		public DateTime? DeviceLastConfigurationAt { get; set; }

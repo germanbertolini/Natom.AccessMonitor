@@ -12,6 +12,7 @@ BEGIN
 	DECLARE @TotalFiltrados INT = 0;
 	
 	SELECT
+		D.Id,
 		D.InstanceId,
 		D.DeviceId,
 		D.DeviceName,

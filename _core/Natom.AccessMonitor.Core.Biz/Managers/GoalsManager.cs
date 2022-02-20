@@ -107,7 +107,7 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
 
         public Task<List<Goal>> ObtenerActivasAsync(int clienteId)
         {
-            return _db.Goals.Where(t => t.Place.ClientId == clienteId).Where(m => !m.Place.RemovedAt.HasValue && !m.RemovedAt.HasValue).ToListAsync();
+            return _db.Goals.Include(t => t.Place).Where(t => t.Place.ClientId == clienteId).Where(m => !m.Place.RemovedAt.HasValue && !m.RemovedAt.HasValue).ToListAsync();
         }
 
         public async Task DesactivarAsync(int goalId)

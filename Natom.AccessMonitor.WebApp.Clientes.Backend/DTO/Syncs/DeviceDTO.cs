@@ -10,6 +10,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Syncs
 {
     public class DeviceDTO
     {
+        [JsonProperty("encrypted_id")]
+        public string EncryptedId { get; set; }
+
         [JsonProperty("encrypted_instance_id")]
         public string EncryptedInstanceId { get; set; }
 
@@ -36,6 +39,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Syncs
 
         public DeviceDTO From(spDeviceListByClientIdResult entity)
         {
+            EncryptedId = EncryptionService.Encrypt(entity.Id);
             EncryptedInstanceId = EncryptionService.Encrypt(entity.InstanceId);
             Nombre = entity.DeviceName;
             DeviceID = entity.DeviceId;

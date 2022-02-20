@@ -5,6 +5,7 @@ using Natom.AccessMonitor.Services.Auth.Attributes;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.DataTable;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Syncs;
+using Natom.AccessMonitor.WebApp.Clientes.Backend.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,36 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                         RecordsFiltered = devices.FirstOrDefault()?.TotalFiltrados ?? 0,
                         Records = devices.Select(device => new DeviceDTO().From(device)).ToList()
                     }
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
+        // POST: syncs/assign_device
+        [HttpPost]
+        [ActionName("assign_device")]
+        [TienePermiso(Permiso = "admin_sync")]
+        public async Task<IActionResult> PostAssignDeviceToGoalAsync([FromQuery] string encryptedId, [FromQuery] string goalId)
+        {
+            try
+            {
+                var deviceId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var _goalId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(goalId));
+
+                var repository = new SyncsManager(_serviceProvider);
+                await repository.AssignDeviceToGoalAsync(deviceId, _goalId);
+
+                return Ok(new ApiResultDTO
+                {
+                    Success = true
                 });
             }
             catch (HandledException ex)
