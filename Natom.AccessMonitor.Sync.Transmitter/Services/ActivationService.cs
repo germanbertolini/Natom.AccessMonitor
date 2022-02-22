@@ -17,7 +17,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 InstallationAlias = ConfigService.Config.InstallationAlias,
                 InstallerName = ConfigService.Config.InstallerName,
                 ClientName = ConfigService.Config.ClientName,
-                ClientCUIT = ConfigService.Config.ClientCUIT
+                ClientCUIT = ConfigService.Config.ClientCUIT,
+                CurrentSyncToServerMinutes = ConfigService.Config.SyncToServerMinutes,
+                CurrentSyncFromDevicesMinutes = ConfigService.Config.SyncFromDevicesMinutes
             };
             Uri baseUri = new Uri(ConfigService.Config.ServiceURL);
             Uri startHandshakeUri = new Uri(baseUri, "Activation/Start");

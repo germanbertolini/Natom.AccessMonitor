@@ -2,6 +2,7 @@
 using Dapper.Contrib.Extensions;
 using Natom.AccessMonitor.Services.Configuration.Services;
 using Natom.AccessMonitor.Sync.Receiver.Entities.Models;
+using Natom.AccessMonitor.Sync.Receiver.Entities.Results;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -51,6 +52,18 @@ namespace Natom.AccessMonitor.Sync.Receiver.Repositories
                                                     InstanceId = syncInstanceId
                                                 });
             }
+        }
+
+        public async Task<spSynchronizerRegisterSyncAndGetConfigResult> RegisterSyncAndGetConfigAsync(string syncInstanceId, int? currentSyncToServerMinutes, int? currentSyncFromDevicesMinutes)
+        {
+            spSynchronizerRegisterSyncAndGetConfigResult config = null;
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_synchronizer_register_sync_and_get_config] @InstanceId, @CurrentSyncToServerMinutes, @CurrentSyncFromDevicesMinutes";
+                var _params = new { InstanceId = syncInstanceId, CurrentSyncToServerMinutes = currentSyncToServerMinutes, CurrentSyncFromDevicesMinutes = currentSyncFromDevicesMinutes };
+                config = (await db.QueryAsync<spSynchronizerRegisterSyncAndGetConfigResult>(sql, _params)).First();
+            }
+            return config;
         }
     }
 }

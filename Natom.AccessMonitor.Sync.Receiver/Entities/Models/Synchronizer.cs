@@ -14,6 +14,10 @@ namespace Natom.AccessMonitor.Sync.Receiver.Entities.Models
 		public string InstallerName { get; set; }
 		public DateTime InstalledAt { get; set; }
 		public DateTime? ActivatedAt { get; set; }
+		public int? CurrentSyncToServerMinutes { get; set; }
+		public int? NewSyncToServerMinutes { get; set; }
+		public int? CurrentSyncFromDevicesMinutes { get; set; }
+		public int? NewSyncFromDevicesMinutes { get; set; }
 		public int? ClientId { get; set; }
 		public DateTime? RemovedAt { get; set; }
 	}

@@ -12,5 +12,7 @@ namespace Natom.AccessMonitor.Sync.Entities.DTO
         public string InstallerName { get; set; }
         public string ClientName { get; set; }
         public string ClientCUIT { get; set; }
+        public int? CurrentSyncToServerMinutes { get; set; }
+        public int? CurrentSyncFromDevicesMinutes { get; set; }
     }
 }

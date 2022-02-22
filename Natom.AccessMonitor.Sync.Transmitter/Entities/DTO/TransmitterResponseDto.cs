@@ -12,6 +12,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Entities.DTO
         [JsonProperty("success")]
         public bool Success { get; set; }
 
+        [JsonProperty("config")]
+        public dynamic Config { get; set; }
+
         [JsonProperty("error")]
         public string Error { get; set; }
     }

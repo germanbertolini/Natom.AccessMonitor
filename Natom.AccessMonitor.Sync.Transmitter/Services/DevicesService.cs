@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Natom.AccessMonitor.Sync.Transmitter.Services
 {
@@ -181,9 +182,13 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
         public static async Task SyncStoredDataToServerAsync(List<DeviceConfig> devices, CancellationToken cancellationToken)
         {
             _synchronizingServer = true;
+            var configData = JsonConvert.SerializeObject(new {
+                stsm = ConfigService.Config.SyncToServerMinutes,
+                sfdm = ConfigService.Config.SyncFromDevicesMinutes
+            });
 
             Uri baseUri = new Uri(ConfigService.Config.ServiceURL);
-            Uri uploadUri = new Uri(baseUri, "Sync/Upload");
+            Uri uploadUri = new Uri(baseUri, "Sync/Upload?rules=" + HttpUtility.UrlEncode(Uri.EscapeUriString(configData)));
 
             var directory = new DirectoryInfo(cStorageFolderName);
             var files = directory.GetFiles()
@@ -205,7 +210,27 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 retry:
                 var result = await NetworkService.DoHttpPostAsync(uploadUri.AbsoluteUri, content);
                 if (result.Success)
+                {
                     File.Delete($"{cStorageFolderName}\\{file}");
+
+                    //Si el servidor envia nueva configuración, la impacta en Config
+                    if (result.Config != null)
+                    {
+                        bool update = false;
+                        if (result.Config.newSyncFromDevicesMinutes != null)
+                        {
+                            ConfigService.Config.SyncFromDevicesMinutes = result.Config.newSyncFromDevicesMinutes;
+                            update = true;
+                        }
+                        if (result.Config.newSyncToServerMinutes != null)
+                        {
+                            ConfigService.Config.SyncToServerMinutes = result.Config.newSyncToServerMinutes;
+                            update = true;
+                        }
+                        if (update)
+                            ConfigService.SaveConfig(ConfigService.Config);
+                    }
+                }
                 else
                 {
                     cancellationToken.ThrowIfCancellationRequested();

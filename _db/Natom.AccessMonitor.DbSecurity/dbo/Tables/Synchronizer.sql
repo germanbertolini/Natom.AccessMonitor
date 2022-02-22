@@ -6,6 +6,10 @@
 	[InstalledAt] DATETIME NOT NULL,
 	[ActivatedAt] DATETIME,
 	[LastSyncAt] DATETIME,
+	[CurrentSyncToServerMinutes] INT,
+	[NewSyncToServerMinutes] INT,
+	[CurrentSyncFromDevicesMinutes] INT,
+	[NewSyncFromDevicesMinutes] INT,
 	[ClientId] INT,
 	[RemovedAt] DATETIME,
 	CONSTRAINT [PK_Synchronizer] PRIMARY KEY CLUSTERED ([InstanceId] ASC)

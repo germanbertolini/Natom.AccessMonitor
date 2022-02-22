@@ -50,6 +50,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Controllers
                     InstanceId = instanceInfo.InstanceId,
                     InstallationAlias = instanceInfo.InstallationAlias,
                     InstallerName = instanceInfo.InstallerName,
+                    CurrentSyncToServerMinutes = instanceInfo.CurrentSyncToServerMinutes,
+                    CurrentSyncFromDevicesMinutes = instanceInfo.CurrentSyncFromDevicesMinutes,
                     InstalledAt = DateTime.Now
                 });
 

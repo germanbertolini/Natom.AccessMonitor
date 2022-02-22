@@ -91,6 +91,7 @@
     <Build Include="dbo\Stored Procedures\sp_token_delete_by_usuarioid.sql" />
     <Build Include="dbo\Stored Procedures\sp_device_list_by_clientid.sql" />
     <Build Include="dbo\Stored Procedures\sp_device_assign_to_goal.sql" />
+    <Build Include="dbo\Stored Procedures\sp_synchronizer_register_sync_and_get_config.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Script.PostDeployment.sql" />
