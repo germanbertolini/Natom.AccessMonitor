@@ -65,5 +65,15 @@ namespace Natom.AccessMonitor.Sync.Receiver.Repositories
             }
             return config;
         }
+
+        public async Task RegisterConnectionAsync(string syncInstanceId)
+        {
+            using (var db = new SqlConnection(_connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_synchronizer_register_connection] @InstanceId";
+                var _params = new { InstanceId = syncInstanceId };
+                await db.ExecuteAsync(sql, _params);
+            }
+        }
     }
 }

@@ -202,6 +202,21 @@ namespace Natom.AccessMonitor.Services.Auth.Services
             };
         }
 
+        public AccessToken DecodeToken(AccessToken injectedAccessToken, string bearerToken)
+        {
+            AccessToken accessToken = null;
+
+            if (string.IsNullOrEmpty(bearerToken))
+                throw new InvalidTokenException("Token inválido.");
+
+            var stringToken = bearerToken.Replace("Bearer ", string.Empty);
+            accessToken = OAuthHelper.Decode(stringToken);
+
+            _mapper.Map(accessToken, injectedAccessToken);
+
+            return accessToken;
+        }
+
         public async Task<AccessTokenWithPermissions> DecodeAndValidateTokenAsync(AccessToken injectedAccessToken, string bearerToken)
         {
             var accessTokenWithPermissions = await DecodeAndValidateTokenAsync(bearerToken);

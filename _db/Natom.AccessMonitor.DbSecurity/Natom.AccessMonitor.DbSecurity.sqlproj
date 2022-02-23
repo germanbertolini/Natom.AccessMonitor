@@ -94,6 +94,7 @@
     <Build Include="dbo\Stored Procedures\sp_synchronizer_register_sync_and_get_config.sql" />
     <Build Include="dbo\Stored Procedures\sp_synchronizer_select_config_by_id.sql" />
     <Build Include="dbo\Stored Procedures\sp_synchronizer_save_config_by_id.sql" />
+    <Build Include="dbo\Stored Procedures\sp_synchronizer_register_connection.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Script.PostDeployment.sql" />

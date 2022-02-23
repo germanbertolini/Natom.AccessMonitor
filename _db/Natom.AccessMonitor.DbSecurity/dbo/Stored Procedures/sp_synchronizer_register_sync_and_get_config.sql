@@ -18,6 +18,7 @@ BEGIN
 		[dbo].[Synchronizer] WITH(READPAST)
 	SET
 		LastSyncAt = GETDATE(),
+		LastConnectionAt = GETDATE(),
 		CurrentSyncToServerMinutes = COALESCE(NewSyncToServerMinutes, @CurrentSyncToServerMinutes, CurrentSyncToServerMinutes),
 		CurrentSyncFromDevicesMinutes = COALESCE(NewSyncFromDevicesMinutes, @CurrentSyncFromDevicesMinutes, CurrentSyncFromDevicesMinutes),
 		NewSyncToServerMinutes = NULL,

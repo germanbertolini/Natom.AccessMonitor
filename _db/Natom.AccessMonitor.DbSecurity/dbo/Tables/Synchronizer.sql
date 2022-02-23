@@ -6,6 +6,7 @@
 	[InstalledAt] DATETIME NOT NULL,
 	[ActivatedAt] DATETIME,
 	[LastSyncAt] DATETIME,
+	[LastConnectionAt] DATETIME,
 	[CurrentSyncToServerMinutes] INT,
 	[NewSyncToServerMinutes] INT,
 	[CurrentSyncFromDevicesMinutes] INT,

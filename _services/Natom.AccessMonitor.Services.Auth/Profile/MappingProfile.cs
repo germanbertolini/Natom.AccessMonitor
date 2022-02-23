@@ -13,6 +13,7 @@ namespace Natom.AccessMonitor.Services.Auth.Profile
         public static MapperConfiguration Build()
                             => new MapperConfiguration(cfg =>
                                 {
+                                    cfg.CreateMap<AccessToken, AccessToken>().ReverseMap();
                                     cfg.CreateMap<AccessToken, AccessTokenWithPermissions>().ReverseMap();
                                 });
     }

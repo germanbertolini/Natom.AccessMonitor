@@ -8,7 +8,7 @@ BEGIN
 		COALESCE(NewSyncToServerMinutes, CurrentSyncToServerMinutes) AS SyncToServerMinutes,
 		COALESCE(NewSyncFromDevicesMinutes, CurrentSyncFromDevicesMinutes) AS SyncFromDevicesMinutes,
 		LastSyncAt,
-		CASE WHEN DATEADD(MINUTE, COALESCE(NewSyncToServerMinutes, CurrentSyncToServerMinutes), LastSyncAt) < GETDATE() THEN
+		CASE WHEN DATEADD(MINUTE, COALESCE(NewSyncToServerMinutes, CurrentSyncToServerMinutes), LastSyncAt) < DATEADD(MINUTE, -5, GETDATE()) THEN
 			NULL
 		ELSE
 			DATEADD(MINUTE, COALESCE(NewSyncToServerMinutes, CurrentSyncToServerMinutes), LastSyncAt)

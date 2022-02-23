@@ -52,7 +52,17 @@ namespace Natom.AccessMonitor.Sync.Receiver.Filters
 
                 //VALIDACIONES DE SEGURIDAD
                 if (_controller.Equals("echo") || (_controller.Equals("activation") && _action.Equals("start")))
+                {
                     _loggerService.LogInfo(_transaction.TraceTransactionId, "Operación sin token permitida");
+
+                    try
+                    {
+                        var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];
+                        var authorization = headerValuesForAuthorization.ToString();
+                        _authService.DecodeToken(_accessToken, authorization);
+                    }
+                    catch (Exception ex) { /* NADA YA QUE EL TOKEN ES OPCIONAL */ }
+                }
                 else
                 {
                     var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];

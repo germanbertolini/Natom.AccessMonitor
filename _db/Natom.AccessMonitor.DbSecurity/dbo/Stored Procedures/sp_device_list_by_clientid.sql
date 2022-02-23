@@ -13,7 +13,7 @@ BEGIN
 	
 	SELECT
 		*,
-		CAST(CASE WHEN R.NextSyncAt IS NOT NULL THEN 1 ELSE 0 END AS BIT) AS IsOnline
+		CAST(CASE WHEN DATEADD(MINUTE,  R.CurrentSyncToServerMinutes + 5, R.LastConnectionAt) > GETDATE() THEN 1 ELSE 0 END AS BIT) AS IsOnline
 	INTO
 		#TMP_DEVICES
 	FROM
@@ -34,11 +34,13 @@ BEGIN
 			D.Brand,
 			S.InstallationAlias AS SyncName,
 			S.LastSyncAt,
-			CASE WHEN DATEADD(MINUTE, S.CurrentSyncToServerMinutes, S.LastSyncAt) < DATEADD(MINUTE, -2, GETDATE()) THEN
+			S.CurrentSyncToServerMinutes,
+			CASE WHEN DATEADD(MINUTE, S.CurrentSyncToServerMinutes, S.LastSyncAt) < DATEADD(MINUTE, -5, GETDATE()) THEN
 				NULL
 			ELSE
 				DATEADD(MINUTE, S.CurrentSyncToServerMinutes, S.LastSyncAt)
-			END AS NextSyncAt	
+			END AS NextSyncAt,
+			S.LastConnectionAt
 		FROM
 			[dbo].[Device] D WITH(NOLOCK)
 			INNER JOIN [dbo].[Synchronizer] S WITH(NOLOCK) ON S.InstanceId = D.InstanceId
