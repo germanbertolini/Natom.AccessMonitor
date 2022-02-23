@@ -19,12 +19,16 @@ BEGIN
 		Dev.SerialNumber AS DeviceSerialNumber,
 		Dev.Model AS DeviceModel,
 		Dev.Brand AS DeviceBrand,
-		Dev.FirmwareVersion AS DeviceFirmwareVersion
+		Dev.FirmwareVersion AS DeviceFirmwareVersion,
+		COALESCE(G.[Name], '-Sin asignar-') AS GoalName,
+		COALESCE(P.[Name], '-Sin asignar-') AS PlaceName
 	INTO
 		#TMP_SYNCHRONIZERS
 	FROM
 		[dbo].[Device] Dev WITH(NOLOCK)
 		INNER JOIN [dbo].[Synchronizer] Sync WITH(NOLOCK) ON Dev.InstanceId = Sync.InstanceId
+		LEFT JOIN [$(DbMaster)].[dbo].[Goal] G WITH(NOLOCK) ON G.GoalId = Dev.GoalId
+		LEFT JOIN [$(DbMaster)].[dbo].[Place] P WITH(NOLOCK) ON P.PlaceId = G.PlaceId
 	WHERE
 		Dev.InstanceId = @SyncInstanceId;
 

@@ -31,7 +31,7 @@ import { JsonAppConfigService } from './services/json-app-config.service';
 import { ApiService } from './services/api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SpinnerLoadingService } from './components/spinner-loading/spinner-loading.service';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ErrorPageComponent } from './views/error-page/error-page.component';
 import { UsersComponent } from './views/users/users.component';
 import { UserCrudComponent } from './views/users/crud/user-crud.component';
@@ -93,7 +93,8 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     BrowserModule,
     CommonModule,
     AppRoutingModule,
-    ChartsModule
+    ChartsModule,
+    NgbModule
   ],
   exports: [  
     ConfirmDialogComponent,

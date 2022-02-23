@@ -6,4 +6,6 @@ export class DeviceDTO {
     public device_model: string;
     public device_brand: string;
     public device_firmware_version: string;
+    public place_name: string;
+    public goal_name: string;
 }

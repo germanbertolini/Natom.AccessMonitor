@@ -15,8 +15,10 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Model.Results
 		public string DeviceModel { get; set; }
 		public string DeviceBrand { get; set; }
 		public string DeviceFirmwareVersion { get; set; }
+		public string PlaceName { get; set; }
+		public string GoalName { get; set; }
 
 		public int TotalFiltrados { get; set; }
 		public int TotalRegistros { get; set; }
-	}
+    }
 }

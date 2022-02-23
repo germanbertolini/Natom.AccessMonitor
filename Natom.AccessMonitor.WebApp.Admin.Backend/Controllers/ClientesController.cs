@@ -438,5 +438,35 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
             }
         }
+
+        // POST: clientes/syncs/devices/assign_device
+        [HttpPost]
+        [ActionName("syncs/devices/assign_device")]
+        [TienePermiso(Permiso = "abm_clientes_dispositivos")]
+        public async Task<IActionResult> PostAssignDeviceToGoalAsync([FromQuery] string encryptedId, [FromQuery] string goalId)
+        {
+            try
+            {
+                var deviceId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var _goalId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(goalId));
+
+                var repository = new SyncsManager(_serviceProvider);
+                await repository.AssignDeviceToGoalAsync(deviceId, _goalId);
+
+                return Ok(new ApiResultDTO
+                {
+                    Success = true
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
     }
 }

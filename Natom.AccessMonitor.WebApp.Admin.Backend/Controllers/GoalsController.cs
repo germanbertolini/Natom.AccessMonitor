@@ -62,12 +62,14 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         // POST: goals/list_actives
         [HttpPost]
         [ActionName("list_actives")]
-        public async Task<IActionResult> PostListActivesAsync()
+        public async Task<IActionResult> PostListActivesAsync([FromQuery]string encryptedId)
         {
             try
             {
+                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+
                 var manager = new GoalsManager(_serviceProvider);
-                var goals = await manager.ObtenerActivasAsync(_accessToken.ClientId ?? -1);
+                var goals = await manager.ObtenerActivasAsync(clienteId);
 
                 return Ok(new ApiResultDTO<List<GoalDTO>>
                 {
@@ -221,6 +223,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
             }
         }
+
+        
 
     }
 }

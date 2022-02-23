@@ -58,8 +58,7 @@ export class DevicesComponent implements OnInit {
                         if (!response.success) {
                           this.confirmDialogService.showError(response.message);
                         }
-                        else {
-                          
+                        else {                          
                           this.Goals = response.data;
                         }
                       },

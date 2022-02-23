@@ -34,6 +34,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Synchronizers
 		[JsonProperty("device_firmware_version")]
 		public string DeviceFirmwareVersion { get; set; }
 
+		[JsonProperty("place_name")]
+		public string PlaceName { get; set; }
+
+		[JsonProperty("goal_name")]
+		public string GoalName { get; set; }
+
 		public DeviceDTO From(spDeviceListBySyncIdResult model)
 		{
 			this.EncryptedId = EncryptionService.Encrypt(model.Id);
@@ -44,6 +50,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Synchronizers
 			this.DeviceModel = model.DeviceModel;
 			this.DeviceBrand = model.DeviceBrand;
 			this.DeviceFirmwareVersion = model.DeviceFirmwareVersion;
+			this.PlaceName = model.PlaceName;
+			this.GoalName = model.GoalName;
 
 			return this;
 		}
