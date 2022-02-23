@@ -267,5 +267,34 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
             }
         }
+
+        // POST: users/recover_me
+        [HttpPost]
+        [ActionName("recover_me")]
+        public async Task<IActionResult> RecoverMeAsync()
+        {
+            try
+            {
+                var manager = new UsuarioRepository(_serviceProvider);
+                var secretConfirmation = Guid.NewGuid().ToString("N");
+                var usuario = await manager.RecuperarUsuarioAsync(scope: "WebApp.Clientes", _accessToken.UserId ?? -1, secretConfirmation, _accessToken.UserId ?? -1);
+
+                await _mailService.EnviarEmailParaRecuperarClaveAsync(_transaction, scope: "WebApp.Clientes", usuario);
+
+                return Ok(new ApiResultDTO
+                {
+                    Success = true
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
     }
 }
