@@ -22,6 +22,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Syncs
         [JsonProperty("device_id")]
         public string DeviceID { get; set; }
 
+        [JsonProperty("device_ip")]
+        public string DeviceIP { get; set; }
+
         [JsonProperty("place")]
         public string Place { get; set; }
 
@@ -49,6 +52,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Syncs
             EncryptedInstanceId = EncryptionService.Encrypt(entity.InstanceId);
             Nombre = entity.DeviceName;
             DeviceID = entity.DeviceId;
+            DeviceIP = entity.DeviceIP;
             Place = entity.Place;
             Goal = entity.Goal;
             SyncName = entity.SyncName;
