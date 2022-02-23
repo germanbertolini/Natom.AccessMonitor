@@ -36,7 +36,7 @@ const appRoutes: Routes = [
     { path: 'forbidden', component: ErrorPageComponent, data: { message: "No tienes permisos" } },
     { path: 'not-found', component: ErrorPageComponent, data: { message: "No se encontró la ruta solicitada" } },
     { canActivate: [ AuthGuard, SyncAdminGuard ], path: 'devices', component: DevicesComponent },
-    { canActivate: [ AuthGuard, SyncAdminGuard ], path: "devices/sync/config", component: DevicesSyncConfigComponent },
+    { canActivate: [ AuthGuard, SyncAdminGuard ], path: "devices/sync/config/:instance_id", component: DevicesSyncConfigComponent },
     { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: 'users', component: UsersComponent },
     { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: "users/new", component: UserCrudComponent },
     { canActivate: [ AuthGuard, ABMUsuariosGuard ], path: "users/edit/:id", component: UserCrudComponent },

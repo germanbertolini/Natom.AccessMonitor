@@ -38,16 +38,11 @@
             </td>
             <td>
               <a class="btn btn-warning btn-sm change-goal-smt-btn spacingLeft" (click)="onChangeGoalClick(device.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Asociar a una Portería / Acceso"><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;Asignar</a>
+              <a class="btn btn-primary btn-sm config-sync-smt-btn spacingLeft" (click)="onConfigSyncClick(device.encrypted_instance_id)" data-toggle="tooltip" data-placement="top" title="Configurar sincronizador"><i class="fa fa-refresh" aria-hidden="true"></i>&nbsp;Configurar</a>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="row crud-footer">
-    <div class="col-md-12">
-      <!-- <a class="btn btn-warning btn-circular left" [routerLink]="['/reports/attendance/by_device']" data-toggle="tooltip" data-placement="right" title="Ver reporte por dispositivo"><i class="fa fa-bar-chart"></i></a> -->
-      <a class="btn btn-primary btn-circular right" [routerLink]="['/devices/sync/config']" data-toggle="tooltip" data-placement="left" title="Opciones de sincronización"><i class="fa fa-refresh"></i></a>
     </div>
   </div>
 </div>

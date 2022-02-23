@@ -44,6 +44,10 @@ export class DevicesComponent implements OnInit {
     this.routerService.navigate(['/devices/edit/' + id]);
   }
 
+  onConfigSyncClick(encrypted_instance_id: string) {
+    this.routerService.navigate(['/devices/sync/config/' + encodeURIComponent(encrypted_instance_id) ]);
+  }
+
   onChangeGoalClick(encrypted_id: string) {
     this.asignar_encrypted_id = encrypted_id;
     this.asignar_goal_encrypted_id = "";

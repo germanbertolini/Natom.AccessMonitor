@@ -39,5 +39,31 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                 await db.ExecuteAsync(sql, _params);
             }
         }
+
+        public async Task<spSynchronizerSelectConfigByIdResult> GetSynchronizerConfigByIdAsync(string instanceId)
+        {
+            var connectionString = await _configuration.GetValueAsync("ConnectionStrings.DbSecurity");
+
+            spSynchronizerSelectConfigByIdResult config = null;
+            using (var db = new SqlConnection(connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_synchronizer_select_config_by_id] @InstanceId";
+                var _params = new { InstanceId = instanceId };
+                config = (await db.QueryAsync<spSynchronizerSelectConfigByIdResult>(sql, _params)).First();
+            }
+            return config;
+        }
+
+        public async Task SaveSynchronizerConfigByIdAsync(string instanceId, int? intervalMinsFromDevice, int? intervalMinsToServer)
+        {
+            var connectionString = await _configuration.GetValueAsync("ConnectionStrings.DbSecurity");
+
+            using (var db = new SqlConnection(connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_synchronizer_save_config_by_id] @InstanceId, @IntervalMinsFromDevice, @IntervalMinsToServer";
+                var _params = new { InstanceId = instanceId, IntervalMinsFromDevice = intervalMinsFromDevice, IntervalMinsToServer = intervalMinsToServer };
+                await db.ExecuteAsync(sql, _params);
+            }
+        }
     }
 }
