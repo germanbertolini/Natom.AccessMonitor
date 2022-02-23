@@ -37,6 +37,12 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Syncs
         [JsonProperty("status_is_online")]
         public bool StatusIsOnline { get; set; }
 
+        [JsonProperty("last_sync_at")]
+        public DateTime? LastSyncAt { get; set; }
+
+        [JsonProperty("next_sync_at")]
+        public DateTime? NextSyncAt { get; set; }
+
         public DeviceDTO From(spDeviceListByClientIdResult entity)
         {
             EncryptedId = EncryptionService.Encrypt(entity.Id);
@@ -48,6 +54,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Syncs
             SyncName = entity.SyncName;
             Status = entity.IsOnline ? "Conectado" : "Desconectado";
             StatusIsOnline = entity.IsOnline;
+            LastSyncAt = entity.LastSyncAt;
+            NextSyncAt = entity.NextSyncAt;
 
             return this;
         }

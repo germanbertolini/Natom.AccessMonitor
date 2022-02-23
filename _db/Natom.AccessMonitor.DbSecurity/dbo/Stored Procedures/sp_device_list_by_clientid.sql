@@ -12,31 +12,42 @@ BEGIN
 	DECLARE @TotalFiltrados INT = 0;
 	
 	SELECT
-		D.Id,
-		D.InstanceId,
-		D.DeviceId,
-		D.DeviceName,
-		D.DeviceIP,
-		COALESCE(G.[Name], '-Sin asignar-') AS Goal,
-		G.Lat AS Lat,
-		G.Lng AS Lng,
-		COALESCE(P.[Name], '-Sin asignar-') AS Place,
-		D.AddedAt,
-		D.SerialNumber,
-		D.Model,
-		D.Brand,
-		D.DeviceIsOnline AS IsOnline,
-		S.InstallationAlias AS SyncName
+		*,
+		CAST(CASE WHEN R.NextSyncAt IS NOT NULL THEN 1 ELSE 0 END AS BIT) AS IsOnline
 	INTO
 		#TMP_DEVICES
 	FROM
-		[dbo].[Device] D WITH(NOLOCK)
-		INNER JOIN [dbo].[Synchronizer] S WITH(NOLOCK) ON S.InstanceId = D.InstanceId
-		LEFT JOIN [$(DbMaster)].[dbo].[Goal] G WITH(NOLOCK) ON G.GoalId = D.GoalId
-		LEFT JOIN [$(DbMaster)].[dbo].[Place] P WITH(NOLOCK) ON P.PlaceId = G.PlaceId
-	WHERE
-		S.ClientId = @ClientId
-		AND S.RemovedAt IS NULL;
+	(
+		SELECT
+			D.Id,
+			D.InstanceId,
+			D.DeviceId,
+			D.DeviceName,
+			D.DeviceIP,
+			COALESCE(G.[Name], '-Sin asignar-') AS Goal,
+			G.Lat AS Lat,
+			G.Lng AS Lng,
+			COALESCE(P.[Name], '-Sin asignar-') AS Place,
+			D.AddedAt,
+			D.SerialNumber,
+			D.Model,
+			D.Brand,
+			S.InstallationAlias AS SyncName,
+			S.LastSyncAt,
+			CASE WHEN DATEADD(MINUTE, S.CurrentSyncToServerMinutes, S.LastSyncAt) < DATEADD(MINUTE, -2, GETDATE()) THEN
+				NULL
+			ELSE
+				DATEADD(MINUTE, S.CurrentSyncToServerMinutes, S.LastSyncAt)
+			END AS NextSyncAt	
+		FROM
+			[dbo].[Device] D WITH(NOLOCK)
+			INNER JOIN [dbo].[Synchronizer] S WITH(NOLOCK) ON S.InstanceId = D.InstanceId
+			LEFT JOIN [$(DbMaster)].[dbo].[Goal] G WITH(NOLOCK) ON G.GoalId = D.GoalId
+			LEFT JOIN [$(DbMaster)].[dbo].[Place] P WITH(NOLOCK) ON P.PlaceId = G.PlaceId
+		WHERE
+			S.ClientId = @ClientId
+			AND S.RemovedAt IS NULL
+	) R
 
 
 	SET @TotalRegistros = COALESCE((SELECT COUNT(*) FROM #TMP_DEVICES), 0);

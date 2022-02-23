@@ -23,6 +23,9 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Results
 		public string Brand { get; set; }
 		public string SyncName { get; set; }
 
+		public DateTime? LastSyncAt { get; set; }
+		public DateTime? NextSyncAt { get; set; }
+
 		public bool IsOnline { get; set; }
 
 		public int TotalFiltrados { get; set; }

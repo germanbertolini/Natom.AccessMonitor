@@ -20,6 +20,7 @@
             <th>IP</th>
             <th>Ubicación</th>
             <th>Sincronizador</th>
+            <th>Próxima Sync</th>
             <th>Estado</th>
             <th></th>
           </tr>
@@ -31,6 +32,11 @@
             <td>{{ device.device_ip }}</td>
             <td>{{ device.place }}<br/><small>{{ device.goal }}</small></td>
             <td>{{ device.sync_name }}</td>
+            
+            <td *ngIf="device.last_sync_at === null">- pendiente -</td>
+            <td *ngIf="device.last_sync_at !== null && device.next_sync_at === null">- desconocido -<br><small>Ultima: {{ device.last_sync_at  |  date:'dd/MM/yy HH:mm' }} hs</small></td>
+            <td *ngIf="device.last_sync_at !== null && device.next_sync_at !== null">{{ device.next_sync_at  |  date:'dd/MM/yy HH:mm' }} hs<br><small>Ultima: {{ device.last_sync_at  |  date:'dd/MM/yy HH:mm' }} hs</small></td>
+            
             <td>
               <i class="fa fa-circle online" *ngIf="device.status_is_online == true"></i>
               <i class="fa fa-circle-o offline" *ngIf="device.status_is_online == false"></i>

@@ -10,4 +10,7 @@ export class DeviceDTO {
 
     public status: string;
     public status_is_online: boolean;
+
+    public last_sync_at: Date;
+    public next_sync_at: Date;
 }

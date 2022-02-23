@@ -167,6 +167,7 @@ export class DevicesComponent implements OnInit {
         { data: "device_ip", orderable: false },
         { data: 'location', orderable: false },
         { data: 'sync_name', orderable: false },
+        { data: 'next_sync', orderable: false },
         { data: 'status', orderable: false },
         { data: '', orderable: false }
       ]
