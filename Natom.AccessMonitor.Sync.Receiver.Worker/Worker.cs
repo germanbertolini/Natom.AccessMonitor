@@ -58,14 +58,14 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
         {
             var dataBlock = JsonConvert.DeserializeObject<DataBlockForSyncDto>(message.Message);
 
-            var movementsRepository = new MovementsRepository(_configuration);
-            await movementsRepository.BulkInsertAsync(message.ProducerInfo.ClientId, message.ProducerInfo.SyncInstanceId, dataBlock);
-
             var synchronizerRepository = new SynchronizerRepository(_configuration);
-            await synchronizerRepository.AddOrUpdateDeviceInfoAsync(message.ProducerInfo.SyncInstanceId, dataBlock.DeviceId, dataBlock.DeviceName,
+            var deviceConfig = await synchronizerRepository.AddOrUpdateDeviceInfoAsync(message.ProducerInfo.SyncInstanceId, dataBlock.DeviceId, dataBlock.DeviceName,
                                                                     dataBlock.LastConfigurationAt, dataBlock.DeviceSerialNumber, dataBlock.DeviceModel,
                                                                     dataBlock.DeviceBrand, dataBlock.DeviceDateTimeFormat, dataBlock.DeviceFirmwareVersion,
                                                                     dataBlock.DeviceIP, dataBlock.DeviceUser, dataBlock.DevicePass, lastSyncRegistered: message.CreationDateTime);
+
+            var movementsRepository = new MovementsRepository(_configuration);
+            await movementsRepository.BulkInsertAsync(message.ProducerInfo.ClientId, message.ProducerInfo.SyncInstanceId, dataBlock, deviceConfig.CurrentGoalId);
         }
     }
 }

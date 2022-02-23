@@ -19,10 +19,12 @@ BEGIN
 
 	DECLARE @currentDeviceName NVARCHAR(50);
 	DECLARE @currentLastConfigurationAt DATETIME;
+	DECLARE @currentGoalId INT = NULL;
 
 	SELECT
 		@currentDeviceName = DeviceName,
-		@currentLastConfigurationAt = LastConfigurationAt
+		@currentLastConfigurationAt = LastConfigurationAt,
+		@currentGoalId = GoalId
 	FROM
 		[dbo].[Device]
 	WHERE
@@ -60,5 +62,10 @@ BEGIN
 			SET LastSyncAt = @LastSyncRegistered
 			WHERE InstanceId = @InstanceId
 					AND DeviceId = @DeviceId;
+
+
+	--DEVOLVEMOS LA INFO DEL DEVICE
+	SELECT
+		@currentGoalId AS CurrentGoalId;
 
 END

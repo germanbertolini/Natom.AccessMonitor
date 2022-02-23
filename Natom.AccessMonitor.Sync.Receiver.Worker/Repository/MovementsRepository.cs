@@ -20,7 +20,7 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
             _connectionString = configuration.GetValueAsync("ConnectionStrings.DbMaster").GetAwaiter().GetResult();
         }
 
-        public async Task BulkInsertAsync(int clientId, string syncInstanceId, DataBlockForSyncDto dataBlock)
+        public async Task BulkInsertAsync(int clientId, string syncInstanceId, DataBlockForSyncDto dataBlock, int? deviceGoalId)
         {
             var sql = "INSERT INTO [dbo].[zMovement_Client" + clientId + "] " +
                         "   ( " +
@@ -28,14 +28,16 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
                         "       [DeviceId], " +
                         "       [DateTime], " +
                         "       [DocketNumber], " +
-                        "       [MovementType] " +
+                        "       [MovementType], " +
+                        "       [GoalId] " +
                         "   ) " +
                         "VALUES " +
                         "   (@InstanceId " +
                         "       ,@DeviceId " +
                         "       ,@DateTime " +
                         "       ,@DocketNumber " +
-                        "       ,@MovementType); ";
+                        "       ,@MovementType " +
+                        "       ,@GoalId); ";
 
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -52,7 +54,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
                                                                         DeviceId = dataBlock.DeviceId,
                                                                         DateTime = m.DateTime,
                                                                         DocketNumber = m.DocketNumber,
-                                                                        MovementType = m.MovementType
+                                                                        MovementType = m.MovementType,
+                                                                        GoalId = deviceGoalId
                                                                     });
                     }
                 }

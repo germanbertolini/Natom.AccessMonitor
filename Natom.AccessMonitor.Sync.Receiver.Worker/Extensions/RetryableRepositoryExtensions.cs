@@ -50,6 +50,22 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Extensions
         public async static Task<IEnumerable<dynamic>> RetryableQueryAsync(this IDbConnection cnn, CommandDefinition commandDefinition)
                                             => await BuildRetryPolicy<IEnumerable<dynamic>>().ExecuteAsync(() => cnn.QueryAsync(commandDefinition));
 
+        /// <summary>
+        /// Author: German Bertolini
+        /// Date: 29/09/2021
+        /// Ejecuta un command aplicando la política de reintentos
+        /// </summary>
+        public async static Task<IEnumerable<TResult>> RetryableQueryAsync<TResult>(this IDbConnection cnn, CommandDefinition commandDefinition)
+                                            => await BuildRetryPolicy<IEnumerable<TResult>>().ExecuteAsync(() => cnn.QueryAsync<TResult>(commandDefinition));
+
+        /// <summary>
+        /// Author: German Bertolini
+        /// Date: 22/09/2021
+        /// Ejecuta un command aplicando la política de reintentos
+        /// </summary>
+        public async static Task<IEnumerable<TResult>> RetryableQueryAsync<TResult>(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+                                            => await BuildRetryPolicy<IEnumerable<TResult>>().ExecuteAsync(() => cnn.QueryAsync<TResult>(sql, param, transaction, commandTimeout, commandType));
+
 
         /// <summary>
         /// Author: German Bertolini

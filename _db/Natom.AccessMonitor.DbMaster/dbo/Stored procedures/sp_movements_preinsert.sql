@@ -16,6 +16,7 @@ BEGIN
 				[DateTime] DATETIME NOT NULL,
 				[DocketNumber] INT NOT NULL,
 				[MovementType] CHAR(1) NOT NULL,
+				[GoalId] INT,
 				CONSTRAINT [PK_zMovement_Client' + CAST(@ClientId AS VARCHAR) + '] PRIMARY KEY CLUSTERED ([DateTime] ASC, [InstanceId] ASC, [DeviceId] ASC, [DocketNumber] ASC)
 			);
 	';
