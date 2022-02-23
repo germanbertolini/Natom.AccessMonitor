@@ -13,7 +13,6 @@
     <ProjectReference Include="..\..\_services\Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj" />
     <ProjectReference Include="..\..\_services\Natom.AccessMonitor.Services.Mailer\Natom.AccessMonitor.Services.Mailer.csproj" />
     <ProjectReference Include="..\Natom.AccessMonitor.Common\Natom.AccessMonitor.Common.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Core.DataAccess\Natom.AccessMonitor.Core.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

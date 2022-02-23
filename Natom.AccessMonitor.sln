@@ -27,8 +27,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Common"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Core.Biz", "_core\Natom.AccessMonitor.Core.Biz\Natom.AccessMonitor.Core.Biz.csproj", "{223844E9-921B-40AD-9B81-FA51634FCE3D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Core.DataAccess", "_core\Natom.AccessMonitor.Core.DataAccess\Natom.AccessMonitor.Core.DataAccess.csproj", "{9D32799C-3F7D-499A-89EA-327A01DBBE18}"
-EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Natom.AccessMonitor.DbConfig", "_db\Natom.AccessMonitor.DbConfig\Natom.AccessMonitor.DbConfig.sqlproj", "{7E38F135-6D96-48C1-87B3-E3E8D0D70FFF}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Natom.AccessMonitor.DbLogs", "_db\Natom.AccessMonitor.DbLogs\Natom.AccessMonitor.DbLogs.sqlproj", "{F3A25CBF-1DDE-47E1-A86A-5D215AFD0B90}"
@@ -49,9 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Service
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.Services.MQ", "_services\Natom.AccessMonitor.Services.MQ\Natom.AccessMonitor.Services.MQ.csproj", "{1B12D4C6-56BE-45B3-9F76-B5F87E3FA3B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.WebApp.Admin.Backend", "Natom.AccessMonitor.WebApp.Admin.Backend\Natom.AccessMonitor.WebApp.Admin.Backend.csproj", "{2FEE97FE-E3CC-4A26-9233-9CDF838FD00D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.WebApp.Admin.Backend", "Natom.AccessMonitor.WebApp.Admin.Backend\Natom.AccessMonitor.WebApp.Admin.Backend.csproj", "{2FEE97FE-E3CC-4A26-9233-9CDF838FD00D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Natom.AccessMonitor.WebApp.Clientes.Backend", "Natom.AccessMonitor.WebApp.Clientes.Backend\Natom.AccessMonitor.WebApp.Clientes.Backend.csproj", "{C241E27C-102A-49BA-8908-BC69B30AFBB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Natom.AccessMonitor.WebApp.Clientes.Backend", "Natom.AccessMonitor.WebApp.Clientes.Backend\Natom.AccessMonitor.WebApp.Clientes.Backend.csproj", "{C241E27C-102A-49BA-8908-BC69B30AFBB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,10 +85,6 @@ Global
 		{223844E9-921B-40AD-9B81-FA51634FCE3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{223844E9-921B-40AD-9B81-FA51634FCE3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{223844E9-921B-40AD-9B81-FA51634FCE3D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D32799C-3F7D-499A-89EA-327A01DBBE18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D32799C-3F7D-499A-89EA-327A01DBBE18}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D32799C-3F7D-499A-89EA-327A01DBBE18}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D32799C-3F7D-499A-89EA-327A01DBBE18}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E38F135-6D96-48C1-87B3-E3E8D0D70FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E38F135-6D96-48C1-87B3-E3E8D0D70FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E38F135-6D96-48C1-87B3-E3E8D0D70FFF}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -160,7 +154,6 @@ Global
 		{720CBD77-4C6E-4AF6-8F50-575EDBAE2137} = {8DD1410D-4E3A-4212-91BE-EF6FEFD9E388}
 		{99EB987A-8C59-4B3F-A0A9-D0F1B94D2261} = {93008EA3-0ECB-4D25-8CC4-1AECA8ADCAAC}
 		{223844E9-921B-40AD-9B81-FA51634FCE3D} = {93008EA3-0ECB-4D25-8CC4-1AECA8ADCAAC}
-		{9D32799C-3F7D-499A-89EA-327A01DBBE18} = {93008EA3-0ECB-4D25-8CC4-1AECA8ADCAAC}
 		{7E38F135-6D96-48C1-87B3-E3E8D0D70FFF} = {B9CEDFA4-736E-4F2B-B3AA-575EB1989B8A}
 		{F3A25CBF-1DDE-47E1-A86A-5D215AFD0B90} = {B9CEDFA4-736E-4F2B-B3AA-575EB1989B8A}
 		{2BA0020B-EC1A-4A83-9996-636ACE03AB4F} = {B9CEDFA4-736E-4F2B-B3AA-575EB1989B8A}
