@@ -18,6 +18,11 @@ import { SyncsClientesComponent } from "./views/clientes/syncs/syncs-clientes.co
 import { ABMSyncsClientesGuard } from "./guards/clientes/abm.syncs.clientes.guards";
 import { DevicesSyncsClientesComponent } from "./views/clientes/syncs/devices/devices-syncs-clientes.component";
 import { SyncsClientesNewComponent } from "./views/clientes/syncs/crud/syncs-clientes-new.component";
+import { ABMPlacesAndGoalsGuard } from "./guards/placesgoals.guards";
+import { PlacesComponent } from "./views/clientes/places/places.component";
+import { PlaceCrudComponent } from "./views/clientes/places/crud/place-crud.component";
+import { GoalsComponent } from "./views/clientes/goals/goals.component";
+import { GoalCrudComponent } from "./views/clientes/goals/crud/goal-crud.component";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -38,6 +43,12 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard, ABMSyncsClientesGuard ], path: 'clientes/:id_cliente/syncs', component: SyncsClientesComponent },
     { canActivate: [ AuthGuard, ABMSyncsClientesGuard ], path: "clientes/:id_cliente/syncs/new", component: SyncsClientesNewComponent },
     { canActivate: [ AuthGuard, ABMSyncsClientesGuard ], path: "clientes/:id_cliente/syncs/devices/:id", component: DevicesSyncsClientesComponent },
+    { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: 'clientes/:id_cliente/places', component: PlacesComponent },
+    { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "clientes/:id_cliente/places/new", component: PlaceCrudComponent },
+    { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "clientes/:id_cliente/places/edit/:id", component: PlaceCrudComponent },
+    { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: 'clientes/:id_cliente/goals/:place_id', component: GoalsComponent },
+    { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "clientes/:id_cliente/goals/:place_id/new", component: GoalCrudComponent },
+    { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "clientes/:id_cliente/goals/:place_id/edit/:id", component: GoalCrudComponent },
 ]
 
 @NgModule({

@@ -1,34 +1,36 @@
-import { HttpClient } from "@angular/common/http";
 import { Component, Input, OnInit, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { DataTableDirective } from "angular-datatables/src/angular-datatables.directive";
 import { NotifierService } from "angular-notifier";
-import { ClienteDTO } from "src/app/classes/dto/clientes/cliente.dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { ApiService } from "src/app/services/api.service";
-import { AuthService } from "src/app/services/auth.service";
-import { DataTableDTO } from '../../classes/data-table-dto';
-import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
+import { DataTableDTO } from '../../../classes/data-table-dto';
+import { ConfirmDialogService } from "../../../components/confirm-dialog/confirm-dialog.service";
+import { GoalDTO } from "src/app/classes/dto/goal.dto";
 
 @Component({
-  selector: 'app-clientes',
-  templateUrl: './clientes.component.html'
+  selector: 'app-goals',
+  templateUrl: './goals.component.html'
 })
-export class ClientesComponent implements OnInit {
+export class GoalsComponent implements OnInit {
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
   dtInstance: Promise<DataTables.Api>;
   dtIndex: DataTables.Settings = {};
   filterStatusValue: string;
-  Clientes: ClienteDTO[];
+  Goals: GoalDTO[];
   Noty: any;
+  place_id: string;
+  clienteId: string;
 
   constructor(private apiService: ApiService,
-              private authService: AuthService,
+              private route: ActivatedRoute,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
     this.filterStatusValue = "ACTIVOS";
+    this.place_id = decodeURIComponent(this.route.snapshot.paramMap.get('place_id'));
+    this.clienteId = decodeURIComponent(this.route.snapshot.paramMap.get('id_cliente'));
   }
 
   onFiltroEstadoChange(newValue: string) {
@@ -38,20 +40,12 @@ export class ClientesComponent implements OnInit {
     });
   }
 
-  onSyncsClick(id: string) {
-    this.routerService.navigate(['/clientes/' + encodeURIComponent(id) + "/syncs"]);
-  }
-
-  onUsersClick(id: string) {
-    this.routerService.navigate(['/clientes/' + encodeURIComponent(id) + "/users"]);
-  }
-
-  onPlacesClick(id: string) {
-    this.routerService.navigate(['/clientes/' + encodeURIComponent(id) + "/places"]);
+  onNewClick() {
+    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/goals/' + encodeURIComponent(this.place_id) + '/new']);
   }
 
   onEditClick(id: string) {
-    this.routerService.navigate(['/clientes/edit/' + encodeURIComponent(id)]);
+    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/goals/' + encodeURIComponent(this.place_id) + '/edit/' + encodeURIComponent(id)]);
   }
 
   onEnableClick(id: string) {
@@ -60,14 +54,14 @@ export class ClientesComponent implements OnInit {
     let apiService = this.apiService;
     let dataTableInstance = this.dtElement.dtInstance;
 
-    this.confirmDialogService.showConfirm("Desea volver a dar de alta al cliente?", function () {  
-      apiService.DoPOST<ApiResult<any>>("clientes/enable?encryptedId=" + encodeURIComponent(id), {}, /*headers*/ null,
+    this.confirmDialogService.showConfirm("Desea dar de alta a la Portería / Acceso?", function () {  
+      apiService.DoPOST<ApiResult<any>>("goals/enable?encryptedId=" + encodeURIComponent(id), {}, /*headers*/ null,
                                             (response) => {
                                               if (!response.success) {
                                                 confirmDialogService.showError(response.message);
                                               }
                                               else {
-                                                notifier.notify('success', 'Cliente dado de alta con éxito.');
+                                                notifier.notify('success', 'Portería / Acceso dado de alta con éxito.');
                                                 dataTableInstance.then((dtInstance: DataTables.Api) => {
                                                   dtInstance.ajax.reload()
                                                 });
@@ -85,14 +79,14 @@ export class ClientesComponent implements OnInit {
     let apiService = this.apiService;
     let dataTableInstance = this.dtElement.dtInstance;
 
-    this.confirmDialogService.showConfirm("¿Desea dar de baja al cliente? IMPORTANTE: Con la baja del cliente se les bloqueará el acceso a sus usuarios. Los sincronizadores seguirán funcionando y sincronizando. Para una baja definitiva, antes dar de baja cada sincronizador.", function () {  
-      apiService.DoDELETE<ApiResult<any>>("clientes/disable?encryptedId=" + encodeURIComponent(id), /*headers*/ null,
+    this.confirmDialogService.showConfirm("Desea dar de baja a la Portería / Acceso?", function () {  
+      apiService.DoDELETE<ApiResult<any>>("goals/disable?encryptedId=" + encodeURIComponent(id), /*headers*/ null,
                                             (response) => {
                                               if (!response.success) {
                                                 confirmDialogService.showError(response.message);
                                               }
                                               else {
-                                                notifier.notify('success', 'Cliente dado de baja con éxito.');
+                                                notifier.notify('success', 'Portería / Acceso dado de baja con éxito.');
                                                 dataTableInstance.then((dtInstance: DataTables.Api) => {
                                                   dtInstance.ajax.reload()
                                                 });
@@ -128,7 +122,7 @@ export class ClientesComponent implements OnInit {
         },
       },
       ajax: (dataTablesParameters: any, callback) => {
-        this.apiService.DoPOST<ApiResult<DataTableDTO<ClienteDTO>>>("clientes/list?status=" + this.filterStatusValue, dataTablesParameters, /*headers*/ null,
+        this.apiService.DoPOST<ApiResult<DataTableDTO<GoalDTO>>>("goals/list?encryptedId=" + encodeURIComponent(this.place_id) + "&status=" + this.filterStatusValue, dataTablesParameters, /*headers*/ null,
                       (response) => {
                         if (!response.success) {
                           this.confirmDialogService.showError(response.message);
@@ -139,8 +133,8 @@ export class ClientesComponent implements OnInit {
                             recordsFiltered: response.data.recordsFiltered,
                             data: [] //Siempre vacío para delegarle el render a Angular
                           });
-                          this.Clientes = response.data.records;
-                          if (this.Clientes.length > 0) {
+                          this.Goals = response.data.records;
+                          if (this.Goals.length > 0) {
                             $('.dataTables_empty').hide();
                           }
                           else {
@@ -156,10 +150,10 @@ export class ClientesComponent implements OnInit {
                       });
       },
       columns: [
-        { data: 'cliente' },
-        { data: 'documento' },
-        { data: 'localidad' },
-        { data: '' } //BOTONERA
+        { data: 'name' },
+        { data: 'address' },
+        { data: 'place' },
+        { data: '', orderable: false } //BOTONERA
       ]
     };
   }

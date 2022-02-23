@@ -8,6 +8,7 @@ as (select * from (values
 ('abm_clientes','WebApp.Admin','ABM Clientes'),
 ('abm_clientes_usuarios', 'WebApp.Admin', 'ABM Usuarios de clientes'),
 ('abm_clientes_dispositivos','WebApp.Admin','ABM sincronizadores de clientes'),
+('abm_clientes_places_goals', 'WebApp.Admin', 'ABM Plantas / Oficinas / Porterías / Accesos de clientes'),
 
 ('*','WebApp.Clientes','Permiso total'),
 ('abm_usuarios','WebApp.Clientes','ABM Usuarios'),

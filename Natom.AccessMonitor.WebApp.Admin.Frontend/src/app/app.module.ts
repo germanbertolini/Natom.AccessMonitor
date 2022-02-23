@@ -43,6 +43,10 @@ import { UsuariosClientesComponent } from './views/clientes/usuarios/usuarios-cl
 import { SyncsClientesComponent } from './views/clientes/syncs/syncs-clientes.component';
 import { DevicesSyncsClientesComponent } from './views/clientes/syncs/devices/devices-syncs-clientes.component';
 import { SyncsClientesNewComponent } from './views/clientes/syncs/crud/syncs-clientes-new.component';
+import { PlacesComponent } from './views/clientes/places/places.component';
+import { PlaceCrudComponent } from './views/clientes/places/crud/place-crud.component';
+import { GoalsComponent } from './views/clientes/goals/goals.component';
+import { GoalCrudComponent } from './views/clientes/goals/crud/goal-crud.component';
 
 
 
@@ -64,6 +68,10 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     HomeComponent,
     ClientesComponent,
     ClienteCrudComponent,
+    PlacesComponent,
+    PlaceCrudComponent,
+    GoalsComponent,
+    GoalCrudComponent,
     UsersComponent,
     UserCrudComponent,
     UserConfirmComponent,
