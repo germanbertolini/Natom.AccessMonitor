@@ -125,6 +125,9 @@ namespace Natom.AccessMonitor.Sync.Transmitter.Services
                 data.DeviceBrand = device.DeviceBrand;
                 data.DeviceDateTimeFormat = device.DeviceDateTimeFormat;
                 data.DeviceFirmwareVersion = device.DeviceFirmwareVersion;
+                data.DeviceIP = $"{device.DeviceHost}:{device.DevicePort}";
+                data.DeviceUser = device.User;
+                data.DevicePass = device.Password;
 
 #if DEBUG       
                 //INICIO MOCK

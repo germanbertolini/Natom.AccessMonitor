@@ -20,11 +20,12 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
         }
 
         public async Task AddOrUpdateDeviceInfoAsync(string syncInstanceId, long deviceId, string deviceName, DateTime? lastConfigurationAt,
-                                                        string serialNumber, string model, string brand, string dateTimeFormat, string firmwareVersion)
+                                                        string serialNumber, string model, string brand, string dateTimeFormat, string firmwareVersion,
+                                                        string ip, string user, string pass, DateTime lastSyncRegistered)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
-                await connection.RetryableExecuteAsync("EXEC [dbo].[sp_device_add_or_update] @InstanceId, @DeviceId, @DeviceName, @LastConfigurationAt, @SerialNumber, @Model, @Brand, @DateTimeFormat, @FirmwareVersion",
+                await connection.RetryableExecuteAsync("EXEC [dbo].[sp_device_add_or_update] @InstanceId, @DeviceId, @DeviceName, @LastConfigurationAt, @SerialNumber, @Model, @Brand, @DateTimeFormat, @FirmwareVersion, @IP, @User, @Pass, @LastSyncRegistered",
                                                             new {
                                                                 InstanceId = syncInstanceId,
                                                                 DeviceId = deviceId,
@@ -34,7 +35,11 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
                                                                 Model = model,
                                                                 Brand = brand,
                                                                 DateTimeFormat = dateTimeFormat,
-                                                                FirmwareVersion = firmwareVersion
+                                                                FirmwareVersion = firmwareVersion,
+                                                                IP = ip,
+                                                                User = user,
+                                                                Pass = pass,
+                                                                LastSyncRegistered = lastSyncRegistered
                                                             });
             }
         }

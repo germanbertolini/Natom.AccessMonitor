@@ -32,6 +32,15 @@ namespace Natom.AccessMonitor.Sync.Entities.DTO
         [JsonProperty("fvs")]
         public string DeviceFirmwareVersion { get; set; }
 
+        [JsonProperty("dip")]
+        public string DeviceIP { get; set; }
+
+        [JsonProperty("duj")]
+        public string DeviceUser { get; set; }
+
+        [JsonProperty("dpw")]
+        public string DevicePass { get; set; }
+
         [JsonProperty("l")]
         public List<MovementDto> Movements { get; set; }
     }

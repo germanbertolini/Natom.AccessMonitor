@@ -20,7 +20,7 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
             _connectionString = configuration.GetValueAsync("ConnectionStrings.DbMaster").GetAwaiter().GetResult();
         }
 
-        public async Task BulkInsertAsync(int clientId, string syncInstanceId, DateTime lastSyncRegistered, DataBlockForSyncDto dataBlock)
+        public async Task BulkInsertAsync(int clientId, string syncInstanceId, DataBlockForSyncDto dataBlock)
         {
             var sql = "INSERT INTO [dbo].[zMovement_Client" + clientId + "] " +
                         "   ( " +

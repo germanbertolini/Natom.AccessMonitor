@@ -13,7 +13,9 @@ BEGIN
 	
 	SELECT
 		*,
-		CAST(CASE WHEN DATEADD(MINUTE,  R.CurrentSyncToServerMinutes + 5, R.LastConnectionAt) > GETDATE() THEN 1 ELSE 0 END AS BIT) AS IsOnline
+
+		--El status de si está Online o no el Reloj se toma en base a la ultima vez que sincronizó el Reloj
+		CAST(CASE WHEN DATEADD(MINUTE,  R.CurrentSyncToServerMinutes + 5, COALESCE(R.LastSyncAt, R.LastConnectionAt)) > GETDATE() THEN 1 ELSE 0 END AS BIT) AS IsOnline
 	INTO
 		#TMP_DEVICES
 	FROM
@@ -33,14 +35,14 @@ BEGIN
 			D.Model,
 			D.Brand,
 			S.InstallationAlias AS SyncName,
-			S.LastSyncAt,
 			S.CurrentSyncToServerMinutes,
 			CASE WHEN DATEADD(MINUTE, S.CurrentSyncToServerMinutes, S.LastSyncAt) < DATEADD(MINUTE, -5, GETDATE()) THEN
 				NULL
 			ELSE
 				DATEADD(MINUTE, S.CurrentSyncToServerMinutes, S.LastSyncAt)
-			END AS NextSyncAt,
-			S.LastConnectionAt
+			END AS NextSyncAt, --NextSyncAt es tomando la ultima sincronización pero del Sincronizador contra el servidor
+			S.LastConnectionAt,
+			D.LastSyncAt --Este es la ultima sincronización del Reloj
 		FROM
 			[dbo].[Device] D WITH(NOLOCK)
 			INNER JOIN [dbo].[Synchronizer] S WITH(NOLOCK) ON S.InstanceId = D.InstanceId

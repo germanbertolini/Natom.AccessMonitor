@@ -8,7 +8,11 @@
 	@Model NVARCHAR(30),
 	@Brand NVARCHAR(30),
 	@DateTimeFormat NVARCHAR(20),
-	@FirmwareVersion NVARCHAR(30)
+	@FirmwareVersion NVARCHAR(30),
+	@IP NVARCHAR(50),
+	@User NVARCHAR(50),
+	@Pass NVARCHAR(50),
+	@LastSyncRegistered DATETIME
 )
 AS
 BEGIN
@@ -29,10 +33,10 @@ BEGIN
 	IF @currentDeviceName IS NULL
 		INSERT INTO [dbo].[Device] (InstanceId, DeviceId, DeviceName, GoalId, AddedAt,
 									LastConfigurationAt, SerialNumber, Model, Brand,
-									DateTimeFormat, FirmwareVersion)
+									DateTimeFormat, FirmwareVersion, DeviceIP, DeviceUser, DevicePassword, LastSyncAt)
 				VALUES (@InstanceId, @DeviceId, @DeviceName, NULL, GETDATE(),
 						@LastConfigurationAt, @SerialNumber, @Model, @Brand,
-						@DateTimeFormat, @FirmwareVersion);
+						@DateTimeFormat, @FirmwareVersion, @IP, @User, @Pass, @LastSyncRegistered);
 
 	--SI YA EXISTE EL DEVICE Y CAMBIO LA CONFIGURACIÓN, LO ACTUALIZAMOS
 	ELSE IF @currentDeviceName IS NOT NULL AND (@currentLastConfigurationAt IS NULL OR @currentLastConfigurationAt != @LastConfigurationAt)
@@ -43,7 +47,17 @@ BEGIN
 				Model = @Model,
 				Brand = @Brand,
 				DateTimeFormat = @DateTimeFormat,
-				FirmwareVersion = @FirmwareVersion
+				FirmwareVersion = @FirmwareVersion,
+				DeviceIP = @IP,
+				DeviceUser = @User,
+				DevicePassword = @Pass,
+				LastSyncAt = @LastSyncRegistered
+			WHERE InstanceId = @InstanceId
+					AND DeviceId = @DeviceId;
+	--SI ESTÁ TODO OK ENTONCES SOLAMENTE REFRESCAMOS LA ULTIMA FECHA HORA DE SINCRONIZACIÓN
+	ELSE
+		UPDATE [dbo].[Device]
+			SET LastSyncAt = @LastSyncRegistered
 			WHERE InstanceId = @InstanceId
 					AND DeviceId = @DeviceId;
 
