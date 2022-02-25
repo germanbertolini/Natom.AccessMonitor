@@ -1,4 +1,11 @@
 <div class="container-fluid">
+  <div class="row" *ngIf="backgroundService.resume.unassigned_devices.length > 0">
+    <div class="col-md-12">
+      <div class="alert alert-danger" role="alert">
+        <i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;<b>Hay dispositivos pendientes de asignar a una Portería / Acceso:</b>&nbsp;&nbsp;&nbsp;&nbsp;{{ backgroundService.resume.unassigned_devices.join(', ') }}
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-8">
       <h3>Panorama actual</h3>

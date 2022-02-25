@@ -8,6 +8,7 @@ import { DataTableDTO } from "src/app/classes/data-table-dto";
 import { GoalDTO } from "src/app/classes/dto/goal.dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { ApiService } from "src/app/services/api.service";
+import { BackgroundService } from "src/app/services/background.service";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { DeviceDTO } from "../../classes/dto/syncs/device.dto";
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
@@ -36,6 +37,7 @@ export class DevicesComponent implements OnInit {
               private apiService: ApiService,
               private routerService: Router,
               private notifierService: NotifierService,
+              private backgroundService: BackgroundService,
               private confirmDialogService: ConfirmDialogService) {
     
   }
@@ -75,6 +77,7 @@ export class DevicesComponent implements OnInit {
     let encryptedId = this.asignar_encrypted_id;
     let goalId = this.asignar_goal_encrypted_id;
     let modalInstance = this.asignar_modal;
+    let _backgroundService = this.backgroundService;
 
     if (goalId === undefined || goalId.length === 0) {
       this.confirmDialogService.showError("Debes seleccionar una Portería / Acceso al cual asignar el dispositivo.");
@@ -93,6 +96,7 @@ export class DevicesComponent implements OnInit {
                                                 dataTableInstance.then((dtInstance: DataTables.Api) => {
                                                   dtInstance.ajax.reload()
                                                 });
+                                                _backgroundService.refreshStatusResume();
                                               }
                                             },
                                             (errorMessage) => {

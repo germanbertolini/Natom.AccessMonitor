@@ -52,6 +52,7 @@ import { GoalsComponent } from './views/goals/goals.component';
 import { PlaceCrudComponent } from './views/places/crud/place-crud.component';
 import { GoalCrudComponent } from './views/goals/crud/goal-crud.component';
 import { PlacesComponent } from './views/places/places.component';
+import { BackgroundService } from './services/background.service';
 
 export function OnInit(jsonAppConfigService: JsonAppConfigService) {
   return () => {
@@ -131,7 +132,8 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     SpinnerLoadingService,
     ThemeService,
     CookieService,
-    ApiService ],
+    ApiService,
+    BackgroundService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

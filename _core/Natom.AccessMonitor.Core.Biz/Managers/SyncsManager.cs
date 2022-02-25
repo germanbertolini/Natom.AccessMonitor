@@ -40,6 +40,19 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             }
         }
 
+        public async Task<List<spDeviceListUnassignedByClientIdResult>> GetUnassignedDevicesByClientIdAsync(int clienteId)
+        {
+            var connectionString = await _configuration.GetValueAsync("ConnectionStrings.DbSecurity");
+            var unassigned = new List<spDeviceListUnassignedByClientIdResult>();
+            using (var db = new SqlConnection(connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_device_list_unassigned_by_clientid] @ClientId";
+                var _params = new { ClientId = clienteId };
+                unassigned = (await db.QueryAsync<spDeviceListUnassignedByClientIdResult>(sql, _params)).ToList();
+            }
+            return unassigned;
+        }
+
         public async Task<spSynchronizerSelectConfigByIdResult> GetSynchronizerConfigByIdAsync(string instanceId)
         {
             var connectionString = await _configuration.GetValueAsync("ConnectionStrings.DbSecurity");

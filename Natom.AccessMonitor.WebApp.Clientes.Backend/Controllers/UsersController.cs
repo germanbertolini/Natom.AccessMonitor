@@ -296,5 +296,6 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
             }
         }
+
     }
 }

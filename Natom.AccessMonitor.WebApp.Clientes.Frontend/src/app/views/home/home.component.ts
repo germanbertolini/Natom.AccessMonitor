@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BackgroundService } from 'src/app/services/background.service';
 
 @Component({
   selector: 'app-home',
@@ -6,4 +7,9 @@ import { Component } from '@angular/core';
   templateUrl: './home.component.html'
 })
 export class HomeComponent {
+  
+  constructor(private backgroundService: BackgroundService) {
+    
+  }
+  
 }
