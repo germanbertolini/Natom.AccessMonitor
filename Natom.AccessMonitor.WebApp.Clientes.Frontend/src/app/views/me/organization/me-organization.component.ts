@@ -2,9 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
-import { OrganizationDTO } from "src/app/classes/dto/organization.dto";
+import { OrganizationDTO } from "src/app/classes/dto/background/organization.dto";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
 import { ConfirmDialogService } from "src/app/components/confirm-dialog/confirm-dialog.service";
+import { BackgroundService } from "src/app/services/background.service";
 import { DataTablesResponse } from "../../../classes/data-tables-response";
 
 @Component({
@@ -17,25 +18,13 @@ export class MeOrganizationComponent implements OnInit {
 
   model: OrganizationDTO;
 
-  constructor(private httpClientService: HttpClient,
+  constructor(private backgroundService: BackgroundService,
               private routerService: Router,
               private routeService: ActivatedRoute,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
 
-    this.model = new OrganizationDTO();
-
-    //MOCK
-    this.model.encrypted_id = "adssdadas123e213132";
-    this.model.registered_at = new Date('2020-12-28T00:00:00');
-    this.model.business_name = "Natom";
-    this.model.country_icon = "arg";
-    this.model.picture_url = "https://seeklogo.com/images/V/Volkswagen-logo-9A1203CE20-seeklogo.com.png";
-    this.model.jornada_tolerancia_ingreso_mins = 10;
-    this.model.jornada_tolerancia_egreso_mins = 10;
-    this.model.almuerzo_rango_horario_desde = new Date('0001-01-01T12:00:00');
-    this.model.almuerzo_rango_horario_hasta = new Date('0001-01-01T15:00:00');
-    this.model.almuerzo_tiempo_limite_mins = 65;
+    this.model = backgroundService.resume.organization;
   }
 
   onCancelClick() {

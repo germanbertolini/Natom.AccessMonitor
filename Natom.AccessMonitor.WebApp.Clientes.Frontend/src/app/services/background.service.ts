@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http
 import { Injectable } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
 import { Observable } from "rxjs";
+import { OrganizationDTO } from "../classes/dto/background/organization.dto";
 import { ResumeDTO } from "../classes/dto/background/resume.dto";
 import { ApiResult } from "../classes/dto/shared/api-result.dto";
 import { ConfirmDialogService } from "../components/confirm-dialog/confirm-dialog.service";
@@ -21,6 +22,9 @@ export class BackgroundService {
                 private confirmDialogService: ConfirmDialogService) {
         this.resume = new ResumeDTO();
         this.resume.unassigned_devices = new Array<string>();
+        this.resume.organization = new OrganizationDTO();
+        this.resume.organization.picture_url = "/assets/img/buildings.png";
+        this.resume.organization.country_icon = "arg";
         this.refreshStatusResume();
     }
 

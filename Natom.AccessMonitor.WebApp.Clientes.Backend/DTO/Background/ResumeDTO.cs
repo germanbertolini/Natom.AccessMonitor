@@ -11,6 +11,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Background
         [JsonProperty("current_year")]
         public int CurrentYear { get; set; }
 
+        [JsonProperty("organization")]
+        public OrganizationDTO Organization { get; set; }
+
         [JsonProperty("unassigned_devices")]
         public List<string> UnassignedDevices { get; set; }
     }

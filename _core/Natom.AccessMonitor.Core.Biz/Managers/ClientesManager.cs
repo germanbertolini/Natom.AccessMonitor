@@ -102,7 +102,8 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                     ContactoTelefono2 = clienteDto.ContactoTelefono2,
                     ContactoObservaciones = clienteDto.ContactoObservaciones,
                     ZonaId = clienteDto.ZonaId,
-                    Activo = true
+                    Activo = true,
+                    RegisterAt = DateTime.Now
                 };
 
                 _db.Clientes.Add(cliente);

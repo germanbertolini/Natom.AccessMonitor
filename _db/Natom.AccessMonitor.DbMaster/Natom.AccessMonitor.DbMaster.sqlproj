@@ -71,6 +71,7 @@
     <Build Include="dbo\Tables\Title.sql" />
     <Build Include="dbo\Tables\Docket.sql" />
     <Build Include="dbo\Tables\DocketRange.sql" />
+    <Build Include="dbo\Tables\ConfigTolerancia.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">

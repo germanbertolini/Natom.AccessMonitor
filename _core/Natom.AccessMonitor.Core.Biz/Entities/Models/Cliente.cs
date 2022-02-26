@@ -19,6 +19,8 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Models
 		public string RazonSocial { get; set; }
 		public string NombreFantasia { get; set; }
 
+		public DateTime RegisterAt { get; set; }
+
 		public int TipoDocumentoId { get; set; }
 		public TipoDocumento TipoDocumento { get; set; }
 		public string NumeroDocumento { get; set; }

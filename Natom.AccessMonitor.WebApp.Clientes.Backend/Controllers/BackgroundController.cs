@@ -35,13 +35,26 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 var syncsManager = new SyncsManager(_serviceProvider);
                 var unassignedDevices = await syncsManager.GetUnassignedDevicesByClientIdAsync(clienteId);
 
+                var clientesManager = new ClientesManager(_serviceProvider);
+                var cliente = await clientesManager.ObtenerClienteAsync(clienteId);
+                if (cliente == null)
+                {
+                    cliente = new Core.Biz.Entities.Models.Cliente
+                    {
+                        RazonSocial = "Natom",
+                        NombreFantasia = "Natom",
+                        RegisterAt = DateTime.Now
+                    };
+                }
+
                 return Ok(new ApiResultDTO<ResumeDTO>
                 {
                     Success = true,
                     Data = new ResumeDTO
                     {
                         CurrentYear = DateTime.Now.Year,
-                        UnassignedDevices = unassignedDevices.Select(d => $"({d.DeviceId}) {d.DeviceName}").ToList()
+                        UnassignedDevices = unassignedDevices.Select(d => $"({d.DeviceId}) {d.DeviceName}").ToList(),
+                        Organization = new OrganizationDTO().From(cliente)
                     }
                 });
             }
