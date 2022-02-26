@@ -52,7 +52,7 @@ namespace Natom.AccessMonitor.Services.Logger.Services
         /// <summary>
         /// Log de tipo 'INFO' en Discord.
         /// </summary>
-        public async Task LogInfoAsync(string message, string traceTransactionId = null, object traceTransactionData = null)
+        public async Task LogInfoAsync(string message, string traceTransactionId = null, object traceTransactionData = null, string razon = null)
         {
             string webhookUrl;
             if (!await IsLoggingEnabledAsync(key: "Info"))
@@ -63,6 +63,8 @@ namespace Natom.AccessMonitor.Services.Logger.Services
             StringBuilder contentBuilder = new StringBuilder();
             contentBuilder.AppendLine($"*{_config.SystemName}*         **INFO**");
             contentBuilder.AppendLine($"- **Message: {message}**");
+            if (!string.IsNullOrEmpty(razon))
+                contentBuilder.AppendLine($"- **Reason: {razon}**");
             contentBuilder.AppendLine($"- **Date time:** {DateTime.Now.ToShortDateString()} {DateTime.Now.ToShortTimeString()}");
 
             if (!string.IsNullOrEmpty(traceTransactionId))

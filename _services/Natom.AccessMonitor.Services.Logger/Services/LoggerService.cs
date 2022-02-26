@@ -168,7 +168,7 @@ namespace Natom.AccessMonitor.Services.Logger.Services
         /// <summary>
         /// Loguea el Rechazo + Lo reporta en Discord
         /// </summary>
-        public void LogBounce(string transactionId, string description, object accessToken)
+        public void LogBounce(string transactionId, string description, object accessToken, bool logOnDiscord = true)
         {
             _transactionLogs.Add(new TransactionLog()
             {
@@ -179,7 +179,8 @@ namespace Natom.AccessMonitor.Services.Logger.Services
                 Data = JsonConvert.SerializeObject(new { AccessToken = accessToken })
             });
 
-            Task.Run(() => _discordService.LogInfoAsync(":no_entry: TRANSACCIÓN RECHAZADA :no_entry:", transactionId, new { AccessToken_Data = accessToken }));
+            if (logOnDiscord)
+                Task.Run(() => _discordService.LogInfoAsync(":no_entry: TRANSACCIÓN RECHAZADA :no_entry:", transactionId, new { AccessToken_Data = accessToken }, description));
         }
 
         /// <summary>
