@@ -11,3 +11,9 @@ ng-sidebar-container {
     box-shadow: inset #111 -2rem -2rem 5rem;
     z-index: 10 !important;
 }
+
+@media (max-width : 767px) {
+    ::ng-deep .hide-if-mobile {
+        display:none;
+    }
+}
