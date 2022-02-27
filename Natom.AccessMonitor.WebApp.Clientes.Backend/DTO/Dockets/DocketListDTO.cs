@@ -33,7 +33,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
 
         public DocketListDTO From(Docket entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.DocketId);
+            EncryptedId = EncryptionService.Encrypt<Docket>(entity.DocketId);
             DocketNumber = entity.DocketNumber;
             EmployeeFirstName = entity.FirstName;
             EmployeeLastName = entity.LastName;

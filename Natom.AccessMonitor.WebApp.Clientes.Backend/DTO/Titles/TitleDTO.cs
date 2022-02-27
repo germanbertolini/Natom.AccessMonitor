@@ -22,7 +22,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Titles
 
         public TitleDTO From(Title entity, string status = null)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.TitleId);
+            EncryptedId = EncryptionService.Encrypt<Title>(entity.TitleId);
             Name = entity.Name;
             Activo = !entity.RemovedAt.HasValue;
 
@@ -33,7 +33,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Titles
         {
             return new Title
             {
-                TitleId = EncryptionService.Decrypt<int>(EncryptedId),
+                TitleId = EncryptionService.Decrypt<int, Title>(EncryptedId),
                 Name = Name,
                 ClienteId = clienteId,
                 RemovedAt = null

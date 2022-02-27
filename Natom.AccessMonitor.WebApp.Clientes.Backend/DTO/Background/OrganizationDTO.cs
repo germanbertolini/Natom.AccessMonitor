@@ -27,7 +27,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Background
 
         public OrganizationDTO From(Cliente cliente)
         {
-            EncryptedId = EncryptionService.Encrypt(cliente.ClienteId);
+            EncryptedId = EncryptionService.Encrypt<Cliente>(cliente.ClienteId);
             RegisteredAt = cliente.RegisterAt;
             BusinessName = cliente.RazonSocial;
             CountryIcon = "arg";

@@ -35,6 +35,20 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Services
         /// Encripta un dato
         /// </summary>
         public static string Encrypt(object data)
+                                => Encrypt(data, _secretKey);
+
+
+        /// <summary>
+        /// Encripta un dato
+        /// </summary>
+        public static string Encrypt<TEntity>(object data)
+                                => Encrypt(data, BuildSecretCompuesta(_secretKey, typeof(TEntity).Name));
+
+
+        /// <summary>
+        /// Encripta un dato
+        /// </summary>
+        private static string Encrypt(object data, string secretKey)
         {
             string plainText = data?.ToString();
 
@@ -45,7 +59,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Services
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(_secretKey);
+                aes.Key = Encoding.UTF8.GetBytes(secretKey);
                 aes.IV = iv;
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -71,6 +85,18 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Services
         /// Desencripta un dato
         /// </summary>
         public static TResult Decrypt<TResult>(string cipherText)
+                        => Decrypt<TResult>(cipherText, _secretKey);
+
+        /// <summary>
+        /// Desencripta un dato
+        /// </summary>
+        public static TResult Decrypt<TResult, TEntity>(string cipherText)
+                        => Decrypt<TResult>(cipherText, BuildSecretCompuesta(_secretKey, typeof(TEntity).Name));
+
+        /// <summary>
+        /// Desencripta un dato
+        /// </summary>
+        private static TResult Decrypt<TResult>(string cipherText, string secretKey)
         {
             if (string.IsNullOrEmpty(cipherText) || cipherText.Equals("undefined"))
                 return default(TResult);
@@ -81,7 +107,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Services
 
             using (Aes aes = Aes.Create())
             {
-                aes.Key = Encoding.UTF8.GetBytes(_secretKey);
+                aes.Key = Encoding.UTF8.GetBytes(secretKey);
                 aes.IV = iv;
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
@@ -102,6 +128,13 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Services
 
             Type notNullableTResult = Nullable.GetUnderlyingType(typeof(TResult)) ?? typeof(TResult);
             return (TResult)Convert.ChangeType(result, notNullableTResult);
+        }
+
+        private static string BuildSecretCompuesta(string secretKey, string typeName)
+        {
+            string hash = CreateMD5(typeName);
+            string newSecret = $"{_secretKey.Substring(0, _secretKey.Length - 10)}{hash.Substring(hash.Length - 10, 10)}";
+            return newSecret;
         }
     }
 }

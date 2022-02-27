@@ -142,7 +142,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
 
                 if (!string.IsNullOrEmpty(encryptedId))
                 {
-                    var usuarioId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                    var usuarioId = EncryptionService.Decrypt<int, Usuario>(Uri.UnescapeDataString(encryptedId));
                     var usuario = await repository.ObtenerUsuarioAsync(usuarioId);
                     entity = new UserDTO().From(usuario);
                 }
@@ -213,7 +213,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
-                var usuarioId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var usuarioId = EncryptionService.Decrypt<int, Usuario>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new UsuarioRepository(_serviceProvider);
                 await manager.EliminarUsuarioAsync(usuarioId, (_accessToken.UserId ?? 0));
@@ -244,7 +244,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
-                var usuarioId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var usuarioId = EncryptionService.Decrypt<int, Usuario>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new UsuarioRepository(_serviceProvider);
                 var secretConfirmation = Guid.NewGuid().ToString("N");

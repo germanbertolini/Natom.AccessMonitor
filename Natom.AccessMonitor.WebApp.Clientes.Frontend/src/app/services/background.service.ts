@@ -22,6 +22,7 @@ export class BackgroundService {
                 private confirmDialogService: ConfirmDialogService) {
         this.resume = new ResumeDTO();
         this.resume.unassigned_devices = new Array<string>();
+        this.resume.places_without_hours = new Array<string>();
         this.resume.organization = new OrganizationDTO();
         this.resume.organization.picture_url = "/assets/img/buildings.png";
         this.resume.organization.country_icon = "arg";

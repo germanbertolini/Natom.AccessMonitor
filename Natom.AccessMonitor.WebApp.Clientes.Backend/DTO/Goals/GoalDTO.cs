@@ -30,11 +30,11 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Goals
 
         public GoalDTO From(Goal entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.GoalId);
+            EncryptedId = EncryptionService.Encrypt<Goal>(entity.GoalId);
             Name = entity.Name;
             Address = entity.Address;
             Activo = !entity.RemovedAt.HasValue;
-            PlaceEncryptedId = EncryptionService.Encrypt(entity.PlaceId);
+            PlaceEncryptedId = EncryptionService.Encrypt<Place>(entity.PlaceId);
             PlaceName = entity.Place?.Name;
 
             return this;
@@ -44,12 +44,12 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Goals
         {
             return new Goal
             {
-                GoalId = EncryptionService.Decrypt<int>(EncryptedId),
+                GoalId = EncryptionService.Decrypt<int, Goal>(EncryptedId),
                 Name = Name,
                 Lat = null,
                 Lng = null,
                 Address = Address,
-                PlaceId = EncryptionService.Decrypt<int>(PlaceEncryptedId)
+                PlaceId = EncryptionService.Decrypt<int, Place>(PlaceEncryptedId)
             };
         }
     }

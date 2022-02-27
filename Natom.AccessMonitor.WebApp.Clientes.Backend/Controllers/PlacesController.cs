@@ -72,9 +72,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
 
                 if (!string.IsNullOrEmpty(encryptedId))
                 {
-                    var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
-                    var cargo = await manager.ObtenerAsync(clienteId);
-                    entity = new PlaceDTO().From(cargo);
+                    var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedId));
+                    var place = await manager.ObtenerAsync(placeId);
+                    entity = new PlaceDTO().From(place);
                 }
 
                 return Ok(new ApiResultDTO<dynamic>
@@ -138,7 +138,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
-                var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new PlacesManager(_serviceProvider);
                 await manager.DesactivarAsync(placeId);
@@ -169,7 +169,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
-                var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new PlacesManager(_serviceProvider);
                 await manager.ActivarAsync(placeId);

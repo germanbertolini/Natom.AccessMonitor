@@ -71,7 +71,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
 
                 if (!string.IsNullOrEmpty(encryptedId))
                 {
-                    var legajoId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                    var legajoId = EncryptionService.Decrypt<int, Docket>(Uri.UnescapeDataString(encryptedId));
                     var legajo = await manager.ObtenerAsync(legajoId);
                     entity = new DocketDTO().From(legajo);
                 }
@@ -138,7 +138,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
-                var legajoId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var legajoId = EncryptionService.Decrypt<int, Docket>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new LegajosManager(_serviceProvider);
                 await manager.DesactivarAsync(legajoId);
@@ -200,7 +200,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
-                var legajoId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var legajoId = EncryptionService.Decrypt<int, Docket>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new LegajosManager(_serviceProvider);
                 await manager.ActivarAsync(legajoId);

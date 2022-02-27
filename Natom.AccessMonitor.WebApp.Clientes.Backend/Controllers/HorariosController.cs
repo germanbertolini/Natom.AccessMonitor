@@ -32,7 +32,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 if ((_accessToken.ClientId ?? 0) == 0)
                     throw new HandledException("El administrador de Natom solamente puede visualizar y administrar los horarios y tolerancias del cliente desde la aplicación de -Admin-");
 
-                var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new HorariosManager(_serviceProvider);
                 var horariosCount = await manager.ObtenerCountAsync(placeId);
@@ -74,13 +74,13 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
 
                 if (!string.IsNullOrEmpty(encryptedId))
                 {
-                    var horarioId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                    var horarioId = EncryptionService.Decrypt<int, ConfigTolerancia>(Uri.UnescapeDataString(encryptedId));
                     var horario = await manager.ObtenerAsync(horarioId);
                     entity = new HorarioDTO().From(horario);
                 }
                 else
                 {
-                    var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedPlaceId));
+                    var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedPlaceId));
                     var horario = await manager.ObtenerVigenteAsync(_accessToken.ClientId ?? -1, placeId);
 
                     //VALORES POR DEFAULT PRIMER CONFIGURACIÓN

@@ -22,7 +22,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
 
         public DocketRangeDTO MapFrom(DocketRange entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.DocketRangeId);
+            EncryptedId = EncryptionService.Encrypt<DocketRange>(entity.DocketRangeId);
             DayOfWeek = entity.DayOfWeek;
             From = entity.From?.ToString(@"hh\:mm");
             To = entity.To?.ToString(@"hh\:mm");
@@ -34,7 +34,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
         {
             return new DocketRange
             {
-                DocketRangeId = EncryptionService.Decrypt<int>(dto.EncryptedId),
+                DocketRangeId = EncryptionService.Decrypt<int, DocketRange>(dto.EncryptedId),
                 DayOfWeek = dto.DayOfWeek,
                 From = string.IsNullOrEmpty(dto.From) ? (TimeSpan?)null : TimeSpan.Parse($"{dto.From}:00"),
                 To = string.IsNullOrEmpty(dto.To) ? (TimeSpan?)null : TimeSpan.Parse($"{dto.To}:00"),

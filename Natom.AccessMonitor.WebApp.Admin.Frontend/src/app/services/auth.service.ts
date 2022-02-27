@@ -58,8 +58,10 @@ export class AuthService {
                           _cookieService.delete('Admin.Auth.Current.Permissions');
                           _cookieService.delete('Admin.Authorization', "/");
 
-                          if (!_cancelRedirect)
-                            location.href = _baseURL;
+                          setTimeout(function() {
+                            if (!_cancelRedirect)
+                              location.href = _baseURL;
+                          }, 300);
                         }
                       },
                       (errorMessage) => {

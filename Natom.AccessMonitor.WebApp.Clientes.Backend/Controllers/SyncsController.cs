@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Natom.AccessMonitor.Common.Exceptions;
+using Natom.AccessMonitor.Core.Biz.Entities.Models;
 using Natom.AccessMonitor.Core.Biz.Managers;
 using Natom.AccessMonitor.Services.Auth.Attributes;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO;
@@ -125,7 +126,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
             try
             {
                 var deviceId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
-                var _goalId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(goalId));
+                var _goalId = EncryptionService.Decrypt<int, Goal>(Uri.UnescapeDataString(goalId));
 
                 var repository = new SyncsManager(_serviceProvider);
                 await repository.AssignDeviceToGoalAsync(deviceId, _goalId);

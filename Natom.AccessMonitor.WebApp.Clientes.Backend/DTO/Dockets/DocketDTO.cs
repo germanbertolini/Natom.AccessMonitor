@@ -43,12 +43,12 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
 
         public DocketDTO From(Docket entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.DocketId);
+            EncryptedId = EncryptionService.Encrypt<Docket>(entity.DocketId);
             DocketNumber = entity.DocketNumber;
             FirstName = entity.FirstName;
             LastName = entity.LastName;
             DNI = entity.DNI;
-            TitleEncryptedId = EncryptionService.Encrypt(entity.TitleId);
+            TitleEncryptedId = EncryptionService.Encrypt<Title>(entity.TitleId);
             ApplyRanges = entity.Ranges.Count > 0;
             Ranges = entity.Ranges.Count == 0
                         ? new List<DocketRangeDTO>()
@@ -61,7 +61,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
 
         public Docket ToModel(int clientId)
         {
-            int docketId = EncryptionService.Decrypt<int>(EncryptedId);
+            int docketId = EncryptionService.Decrypt<int, Docket>(EncryptedId);
             return new Docket
             {
                 DocketId = docketId,
@@ -69,7 +69,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
                 FirstName = FirstName,
                 LastName = LastName,
                 DNI = DNI,
-                TitleId = EncryptionService.Decrypt<int>(TitleEncryptedId),
+                TitleId = EncryptionService.Decrypt<int, Title>(TitleEncryptedId),
                 Ranges = !ApplyRanges || Ranges.Count == 0
                             ? new List<DocketRange>()
                             : Ranges.Select(r => new DocketRangeDTO().ToModel(r, docketId)).ToList(),
