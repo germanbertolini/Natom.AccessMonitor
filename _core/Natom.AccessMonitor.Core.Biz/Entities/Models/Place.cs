@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,6 +20,10 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Models
         public Cliente Cliente { get; set; }
 
         public DateTime? RemovedAt { get; set; }
+
+        public List<Goal> Goals { get; set; }
+        public List<ConfigTolerancia> ConfigTolerancias { get; set; }
+
 
         [NotMapped]
         public int CantidadFiltrados { get; set; }

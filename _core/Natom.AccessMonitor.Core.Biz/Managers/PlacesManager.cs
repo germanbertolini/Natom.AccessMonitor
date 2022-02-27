@@ -21,7 +21,10 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
 
         public async Task<List<Place>> ObtenerDataTableAsync(int clienteId, int start, int size, string filter, int sortColumnIndex, string sortDirection, string statusFilter)
         {
-            var queryable = _db.Places.Where(u => u.ClientId == clienteId);
+            var queryable = _db.Places
+                                    .Include(p => p.Goals)
+                                    .Include(p => p.ConfigTolerancias)
+                                    .Where(u => u.ClientId == clienteId);
 
             //FILTROS
             if (!string.IsNullOrEmpty(filter))
@@ -53,6 +56,7 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                     .Skip(start)
                     .Take(size)
                     .ToListAsync();
+
 
             result.ForEach(r => r.CantidadFiltrados = countFiltrados);
 

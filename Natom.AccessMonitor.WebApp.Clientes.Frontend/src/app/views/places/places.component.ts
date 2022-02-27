@@ -7,6 +7,7 @@ import { ApiService } from "src/app/services/api.service";
 import { DataTableDTO } from '../../classes/data-table-dto';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 import { PlaceDTO } from "src/app/classes/dto/place.dto";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
   selector: 'app-places',
@@ -22,6 +23,7 @@ export class PlacesComponent implements OnInit {
   Noty: any;
 
   constructor(private apiService: ApiService,
+              private authService: AuthService,
               private routerService: Router,
               private notifierService: NotifierService,
               private confirmDialogService: ConfirmDialogService) {
@@ -41,6 +43,10 @@ export class PlacesComponent implements OnInit {
 
   onGoalsClick(id: string) {
     this.routerService.navigate(['/goals/' + encodeURIComponent(id)]);
+  }
+
+  onToleranciasClick(id: string) {
+    this.routerService.navigate(['/horarios/' + encodeURIComponent(id)]);
   }
 
   onEnableClick(id: string) {

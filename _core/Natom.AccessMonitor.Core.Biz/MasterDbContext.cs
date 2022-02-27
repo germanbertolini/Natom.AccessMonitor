@@ -11,6 +11,7 @@ namespace Natom.AccessMonitor.Core.Biz
     public class MasterDbContext : DbContext
     {
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<ConfigTolerancia> ConfigTolerancias { get; set; }
         public DbSet<Zona> Zonas { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Goal> Goals { get; set; }

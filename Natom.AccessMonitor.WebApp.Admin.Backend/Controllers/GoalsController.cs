@@ -34,7 +34,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new GoalsManager(_serviceProvider);
-                var goalsCount = await manager.ObtenerCountAsync(_accessToken.ClientId ?? -1);
+                var goalsCount = await manager.ObtenerCountAsync(placeId);
                 var goals = await manager.ObtenerDataTableAsync(request.Start, request.Length, request.Search.Value, request.Order.First().ColumnIndex, request.Order.First().Direction, placeId, statusFilter: status);
 
                 return Ok(new ApiResultDTO<DataTableResponseDTO<GoalDTO>>

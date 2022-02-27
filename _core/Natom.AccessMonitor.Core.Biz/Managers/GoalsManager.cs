@@ -16,7 +16,7 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
 
         public Task<int> ObtenerCountAsync(int clienteId)
                     => _db.Goals
-                            .Where(t => t.Place.ClientId == clienteId)
+                            .Where(t => t.PlaceId == clienteId)
                             .CountAsync();
 
         public async Task<List<Goal>> ObtenerDataTableAsync(int start, int size, string filter, int sortColumnIndex, string sortDirection, int placeId, string statusFilter)

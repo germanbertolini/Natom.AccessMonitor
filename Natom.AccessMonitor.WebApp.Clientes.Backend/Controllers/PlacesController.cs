@@ -29,9 +29,12 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
+                if ((_accessToken.ClientId ?? 0) == 0)
+                    throw new HandledException("El administrador de Natom solamente puede visualizar y administrar las oficinas / plantas del cliente desde la aplicación de -Admin-");
+
                 var manager = new PlacesManager(_serviceProvider);
-                var placesCount = await manager.ObtenerCountAsync(_accessToken.ClientId ?? -1);
-                var places = await manager.ObtenerDataTableAsync(_accessToken.ClientId ?? -1, request.Start, request.Length, request.Search.Value, request.Order.First().ColumnIndex, request.Order.First().Direction, statusFilter: status);
+                var placesCount = await manager.ObtenerCountAsync(_accessToken.ClientId.Value);
+                var places = await manager.ObtenerDataTableAsync(_accessToken.ClientId.Value, request.Start, request.Length, request.Search.Value, request.Order.First().ColumnIndex, request.Order.First().Direction, statusFilter: status);
 
                 return Ok(new ApiResultDTO<DataTableResponseDTO<PlaceDTO>>
                 {
@@ -102,10 +105,13 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         {
             try
             {
-                var manager = new PlacesManager(_serviceProvider);
-                var place = await manager.GuardarAsync(placeDto.ToModel(_accessToken.ClientId ?? -1));
+                if ((_accessToken.ClientId ?? 0) == 0)
+                    throw new HandledException("El administrador de Natom solamente puede visualizar y administrar las oficinas / plantas del cliente desde la aplicación de -Admin-");
 
-                await RegistrarAccionAsync(clienteId: _accessToken.ClientId ?? -1, place.PlaceId, nameof(Place), string.IsNullOrEmpty(placeDto.EncryptedId) ? "Alta" : "Edición");
+                var manager = new PlacesManager(_serviceProvider);
+                var place = await manager.GuardarAsync(placeDto.ToModel(_accessToken.ClientId.Value));
+
+                await RegistrarAccionAsync(clienteId: _accessToken.ClientId.Value, place.PlaceId, nameof(Place), string.IsNullOrEmpty(placeDto.EncryptedId) ? "Alta" : "Edición");
 
                 return Ok(new ApiResultDTO<PlaceDTO>
                 {

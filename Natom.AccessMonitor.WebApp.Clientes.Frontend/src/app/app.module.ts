@@ -7,7 +7,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import localeEsAR from '@angular/common/locales/es-AR';
 
 //Register local imports
-import { registerLocaleData } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { NgbDateCustomParserFormatter, NgbdDatepickerPopup } from './utils/datepicker/datepicker-popup';
 registerLocaleData(localeEsAR, 'es-AR');
 
@@ -53,6 +53,8 @@ import { PlaceCrudComponent } from './views/places/crud/place-crud.component';
 import { GoalCrudComponent } from './views/goals/crud/goal-crud.component';
 import { PlacesComponent } from './views/places/places.component';
 import { BackgroundService } from './services/background.service';
+import { HorarioCrudComponent } from './views/horarios/crud/horario-crud.component';
+import { HorariosComponent } from './views/horarios/horarios.component';
 
 export function OnInit(jsonAppConfigService: JsonAppConfigService) {
   return () => {
@@ -82,6 +84,8 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     PlaceCrudComponent,
     GoalsComponent,
     GoalCrudComponent,
+    HorariosComponent,
+    HorarioCrudComponent,
     DevicesSyncConfigComponent,
     Query1AComponent,
     Query1BComponent,
@@ -133,7 +137,8 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     ThemeService,
     CookieService,
     ApiService,
-    BackgroundService ],
+    BackgroundService,
+    DatePipe ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

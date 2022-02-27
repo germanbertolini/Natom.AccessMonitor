@@ -28,6 +28,9 @@ import { PlaceCrudComponent } from "./views/places/crud/place-crud.component";
 import { PlacesComponent } from "./views/places/places.component";
 import { GoalCrudComponent } from "./views/goals/crud/goal-crud.component";
 import { GoalsComponent } from "./views/goals/goals.component";
+import { HorarioCrudComponent } from "./views/horarios/crud/horario-crud.component";
+import { HorariosComponent } from "./views/horarios/horarios.component";
+import { ABMHorariosGuard } from "./guards/horarios.guards";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -55,6 +58,9 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: 'goals/:place_id', component: GoalsComponent },
     { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "goals/:place_id/new", component: GoalCrudComponent },
     { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "goals/:place_id/edit/:id", component: GoalCrudComponent },
+    { canActivate: [ AuthGuard, ABMHorariosGuard ], path: 'horarios/:place_id', component: HorariosComponent },
+    { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "horarios/:place_id/new", component: HorarioCrudComponent },
+    { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "horarios/:place_id/ver/:id", component: HorarioCrudComponent },
     { canActivate: [ AuthGuard ], path: "queries/1/a", component: Query1AComponent },
     { canActivate: [ AuthGuard ], path: "queries/1/b", component: Query1BComponent },
     { canActivate: [ AuthGuard ], path: "reports/attendance/by_device", component: ReportsAttendanceByDeviceComponent },
