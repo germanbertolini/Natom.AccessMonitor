@@ -137,8 +137,7 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     ThemeService,
     CookieService,
     ApiService,
-    BackgroundService,
-    DatePipe ],
+    BackgroundService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

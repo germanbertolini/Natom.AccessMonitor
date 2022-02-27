@@ -96,7 +96,9 @@ export class DevicesComponent implements OnInit {
                                                 dataTableInstance.then((dtInstance: DataTables.Api) => {
                                                   dtInstance.ajax.reload()
                                                 });
-                                                _backgroundService.refreshStatusResume();
+
+                                                if (_backgroundService.resume.unassigned_devices.length > 0)
+                                                  _backgroundService.refreshStatusResume();
                                               }
                                             },
                                             (errorMessage) => {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { BackgroundService } from 'src/app/services/background.service';
 
 @Component({
@@ -8,7 +9,8 @@ import { BackgroundService } from 'src/app/services/background.service';
 })
 export class HomeComponent {
   
-  constructor(private backgroundService: BackgroundService) {
+  constructor(private routerService: Router,
+              private backgroundService: BackgroundService) {
     
   }
   

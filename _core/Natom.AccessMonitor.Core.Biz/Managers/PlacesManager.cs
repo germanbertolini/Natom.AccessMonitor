@@ -63,6 +63,11 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             return result;
         }
 
+        public Task<List<Place>> GetPlacesWithoutHoursAsync(int clienteId)
+        {
+            return _db.Places.Where(p => !p.RemovedAt.HasValue && p.ConfigTolerancias.Count == 0).ToListAsync();
+        }
+
         public async Task<Place> GuardarAsync(Place placeDto)
         {
             Place place = null;

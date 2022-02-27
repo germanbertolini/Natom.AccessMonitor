@@ -1,8 +1,17 @@
 <div class="container-fluid">
-  <div class="row" *ngIf="backgroundService.resume.unassigned_devices.length > 0">
+  <div class="row" *ngIf="backgroundService.resume.unassigned_devices.length > 0" (click)="this.routerService.navigate(['/devices'])" style="cursor:pointer;">
     <div class="col-md-12">
       <div class="alert alert-danger" role="alert">
-        <i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;<b>Hay dispositivos pendientes de asignar a una Portería / Acceso:</b>&nbsp;&nbsp;&nbsp;&nbsp;{{ backgroundService.resume.unassigned_devices.join(', ') }}
+        <i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;<b>Hay dispositivos pendientes de asignar a una "Portería / Acceso":</b>&nbsp;&nbsp;&nbsp;&nbsp;{{ backgroundService.resume.unassigned_devices.join(', ') }}
+        <br/><small>Click para resolver ahora&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></small>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="backgroundService.resume.places_without_hours.length > 0" (click)="this.routerService.navigate(['/places'])" style="cursor:pointer;">
+    <div class="col-md-12">
+      <div class="alert alert-warning" role="alert">
+        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>&nbsp;<b>Hay "Plantas / Oficinas" sin definir "Horarios / Tolerancias":</b>&nbsp;&nbsp;&nbsp;&nbsp;{{ backgroundService.resume.places_without_hours.join(', ') }}
+        <br/><small>Click para resolver ahora&nbsp;<i class="fa fa-arrow-right" aria-hidden="true"></i></small>
       </div>
     </div>
   </div>

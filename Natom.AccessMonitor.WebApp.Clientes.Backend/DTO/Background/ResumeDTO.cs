@@ -16,5 +16,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Background
 
         [JsonProperty("unassigned_devices")]
         public List<string> UnassignedDevices { get; set; }
+
+        [JsonProperty("places_without_hours")]
+        public List<string> PlacesWithoutHours { get; set; }
     }
 }

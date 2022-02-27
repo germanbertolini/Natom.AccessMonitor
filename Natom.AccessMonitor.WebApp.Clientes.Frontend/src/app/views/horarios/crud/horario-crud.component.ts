@@ -11,6 +11,7 @@ import { GoalDTO } from "src/app/classes/dto/goal.dto";
 import { PlaceDTO } from "src/app/classes/dto/place.dto";
 import { HorarioDTO } from "src/app/classes/dto/horario.dto";
 import { DatePipe } from "@angular/common";
+import { BackgroundService } from "src/app/services/background.service";
 
 @Component({
   selector: 'app-horario-crud',
@@ -25,6 +26,7 @@ export class HorarioCrudComponent implements OnInit {
   aplica_fecha_desde: string;
 
   constructor(private apiService: ApiService,
+              private backgroundService: BackgroundService,
               private route: ActivatedRoute,
               private routerService: Router,
               private routeService: ActivatedRoute,
@@ -128,6 +130,9 @@ export class HorarioCrudComponent implements OnInit {
         else {
           this.notifierService.notify('success', 'Horario / Tolerancias guardado correctamente.');
           this.routerService.navigate(['/horarios/' + encodeURIComponent(this.crud.model.encrypted_place_id)]);
+          
+          if (this.backgroundService.resume.places_without_hours.length > 0)
+            this.backgroundService.refreshStatusResume();
         }
       },
       (errorMessage) => {
@@ -137,7 +142,7 @@ export class HorarioCrudComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.apiService.DoGET<ApiResult<any>>("horarios/basics/data" + (!this.crud.isNewMode ? "?encryptedId=" + encodeURIComponent(this.crud.id) : ""), /*headers*/ null,
+    this.apiService.DoGET<ApiResult<any>>("horarios/basics/data?encryptedPlaceId=" + encodeURIComponent(this.crud.model.encrypted_place_id) + (!this.crud.isNewMode ? "&encryptedId=" + encodeURIComponent(this.crud.id) : ""), /*headers*/ null,
       (response) => {
         if (!response.success) {
           this.confirmDialogService.showError(response.message);

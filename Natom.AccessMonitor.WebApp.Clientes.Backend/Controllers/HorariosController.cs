@@ -65,7 +65,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         [HttpGet]
         [ActionName("basics/data")]
         [TienePermiso(Permiso = "abm_places_horarios")]
-        public async Task<IActionResult> GetBasicsDataAsync([FromQuery] string encryptedId = null)
+        public async Task<IActionResult> GetBasicsDataAsync([FromQuery] string encryptedPlaceId, [FromQuery] string encryptedId = null)
         {
             try
             {
@@ -80,7 +80,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 }
                 else
                 {
-                    var horario = await manager.ObtenerVigenteAsync();
+                    var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedPlaceId));
+                    var horario = await manager.ObtenerVigenteAsync(_accessToken.ClientId ?? -1, placeId);
 
                     //VALORES POR DEFAULT PRIMER CONFIGURACIÓN
                     if (horario == null)

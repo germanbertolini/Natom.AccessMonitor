@@ -105,8 +105,16 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                         => _db.ConfigTolerancias
                                 .FirstAsync(u => u.ConfigToleranciaId.Equals(configId));
 
-        public Task<ConfigTolerancia> ObtenerVigenteAsync()
-                        => _db.ConfigTolerancias
-                                .FirstOrDefaultAsync(u => !u.AplicaHasta.HasValue);
+        public async Task<ConfigTolerancia> ObtenerVigenteAsync(int clientId, int placeId)
+        {
+            var config = await _db.ConfigTolerancias
+                                .FirstOrDefaultAsync(u => !u.AplicaHasta.HasValue && u.PlaceId == placeId);
+
+            if (config == null)
+                config = await _db.ConfigTolerancias
+                                .FirstOrDefaultAsync(u => !u.AplicaHasta.HasValue && u.Place.ClientId == clientId);
+
+            return config;
+        }
     }
 }
