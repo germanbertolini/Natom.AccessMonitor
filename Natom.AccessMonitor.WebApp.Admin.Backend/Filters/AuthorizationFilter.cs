@@ -104,7 +104,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
             }
             catch (InvalidTokenException ex)
             {
-                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken);
+                bool logOnDiscord = !ex.Message.Contains("Token vencido");
+
+                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken, logOnDiscord);
 
                 context.HttpContext.Response.StatusCode = 403;
                 context.Result = new ContentResult()
@@ -114,7 +116,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters
             }
             catch (HandledException ex)
             {
-                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken);
+                //CASO NO TIENE PERMISO
+                _loggerService.LogBounce(_transaction?.TraceTransactionId, ex.Message, _accessToken, logOnDiscord: true);
 
                 context.HttpContext.Response.StatusCode = 403;
                 context.Result = new ContentResult()
