@@ -1,12 +1,12 @@
 ﻿using Natom.AccessMonitor.Core.Biz.Entities.Models;
-using Natom.AccessMonitor.WebApp.Clientes.Backend.Services;
+using Natom.AccessMonitor.WebApp.Admin.Backend.Services;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Horarios
+namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Horarios
 {
     public class HorarioDTO
     {

@@ -34,5 +34,13 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Models
 
 		[NotMapped]
 		public int CantidadFiltrados { get; set; }
-	}
+
+        public string GetStatus()
+        {
+			return AplicaDesde.Date <= DateTime.Now.Date && (!AplicaHasta.HasValue || (AplicaHasta.HasValue && AplicaHasta >= DateTime.Now.Date)) ? "VIGENTE" :
+						AplicaDesde.Date > DateTime.Now.Date ? "PROGRAMADO"
+						: "CADUCADO";
+
+		}
+    }
 }

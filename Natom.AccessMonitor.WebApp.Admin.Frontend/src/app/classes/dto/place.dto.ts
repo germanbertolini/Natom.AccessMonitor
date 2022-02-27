@@ -3,4 +3,6 @@ export class PlaceDTO {
     public name: string;
     public address: string;
     public activo: boolean;
+    public pending_goals: boolean;
+    public pending_tolerancias: boolean;
 }

@@ -47,6 +47,8 @@ import { PlacesComponent } from './views/clientes/places/places.component';
 import { PlaceCrudComponent } from './views/clientes/places/crud/place-crud.component';
 import { GoalsComponent } from './views/clientes/goals/goals.component';
 import { GoalCrudComponent } from './views/clientes/goals/crud/goal-crud.component';
+import { HorariosComponent } from './views/clientes/horarios/horarios.component';
+import { HorarioCrudComponent } from './views/clientes/horarios/crud/horario-crud.component';
 
 
 
@@ -75,6 +77,8 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     UsersComponent,
     UserCrudComponent,
     UserConfirmComponent,
+    HorariosComponent,
+    HorarioCrudComponent,
     UsuariosClientesComponent,
     UsuarioClientesCrudComponent,
     SyncsClientesComponent,

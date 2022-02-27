@@ -5,6 +5,7 @@ import { NotifierService } from "angular-notifier";
 import { PlaceDTO } from "src/app/classes/dto/place.dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { ApiService } from "src/app/services/api.service";
+import { AuthService } from "src/app/services/auth.service";
 import { DataTableDTO } from '../../../classes/data-table-dto';
 import { ConfirmDialogService } from "../../../components/confirm-dialog/confirm-dialog.service";
 
@@ -24,6 +25,7 @@ export class PlacesComponent implements OnInit {
   clienteId: string;
 
   constructor(private apiService: ApiService,
+              private authService: AuthService,
               private route: ActivatedRoute,
               private routerService: Router,
               private notifierService: NotifierService,
@@ -39,12 +41,20 @@ export class PlacesComponent implements OnInit {
     });
   }
 
+  onNewClick() {
+    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/places/new']);
+  }
+
   onEditClick(id: string) {
     this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/places/edit/' + encodeURIComponent(id)]);
   }
 
   onGoalsClick(id: string) {
     this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/goals/' + encodeURIComponent(id)]);
+  }
+
+  onToleranciasClick(id: string) {
+    this.routerService.navigate(['/clientes/' + encodeURIComponent(this.clienteId) + '/horarios/' + encodeURIComponent(id)]);
   }
 
   onEnableClick(id: string) {

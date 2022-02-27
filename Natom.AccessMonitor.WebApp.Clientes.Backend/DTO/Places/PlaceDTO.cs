@@ -34,8 +34,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Places
             Name = entity.Name;
             Address = entity.Address;
             Activo = !entity.RemovedAt.HasValue;
-            PendingGoals = entity.Goals.Count(g => !g.RemovedAt.HasValue) == 0;
-            PendingTolerancias = entity.ConfigTolerancias.Count(g => !g.AplicaHasta.HasValue) == 0;
+            PendingGoals = (entity.Goals?.Count(g => !g.RemovedAt.HasValue) ?? 0) == 0;
+            PendingTolerancias = (entity.ConfigTolerancias?.Count(g => !g.AplicaHasta.HasValue) ?? 0) == 0;
 
             return this;
         }

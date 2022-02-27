@@ -23,6 +23,9 @@ import { PlacesComponent } from "./views/clientes/places/places.component";
 import { PlaceCrudComponent } from "./views/clientes/places/crud/place-crud.component";
 import { GoalsComponent } from "./views/clientes/goals/goals.component";
 import { GoalCrudComponent } from "./views/clientes/goals/crud/goal-crud.component";
+import { HorariosComponent } from "./views/clientes/horarios/horarios.component";
+import { HorarioCrudComponent } from "./views/clientes/horarios/crud/horario-crud.component";
+import { ABMHorariosGuard } from "./guards/horarios.guards";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -49,6 +52,9 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: 'clientes/:id_cliente/goals/:place_id', component: GoalsComponent },
     { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "clientes/:id_cliente/goals/:place_id/new", component: GoalCrudComponent },
     { canActivate: [ AuthGuard, ABMPlacesAndGoalsGuard ], path: "clientes/:id_cliente/goals/:place_id/edit/:id", component: GoalCrudComponent },
+    { canActivate: [ AuthGuard, ABMHorariosGuard ], path: 'clientes/:id_cliente/horarios/:place_id', component: HorariosComponent },
+    { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "clientes/:id_cliente/horarios/:place_id/new", component: HorarioCrudComponent },
+    { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "clientes/:id_cliente/horarios/:place_id/ver/:id", component: HorarioCrudComponent }
 ]
 
 @NgModule({
