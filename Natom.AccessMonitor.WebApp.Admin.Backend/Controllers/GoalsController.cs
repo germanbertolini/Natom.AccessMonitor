@@ -31,7 +31,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new GoalsManager(_serviceProvider);
                 var goalsCount = await manager.ObtenerCountAsync(placeId);
@@ -66,7 +66,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new GoalsManager(_serviceProvider);
                 var goals = await manager.ObtenerActivasAsync(clienteId);
@@ -102,12 +102,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
 
                 if (!string.IsNullOrEmpty(encryptedId))
                 {
-                    var goalId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                    var goalId = EncryptionService.Decrypt<int, Goal>(Uri.UnescapeDataString(encryptedId));
                     var goal = await manager.ObtenerAsync(goalId);
                     entity = new GoalDTO().From(goal);
                 }
 
-                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(clienteEncryptedId));
+                var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(clienteEncryptedId));
                 var placesManager = new PlacesManager(_serviceProvider);
                 var places = await placesManager.ObtenerActivasAsync(clienteId);
 
@@ -170,7 +170,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var goalId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var goalId = EncryptionService.Decrypt<int, Goal>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new GoalsManager(_serviceProvider);
                 await manager.DesactivarAsync(goalId);
@@ -201,7 +201,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var goalId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var goalId = EncryptionService.Decrypt<int, Goal>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new GoalsManager(_serviceProvider);
                 await manager.ActivarAsync(goalId);

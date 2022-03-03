@@ -30,7 +30,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Places
 
         public PlaceDTO From(Place entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.PlaceId);
+            EncryptedId = EncryptionService.Encrypt<Place>(entity.PlaceId);
             Name = entity.Name;
             Address = entity.Address;
             Activo = !entity.RemovedAt.HasValue;
@@ -44,7 +44,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Places
         {
             return new Place
             {
-                PlaceId = EncryptionService.Decrypt<int>(EncryptedId),
+                PlaceId = EncryptionService.Decrypt<int, Place>(EncryptedId),
                 Name = Name,
                 Address = Address,
                 Lat = null,

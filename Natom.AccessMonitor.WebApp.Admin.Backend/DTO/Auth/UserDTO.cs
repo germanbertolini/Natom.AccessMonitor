@@ -1,4 +1,5 @@
-﻿using Natom.AccessMonitor.Services.Auth.Entities.Models;
+﻿using Natom.AccessMonitor.Core.Biz.Entities.Models;
+using Natom.AccessMonitor.Services.Auth.Entities.Models;
 using Natom.AccessMonitor.Services.Auth.Entities.Results;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Services;
 using Newtonsoft.Json;
@@ -42,20 +43,20 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
 
         public UserDTO From(Usuario entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.UsuarioId);
+            EncryptedId = EncryptionService.Encrypt<Usuario>(entity.UsuarioId);
             FirstName = entity.Nombre;
             LastName = entity.Apellido;
             Email = entity.Email;
             PictureURL = "assets/img/user-photo.png";
             RegisteredAt = entity.FechaHoraAlta;
-            Permisos = entity.Permisos?.Select(permiso => EncryptionService.Encrypt(permiso.PermisoId)).ToList();
+            Permisos = entity.Permisos?.Select(permiso => EncryptionService.Encrypt<Permiso>(permiso.PermisoId)).ToList();
 
             return this;
         }
 
         public UserDTO From(spUsuariosListByClienteAndScopeResult entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.UsuarioId);
+            EncryptedId = EncryptionService.Encrypt<Usuario>(entity.UsuarioId);
             FirstName = entity.Nombre;
             LastName = entity.Apellido;
             Email = entity.Usuario;
@@ -69,7 +70,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
 
         public Usuario ToModel(string scope)
         {
-            var usuarioId = EncryptionService.Decrypt<int>(this.EncryptedId);
+            var usuarioId = EncryptionService.Decrypt<int, Usuario>(this.EncryptedId);
             return new Usuario
             {
                 UsuarioId = usuarioId,
@@ -78,9 +79,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
                 Apellido = this.LastName,
                 Email = this.Email,
                 FechaHoraAlta = this.RegisteredAt,
-                ClienteId = EncryptionService.Decrypt<int?>(this.ClienteEncryptedId) ?? 0,
-                Permisos = this.Permisos.Select(p => new UsuarioPermiso { UsuarioId = usuarioId, PermisoId = EncryptionService.Decrypt<string>(p) }).ToList()
-    };
+                ClienteId = EncryptionService.Decrypt<int?, Cliente>(this.ClienteEncryptedId) ?? 0,
+                Permisos = this.Permisos.Select(p => new UsuarioPermiso { UsuarioId = usuarioId, PermisoId = EncryptionService.Decrypt<string, Permiso>(p) }).ToList()
+            };
         }
     }
 }

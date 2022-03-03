@@ -29,7 +29,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new HorariosManager(_serviceProvider);
                 var horariosCount = await manager.ObtenerCountAsync(placeId);
@@ -66,20 +66,20 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var clientId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedClientId));
+                var clientId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedClientId));
 
                 var manager = new HorariosManager(_serviceProvider);
                 HorarioDTO entity = null;
 
                 if (!string.IsNullOrEmpty(encryptedId))
                 {
-                    var horarioId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                    var horarioId = EncryptionService.Decrypt<int, ConfigTolerancia>(Uri.UnescapeDataString(encryptedId));
                     var horario = await manager.ObtenerAsync(horarioId);
                     entity = new HorarioDTO().From(horario);
                 }
                 else
                 {
-                    var placeId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedPlaceId));
+                    var placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedPlaceId));
                     var horario = await manager.ObtenerVigenteAsync(clientId, placeId);
 
                     //VALORES POR DEFAULT PRIMER CONFIGURACIÓN
@@ -124,7 +124,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var clientId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedClientId));
+                var clientId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedClientId));
 
                 var manager = new HorariosManager(_serviceProvider);
                 var horario = await manager.GuardarAsync(clientId, _accessToken.UserId ?? -1, horarioDto.ToModel(clientId, horarioDto));

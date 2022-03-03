@@ -45,8 +45,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Horarios
 
         public HorarioDTO From(ConfigTolerancia entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.ConfigToleranciaId);
-            EncryptedPlaceId = EncryptionService.Encrypt(entity.PlaceId);
+            EncryptedId = EncryptionService.Encrypt<ConfigTolerancia>(entity.ConfigToleranciaId);
+            EncryptedPlaceId = EncryptionService.Encrypt<Place>(entity.PlaceId);
 
             IngresoToleranciaMins = entity.IngresoToleranciaMins;
             EgresoToleranciaMins = entity.EgresoToleranciaMins;
@@ -69,8 +69,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Horarios
         {
             return new ConfigTolerancia
             {
-                ConfigToleranciaId = EncryptionService.Decrypt<int>(dto.EncryptedId),
-                PlaceId = EncryptionService.Decrypt<int>(dto.EncryptedPlaceId),
+                ConfigToleranciaId = EncryptionService.Decrypt<int, ConfigTolerancia>(dto.EncryptedId),
+                PlaceId = EncryptionService.Decrypt<int, Place>(dto.EncryptedPlaceId),
                 ClienteId = clienteId,
                 IngresoToleranciaMins = dto.IngresoToleranciaMins,
                 EgresoToleranciaMins = dto.EgresoToleranciaMins,

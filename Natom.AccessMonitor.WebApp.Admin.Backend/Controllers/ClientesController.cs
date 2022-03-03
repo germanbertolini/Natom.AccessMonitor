@@ -82,7 +82,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
 
                 if (!string.IsNullOrEmpty(encryptedId))
                 {
-                    var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                    var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedId));
                     var cliente = await manager.ObtenerClienteAsync(clienteId);
                     entity = new ClienteDTO().From(cliente);
                 }
@@ -180,7 +180,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new ClientesManager(_serviceProvider);
                 await manager.DesactivarClienteAsync(clienteId);
@@ -213,7 +213,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new ClientesManager(_serviceProvider);
                 await manager.ActivarClienteAsync(clienteId);
@@ -244,7 +244,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
-                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
+                var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedId));
 
                 var repository = new SynchronizerRepository(_configurationService);
                 var synchronizers = await repository.ListByClienteAsync(clienteId, request.Search.Value, request.Start, request.Length);
@@ -408,7 +408,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
             try
             {
                 var instanceId = encryptedId;
-                var clienteId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(clientId));
+                var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(clientId));
 
                 var manager = new SynchronizerRepository(_configurationService);
                 await manager.ActivarYEnlazarAsync(instanceId, clienteId);
@@ -448,7 +448,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
             try
             {
                 var deviceId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(encryptedId));
-                var _goalId = EncryptionService.Decrypt<int>(Uri.UnescapeDataString(goalId));
+                var _goalId = EncryptionService.Decrypt<int, Goal>(Uri.UnescapeDataString(goalId));
 
                 var repository = new SyncsManager(_serviceProvider);
                 await repository.AssignDeviceToGoalAsync(deviceId, _goalId);

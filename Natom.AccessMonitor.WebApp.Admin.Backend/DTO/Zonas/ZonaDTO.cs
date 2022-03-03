@@ -21,7 +21,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Zonas
 
         public ZonaDTO From(Zona entity)
         {
-            EncryptedId = EncryptionService.Encrypt(entity.ZonaId);
+            EncryptedId = EncryptionService.Encrypt<Zona>(entity.ZonaId);
             Descripcion = entity.Descripcion;
             Activo = entity.Activo;
 
@@ -32,7 +32,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Zonas
         {
             return new Zona
             {
-                ZonaId = EncryptionService.Decrypt<int>(EncryptedId),
+                ZonaId = EncryptionService.Decrypt<int, Zona>(EncryptedId),
                 Descripcion = Descripcion,
                 Activo = Activo
             };

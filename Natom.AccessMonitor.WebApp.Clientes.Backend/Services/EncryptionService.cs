@@ -133,7 +133,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Services
         private static string BuildSecretCompuesta(string secretKey, string typeName)
         {
             string hash = CreateMD5(typeName);
-            string newSecret = $"{_secretKey.Substring(0, _secretKey.Length - 10)}{hash.Substring(hash.Length - 10, 10)}";
+            string newSecret = $"{_secretKey.Substring(0, secretKey.Length - 10)}{hash.Substring(hash.Length - 10, 10)}";
             return newSecret;
         }
     }

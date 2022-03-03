@@ -72,12 +72,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Clientes
 
 		public ClienteDTO From(Cliente entity)
 		{
-			EncryptedId = EncryptionService.Encrypt(entity.ClienteId);
+			EncryptedId = EncryptionService.Encrypt<Cliente>(entity.ClienteId);
 			Nombre = entity.Nombre;
 			Apellido = entity.Apellido;
 			RazonSocial = entity.RazonSocial;
 			NombreFantasia = entity.NombreFantasia;
-			TipoDocumentoEncryptedId = EncryptionService.Encrypt(entity.TipoDocumentoId);
+			TipoDocumentoEncryptedId = EncryptionService.Encrypt<TipoDocumento>(entity.TipoDocumentoId);
 			TipoDocumento = entity.TipoDocumento?.Descripcion;
 			NumeroDocumento = entity.NumeroDocumento;
 			Domicilio = entity.Domicilio;
@@ -91,7 +91,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Clientes
 			ContactoObservaciones = entity.ContactoObservaciones;
 			Activo = entity.Activo;
 			Zona = entity.Zona?.Descripcion;
-			ZonaEncryptedId = EncryptionService.Encrypt(entity.ZonaId) ?? "";
+			ZonaEncryptedId = EncryptionService.Encrypt<Zona>(entity.ZonaId) ?? "";
 
 			return this;
 		}
@@ -100,12 +100,12 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Clientes
 		{
 			return new Cliente
 			{
-				ClienteId = EncryptionService.Decrypt<int>(EncryptedId),
+				ClienteId = EncryptionService.Decrypt<int, Cliente>(EncryptedId),
 				Nombre = Nombre,
 				Apellido = Apellido,
 				RazonSocial = RazonSocial,
 				NombreFantasia = NombreFantasia,
-				TipoDocumentoId = EncryptionService.Decrypt<int>(TipoDocumentoEncryptedId),
+				TipoDocumentoId = EncryptionService.Decrypt<int, TipoDocumento>(TipoDocumentoEncryptedId),
 				NumeroDocumento = NumeroDocumento,
 				Domicilio = Domicilio,
 				EntreCalles = EntreCalles,
@@ -117,7 +117,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Clientes
 				ContactoEmail2 = ContactoEmail2,
 				ContactoObservaciones = ContactoObservaciones,
 				Activo = Activo,
-				ZonaId = EncryptionService.Decrypt<int>(ZonaEncryptedId)
+				ZonaId = EncryptionService.Decrypt<int, Zona>(ZonaEncryptedId)
 		};
 		}
 	}
