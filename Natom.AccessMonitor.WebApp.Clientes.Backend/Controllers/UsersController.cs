@@ -109,6 +109,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 var secretConfirmation = Guid.NewGuid().ToString("N");
                 var usuario = await manager.RecuperarUsuarioByEmailAsync(scope: "WebApp.Clientes", Uri.UnescapeDataString(email), secretConfirmation, (_accessToken.UserId ?? 0));
 
+                if (usuario.FechaHoraUltimoEmailEnviado.HasValue && usuario.FechaHoraUltimoEmailEnviado.Value.AddMinutes(10) > DateTime.Now)
+                    throw new HandledException("Se ha enviado un mail de recuperación de clave hace menos de 10 minutos. Aguarde unos minutos y vuelva a intentarlo.");
+
                 await _mailService.EnviarEmailParaRecuperarClaveAsync(_transaction, scope: "WebApp.Clientes", usuario);
 
                 return Ok(new ApiResultDTO
@@ -250,6 +253,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 var secretConfirmation = Guid.NewGuid().ToString("N");
                 var usuario = await manager.RecuperarUsuarioAsync(scope: "WebApp.Clientes", usuarioId, secretConfirmation, usuarioId);
 
+                if (usuario.FechaHoraUltimoEmailEnviado.HasValue && usuario.FechaHoraUltimoEmailEnviado.Value.AddMinutes(10) > DateTime.Now)
+                    throw new HandledException("Se ha enviado un mail de recuperación de clave hace menos de 10 minutos. Aguarde unos minutos y vuelva a intentarlo.");
+
                 await _mailService.EnviarEmailParaRecuperarClaveAsync(_transaction, scope: "WebApp.Clientes", usuario);
 
                 return Ok(new ApiResultDTO
@@ -278,6 +284,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 var manager = new UsuarioRepository(_serviceProvider);
                 var secretConfirmation = Guid.NewGuid().ToString("N");
                 var usuario = await manager.RecuperarUsuarioAsync(scope: "WebApp.Clientes", _accessToken.UserId ?? -1, secretConfirmation, _accessToken.UserId ?? -1);
+
+                if (usuario.FechaHoraUltimoEmailEnviado.HasValue && usuario.FechaHoraUltimoEmailEnviado.Value.AddMinutes(10) > DateTime.Now)
+                    throw new HandledException("Se ha enviado un mail de recuperación de clave hace menos de 10 minutos. Aguarde unos minutos y vuelva a intentarlo.");
 
                 await _mailService.EnviarEmailParaRecuperarClaveAsync(_transaction, scope: "WebApp.Clientes", usuario);
 

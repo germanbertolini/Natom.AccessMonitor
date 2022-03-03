@@ -30,6 +30,7 @@ BEGIN
 			   ,[Email]
 			   ,[Clave]
 			   ,[FechaHoraConfirmacionEmail]
+			   ,[FechaHoraUltimoEmailEnviado]
 			   ,[SecretConfirmacion]
 			   ,[FechaHoraAlta]
 			   ,[FechaHoraBaja]
@@ -42,6 +43,7 @@ BEGIN
 			   ,@Email
 			   ,NULL								--@ClaveMD5
 			   ,NULL								--@FechaHoraConfirmacionEmail
+			   ,GETDATE()							--FechaHoraUltimoEmailEnviado
 			   ,@SecretConfirmation					--@SecretConfirmacion
 			   ,GETDATE()							--@FechaHoraAlta
 			   ,NULL								--@FechaHoraBaja

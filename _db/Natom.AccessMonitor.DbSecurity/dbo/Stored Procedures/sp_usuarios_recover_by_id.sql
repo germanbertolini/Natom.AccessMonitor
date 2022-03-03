@@ -8,18 +8,38 @@
 AS
 BEGIN
 
+	DECLARE @FechaHoraUltimoEmail DATETIME = NULL;
 	DECLARE @Result INT = 0;
 	   
 	BEGIN TRANSACTION
 
-		UPDATE [dbo].[Usuario]
-			SET 
-			   [SecretConfirmacion] = @SecretConfirmation,
-			   [FechaHoraConfirmacionEmail] = NULL,
-			   [Clave] = NULL
-			WHERE
-				[Scope] = @Scope
-				AND [UsuarioId] = @UsuarioId;
+		SELECT
+			@FechaHoraUltimoEmail = FechaHoraUltimoEmailEnviado
+		FROM
+			[dbo].[Usuario] WITH(NOLOCK)
+		WHERE
+			[Scope] = @Scope
+			AND [UsuarioId] = @UsuarioId;
+
+
+		IF (@FechaHoraUltimoEmail IS NULL OR (@FechaHoraUltimoEmail IS NOT NULL AND DATEADD(MINUTE, 10, @FechaHoraUltimoEmail) < GETDATE()))
+			BEGIN
+				UPDATE [dbo].[Usuario]
+				SET 
+				   [SecretConfirmacion] = @SecretConfirmation,
+				   [FechaHoraConfirmacionEmail] = NULL,
+				   [FechaHoraUltimoEmailEnviado] = GETDATE(),
+				   [Clave] = NULL
+				WHERE
+					[Scope] = @Scope
+					AND [UsuarioId] = @UsuarioId;
+
+				SET @Result = @@ROWCOUNT;
+			END
+		ELSE
+			SET @Result = 99
+
+		
 
 		SET @Result = @@ROWCOUNT;
 
@@ -30,9 +50,23 @@ BEGIN
 	COMMIT TRANSACTION;
 
 
-	IF @Result = 1
-		SELECT * FROM [dbo].[Usuario]
-			WHERE UsuarioId = @UsuarioId;
+	IF @Result > 0
+		SELECT
+			[UsuarioId],
+			[Scope],
+			[ClienteId],
+			[Nombre],
+			[Apellido],
+			[Email],
+			[Clave],
+			[FechaHoraConfirmacionEmail],
+			@FechaHoraUltimoEmail AS [FechaHoraUltimoEmailEnviado],
+			[SecretConfirmacion],
+			[FechaHoraAlta],
+			[FechaHoraBaja]
+		FROM
+			[dbo].[Usuario] WITH(NOLOCK)
+		WHERE UsuarioId = @UsuarioId;
 	   
 
 END

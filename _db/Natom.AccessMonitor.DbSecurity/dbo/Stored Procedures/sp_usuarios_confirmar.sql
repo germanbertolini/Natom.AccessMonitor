@@ -9,6 +9,7 @@ BEGIN
 	UPDATE [dbo].[Usuario]
 		SET SecretConfirmacion = NULL,
 			FechaHoraConfirmacionEmail = GETDATE(),
+			FechaHoraUltimoEmailEnviado = NULL,
 			Clave = @ClaveMD5
 		WHERE SecretConfirmacion = @Secret
 			AND FechaHoraBaja IS NULL;

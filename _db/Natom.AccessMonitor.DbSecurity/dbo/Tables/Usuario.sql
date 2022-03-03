@@ -8,6 +8,7 @@
 	[Email] NVARCHAR(50) NOT NULL,
 	[Clave] NVARCHAR(32),
 	[FechaHoraConfirmacionEmail] DATETIME,
+	[FechaHoraUltimoEmailEnviado] DATETIME,
 	[SecretConfirmacion] CHAR(32),
 	[FechaHoraAlta] DATETIME NOT NULL,
 	[FechaHoraBaja] DATETIME DEFAULT NULL,
