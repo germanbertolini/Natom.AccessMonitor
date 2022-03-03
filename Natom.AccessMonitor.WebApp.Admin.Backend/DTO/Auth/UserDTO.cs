@@ -41,6 +41,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
         [JsonProperty("cliente_nombre")]
         public string ClienteNombre { get; set; }
 
+        [JsonProperty("me")]
+        public bool Me { get; set; }
+
         public UserDTO From(Usuario entity)
         {
             EncryptedId = EncryptionService.Encrypt<Usuario>(entity.UsuarioId);
@@ -54,7 +57,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
             return this;
         }
 
-        public UserDTO From(spUsuariosListByClienteAndScopeResult entity)
+        public UserDTO From(spUsuariosListByClienteAndScopeResult entity, int currentUsuarioId)
         {
             EncryptedId = EncryptionService.Encrypt<Usuario>(entity.UsuarioId);
             FirstName = entity.Nombre;
@@ -64,6 +67,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth
             RegisteredAt = entity.FechaHoraAlta;
             Status = entity.Estado;
             ClienteNombre = entity.ClienteRazonSocial;
+            Me = entity.UsuarioId == currentUsuarioId;
 
             return this;
         }

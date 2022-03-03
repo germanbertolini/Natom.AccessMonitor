@@ -40,6 +40,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 var repository = new UsuarioRepository(_serviceProvider);
                 var usuarios = await repository.ListByClienteAndScopeAsync(scope: "WebApp.Admin", request.Search.Value, request.Start, request.Length);
 
+                int thisUsuarioId = _accessToken.UserId ?? -1;
+
                 return Ok(new ApiResultDTO<DataTableResponseDTO<UserDTO>>
                 {
                     Success = true,
@@ -47,7 +49,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                     {
                         RecordsTotal = usuarios.FirstOrDefault()?.TotalRegistros ?? 0,
                         RecordsFiltered = usuarios.FirstOrDefault()?.TotalFiltrados ?? 0,
-                        Records = usuarios.Select(usuario => new UserDTO().From(usuario)).ToList()
+                        Records = usuarios.Select(usuario => new UserDTO().From(usuario, thisUsuarioId)).ToList()
                     }
                 });
             }
@@ -282,6 +284,8 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 var repository = new UsuarioRepository(_serviceProvider);
                 var usuarios = await repository.ListByClienteAndScopeAsync(scope: "WebApp.Clientes", request.Search.Value, request.Start, request.Length, clienteId);
 
+                int thisUsuarioId = _accessToken.UserId ?? -1;
+
                 return Ok(new ApiResultDTO<DataTableResponseDTO<UserDTO>>
                 {
                     Success = true,
@@ -289,7 +293,7 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                     {
                         RecordsTotal = usuarios.FirstOrDefault()?.TotalRegistros ?? 0,
                         RecordsFiltered = usuarios.FirstOrDefault()?.TotalFiltrados ?? 0,
-                        Records = usuarios.Select(usuario => new UserDTO().From(usuario)).ToList()
+                        Records = usuarios.Select(usuario => new UserDTO().From(usuario, thisUsuarioId)).ToList()
                     }
                 });
             }

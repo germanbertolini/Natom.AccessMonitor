@@ -11,4 +11,5 @@ export class UserDTO {
     public business_role_name: string;
     public country_icon: string;
     public permisos: string[];
+    public me: boolean;
 }
