@@ -67,6 +67,20 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             return config;
         }
 
+        public async Task<List<spSynchronizerSelectSyncTimesResult>> GetSynchronizerTimesByClienteAsync(int clienteId)
+        {
+            var connectionString = await _configuration.GetValueAsync("ConnectionStrings.DbSecurity");
+
+            var times = new List<spSynchronizerSelectSyncTimesResult>();
+            using (var db = new SqlConnection(connectionString))
+            {
+                var sql = "EXEC [dbo].[sp_synchronizer_select_sync_times] @ClienteId";
+                var _params = new { ClienteId = clienteId };
+                times = (await db.QueryAsync<spSynchronizerSelectSyncTimesResult>(sql, _params)).ToList();
+            }
+            return times;
+        }
+
         public async Task SaveSynchronizerConfigByIdAsync(string instanceId, int? intervalMinsFromDevice, int? intervalMinsToServer)
         {
             var connectionString = await _configuration.GetValueAsync("ConnectionStrings.DbSecurity");

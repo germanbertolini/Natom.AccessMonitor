@@ -34,6 +34,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
 
                 var syncsManager = new SyncsManager(_serviceProvider);
                 var unassignedDevices = await syncsManager.GetUnassignedDevicesByClientIdAsync(clienteId);
+                var syncsTimes = await syncsManager.GetSynchronizerTimesByClienteAsync(clienteId);
 
                 var placesManager = new PlacesManager(_serviceProvider);
                 var placesWithoutHours = await placesManager.GetPlacesWithoutHoursAsync(clienteId);
@@ -58,7 +59,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                         CurrentYear = DateTime.Now.Year,
                         UnassignedDevices = unassignedDevices.Select(d => $"({d.DeviceId}) {d.DeviceName}").ToList(),
                         PlacesWithoutHours = placesWithoutHours.Select(p => p.Name).ToList(),
-                        Organization = new OrganizationDTO().From(cliente)
+                        Organization = new OrganizationDTO().From(cliente),
+                        SyncsTimes = syncsTimes.Select(s => new SyncTimeDTO().From(s)).ToList()
                     }
                 });
             }

@@ -19,5 +19,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Background
 
         [JsonProperty("places_without_hours")]
         public List<string> PlacesWithoutHours { get; set; }
+
+        [JsonProperty("syncs_times")]
+        public List<SyncTimeDTO> SyncsTimes { get; set; }
     }
 }

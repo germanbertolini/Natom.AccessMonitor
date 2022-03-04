@@ -96,6 +96,7 @@
     <Build Include="dbo\Stored Procedures\sp_synchronizer_save_config_by_id.sql" />
     <Build Include="dbo\Stored Procedures\sp_synchronizer_register_connection.sql" />
     <Build Include="dbo\Stored Procedures\sp_device_list_unassigned_by_clientid.sql" />
+    <Build Include="dbo\Stored Procedures\sp_synchronizer_select_sync_times.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="dbo\Script.PostDeployment.sql" />
