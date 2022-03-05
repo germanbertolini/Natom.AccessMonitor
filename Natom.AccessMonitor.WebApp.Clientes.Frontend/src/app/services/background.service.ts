@@ -19,6 +19,8 @@ export class BackgroundService {
     resume: ResumeDTO;
     last_sync_at: Date;
     next_sync_at: Date;
+    sync_timers_timeouts: Array<any>;
+    sync_timers_intervals: Array<any>;
 
     constructor(private jsonAppConfig: JsonAppConfigService,
                 private apiService: ApiService,
@@ -26,6 +28,8 @@ export class BackgroundService {
                 private confirmDialogService: ConfirmDialogService) {
         this.last_sync_at = null;
         this.next_sync_at = null;
+        this.sync_timers_timeouts = new Array<any>();
+        this.sync_timers_intervals = new Array<any>();
         this.resume = new ResumeDTO();
         this.resume.unassigned_devices = new Array<string>();
         this.resume.places_without_hours = new Array<string>();
@@ -57,6 +61,20 @@ export class BackgroundService {
     public initSyncTimers() {
         let syncs = this.resume.syncs_times;
 
+        if (this.sync_timers_timeouts.length > 0) {
+            for (let i = 0; i < this.sync_timers_timeouts.length; i ++) {
+                clearTimeout(this.sync_timers_timeouts[i]);
+            }
+            this.sync_timers_timeouts = new Array<any>();
+        }
+
+        if (this.sync_timers_intervals.length > 0) {
+            for (let i = 0; i < this.sync_timers_intervals.length; i ++) {
+                window.clearInterval(this.sync_timers_intervals[i]);
+            }
+            this.sync_timers_intervals = new Array<any>();
+        }
+
         if (syncs.length > 0) {
             this.last_sync_at = syncs[0].last_sync_at;
             
@@ -65,13 +83,14 @@ export class BackgroundService {
                     if (i == 0)
                         this.next_sync_at = syncs[i].next_sync_at;
 
+                    let sync_timers_intervals = this.sync_timers_intervals;
                     let syncData = syncs[i];
                     let myInstance = this;
 
                     if (this.next_sync_at > syncData.next_sync_at)
                         this.next_sync_at = syncData.next_sync_at;
 
-                    setTimeout(() => {
+                    this.sync_timers_timeouts.push(setTimeout(() => {
                         let _syncData = syncData;
                         let _myInstance = myInstance;
 
@@ -89,9 +108,9 @@ export class BackgroundService {
 
                         logica();
 
-                        setInterval(logica, syncData.each_miliseconds);
+                        sync_timers_intervals.push(setInterval(logica, syncData.each_miliseconds));
 
-                    }, syncs[i].next_on_miliseconds);
+                    }, syncs[i].next_on_miliseconds));
                 }
             }
         }
