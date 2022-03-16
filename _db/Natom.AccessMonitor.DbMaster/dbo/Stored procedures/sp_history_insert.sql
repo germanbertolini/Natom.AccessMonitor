@@ -12,8 +12,8 @@ BEGIN
 	--PRIMERO CREAMOS LA TABLA SI NO EXISTE
 	DECLARE @SQL NVARCHAR(4000)
 	SET @SQL = '
-		IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''[dbo].[zHistory_Client' + CAST(@ClientId AS VARCHAR) + ']'') AND type in (N''U''))
-			CREATE TABLE [dbo].[zHistory_Client' + CAST(@ClientId AS VARCHAR) + ']
+		IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''[dbo].[zHistory_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + ']'') AND type in (N''U''))
+			CREATE TABLE [dbo].[zHistory_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + ']
 			(
 				[HistoryId] INT NOT NULL IDENTITY(1,1),
 				[DateTime] DATETIME NOT NULL,
@@ -26,7 +26,7 @@ BEGIN
 
 		
 
-		INSERT INTO [dbo].[zHistory_Client' + CAST(@ClientId AS VARCHAR) + ']
+		INSERT INTO [dbo].[zHistory_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + ']
 			(DateTime, EntityName, EntityId, UsuarioId, Action)
 			VALUES
 			(

@@ -22,14 +22,15 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
 
         public async Task BulkInsertAsync(int clientId, string syncInstanceId, DataBlockForSyncDto dataBlock, int? deviceGoalId)
         {
-            var sql = "INSERT INTO [dbo].[zMovement_Client" + clientId + "] " +
+            var sql = "INSERT INTO [dbo].[zMovement_Client" + clientId.ToString().PadLeft(3, '0') + "] " +
                         "   ( " +
                         "       [InstanceId], " +
                         "       [DeviceId], " +
                         "       [DateTime], " +
                         "       [DocketNumber], " +
                         "       [MovementType], " +
-                        "       [GoalId] " +
+                        "       [GoalId], " +
+                        "       [ProcessedAt] " +
                         "   ) " +
                         "VALUES " +
                         "   (@InstanceId " +
@@ -37,7 +38,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
                         "       ,@DateTime " +
                         "       ,@DocketNumber " +
                         "       ,@MovementType " +
-                        "       ,@GoalId); ";
+                        "       ,@GoalId " +
+                        "       ,NULL); ";
 
             using (var connection = new SqlConnection(_connectionString))
             {
