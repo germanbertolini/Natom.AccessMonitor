@@ -58,7 +58,7 @@ namespace Natom.AccessMonitor.Services.Logger.Invokers
 
         private async Task<TResult> DoHttpRequestAsync<TResult>(HttpRequestMessage request)
         {
-            HttpClient client = _clientFactory.CreateClient();
+            HttpClient client = _clientFactory == null ? new HttpClient() : _clientFactory.CreateClient();
 
             var tokenSource = new CancellationTokenSource(millisecondsDelay: await GetCancellationTokenDurationMSAsync());
             var policy = GetRetryPolicy<TResult>(tokenSource);

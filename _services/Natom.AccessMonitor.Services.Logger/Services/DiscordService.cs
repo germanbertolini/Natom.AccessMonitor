@@ -1,4 +1,5 @@
 ﻿using Natom.AccessMonitor.Services.Logger.Entities.Discord.DTO;
+using Natom.AccessMonitor.Services.Logger.Helpers;
 using Natom.AccessMonitor.Services.Logger.Invokers;
 using Natom.AccessMonitor.Services.Logger.PackageConfig;
 using Newtonsoft.Json;
@@ -12,11 +13,13 @@ namespace Natom.AccessMonitor.Services.Logger.Services
 {
     public class DiscordService : DiscordWebhookInvoker
     {
+        private Dictionary<string, DateTime> _sentExceptionsHistory;
         private readonly LoggerServiceConfig _config;
 
         public DiscordService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _config = (LoggerServiceConfig)serviceProvider.GetService(typeof(LoggerServiceConfig));
+            _sentExceptionsHistory = new Dictionary<string, DateTime>();
         }
 
         /// <summary>
@@ -83,6 +86,9 @@ namespace Natom.AccessMonitor.Services.Logger.Services
         /// </summary>
         public async Task LogExceptionAsync(Exception ex, string traceTransactionId = null, object traceTransactionData = null)
         {
+            if (ExceptionWasSentInLast30Minutes(ex))
+                return;
+
             string webhookUrl;
             if (!await IsLoggingEnabledAsync(key: "Exception"))
                 return;
@@ -116,6 +122,27 @@ namespace Natom.AccessMonitor.Services.Logger.Services
             contentBuilder.AppendLine($"- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
 
             await SendMessage(webhookUrl, contentBuilder.ToString());
+        }
+
+        private bool ExceptionWasSentInLast30Minutes(Exception ex)
+        {
+            bool sent = false;
+            if (!string.IsNullOrEmpty(ex.StackTrace))
+            {
+                //LIMPIAMOS EL DICTIONARY
+                var keys = _sentExceptionsHistory.Keys.ToList();
+                foreach (var key in keys)
+                    if (_sentExceptionsHistory[key].AddMinutes(30) < DateTime.Now)
+                        _sentExceptionsHistory.Remove(key);
+
+                //AHORA NOS FIJAMOS QUE NO ESTE LA CLAVE. SI ESTÁ, ES PORQUE SE MANDÓ HACE MENOS DE 30 MINUTOS
+                string exIdentity = EncryptationHelper.CreateMD5(ex.StackTrace);
+                if (!_sentExceptionsHistory.ContainsKey(exIdentity))
+                    _sentExceptionsHistory.Add(exIdentity, DateTime.Now);
+                else
+                    sent = true;
+            }
+            return sent;
         }
 
         /// <summary>
