@@ -79,6 +79,7 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
             var transactionId = executionTime.ToString("yyyyMMddHHmmss");
             var clientesRepository = new ClientesRepository(_configuration);
             var movementsRepository = new MovementsRepository(_configuration);
+            var sinTurno = new spMovementsProcessorSelectByClientDetailDocketRangesResult { From = new TimeSpan(0, 0, 0), To = new TimeSpan(0, 0, 0) };
 
             int procesadosConMovimientosTerminanEnError = 0, procesadosConMovimientosCorrectamente = 0, noProcesadosPorActivarseCancellationToken = 0;
 
@@ -155,8 +156,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                                     turnosUmbral[1].From = turnosUmbral[1].From.Add(TimeSpan.FromMinutes(-mitadMinutos));
                                 }
 
-                                var turno = turnos.First();
-                                if (turnosUmbral.Count == 2)
+                                var turno = turnos.FirstOrDefault();
+                                if (turnos.Count() > 0 && turnosUmbral.Count == 2)
                                 {
                                     var indexTurnoMedianoche = turnosUmbral.FindIndex(t => t.From > t.To);
                                     if (indexTurnoMedianoche == -1 && movement.DateTime.TimeOfDay >= turnosUmbral[1].From && movement.DateTime.TimeOfDay <= turnosUmbral[1].From.Add(TimeSpan.FromHours(5)))
@@ -166,6 +167,10 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                                     else if (indexTurnoMedianoche == 1 && (movement.DateTime.TimeOfDay >= turnosUmbral[1].From || movement.DateTime.TimeOfDay <= turnosUmbral[1].To.Add(TimeSpan.FromHours(5))))
                                         turno = turnos[1];
                                 }
+
+                                //SI ES UN DIA QUE NO HAY TURNO ENTONCES LE ASIGNAMOS "SIN TURNO"
+                                if (turno == null)
+                                    turno = sinTurno;
 
                                 //LO AGREGAMOS A LA COLECCIÓN AGRUPADOS POR JORNADA Y TURNO
                                 if (!movementsByHourRangeAndJornada.ContainsKey(jornada))
@@ -190,7 +195,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                                     if (minMovement.DateTime.Equals(maxMovement.DateTime))
                                         maxMovement = null;
 
-                                    var turnoDurationMins = turno.To > turno.From
+                                    var turnoDurationMins = turno.From.Hours == -1 ? 0
+                                                                    : turno.To > turno.From
                                                                     ? (turno.To - turno.From).TotalMinutes
                                                                     : ((TimeSpan.FromHours(24) - turno.From) + turno.To).TotalMinutes;
 
@@ -258,6 +264,13 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                                                     PlaceId = minMovement.PlaceId,
                                                     DocketId = minMovement.DocketId
                                                 };
+
+                                                //SI LA FECHA HORA ESTIMADA DE SALIDA ES INFERIOR A LA DE INGRESO (PORQUE INGRESO EN UN HORARIO IRREGULAR) ENTONCES NULLEAMOS LA SALIDA NUEVAMENTE
+                                                if (maxMovement.DateTime < minMovement.DateTime)
+                                                {
+                                                    maxMovement = null;
+                                                    outWasEstimated = false;
+                                                }
                                             }
                                         }
 

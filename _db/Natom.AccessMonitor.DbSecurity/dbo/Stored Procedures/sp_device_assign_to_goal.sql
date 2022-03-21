@@ -29,7 +29,7 @@ BEGIN
 	--PRIMERO ACTUALIZAMOS TODOS LOS MOVIMIENTOS SIN GOALID, QUE ES LO MAS COSTOSO
 	DECLARE @SQL NVARCHAR(4000)
 	SET @SQL = '
-		UPDATE [$(DbMaster)].[dbo].[zMovement_Client' + CAST(@ClientId AS VARCHAR) + '] WITH(READPAST)
+		UPDATE [$(DbMaster)].[dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '] WITH(READPAST)
 			SET GoalId = ' + CAST(@GoalId AS VARCHAR) + ' 
 			WHERE InstanceId = ''' + @InstanceId + ''' 
 				AND DeviceId = ' + CAST(@DeviceId AS VARCHAR) + ' 
