@@ -35,7 +35,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                     .AddMQProducerService()
                     .AddMQConsumerService();
 
-                    services.AddHostedService<Worker>();
+                    services.AddHostedService<MQWorker>();
+                    services.AddHostedService<MovementsProcessorWorker>();
                 });
             return host;
         }

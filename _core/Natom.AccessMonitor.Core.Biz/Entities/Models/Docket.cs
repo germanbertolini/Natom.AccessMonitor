@@ -18,6 +18,9 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Models
 		[ForeignKey("ClientId")]
 		public Cliente Cliente { get; set; }
 
+		public int PlaceId { get; set; }
+		public Place Place { get; set; }
+
 		public string DocketNumber { get; set; }
 		public string FirstName { get; set; }
 		public string LastName { get; set; }

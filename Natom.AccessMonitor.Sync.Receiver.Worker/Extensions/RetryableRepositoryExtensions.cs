@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Natom.AccessMonitor.Sync.Receiver.Worker.Extensions
@@ -38,8 +39,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Extensions
         /// Date: 22/09/2021
         /// Ejecuta un command aplicando la política de reintentos
         /// </summary>
-        public async static Task<int> RetryableExecuteAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
-                                            => await BuildRetryPolicy<int>().ExecuteAsync(() => cnn.ExecuteAsync(sql, param, transaction, commandTimeout, commandType));
+        public async static Task<int> RetryableExecuteAsync(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null, CancellationToken cancellationToken = default)
+                                            => await BuildRetryPolicy<int>().ExecuteAsync(() => cnn.ExecuteAsync(new CommandDefinition(sql, param, transaction, commandTimeout, commandType, cancellationToken: cancellationToken)));
 
 
         /// <summary>
@@ -63,8 +64,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Extensions
         /// Date: 22/09/2021
         /// Ejecuta un command aplicando la política de reintentos
         /// </summary>
-        public async static Task<IEnumerable<TResult>> RetryableQueryAsync<TResult>(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
-                                            => await BuildRetryPolicy<IEnumerable<TResult>>().ExecuteAsync(() => cnn.QueryAsync<TResult>(sql, param, transaction, commandTimeout, commandType));
+        public async static Task<IEnumerable<TResult>> RetryableQueryAsync<TResult>(this IDbConnection cnn, string sql, object param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null, CancellationToken cancellationToken = default)
+                                            => await BuildRetryPolicy<IEnumerable<TResult>>().ExecuteAsync(() => cnn.QueryAsync<TResult>(new CommandDefinition(sql, param, transaction, commandTimeout, commandType, cancellationToken: cancellationToken)));
 
 
         /// <summary>

@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace Natom.AccessMonitor.Sync.Receiver.Worker
 {
-    public class Worker : CycleWorkerMQ<Worker, MessageMQ, WorkerMQConfig>
+    public class MQWorker : CycleWorkerMQ<MQWorker, MessageMQ, WorkerMQConfig>
     {
         private readonly ConfigurationService _configuration;
 
-        public Worker(IServiceProvider serviceProvider) : base(serviceProvider)
+        public MQWorker(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _configuration = (ConfigurationService)serviceProvider.GetService(typeof(ConfigurationService));
         }

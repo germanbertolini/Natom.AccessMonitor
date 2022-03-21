@@ -72,6 +72,9 @@
     <Build Include="dbo\Tables\Docket.sql" />
     <Build Include="dbo\Tables\DocketRange.sql" />
     <Build Include="dbo\Tables\ConfigTolerancia.sql" />
+    <Build Include="dbo\Stored procedures\sp_clientes_select_all.sql" />
+    <Build Include="dbo\Stored procedures\sp_movements_processor_select_by_client.sql" />
+    <Build Include="dbo\Stored procedures\sp_movements_get_out_promedio.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">

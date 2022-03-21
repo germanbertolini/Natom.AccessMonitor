@@ -9,25 +9,31 @@ BEGIN
 	DECLARE @SQL NVARCHAR(4000)
 	SET @SQL = '
 		IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''[dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + ']'') AND type in (N''U''))
-			CREATE TABLE [dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + ']
-			(
-				[InstanceId] CHAR(32) NOT NULL,
-				[DeviceId] INT NOT NULL,
-				[DateTime] DATETIME NOT NULL,
-				[DocketNumber] INT NOT NULL,
-				[MovementType] CHAR(1) NOT NULL,
-				[GoalId] INT,
-				[ProcessedAt] DATETIME,
-				CONSTRAINT [PK_zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '] PRIMARY KEY CLUSTERED ([DateTime] ASC, [InstanceId] ASC, [DeviceId] ASC, [DocketNumber] ASC)
-			);
+			BEGIN
+				CREATE TABLE [dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + ']
+				(
+					[MovementId] BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+					[InstanceId] CHAR(32) NOT NULL,
+					[DeviceId] INT NOT NULL,
+					[DateTime] DATETIME NOT NULL,
+					[DocketNumber] INT NOT NULL,
+					[MovementType] CHAR(1) NOT NULL,
+					[GoalId] INT,
+					[ProcessedAt] DATETIME
+				);
+
+				CREATE UNIQUE INDEX [IDX_zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '] ON [dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + ']([DateTime], [InstanceId], [DeviceId], [DocketNumber]);
+			END
 
 		IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N''[dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed]'') AND type in (N''U''))
 			CREATE TABLE [dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed]
 			(
 				[Date] DATE NOT NULL,
-				[DocketId] INT NOT NULL,
-
-				[InTime] TIME NOT NULL,
+				[DocketNumber] NVARCHAR(20) NOT NULL,
+				[DocketId] INT,
+				[ExpectedPlaceId] INT NOT NULL,
+				[ExpectedIn] TIME NOT NULL,
+				[In] DATETIME NOT NULL,
 				[InGoalId] INT NOT NULL,
 				[InPlaceId] INT NOT NULL,
 				[InDeviceId] INT,
@@ -35,7 +41,8 @@ BEGIN
 				[InWasEstimated] BIT NOT NULL,
 				[InProcessedAt] DATETIME NOT NULL,
 
-				[OutTime] TIME,
+				[ExpectedOut] TIME,
+				[Out] DATETIME,
 				[OutGoalId] INT,
 				[OutPlaceId] INT,
 				[OutDeviceId] INT,
@@ -45,7 +52,7 @@ BEGIN
 
 				[PermanenceTime] TIME,
 
-				CONSTRAINT [PK_zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed] PRIMARY KEY CLUSTERED ([Date] ASC, [DocketId] ASC, [InTime] ASC)
+				CONSTRAINT [PK_zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed] PRIMARY KEY CLUSTERED ([Date] ASC, [DocketNumber] ASC, [In] ASC)
 			);
 	';
 

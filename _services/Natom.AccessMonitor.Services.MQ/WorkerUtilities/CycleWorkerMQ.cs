@@ -23,7 +23,7 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
         protected readonly MQConsumerService _mqConsumerService;
         protected readonly MQProducerService _mqProducerService;
 
-        protected TWorkerConfig _workerConfig { get; private set; }
+        protected TWorkerConfig _mqWorkerConfig { get; private set; }
         protected DateTimeOffset _firedAt { get; private set; }
 
 
@@ -37,7 +37,7 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
             var configuration = (IConfiguration)serviceProvider.GetService(typeof(IConfiguration));
 
             //WORKER CONFIG
-            _workerConfig = configuration.GetSection("Worker").Get<TWorkerConfig>();
+            _mqWorkerConfig = configuration.GetSection("MQWorker").Get<TWorkerConfig>();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
         /// </summary>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _loggerService.LogInfo(transactionId: "", $"Worker {_workerConfig.InstanceName} iniciado.", GetTransactionInfoForWorker());
+            _loggerService.LogInfo(transactionId: "", $"Worker {_mqWorkerConfig.InstanceName} iniciado.", GetTransactionInfoForWorker(), logOnDiscord: true);
 
             await Task.Delay(1000);
 
@@ -56,7 +56,7 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
                 try
                 {
                     Parallel.For(fromInclusive: 0,
-                                    toExclusive: _workerConfig.Process.Threads,
+                                    toExclusive: _mqWorkerConfig.Process.Threads,
                                     iThread => DoWorkAsync(iThread + 1, stoppingToken, _firedAt).Wait());
                 }
                 catch (Exception ex)
@@ -65,12 +65,12 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
                 }
 
                 //AGUARDAMOS A LA PRÓXIMA EJECUCIÓN
-                int waitForDelay = _firedAt.Millisecond + (_workerConfig.Process.MinIntervalMS) - DateTimeOffset.Now.Millisecond;
+                int waitForDelay = _firedAt.Millisecond + (_mqWorkerConfig.Process.MinIntervalMS) - DateTimeOffset.Now.Millisecond;
                 if (waitForDelay < 0) waitForDelay = 0;
                 await Task.Delay(waitForDelay, stoppingToken);
             }
 
-            _loggerService.LogInfo(transactionId: "", $"Worker {_workerConfig.InstanceName} detenido.", GetTransactionInfoForWorker());
+            _loggerService.LogInfo(transactionId: "", $"Worker {_mqWorkerConfig.InstanceName} detenido.", GetTransactionInfoForWorker(), logOnDiscord: true);
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
             //DEFINIMOS LA COLA
             var queue = new QueueMQ
             {
-                QueueName = _workerConfig.Queue.QueueName,
-                Exchange = _workerConfig.Queue.Exchange,
-                RoutingKey = _workerConfig.Queue.RoutingKey
+                QueueName = _mqWorkerConfig.Queue.QueueName,
+                Exchange = _mqWorkerConfig.Queue.Exchange,
+                RoutingKey = _mqWorkerConfig.Queue.RoutingKey
             };
 
             //DEFINIMOS EL HANDLER ANTE UN ERROR PARA QUE LO REENCOLE EN LA COLA DE ERRORES
@@ -98,7 +98,7 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
             //FINALMENTE LLAMAMOS AL CONSUMER
             await _mqConsumerService.ConsumeMsgAsync<TMessage>(
                                                 queue,
-                                                qtyToRead: _workerConfig.Process.MsgReadingQuantity,
+                                                qtyToRead: _mqWorkerConfig.Process.MsgReadingQuantity,
                                                 threadNumber,
                                                 onReadAsync: OnReadMessageAsync,
                                                 onExceptionSendToErrorsQueueHandlerAsync: handlerExceptionAsync,
@@ -123,8 +123,8 @@ namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities
         {
             var transactionInfo = new Dictionary<string, object>
             {
-                ["WorkerName"] = _workerConfig.Name,
-                ["WorkerInstance"] = _workerConfig.InstanceName,
+                ["WorkerName"] = _mqWorkerConfig.Name,
+                ["WorkerInstance"] = _mqWorkerConfig.InstanceName,
                 ["WorkerFullName"] = typeof(TWorker).FullName
             };
 

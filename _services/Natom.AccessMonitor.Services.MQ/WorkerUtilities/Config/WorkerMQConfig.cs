@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace Natom.AccessMonitor.Services.MQ.WorkerUtilities.Config
 {
-    public class WorkerMQConfig
+    public class WorkerMQConfig : WorkerConfig
     {
-        public string Name { get; set; }
-        public string InstanceName { get; set; }
         public QueueConfig Queue { get; set; }
-        public ProcessConfig Process { get; set; }
     }
 }
