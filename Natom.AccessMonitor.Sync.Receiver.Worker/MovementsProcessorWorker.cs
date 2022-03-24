@@ -93,6 +93,13 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                 if (stoppingToken.IsCancellationRequested)
                     break;
 
+                await movementsRepository.MarkProcessAsStartedAsync(cliente.ClienteId);
+
+                _loggerService.LogInfo(transactionId, "Inicio preparación de turnos en tabla de procesados", new { ClienteId = cliente.ClienteId, ClienteNombre = cliente.EsEmpresa ? cliente.RazonSocial : (cliente.Nombre + " " + cliente.Apellido) });
+                await movementsRepository.InsertPendingTurnosAsync(cliente.ClienteId);
+                _loggerService.LogInfo(transactionId, "Fin preparación de turnos en tabla de procesados");
+
+
                 _loggerService.LogInfo(transactionId, "Inicio lectura movimientos pendientes de procesar", new { ClienteId = cliente.ClienteId, ClienteNombre = cliente.EsEmpresa ? cliente.RazonSocial : (cliente.Nombre + " " + cliente.Apellido) });
                 var toProcess = await movementsRepository.GetPendingToProcessByClientAsync(cliente.ClienteId);
                 _loggerService.LogInfo(transactionId, "Fin lectura movimientos pendientes de procesar", new { movementsCount = toProcess.Movements.Count, docketRangesCount = toProcess.DocketsRanges.Count, lastInOutCount = toProcess.LastInOut?.Count ?? 0 });
@@ -101,13 +108,17 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
 
 
                 if (toProcess.Movements.Count == 0)
+                {
+                    await movementsRepository.MarkProcessAsFinishedAsync(cliente.ClienteId, endWithSuccess: true);
                     continue;
+                }
 
                 var movementsToUpdate = new List<MovementProcessed>();
                 var movementsToAdd = new List<MovementProcessed>();
                 var movementIdsProcessed = new List<long>();
 
-                
+                bool endWithSuccess = false;
+
                 try
                 {
                     //LOGICA DE MOVIMIENTOS!
@@ -201,9 +212,22 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                                                                     : ((TimeSpan.FromHours(24) - turno.From) + turno.To).TotalMinutes;
 
 
-                                    //SI YA TIENE UN PROCESSED GRABADO EN LA BASE DE DATOS PARA EL MISMO TURNO Y JORNADA LE ACTUALIZAMOS EL HORARIO DE SALIDA
+                                    //SI YA TIENE UN PROCESSED GRABADO EN LA BASE DE DATOS PARA EL MISMO TURNO Y JORNADA
                                     if (lastInOut != null && lastInOut.Date.Date.Equals(jornada) && lastInOut.ExpectedIn.Equals(turno.From))
                                     {
+                                        //SI NO TIENE VALOR DE ENTRADA
+                                        if (!lastInOut.In.HasValue)
+                                        {
+                                            lastInOut.In = minMovement.DateTime;
+                                            lastInOut.InGoalId = minMovement.GoalId;
+                                            lastInOut.InPlaceId = minMovement.PlaceId;
+                                            lastInOut.InDeviceId = minMovement.DeviceId;
+                                            lastInOut.InDeviceMovementType = minMovement.MovementType;
+                                            lastInOut.InWasEstimated = false;
+                                            lastInOut.InProcessedAt = DateTime.Now;
+                                        }
+                                        
+                                        //AHORA ACTUALIZAMOS LOS DATOS DE SALIDA
                                         var finalMov = (maxMovement ?? minMovement);
                                         lastInOut.Out = finalMov.DateTime;
                                         lastInOut.OutGoalId = finalMov.GoalId;
@@ -353,13 +377,14 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                         }                        
                     }
 
-                    //LOGUEAR FIN DE PROCESAMIENTO PARA EL <CLIENTID> Y CUANTOS REGISTROS SE ACTUALIZARON Y CUANTOS SE INSERTARON
-                    //LOGUEAR ARRIBA CUANDO COMIENZA EL PROCESAMIENTO PARA EL <CLIENTID>
+                    endWithSuccess = true;
                 }
                 catch (Exception ex)
                 {
                     if (!ex.Message.Contains("ha sido finalizado por activarse el CancellationToken"))
                         procesadosConMovimientosTerminanEnError++;
+
+                    endWithSuccess = false;
 
                     _loggerService.LogException(transactionId, ex, new
                     {
@@ -375,6 +400,10 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker
                         MovementsToAddCount = movementsToAdd.Count,
                         MovementsIdsProcessed = movementIdsProcessed
                     });
+                }
+                finally
+                {
+                    await movementsRepository.MarkProcessAsFinishedAsync(cliente.ClienteId, endWithSuccess);
                 }
                 _loggerService.LogInfo(transactionId, "Fin procesamiento de movimientos pendientes de procesar");
             }

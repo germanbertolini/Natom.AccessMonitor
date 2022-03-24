@@ -32,14 +32,14 @@ BEGIN
 				[DocketNumber] NVARCHAR(20) NOT NULL,
 				[DocketId] INT,
 				[ExpectedPlaceId] INT NOT NULL,
-				[ExpectedIn] TIME NOT NULL,
-				[In] DATETIME NOT NULL,
-				[InGoalId] INT NOT NULL,
-				[InPlaceId] INT NOT NULL,
+				[ExpectedIn] TIME,
+				[In] DATETIME,
+				[InGoalId] INT,
+				[InPlaceId] INT,
 				[InDeviceId] INT,
 				[InDeviceMovementType] CHAR(1),
-				[InWasEstimated] BIT NOT NULL,
-				[InProcessedAt] DATETIME NOT NULL,
+				[InWasEstimated] BIT,
+				[InProcessedAt] DATETIME,
 
 				[ExpectedOut] TIME,
 				[Out] DATETIME,
@@ -52,7 +52,7 @@ BEGIN
 
 				[PermanenceTime] TIME,
 
-				CONSTRAINT [PK_zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed] PRIMARY KEY CLUSTERED ([Date] ASC, [DocketNumber] ASC, [In] ASC)
+				CONSTRAINT [PK_zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed] PRIMARY KEY CLUSTERED ([Date] ASC, [DocketId] ASC, [ExpectedIn] ASC)
 			);
 	';
 

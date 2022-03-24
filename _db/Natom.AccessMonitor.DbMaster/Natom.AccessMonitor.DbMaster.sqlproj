@@ -59,6 +59,7 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Stored procedures" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="dbo\Functions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Stored procedures\sp_movements_preinsert.sql" />
@@ -75,6 +76,10 @@
     <Build Include="dbo\Stored procedures\sp_clientes_select_all.sql" />
     <Build Include="dbo\Stored procedures\sp_movements_processor_select_by_client.sql" />
     <Build Include="dbo\Stored procedures\sp_movements_get_out_promedio.sql" />
+    <Build Include="dbo\Functions\fn_weekday.sql" />
+    <Build Include="dbo\Functions\fn_current_turnos.sql" />
+    <Build Include="dbo\Stored procedures\sp_panorama_actual.sql" />
+    <Build Include="dbo\Stored procedures\sp_movements_prepare_turnos.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">

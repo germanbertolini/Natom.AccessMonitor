@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Natom.AccessMonitor.Common.Exceptions;
 using Natom.AccessMonitor.Core.Biz.Entities.Models;
+using Natom.AccessMonitor.Core.Biz.Entities.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +56,11 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
 
             return result;
         }
+
+        public Task<List<spPanoramaActualResult>> GetPanoramaActualAsync(int clienteId, int? placeId)
+                            => _db.spPanoramaActualResult
+                                    .FromSqlRaw("EXEC [dbo].[spPanoramaActual] {0}, {1}", clienteId, placeId)
+                                    .ToListAsync();
 
         public async Task<ConfigTolerancia> GuardarAsync(int clienteId, int usuarioId, ConfigTolerancia configDto)
         {

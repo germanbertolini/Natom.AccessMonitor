@@ -19,5 +19,12 @@
 	ContactoEmail2 NVARCHAR(50),
 	ContactoObservaciones NVARCHAR(200),
 	Activo BIT NOT NULL,
+
+	MovementProcess_StartDateTime DATETIME,
+	MovementProcess_Running BIT DEFAULT 0,
+	MovementProcess_EndDateTime DATETIME,
+	MovementProcess_EndWithSuccess BIT,
+	MovementProcess_LastTurnosRun DATETIME
+
 	PRIMARY KEY (ClienteId)
 )

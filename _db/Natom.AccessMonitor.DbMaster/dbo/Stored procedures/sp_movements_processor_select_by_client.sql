@@ -54,7 +54,7 @@ BEGIN
 		FROM
 			#TMP_DOCKET_RANGES;
 
-		
+
 
 		SELECT
 			P.*
@@ -62,11 +62,16 @@ BEGIN
 			[dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed] P WITH(NOLOCK)
 			INNER JOIN
 			(
-				SELECT DocketId, MAX([In]) AS LastIn
-				FROM [dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed] WITH(NOLOCK)
-				WHERE [In] > DATEADD(YEAR, -1, GETDATE())
+				SELECT
+					DocketId,
+					MAX(DATEADD(ms, DATEDIFF(ms, ''00:00:00'', [ExpectedIn]), CONVERT(DATETIME, [Date]))) AS LastDateTimeIn
+				FROM
+					[dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '_Processed] WITH(NOLOCK)
+				WHERE
+					[Date] > DATEADD(MONTH, -4, GETDATE())
 				GROUP BY DocketId
-			) AS LastProcess ON LastProcess.DocketId = P.DocketId AND LastProcess.LastIn = P.[In]
+			) AS LastProcess ON LastProcess.DocketId = P.DocketId AND CAST(LastProcess.LastDateTimeIn AS TIME) = P.[ExpectedIn] AND CAST(LastProcess.LastDateTimeIn AS DATE) = P.[Date]
+
 	';
 
 	EXEC sp_executesql @SQL

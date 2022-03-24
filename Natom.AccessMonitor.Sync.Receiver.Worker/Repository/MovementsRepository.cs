@@ -126,6 +126,13 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
 
             var sql = "UPDATE [dbo].[zMovement_Client" + clientId.ToString().PadLeft(3, '0') + "_Processed] " +
                         " SET " +
+                        "       [In] = @In, " +
+                        "       [InGoalId] = @InGoalId, " +
+                        "       [InPlaceId] = @InPlaceId, " +
+                        "       [InDeviceId] = @InDeviceId, " +
+                        "       [InDeviceMovementType] = @InDeviceMovementType, " +
+                        "       [InWasEstimated] = @InWasEstimated, " +
+                        "       [InProcessedAt] = @InProcessedAt, " +
                         "       [Out] = @Out, " +
                         "       [OutGoalId] = @OutGoalId, " +
                         "       [OutPlaceId] = @OutPlaceId, " +
@@ -136,8 +143,8 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
                         "       [PermanenceTime] = @PermanenceTime " +
                         " WHERE " +
                         "       [Date] = @Date " +
-                        "       AND [DocketNumber] = @DocketNumber " +
-                        "       AND [In] = @In ";
+                        "       AND [DocketId] = @DocketId " +
+                        "       AND [ExpectedIn] = @ExpectedIn ";
 
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -148,8 +155,15 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
                                                                 select new
                                                                 {
                                                                     Date = m.Date,
-                                                                    DocketNumber = m.DocketNumber,
+                                                                    ExpectedIn = m.ExpectedIn,
+                                                                    DocketId = m.DocketId,
                                                                     In = m.In,
+                                                                    InGoalId = m.InGoalId,
+                                                                    InPlaceId = m.InPlaceId,
+                                                                    InDeviceId = m.InDeviceId,
+                                                                    InDeviceMovementType = m.InDeviceMovementType,
+                                                                    InWasEstimated = m.InWasEstimated,
+                                                                    InProcessedAt = m.InProcessedAt,
                                                                     Out = m.Out,
                                                                     OutGoalId = m.OutGoalId,
                                                                     OutPlaceId = m.OutPlaceId,
@@ -279,6 +293,49 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Repository
             {
                 if (movementIds.Count > 0)
                     await connection.RetryableExecuteAsync(sql);
+            }
+        }
+
+        public async Task InsertPendingTurnosAsync(int clientId)
+        {
+            var sql = "EXEC [dbo].[sp_movements_prepare_turnos] " + clientId;
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.RetryableExecuteAsync(sql);
+            }
+        }
+
+        public async Task MarkProcessAsStartedAsync(int clientId)
+        {
+            var sql = "UPDATE [dbo].[Cliente] " +
+                        " SET " +
+                        "       MovementProcess_StartDateTime = GETDATE(), " +
+                        "       MovementProcess_Running = 1, " +
+                        "       MovementProcess_EndDateTime = NULL, " +
+                        "       MovementProcess_EndWithSuccess = NULL  " +
+                        " WHERE " +
+                        "       [ClienteId] = " + clientId;
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.RetryableExecuteAsync(sql);
+            }
+        }
+
+        public async Task MarkProcessAsFinishedAsync(int clientId, bool endWithSuccess)
+        {
+            var sql = "UPDATE [dbo].[Cliente] " +
+                        " SET " +
+                        "       MovementProcess_Running = 0, " +
+                        "       MovementProcess_EndDateTime = GETDATE(), " +
+                        "       MovementProcess_EndWithSuccess = " + (endWithSuccess ? "1" : "0") + " " +
+                        " WHERE " +
+                        "       [ClienteId] = " + clientId;
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                await connection.RetryableExecuteAsync(sql);
             }
         }
     }

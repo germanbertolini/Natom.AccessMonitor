@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Natom.AccessMonitor.Core.Biz.Entities.Models;
+using Natom.AccessMonitor.Core.Biz.Entities.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Natom.AccessMonitor.Core.Biz
         public DbSet<TipoDocumento> TiposDocumento { get; set; }
 
 
-        //public DbSet<spPrecioGetResult> spPrecioGetResult { get; set; }
+        public DbSet<spPanoramaActualResult> spPanoramaActualResult { get; set; }
 
         public MasterDbContext(DbContextOptions<MasterDbContext> options) : base(options)
         {

@@ -13,13 +13,13 @@ namespace Natom.AccessMonitor.Sync.Receiver.Worker.Entities.Models
 		public int? DocketId { get; set; }
 		public int ExpectedPlaceId { get; set; }
 		public TimeSpan ExpectedIn { get; set; }
-		public DateTime In { get; set; }
-		public int InGoalId { get; set; }
-		public int InPlaceId { get; set; }
+		public DateTime? In { get; set; }
+		public int? InGoalId { get; set; }
+		public int? InPlaceId { get; set; }
 		public int? InDeviceId { get; set; }
 		public string InDeviceMovementType { get; set; }
-		public bool InWasEstimated { get; set; }
-		public DateTime InProcessedAt { get; set; }
+		public bool? InWasEstimated { get; set; }
+		public DateTime? InProcessedAt { get; set; }
 
 		public TimeSpan ExpectedOut { get; set; }
 		public DateTime? Out { get; set; }
