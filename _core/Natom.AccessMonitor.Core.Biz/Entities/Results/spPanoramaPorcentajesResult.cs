@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 namespace Natom.AccessMonitor.Core.Biz.Entities.Results
 {
     [Keyless]
-    public class spPanoramaActualResult
+    public class spPanoramaPorcentajesResult
     {
+        public int Modalidad { get; set; }
         public int CantidadTotal { get; set; }
         public int CantidadPresentes { get; set; }
-        public int CantidadAusentes { get; set; }
-        public int PorcentajeAsistencia { get; set; }
     }
 }

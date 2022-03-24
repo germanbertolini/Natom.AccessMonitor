@@ -57,10 +57,17 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             return result;
         }
 
-        public Task<List<spPanoramaActualResult>> GetPanoramaActualAsync(int clienteId, int? placeId)
+        public spPanoramaActualResult GetPanoramaActual(int clienteId, int? placeId)
                             => _db.spPanoramaActualResult
-                                    .FromSqlRaw("EXEC [dbo].[spPanoramaActual] {0}, {1}", clienteId, placeId)
-                                    .ToListAsync();
+                                    .FromSqlRaw("sp_panorama_actual {0}, {1}", clienteId, placeId)
+                                    .AsEnumerable()
+                                    .First();
+
+        public List<spPanoramaPorcentajesResult> GetPanoramaPorcentajes(int clienteId, int? placeId)
+                            => _db.spPanoramaPorcentajesResult
+                                    .FromSqlRaw("sp_panorama_porcentajes {0}, {1}", clienteId, placeId)
+                                    .AsEnumerable()
+                                    .ToList();
 
         public async Task<ConfigTolerancia> GuardarAsync(int clienteId, int usuarioId, ConfigTolerancia configDto)
         {

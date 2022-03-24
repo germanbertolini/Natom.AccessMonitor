@@ -80,6 +80,8 @@
     <Build Include="dbo\Functions\fn_current_turnos.sql" />
     <Build Include="dbo\Stored procedures\sp_panorama_actual.sql" />
     <Build Include="dbo\Stored procedures\sp_movements_prepare_turnos.sql" />
+    <Build Include="dbo\Functions\fn_current_turnos_acumulados.sql" />
+    <Build Include="dbo\Stored procedures\sp_panorama_porcentajes.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">

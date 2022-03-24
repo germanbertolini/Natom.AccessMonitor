@@ -148,6 +148,69 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
             }
         }
 
+        // GET: horarios/panorama/actual?encryptedPlaceId={encryptedPlaceId}
+        [HttpGet]
+        [ActionName("panorama/actual")]
+        public async Task<IActionResult> GetPanoramaActualAsync([FromQuery] string encryptedPlaceId = null)
+        {
+            try
+            {
+                int? placeId = null;
+                if (!string.IsNullOrEmpty(encryptedPlaceId))
+                    placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedPlaceId));
 
+                var manager = new HorariosManager(_serviceProvider);
+                var panorama = manager.GetPanoramaActual(_accessToken.ClientId ?? -1, placeId);
+
+                return Ok(new ApiResultDTO<PanoramaActualDTO>
+                {
+                    Success = true,
+                    Data = new PanoramaActualDTO().From(panorama)
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
+
+        // GET: horarios/panorama/porcentajes?encryptedPlaceId={encryptedPlaceId}
+        [HttpGet]
+        [ActionName("panorama/porcentajes")]
+        public async Task<IActionResult> GetPanoramaPorcentajesAsync([FromQuery] string encryptedPlaceId = null)
+        {
+            try
+            {
+                int? placeId = null;
+                if (!string.IsNullOrEmpty(encryptedPlaceId))
+                    placeId = EncryptionService.Decrypt<int, Place>(Uri.UnescapeDataString(encryptedPlaceId));
+
+                var manager = new HorariosManager(_serviceProvider);
+                var panorama = manager.GetPanoramaPorcentajes(_accessToken.ClientId ?? -1, placeId);
+
+                var placesManager = new PlacesManager(_serviceProvider);
+                var places = await placesManager.ObtenerActivasAsync(_accessToken.ClientId ?? -1);
+
+                return Ok(new ApiResultDTO<PanoramaPorcentajesDTO>
+                {
+                    Success = true,
+                    Data = new PanoramaPorcentajesDTO().From(panorama, places)
+                });
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
     }
 }
