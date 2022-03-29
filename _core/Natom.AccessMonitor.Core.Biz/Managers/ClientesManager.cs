@@ -141,7 +141,7 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             return cliente;
         }
 
-        public async Task DesactivarClienteAsync(int clienteId)
+        public async Task<Cliente> DesactivarClienteAsync(int clienteId)
         {
             var cliente = await _db.Clientes
                                     .FirstAsync(u => u.ClienteId.Equals(clienteId));
@@ -150,9 +150,11 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             cliente.Activo = false;
 
             await _db.SaveChangesAsync();
+
+            return cliente;
         }
 
-        public async Task ActivarClienteAsync(int clienteId)
+        public async Task<Cliente> ActivarClienteAsync(int clienteId)
         {
             var cliente = await _db.Clientes
                                     .FirstAsync(u => u.ClienteId.Equals(clienteId));
@@ -161,6 +163,8 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
             cliente.Activo = true;
 
             await _db.SaveChangesAsync();
+
+            return cliente;
         }
 
         public Task<Cliente> ObtenerClienteAsync(int clienteId)

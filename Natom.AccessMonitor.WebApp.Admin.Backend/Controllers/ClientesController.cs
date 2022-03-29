@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Natom.Extensions.Logger.Services;
 
 namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
 {
@@ -26,12 +27,14 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
     public class ClientesController : BaseController
     {
         private readonly AuthService _authService;
+        private readonly DiscordService _discordService;
         private readonly CacheService _cacheService;
 
         public ClientesController(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _authService = (AuthService)serviceProvider.GetService(typeof(AuthService));
             _cacheService = (CacheService)serviceProvider.GetService(typeof(CacheService));
+            _discordService = (DiscordService)serviceProvider.GetService(typeof(DiscordService));
         }
 
         // POST: clientes/list?filter={filter}
@@ -119,10 +122,14 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
         {
             try
             {
+                var esAlta = string.IsNullOrEmpty(clienteDto.EncryptedId);
                 var manager = new ClientesManager(_serviceProvider);
                 var cliente = await manager.GuardarClienteAsync(clienteDto.ToModel());
 
-                await RegistrarAccionAsync(clienteId: 0, cliente.ClienteId, nameof(Cliente), string.IsNullOrEmpty(clienteDto.EncryptedId) ? "Alta" : "Edición");
+                await RegistrarAccionAsync(clienteId: 0, cliente.ClienteId, nameof(Cliente), esAlta ? "Alta" : "Edición");
+
+                if (esAlta)
+                    _ = _discordService.LogInfoAsync(":tada: NUEVO CLIENTE :partying_face:", _transaction.TraceTransactionId, new { Cliente = (cliente.EsEmpresa ? cliente.RazonSocial : $"{cliente.Nombre} {cliente.Apellido}"), Tipo = (cliente.EsEmpresa ? "Empresa" : "Particular") });
 
                 return Ok(new ApiResultDTO<ClienteDTO>
                 {
@@ -183,9 +190,11 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new ClientesManager(_serviceProvider);
-                await manager.DesactivarClienteAsync(clienteId);
+                var cliente = await manager.DesactivarClienteAsync(clienteId);
 
                 await _authService.DestroyTokensByScopeAndClientIdAsync(scope: "WebApp.Clientes", clienteId);
+
+                _ = _discordService.LogInfoAsync(":rotating_light: BAJA DE CLIENTE :disappointed:", _transaction.TraceTransactionId, new { Cliente = (cliente.EsEmpresa ? cliente.RazonSocial : $"{cliente.Nombre} {cliente.Apellido}"), Tipo = (cliente.EsEmpresa ? "Empresa" : "Particular") });
 
                 await RegistrarAccionAsync(clienteId: 0, clienteId, nameof(Cliente), "Baja");
 
@@ -216,7 +225,9 @@ namespace Natom.AccessMonitor.WebApp.Admin.Backend.Controllers
                 var clienteId = EncryptionService.Decrypt<int, Cliente>(Uri.UnescapeDataString(encryptedId));
 
                 var manager = new ClientesManager(_serviceProvider);
-                await manager.ActivarClienteAsync(clienteId);
+                var cliente = await manager.ActivarClienteAsync(clienteId);
+
+                _ = _discordService.LogInfoAsync(":tada: REACTIVACIÓN CLIENTE :partying_face:", _transaction.TraceTransactionId, new { Cliente = (cliente.EsEmpresa ? cliente.RazonSocial : $"{cliente.Nombre} {cliente.Apellido}"), Tipo = (cliente.EsEmpresa ? "Empresa" : "Particular") });
 
                 await RegistrarAccionAsync(clienteId: 0, clienteId, nameof(Cliente), "Alta");
 
