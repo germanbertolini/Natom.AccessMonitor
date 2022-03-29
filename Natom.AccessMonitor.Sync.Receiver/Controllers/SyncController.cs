@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Natom.AccessMonitor.Services.Auth.Services;
-using Natom.AccessMonitor.Services.Cache.Services;
-using Natom.AccessMonitor.Services.MQ.Entities;
-using Natom.AccessMonitor.Services.MQ.Services;
+using Natom.Extensions.Auth.Services;
+using Natom.Extensions.Cache.Services;
+using Natom.Extensions.MQ.Entities;
+using Natom.Extensions.MQ.Services;
 using Natom.AccessMonitor.Sync.Entities.DTO;
 using Natom.AccessMonitor.Sync.Receiver.Repositories;
 using Newtonsoft.Json;

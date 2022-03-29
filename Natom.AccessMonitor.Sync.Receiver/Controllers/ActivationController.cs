@@ -2,15 +2,15 @@
 using Natom.AccessMonitor.Sync.Entities.DTO;
 using System;
 using StackExchange.Redis;
-using Natom.AccessMonitor.Services.Cache.Services;
-using Natom.AccessMonitor.Services.Auth.Services;
+using Natom.Extensions.Cache.Services;
+using Natom.Extensions.Auth.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Linq;
-using Natom.AccessMonitor.Services.Auth.Entities;
-using Natom.AccessMonitor.Services.Logger.Entities;
-using Natom.AccessMonitor.Services.Logger.Services;
+using Natom.Extensions.Auth.Entities;
+using Natom.Extensions.Logger.Entities;
+using Natom.Extensions.Logger.Services;
 using Natom.AccessMonitor.Sync.Receiver.Repositories;
 
 namespace Natom.AccessMonitor.Sync.Receiver.Controllers

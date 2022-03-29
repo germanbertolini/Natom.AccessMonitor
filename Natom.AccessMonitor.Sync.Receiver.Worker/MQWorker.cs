@@ -1,8 +1,8 @@
-using Natom.AccessMonitor.Services.Configuration.Services;
-using Natom.AccessMonitor.Services.MQ.Entities;
-using Natom.AccessMonitor.Services.MQ.Exceptions;
-using Natom.AccessMonitor.Services.MQ.WorkerUtilities;
-using Natom.AccessMonitor.Services.MQ.WorkerUtilities.Config;
+using Natom.Extensions.Configuration.Services;
+using Natom.Extensions.MQ.Entities;
+using Natom.Extensions.MQ.Exceptions;
+using Natom.Extensions.MQ.WorkerUtilities;
+using Natom.Extensions.MQ.WorkerUtilities.Config;
 using Natom.AccessMonitor.Sync.Entities.DTO;
 using Natom.AccessMonitor.Sync.Receiver.Worker.Repository;
 using Newtonsoft.Json;

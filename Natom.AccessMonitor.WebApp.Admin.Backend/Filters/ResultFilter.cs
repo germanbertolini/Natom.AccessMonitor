@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Natom.AccessMonitor.Services.Auth.Entities;
-using Natom.AccessMonitor.Services.Logger.Entities;
-using Natom.AccessMonitor.Services.Logger.Services;
+using Natom.Extensions.Auth.Entities;
+using Natom.Extensions.Logger.Entities;
+using Natom.Extensions.Logger.Services;
 using System;
 
 namespace Natom.AccessMonitor.WebApp.Admin.Backend.Filters

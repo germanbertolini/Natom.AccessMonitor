@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Natom.AccessMonitor.Common.Exceptions;
+using Natom.Extensions.Common.Exceptions;
 using Natom.AccessMonitor.Core.Biz.Entities.Models;
-using Natom.AccessMonitor.Services.Auth.Attributes;
-using Natom.AccessMonitor.Services.Auth.Entities.Models;
-using Natom.AccessMonitor.Services.Auth.Repository;
-using Natom.AccessMonitor.Services.Auth.Services;
+using Natom.Extensions.Auth.Attributes;
+using Natom.Extensions.Auth.Entities.Models;
+using Natom.Extensions.Auth.Repository;
+using Natom.Extensions.Auth.Services;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Auth;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.DataTable;

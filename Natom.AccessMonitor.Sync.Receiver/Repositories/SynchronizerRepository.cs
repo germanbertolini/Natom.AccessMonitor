@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Dapper.Contrib.Extensions;
-using Natom.AccessMonitor.Services.Configuration.Services;
+using Natom.Extensions.Configuration.Services;
 using Natom.AccessMonitor.Sync.Receiver.Entities.Models;
 using Natom.AccessMonitor.Sync.Receiver.Entities.Results;
 using System;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Natom.AccessMonitor.Common.Exceptions;
+using Natom.Extensions.Common.Exceptions;
 using Natom.AccessMonitor.Core.Biz.Managers;
-using Natom.AccessMonitor.Services.Auth.Services;
+using Natom.Extensions.Auth.Services;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Background;
 using System;

@@ -1,4 +1,4 @@
-﻿using Natom.AccessMonitor.Services.Configuration.Services;
+﻿using Natom.Extensions.Configuration.Services;
 using Natom.AccessMonitor.Sync.Receiver.Worker.Entities.Results;
 using Natom.AccessMonitor.Sync.Receiver.Worker.Extensions;
 using System;

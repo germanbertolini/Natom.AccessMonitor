@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Natom.AccessMonitor.Core.Biz.PackageConfig;
-using Natom.AccessMonitor.Services.Configuration.Services;
+using Natom.Extensions.Configuration.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

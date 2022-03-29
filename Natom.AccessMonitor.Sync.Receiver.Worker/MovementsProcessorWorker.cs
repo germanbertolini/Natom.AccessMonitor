@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Natom.AccessMonitor.Services.Configuration.Services;
-using Natom.AccessMonitor.Services.Logger.Services;
-using Natom.AccessMonitor.Services.MQ.WorkerUtilities.Config;
+using Natom.Extensions.Configuration.Services;
+using Natom.Extensions.Logger.Services;
+using Natom.Extensions.MQ.WorkerUtilities.Config;
 using Natom.AccessMonitor.Sync.Receiver.Worker.Entities.Models;
 using Natom.AccessMonitor.Sync.Receiver.Worker.Entities.Results;
 using Natom.AccessMonitor.Sync.Receiver.Worker.Repository;

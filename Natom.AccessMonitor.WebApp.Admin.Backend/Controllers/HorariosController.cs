@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Natom.AccessMonitor.Common.Exceptions;
+using Natom.Extensions.Common.Exceptions;
 using Natom.AccessMonitor.Core.Biz.Entities.Models;
 using Natom.AccessMonitor.Core.Biz.Managers;
-using Natom.AccessMonitor.Services.Auth.Attributes;
+using Natom.Extensions.Auth.Attributes;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.DataTable;
 using Natom.AccessMonitor.WebApp.Admin.Backend.DTO.Horarios;

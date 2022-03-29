@@ -1,5 +1,5 @@
-﻿using Natom.AccessMonitor.Services.Auth.Entities.Models;
-using Natom.AccessMonitor.Services.Auth.Entities.Results;
+﻿using Natom.Extensions.Auth.Entities.Models;
+using Natom.Extensions.Auth.Entities.Results;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.Services;
 using Newtonsoft.Json;
 using System;

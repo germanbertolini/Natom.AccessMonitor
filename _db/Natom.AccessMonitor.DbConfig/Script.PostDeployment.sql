@@ -4,6 +4,7 @@ set nocount on;
 ;with cte_data([Clave],[Valor],[Description])
 as (select * from (values
 --//////////////////////////////////////////////////////////////////////////////////////////////////
+('General.ProductName', 'BioAnviz+', 'Nombre del producto en General. Aplica para el envio de mails por registro y recupero de clave'),
 ('Sync.Receiver.URL','http://localhost:5000','URL de acceso a la API REST del Sincronizador'),
 ('Logging.Discord.WebhookInvoker.CancellationTokenDurationMS', '5000', 'Duración del CancellationToken del llamado Http a Discord.'),
 ('Logging.Discord.EnableLog', 'True', 'Habilita / Deshabilita el Log en el servicio de Discord.'),

@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Natom.AccessMonitor.Common.Exceptions;
+using Natom.Extensions.Common.Exceptions;
 using Natom.AccessMonitor.Core.Biz.Entities.Models;
 using Natom.AccessMonitor.Core.Biz.Entities.Results;
 using System;

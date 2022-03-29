@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
-using Natom.AccessMonitor.Services.Auth.Entities.Models;
-using Natom.AccessMonitor.Services.Configuration.Services;
+using Natom.Extensions.Auth.Entities.Models;
+using Natom.Extensions.Configuration.Services;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Model.Results;
 using System;
 using System.Collections.Generic;
