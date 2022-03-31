@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Natom.AccessMonitor.Core.Biz.Extensions;
-using Natom.AccessMonitor.Extensions;
+using Natom.Extensions;
 using Natom.Extensions.Auth.Services;
 using Natom.Extensions.Configuration.Services;
 using Natom.AccessMonitor.WebApp.Admin.Backend.Filters;

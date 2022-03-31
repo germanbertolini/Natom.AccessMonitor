@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Natom.AccessMonitor.Extensions;
+using Natom.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
