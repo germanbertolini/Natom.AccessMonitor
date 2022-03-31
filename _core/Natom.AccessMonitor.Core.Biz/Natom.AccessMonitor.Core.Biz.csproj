@@ -11,10 +11,4 @@
     <PackageReference Include="Natom.Extensions.Configuration" Version="1.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\_services\Natom.AccessMonitor.Services.Configuration\Natom.AccessMonitor.Services.Configuration.csproj" />
-    <ProjectReference Include="..\..\_services\Natom.AccessMonitor.Services.Mailer\Natom.AccessMonitor.Services.Mailer.csproj" />
-    <ProjectReference Include="..\Natom.AccessMonitor.Common\Natom.AccessMonitor.Common.csproj" />
-  </ItemGroup>
-
 </Project>
