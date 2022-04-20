@@ -150,8 +150,13 @@ export class DocketCrudComponent implements OnInit {
         if (this.crud.model.ranges[i].from !== null && this.crud.model.ranges[i].to !== null) {
           if (this.getTimeNumber(this.crud.model.ranges[i].from) >= this.getTimeNumber(this.crud.model.ranges[i].to))
           {
-            this.confirmDialogService.showError("Presencialidad: Campo 'Desde' debe ser inferior de 'Hasta'");
-            return;
+            let diff1 = this.getTimeNumber("24:00") - this.getTimeNumber(this.crud.model.ranges[i].from);
+            let diff2 = this.getTimeNumber(this.crud.model.ranges[i].to);
+            if ((diff1 + diff2) / 60 > 9)
+            {
+              this.confirmDialogService.showError("Presencialidad: Campo 'Desde' debe ser inferior de 'Hasta'");
+              return;
+            }
           }
         }
       }
