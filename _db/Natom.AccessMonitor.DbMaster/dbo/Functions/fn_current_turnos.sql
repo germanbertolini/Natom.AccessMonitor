@@ -2,7 +2,7 @@
 (
 	@ClientId INT,
 	@PlaceId INT = NULL,
-	@MinutosAnterioridad INT
+	@MinutosAnterioridad INT = 10
 )
 RETURNS TABLE
 AS

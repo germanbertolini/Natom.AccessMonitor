@@ -11,6 +11,6 @@
 	[FechaHoraUltimoEmailEnviado] DATETIME,
 	[SecretConfirmacion] CHAR(32),
 	[FechaHoraAlta] DATETIME NOT NULL,
-	[FechaHoraBaja] DATETIME DEFAULT NULL,
+	[FechaHoraBaja] DATETIME,
 	PRIMARY KEY (UsuarioId)
 );
