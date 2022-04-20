@@ -5,7 +5,7 @@ BEGIN
 
 	SELECT
 		*,
-		DATEDIFF(SECOND, GETDATE(), NextSyncAt) * 1000 AS NextOnMiliseconds
+		CAST(DATEDIFF(SECOND, GETDATE(), NextSyncAt) AS bigint) * 1000 AS NextOnMiliseconds
 	FROM
 	(
 		SELECT
