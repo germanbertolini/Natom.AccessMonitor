@@ -95,7 +95,7 @@
 
     <div class="tab-pane fade" id="nav-presence" role="tabpanel" aria-labelledby="nav-presence-tab">
       <div class="row" style="margin-top:10px;">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="material-switch pull-left" style="margin-top: 2px; margin-bottom:10px; margin-left:3rem;"><!-- <div class="material-switch pull-right"> -->
                 <input
                 type="checkbox"
@@ -105,8 +105,22 @@
                 />
                 <label for="switchRanges" class="switch-danger"></label>
             </div>
-            &nbsp;&nbsp;&nbsp;<b>Aplicar control por rango horario</b>
+            &nbsp;&nbsp;&nbsp;<b>Aplicar control presencialidad</b>
         </div>
+        <div class="col-md-4" *ngIf="crud.model.apply_ranges">
+            <div class="input-group" style="margin-top: -6px;">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-map-marker" style="color:#f40b0b"></i>&nbsp; Planta / Oficina de preferencia</span>
+              </div>
+              <select
+                    size="1"
+                    class="form-control"
+                    [(ngModel)]="crud.model.encrypted_place_id">
+                <option value="">Seleccione...</option>
+                <option *ngFor="let place of Places; let i = index" value="{{ place.encrypted_id }}">{{ place.name }}</option>
+              </select>
+            </div>
+          </div> 
       </div>
       <div class="row" day-of-week="1" style="margin-top:10px;" *ngIf="crud.model.apply_ranges">
           <div class="col-md-2 input-group input-sm">

@@ -10,5 +10,6 @@ export class DocketDTO {
     public apply_ranges: boolean;
     public ranges: DocketRangeDTO[];
     public hour_value: number;
+    public encrypted_place_id: string;
     public extra_hour_value: number;
 }

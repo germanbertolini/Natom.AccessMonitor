@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { PanoramaActualDTO } from 'src/app/classes/dto/panorama-actual.dto';
 import { PanoramaPorcentajesDTO } from 'src/app/classes/dto/panorama-porcentajes.dto';
+import { PlaceDTO } from 'src/app/classes/dto/place.dto';
 import { ApiResult } from 'src/app/classes/dto/shared/api-result.dto';
 import { ConfirmDialogService } from 'src/app/components/confirm-dialog/confirm-dialog.service';
 import { ApiService } from 'src/app/services/api.service';

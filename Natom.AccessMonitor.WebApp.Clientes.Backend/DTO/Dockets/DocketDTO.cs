@@ -40,6 +40,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
         [JsonProperty("extra_hour_value")]
         public decimal? ExtraHourValue { get; set; }
 
+        [JsonProperty("encrypted_place_id")]
+        public string EncryptedPlaceId { get; set; }
+
 
         public DocketDTO From(Docket entity)
         {
@@ -49,12 +52,13 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
             LastName = entity.LastName;
             DNI = entity.DNI;
             TitleEncryptedId = EncryptionService.Encrypt<Title>(entity.TitleId);
-            ApplyRanges = entity.Ranges.Count > 0;
+            ApplyRanges = entity.Ranges.Count > 0 && entity.ApplyInOutControl;
             Ranges = entity.Ranges.Count == 0
                         ? new List<DocketRangeDTO>()
                         : entity.Ranges.Select(r => new DocketRangeDTO().MapFrom(r)).ToList();
             HourValue = entity.HourValue;
             ExtraHourValue = entity.ExtraHourValue;
+            EncryptedPlaceId = EncryptionService.Encrypt<Place>(entity.PlaceId) ?? "";
 
             return this;
         }
@@ -69,13 +73,15 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
                 FirstName = FirstName,
                 LastName = LastName,
                 DNI = DNI,
+                ApplyInOutControl = ApplyRanges && Ranges.Count > 0,
                 TitleId = EncryptionService.Decrypt<int, Title>(TitleEncryptedId),
                 Ranges = !ApplyRanges || Ranges.Count == 0
                             ? new List<DocketRange>()
                             : Ranges.Select(r => new DocketRangeDTO().ToModel(r, docketId)).ToList(),
                 HourValue = HourValue,
                 ExtraHourValue = ExtraHourValue,
-                ClientId = clientId
+                ClientId = clientId,
+                PlaceId = ApplyRanges ? EncryptionService.Decrypt<int?, Place>(EncryptedPlaceId) : null
             };
         }
     }

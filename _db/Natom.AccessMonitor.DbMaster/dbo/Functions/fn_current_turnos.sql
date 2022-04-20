@@ -35,6 +35,7 @@ AS
 						INNER JOIN [dbo].[DocketRange] R WITH(NOLOCK) ON R.DocketId = D.DocketId AND R.[From] IS NOT NULL AND R.[To] IS NOT NULL AND R.[DayOfWeek] = [dbo].[fn_weekday](DATEADD(DAY, -1, GETDATE()))
 					WHERE
 						D.Active = 1
+						AND D.ApplyInOutControl = 1
 						AND D.ClientId = @ClientId
 						AND D.PlaceId = COALESCE(@PlaceId, D.PlaceId)
 
@@ -51,6 +52,7 @@ AS
 						INNER JOIN [dbo].[DocketRange] R WITH(NOLOCK) ON R.DocketId = D.DocketId AND R.[From] IS NOT NULL AND R.[To] IS NOT NULL AND R.[DayOfWeek] = [dbo].[fn_weekday](GETDATE())
 					WHERE
 						D.Active = 1
+						AND D.ApplyInOutControl = 1
 						AND D.ClientId = @ClientId
 						AND D.PlaceId = COALESCE(@PlaceId, D.PlaceId)
 
@@ -67,6 +69,7 @@ AS
 						INNER JOIN [dbo].[DocketRange] R WITH(NOLOCK) ON R.DocketId = D.DocketId AND R.[From] IS NOT NULL AND R.[To] IS NOT NULL AND R.[DayOfWeek] = [dbo].[fn_weekday](DATEADD(DAY, 1, GETDATE()))
 					WHERE
 						D.Active = 1
+						AND D.ApplyInOutControl = 1
 						AND D.ClientId = @ClientId
 						AND D.PlaceId = COALESCE(@PlaceId, D.PlaceId)
 				) R

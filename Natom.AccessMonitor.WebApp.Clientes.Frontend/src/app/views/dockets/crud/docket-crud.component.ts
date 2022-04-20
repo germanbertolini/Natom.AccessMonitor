@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { NotifierService } from "angular-notifier";
 import { DocketRangeDTO } from "src/app/classes/dto/dockets/docket-range.dto";
 import { DocketDTO } from "src/app/classes/dto/dockets/docket.dto";
+import { PlaceDTO } from "src/app/classes/dto/place.dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { TitleDTO } from "src/app/classes/dto/title.dto";
 import { CRUDView } from "src/app/classes/views/crud-view.classes";
@@ -21,6 +22,7 @@ export class DocketCrudComponent implements OnInit {
   crud: CRUDView<DocketDTO>;
   presencePending: boolean;
   Titles: Array<TitleDTO>;
+  Places: Array<PlaceDTO>;
 
   constructor(private apiService: ApiService,
               private routerService: Router,
@@ -30,6 +32,7 @@ export class DocketCrudComponent implements OnInit {
     this.crud = new CRUDView<DocketDTO>(routeService);
     this.crud.model = new DocketDTO();
     this.crud.model.title_encrypted_id = "";
+    this.crud.model.encrypted_place_id = "";
     this.crud.model.ranges = new Array<DocketRangeDTO>();
     this.crud.model.apply_ranges = true;
     this.presencePending = this.crud.isNewMode;
@@ -160,6 +163,11 @@ export class DocketCrudComponent implements OnInit {
           }
         }
       }
+      
+      if (this.crud.model.encrypted_place_id === undefined || this.crud.model.encrypted_place_id === null || this.crud.model.encrypted_place_id.length === 0) {
+        this.confirmDialogService.showError("Presencialidad: Debes indicar la Planta / Oficina de preferencia");
+        return;
+      }
     }
 
     this.apiService.DoPOST<ApiResult<DocketDTO>>("dockets/save", this.crud.model, /*headers*/ null,
@@ -192,6 +200,7 @@ export class DocketCrudComponent implements OnInit {
           this.crud.model = response.data.entity;
         
         this.Titles = <Array<TitleDTO>>response.data.cargos;
+        this.Places = <Array<PlaceDTO>>response.data.places;
 
         if (this.crud.model.ranges.length === 0)
           this.setRangeDefault();

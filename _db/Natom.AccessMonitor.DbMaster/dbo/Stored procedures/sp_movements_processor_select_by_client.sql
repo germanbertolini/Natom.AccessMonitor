@@ -23,7 +23,7 @@ BEGIN
 			[dbo].[zMovement_Client' + REPLACE(STR(CAST(@ClientId AS VARCHAR), 3), SPACE(1), '0') + '] M WITH(NOLOCK)
 			INNER JOIN [dbo].[Goal] G WITH(NOLOCK) ON G.GoalId = M.[GoalId]
 			INNER JOIN [dbo].[Place] P WITH(NOLOCK) ON P.PlaceId = G.PlaceId
-			INNER JOIN [dbo].[Docket] D WITH(NOLOCK) ON D.DocketNumber = M.DocketNumber AND D.Active = 1 AND D.ClientId = P.ClientId
+			INNER JOIN [dbo].[Docket] D WITH(NOLOCK) ON D.DocketNumber = M.DocketNumber AND D.Active = 1 AND D.ClientId = P.ClientId AND D.ApplyInOutControl = 1
 		WHERE
 			M.[GoalId] IS NOT NULL
 			AND M.[ProcessedAt] IS NULL;

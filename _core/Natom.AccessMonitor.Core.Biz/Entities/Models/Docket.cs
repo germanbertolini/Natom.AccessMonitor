@@ -18,7 +18,7 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Models
 		[ForeignKey("ClientId")]
 		public Cliente Cliente { get; set; }
 
-		public int PlaceId { get; set; }
+		public int? PlaceId { get; set; }
 		public Place Place { get; set; }
 
 		public string DocketNumber { get; set; }
@@ -33,6 +33,8 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Models
 		public decimal? ExtraHourValue { get; set; }
 
 		public bool Active { get; set; }
+
+		public bool ApplyInOutControl { get; set; }
 
 		public List<DocketRange> Ranges { get; set; }
 

@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Places;
 
 namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
 {
@@ -79,13 +80,17 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 var cargosManager = new CargosManager(_serviceProvider);
                 var cargos = await cargosManager.ObtenerActivasAsync(_accessToken.ClientId ?? -1);
 
+                var placesManager = new PlacesManager(_serviceProvider);
+                var places = await placesManager.ObtenerActivasAsync(_accessToken.ClientId ?? -1);
+
                 return Ok(new ApiResultDTO<dynamic>
                 {
                     Success = true,
                     Data = new
                     {
                         entity = entity,
-                        cargos = cargos.Select(c => new TitleDTO().From(c)).ToList()
+                        cargos = cargos.Select(c => new TitleDTO().From(c)).ToList(),
+                        places = places.Select(c => new PlaceDTO().From(c)).ToList()
                     }
                 });
             }

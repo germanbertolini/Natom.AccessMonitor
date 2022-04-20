@@ -100,6 +100,8 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                 docket.TitleId = docketDto.TitleId;
                 docket.HourValue = docketDto.HourValue;
                 docket.ExtraHourValue = docketDto.ExtraHourValue;
+                docket.ApplyInOutControl = docketDto.ApplyInOutControl;
+                docket.PlaceId = docketDto.PlaceId;
 
                 if (docket.Ranges.Count > 0)
                 {
