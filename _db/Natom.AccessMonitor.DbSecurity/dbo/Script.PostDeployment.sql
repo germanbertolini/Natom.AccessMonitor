@@ -18,7 +18,8 @@ as (select * from (values
 ('admin_sync', 'WebApp.Clientes', 'Administrar sincronizador / Ver dispositivos'),
 ('abm_places_goals', 'WebApp.Clientes', 'Administrar Plantas / Porterías'),
 ('abm_places_horarios', 'WebApp.Clientes', 'Administrar Horarios / Tolerancias'),
-('reportes_ver_horas_trabajadas_mes', 'WebApp.Clientes', 'Reportes: Ver horas trabajadas mensuales')
+('reportes_ver_horas_trabajadas_mes', 'WebApp.Clientes', 'Reportes: Ver horas trabajadas mensuales'),
+('reportes_estadistica_asistencia', 'WebApp.Clientes', 'Reportes: Estadística de asistencia')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([PermisoId],[Scope],[Descripcion]))
 merge	[dbo].[Permiso] as t

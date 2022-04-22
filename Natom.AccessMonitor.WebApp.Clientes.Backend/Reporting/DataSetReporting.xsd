@@ -123,6 +123,21 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="dtSpReporteEstadisticaAsistenciaResult" msprop:Generator_TableClassName="dtSpReporteEstadisticaAsistenciaResultDataTable" msprop:Generator_TableVarName="tabledtSpReporteEstadisticaAsistenciaResult" msprop:Generator_TablePropName="dtSpReporteEstadisticaAsistenciaResult" msprop:Generator_RowDeletingName="dtSpReporteEstadisticaAsistenciaResultRowDeleting" msprop:Generator_RowChangingName="dtSpReporteEstadisticaAsistenciaResultRowChanging" msprop:Generator_RowEvHandlerName="dtSpReporteEstadisticaAsistenciaResultRowChangeEventHandler" msprop:Generator_RowDeletedName="dtSpReporteEstadisticaAsistenciaResultRowDeleted" msprop:Generator_UserTableName="dtSpReporteEstadisticaAsistenciaResult" msprop:Generator_RowChangedName="dtSpReporteEstadisticaAsistenciaResultRowChanged" msprop:Generator_RowEvArgName="dtSpReporteEstadisticaAsistenciaResultRowChangeEvent" msprop:Generator_RowClassName="dtSpReporteEstadisticaAsistenciaResultRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Empleado" msprop:Generator_ColumnVarNameInTable="columnEmpleado" msprop:Generator_ColumnPropNameInRow="Empleado" msprop:Generator_ColumnPropNameInTable="EmpleadoColumn" msprop:Generator_UserColumnName="Empleado" type="xs:string" minOccurs="0" />
+              <xs:element name="Legajo" msprop:Generator_ColumnVarNameInTable="columnLegajo" msprop:Generator_ColumnPropNameInRow="Legajo" msprop:Generator_ColumnPropNameInTable="LegajoColumn" msprop:Generator_UserColumnName="Legajo" type="xs:string" minOccurs="0" />
+              <xs:element name="Cargo" msprop:Generator_ColumnVarNameInTable="columnCargo" msprop:Generator_ColumnPropNameInRow="Cargo" msprop:Generator_ColumnPropNameInTable="CargoColumn" msprop:Generator_UserColumnName="Cargo" type="xs:string" minOccurs="0" />
+              <xs:element name="DiasLaborales" msprop:Generator_ColumnVarNameInTable="columnDiasLaborales" msprop:Generator_ColumnPropNameInRow="DiasLaborales" msprop:Generator_ColumnPropNameInTable="DiasLaboralesColumn" msprop:Generator_UserColumnName="DiasLaborales" type="xs:int" minOccurs="0" />
+              <xs:element name="DiasTrabajados" msprop:Generator_ColumnVarNameInTable="columnDiasTrabajados" msprop:Generator_ColumnPropNameInRow="DiasTrabajados" msprop:Generator_ColumnPropNameInTable="DiasTrabajadosColumn" msprop:Generator_UserColumnName="DiasTrabajados" type="xs:int" minOccurs="0" />
+              <xs:element name="LLegadasTardeMinutos" msprop:Generator_ColumnVarNameInTable="columnLLegadasTardeMinutos" msprop:Generator_ColumnPropNameInRow="LLegadasTardeMinutos" msprop:Generator_ColumnPropNameInTable="LLegadasTardeMinutosColumn" msprop:Generator_UserColumnName="LLegadasTardeMinutos" type="xs:int" minOccurs="0" />
+              <xs:element name="SalidasTempranoMinutos" msprop:Generator_ColumnVarNameInTable="columnSalidasTempranoMinutos" msprop:Generator_ColumnPropNameInRow="SalidasTempranoMinutos" msprop:Generator_ColumnPropNameInTable="SalidasTempranoMinutosColumn" msprop:Generator_UserColumnName="SalidasTempranoMinutos" type="xs:int" minOccurs="0" />
+              <xs:element name="DiasAusente" msprop:Generator_ColumnVarNameInTable="columnDiasAusente" msprop:Generator_ColumnPropNameInRow="DiasAusente" msprop:Generator_ColumnPropNameInTable="DiasAusenteColumn" msprop:Generator_UserColumnName="DiasAusente" type="xs:int" minOccurs="0" />
+              <xs:element name="TiempoExtraHoras" msprop:Generator_ColumnVarNameInTable="columnTiempoExtraHoras" msprop:Generator_ColumnPropNameInRow="TiempoExtraHoras" msprop:Generator_ColumnPropNameInTable="TiempoExtraHorasColumn" msprop:Generator_UserColumnName="TiempoExtraHoras" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
   </xs:element>

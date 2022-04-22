@@ -29,6 +29,8 @@ import { HorariosComponent } from "./views/horarios/horarios.component";
 import { ABMHorariosGuard } from "./guards/horarios.guards";
 import { ReportesReporteMensualHorasTrabajadasComponent } from "./views/reportes/reporte-mensual-horas-trabajadas/reporte-mensual-horas-trabajadas.component";
 import { ReporteHorasTrabajadasMensualesGuard } from "./guards/reportes/reporte-horas-trabajadas-mensuales.guards";
+import { ReportesEstadisticaAsistenciaComponent } from "./views/reportes/estadistica-asistencia/estadistica-asistencia.component";
+import { ReporteEstadisticaAsistenciaGuard } from "./guards/reportes/estadistica-asistencia.guards";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -59,7 +61,8 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard, ABMHorariosGuard ], path: 'horarios/:place_id', component: HorariosComponent },
     { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "horarios/:place_id/new", component: HorarioCrudComponent },
     { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "horarios/:place_id/ver/:id", component: HorarioCrudComponent },
-    { canActivate: [ AuthGuard, ReporteHorasTrabajadasMensualesGuard ], path: "reportes/reporte-mensual-horas-trabajadas", component: ReportesReporteMensualHorasTrabajadasComponent }
+    { canActivate: [ AuthGuard, ReporteHorasTrabajadasMensualesGuard ], path: "reportes/reporte-mensual-horas-trabajadas", component: ReportesReporteMensualHorasTrabajadasComponent },
+    { canActivate: [ AuthGuard, ReporteEstadisticaAsistenciaGuard ], path: "reportes/estadistica-asistencia", component: ReportesEstadisticaAsistenciaComponent }
 ]
 
 @NgModule({

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,44 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Results
 		public bool? OutWasEstimated { get; set; }
 
 		public TimeSpan? PermanenceTime { get; set; }
+
+		[NotMapped]
+		public DateTime ExpectedInDateTime
+        {
+			get
+            {
+				return new DateTime(Date.Year, Date.Month, Date.Day, ExpectedIn.Hours, ExpectedIn.Minutes, ExpectedIn.Seconds);
+			}
+        }
+
+		[NotMapped]
+		public DateTime ExpectedOutDateTime
+		{
+			get
+			{
+				var date = Date;
+				if (ExpectedIn > ExpectedOut)
+					date = date.AddDays(1);
+
+				return new DateTime(date.Year, date.Month, date.Day, ExpectedOut.Hours, ExpectedOut.Minutes, ExpectedOut.Seconds);
+			}
+		}
+
+		[NotMapped]
+		public TimeSpan ExpectedPermanenceTime
+        {
+			get
+            {
+				if (ExpectedIn > ExpectedOut)
+                {
+					return ((new TimeSpan(1, 0, 0, 0)) - ExpectedIn) + ExpectedOut;
+                }
+				else
+                {
+					return ExpectedOut - ExpectedIn;
+                }
+            }
+        }
 
 	}
 }

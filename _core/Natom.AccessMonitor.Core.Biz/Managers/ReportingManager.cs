@@ -213,5 +213,49 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                 case 42: obj.HorasTrabajadas42 = valor; break;
             }
         }
+
+        public List<spReporteEstadisticaAsistenciaResult> GetDatosEstadisticaAsistencia(int clienteId, DateTime fromDate, DateTime toDate, int? docketId = null)
+        {
+            var result = new List<spReporteEstadisticaAsistenciaResult>();
+            var data = GetMovementsProcessed(clienteId, fromDate, toDate, docketId);
+            var groupByDocket = data.GroupBy(jornal => new { Name = $"{jornal.LastName}, {jornal.FirstName}", jornal.DocketNumber, jornal.Title },
+                                            (k, v) => new
+                                            {
+                                                k.Name,
+                                                k.DocketNumber,
+                                                k.Title,
+                                                Jornadas = v.GroupBy(j => new { j.Date }, (k2, v2) => new
+                                                {
+                                                    Ausente = v2.All(d => !d.In.HasValue),
+                                                    ExpectedWorkedTimeInMinutes = (int)v2.Sum(d => d.ExpectedPermanenceTime.TotalMinutes),
+                                                    WorkedTimeInMinutes = (int)v2.Where(d => d.PermanenceTime.HasValue).Sum(d => d.PermanenceTime.Value.TotalMinutes),
+                                                    LLegadaTardeMinutos = (int)v2.Where(d => d.In.HasValue).Sum(d => (d.In.Value - d.ExpectedInDateTime).TotalMinutes),
+                                                    SalidasTempranoMinutos = (int)v2.Where(d => d.Out.HasValue && d.OutWasEstimated == false).Sum(d => (d.ExpectedInDateTime - d.Out.Value).TotalMinutes)
+                                                })
+                                            }).OrderBy(d => d.Title).ThenBy(d => d.Name);
+
+
+            foreach (var docket in groupByDocket)
+            {
+                var obj = new spReporteEstadisticaAsistenciaResult
+                {
+                    Empleado = docket.Name,
+                    Legajo = docket.DocketNumber,
+                    Cargo = docket.Title
+                };
+
+                obj.DiasLaborales = docket.Jornadas.Count();
+                obj.DiasTrabajados = docket.Jornadas.Where(j => !j.Ausente).Count();
+                obj.LLegadasTardeMinutos = docket.Jornadas.Sum(j => j.LLegadaTardeMinutos);
+                obj.SalidasTempranoMinutos = docket.Jornadas.Sum(j => j.SalidasTempranoMinutos);
+                obj.DiasAusente = docket.Jornadas.Where(j => j.Ausente).Count();
+                obj.TiempoExtraHoras = Math.Round((decimal)docket.Jornadas.Where(j => j.WorkedTimeInMinutes + 10 > j.ExpectedWorkedTimeInMinutes).Sum(j => j.WorkedTimeInMinutes - j.ExpectedWorkedTimeInMinutes) / 60, 2);
+
+                result.Add(obj);
+            }
+
+
+            return result;
+        }
     }
 }

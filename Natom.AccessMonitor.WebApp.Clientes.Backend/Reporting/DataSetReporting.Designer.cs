@@ -28,6 +28,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
         
         private dtSpStockListaReportResultDataTable tabledtSpStockListaReportResult;
         
+        private dtSpReporteEstadisticaAsistenciaResultDataTable tabledtSpReporteEstadisticaAsistenciaResult;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -61,6 +63,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
                 }
                 if ((ds.Tables["dtSpStockListaReportResult"] != null)) {
                     base.Tables.Add(new dtSpStockListaReportResultDataTable(ds.Tables["dtSpStockListaReportResult"]));
+                }
+                if ((ds.Tables["dtSpReporteEstadisticaAsistenciaResult"] != null)) {
+                    base.Tables.Add(new dtSpReporteEstadisticaAsistenciaResultDataTable(ds.Tables["dtSpReporteEstadisticaAsistenciaResult"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -97,6 +102,16 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
         public dtSpStockListaReportResultDataTable dtSpStockListaReportResult {
             get {
                 return this.tabledtSpStockListaReportResult;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public dtSpReporteEstadisticaAsistenciaResultDataTable dtSpReporteEstadisticaAsistenciaResult {
+            get {
+                return this.tabledtSpReporteEstadisticaAsistenciaResult;
             }
         }
         
@@ -173,6 +188,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
                 if ((ds.Tables["dtSpStockListaReportResult"] != null)) {
                     base.Tables.Add(new dtSpStockListaReportResultDataTable(ds.Tables["dtSpStockListaReportResult"]));
                 }
+                if ((ds.Tables["dtSpReporteEstadisticaAsistenciaResult"] != null)) {
+                    base.Tables.Add(new dtSpReporteEstadisticaAsistenciaResultDataTable(ds.Tables["dtSpReporteEstadisticaAsistenciaResult"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -218,6 +236,12 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
                     this.tabledtSpStockListaReportResult.InitVars();
                 }
             }
+            this.tabledtSpReporteEstadisticaAsistenciaResult = ((dtSpReporteEstadisticaAsistenciaResultDataTable)(base.Tables["dtSpReporteEstadisticaAsistenciaResult"]));
+            if ((initTable == true)) {
+                if ((this.tabledtSpReporteEstadisticaAsistenciaResult != null)) {
+                    this.tabledtSpReporteEstadisticaAsistenciaResult.InitVars();
+                }
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -232,6 +256,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
             base.Tables.Add(this.tabledtSpReporteMensualHorasTrabajadasResult);
             this.tabledtSpStockListaReportResult = new dtSpStockListaReportResultDataTable();
             base.Tables.Add(this.tabledtSpStockListaReportResult);
+            this.tabledtSpReporteEstadisticaAsistenciaResult = new dtSpReporteEstadisticaAsistenciaResultDataTable();
+            base.Tables.Add(this.tabledtSpReporteEstadisticaAsistenciaResult);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -243,6 +269,12 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private bool ShouldSerializedtSpStockListaReportResult() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private bool ShouldSerializedtSpReporteEstadisticaAsistenciaResult() {
             return false;
         }
         
@@ -306,6 +338,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public delegate void dtSpStockListaReportResultRowChangeEventHandler(object sender, dtSpStockListaReportResultRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public delegate void dtSpReporteEstadisticaAsistenciaResultRowChangeEventHandler(object sender, dtSpReporteEstadisticaAsistenciaResultRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -2212,6 +2247,365 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "dtSpStockListaReportResultDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class dtSpReporteEstadisticaAsistenciaResultDataTable : global::System.Data.TypedTableBase<dtSpReporteEstadisticaAsistenciaResultRow> {
+            
+            private global::System.Data.DataColumn columnEmpleado;
+            
+            private global::System.Data.DataColumn columnLegajo;
+            
+            private global::System.Data.DataColumn columnCargo;
+            
+            private global::System.Data.DataColumn columnDiasLaborales;
+            
+            private global::System.Data.DataColumn columnDiasTrabajados;
+            
+            private global::System.Data.DataColumn columnLLegadasTardeMinutos;
+            
+            private global::System.Data.DataColumn columnSalidasTempranoMinutos;
+            
+            private global::System.Data.DataColumn columnDiasAusente;
+            
+            private global::System.Data.DataColumn columnTiempoExtraHoras;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public dtSpReporteEstadisticaAsistenciaResultDataTable() {
+                this.TableName = "dtSpReporteEstadisticaAsistenciaResult";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal dtSpReporteEstadisticaAsistenciaResultDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected dtSpReporteEstadisticaAsistenciaResultDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn EmpleadoColumn {
+                get {
+                    return this.columnEmpleado;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn LegajoColumn {
+                get {
+                    return this.columnLegajo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn CargoColumn {
+                get {
+                    return this.columnCargo;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DiasLaboralesColumn {
+                get {
+                    return this.columnDiasLaborales;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DiasTrabajadosColumn {
+                get {
+                    return this.columnDiasTrabajados;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn LLegadasTardeMinutosColumn {
+                get {
+                    return this.columnLLegadasTardeMinutos;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn SalidasTempranoMinutosColumn {
+                get {
+                    return this.columnSalidasTempranoMinutos;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DiasAusenteColumn {
+                get {
+                    return this.columnDiasAusente;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TiempoExtraHorasColumn {
+                get {
+                    return this.columnTiempoExtraHoras;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public dtSpReporteEstadisticaAsistenciaResultRow this[int index] {
+                get {
+                    return ((dtSpReporteEstadisticaAsistenciaResultRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event dtSpReporteEstadisticaAsistenciaResultRowChangeEventHandler dtSpReporteEstadisticaAsistenciaResultRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event dtSpReporteEstadisticaAsistenciaResultRowChangeEventHandler dtSpReporteEstadisticaAsistenciaResultRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event dtSpReporteEstadisticaAsistenciaResultRowChangeEventHandler dtSpReporteEstadisticaAsistenciaResultRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event dtSpReporteEstadisticaAsistenciaResultRowChangeEventHandler dtSpReporteEstadisticaAsistenciaResultRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void AdddtSpReporteEstadisticaAsistenciaResultRow(dtSpReporteEstadisticaAsistenciaResultRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public dtSpReporteEstadisticaAsistenciaResultRow AdddtSpReporteEstadisticaAsistenciaResultRow(string Empleado, string Legajo, string Cargo, int DiasLaborales, int DiasTrabajados, int LLegadasTardeMinutos, int SalidasTempranoMinutos, int DiasAusente, decimal TiempoExtraHoras) {
+                dtSpReporteEstadisticaAsistenciaResultRow rowdtSpReporteEstadisticaAsistenciaResultRow = ((dtSpReporteEstadisticaAsistenciaResultRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        Empleado,
+                        Legajo,
+                        Cargo,
+                        DiasLaborales,
+                        DiasTrabajados,
+                        LLegadasTardeMinutos,
+                        SalidasTempranoMinutos,
+                        DiasAusente,
+                        TiempoExtraHoras};
+                rowdtSpReporteEstadisticaAsistenciaResultRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowdtSpReporteEstadisticaAsistenciaResultRow);
+                return rowdtSpReporteEstadisticaAsistenciaResultRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                dtSpReporteEstadisticaAsistenciaResultDataTable cln = ((dtSpReporteEstadisticaAsistenciaResultDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new dtSpReporteEstadisticaAsistenciaResultDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal void InitVars() {
+                this.columnEmpleado = base.Columns["Empleado"];
+                this.columnLegajo = base.Columns["Legajo"];
+                this.columnCargo = base.Columns["Cargo"];
+                this.columnDiasLaborales = base.Columns["DiasLaborales"];
+                this.columnDiasTrabajados = base.Columns["DiasTrabajados"];
+                this.columnLLegadasTardeMinutos = base.Columns["LLegadasTardeMinutos"];
+                this.columnSalidasTempranoMinutos = base.Columns["SalidasTempranoMinutos"];
+                this.columnDiasAusente = base.Columns["DiasAusente"];
+                this.columnTiempoExtraHoras = base.Columns["TiempoExtraHoras"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitClass() {
+                this.columnEmpleado = new global::System.Data.DataColumn("Empleado", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnEmpleado);
+                this.columnLegajo = new global::System.Data.DataColumn("Legajo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLegajo);
+                this.columnCargo = new global::System.Data.DataColumn("Cargo", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCargo);
+                this.columnDiasLaborales = new global::System.Data.DataColumn("DiasLaborales", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDiasLaborales);
+                this.columnDiasTrabajados = new global::System.Data.DataColumn("DiasTrabajados", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDiasTrabajados);
+                this.columnLLegadasTardeMinutos = new global::System.Data.DataColumn("LLegadasTardeMinutos", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLLegadasTardeMinutos);
+                this.columnSalidasTempranoMinutos = new global::System.Data.DataColumn("SalidasTempranoMinutos", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSalidasTempranoMinutos);
+                this.columnDiasAusente = new global::System.Data.DataColumn("DiasAusente", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDiasAusente);
+                this.columnTiempoExtraHoras = new global::System.Data.DataColumn("TiempoExtraHoras", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTiempoExtraHoras);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public dtSpReporteEstadisticaAsistenciaResultRow NewdtSpReporteEstadisticaAsistenciaResultRow() {
+                return ((dtSpReporteEstadisticaAsistenciaResultRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new dtSpReporteEstadisticaAsistenciaResultRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(dtSpReporteEstadisticaAsistenciaResultRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.dtSpReporteEstadisticaAsistenciaResultRowChanged != null)) {
+                    this.dtSpReporteEstadisticaAsistenciaResultRowChanged(this, new dtSpReporteEstadisticaAsistenciaResultRowChangeEvent(((dtSpReporteEstadisticaAsistenciaResultRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.dtSpReporteEstadisticaAsistenciaResultRowChanging != null)) {
+                    this.dtSpReporteEstadisticaAsistenciaResultRowChanging(this, new dtSpReporteEstadisticaAsistenciaResultRowChangeEvent(((dtSpReporteEstadisticaAsistenciaResultRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.dtSpReporteEstadisticaAsistenciaResultRowDeleted != null)) {
+                    this.dtSpReporteEstadisticaAsistenciaResultRowDeleted(this, new dtSpReporteEstadisticaAsistenciaResultRowChangeEvent(((dtSpReporteEstadisticaAsistenciaResultRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.dtSpReporteEstadisticaAsistenciaResultRowDeleting != null)) {
+                    this.dtSpReporteEstadisticaAsistenciaResultRowDeleting(this, new dtSpReporteEstadisticaAsistenciaResultRowChangeEvent(((dtSpReporteEstadisticaAsistenciaResultRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void RemovedtSpReporteEstadisticaAsistenciaResultRow(dtSpReporteEstadisticaAsistenciaResultRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                DataSetReporting ds = new DataSetReporting();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "dtSpReporteEstadisticaAsistenciaResultDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -5154,6 +5548,282 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class dtSpReporteEstadisticaAsistenciaResultRow : global::System.Data.DataRow {
+            
+            private dtSpReporteEstadisticaAsistenciaResultDataTable tabledtSpReporteEstadisticaAsistenciaResult;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal dtSpReporteEstadisticaAsistenciaResultRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tabledtSpReporteEstadisticaAsistenciaResult = ((dtSpReporteEstadisticaAsistenciaResultDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Empleado {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.EmpleadoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Empleado\' de la tabla \'dtSpReporteEstadisticaAsistenciaRe" +
+                                "sult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.EmpleadoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Legajo {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.LegajoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Legajo\' de la tabla \'dtSpReporteEstadisticaAsistenciaResu" +
+                                "lt\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.LegajoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string Cargo {
+                get {
+                    try {
+                        return ((string)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.CargoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'Cargo\' de la tabla \'dtSpReporteEstadisticaAsistenciaResul" +
+                                "t\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.CargoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int DiasLaborales {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLaboralesColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DiasLaborales\' de la tabla \'dtSpReporteEstadisticaAsisten" +
+                                "ciaResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLaboralesColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int DiasTrabajados {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasTrabajadosColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DiasTrabajados\' de la tabla \'dtSpReporteEstadisticaAsiste" +
+                                "nciaResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasTrabajadosColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int LLegadasTardeMinutos {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.LLegadasTardeMinutosColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'LLegadasTardeMinutos\' de la tabla \'dtSpReporteEstadistica" +
+                                "AsistenciaResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.LLegadasTardeMinutosColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int SalidasTempranoMinutos {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.SalidasTempranoMinutosColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'SalidasTempranoMinutos\' de la tabla \'dtSpReporteEstadisti" +
+                                "caAsistenciaResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.SalidasTempranoMinutosColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int DiasAusente {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasAusenteColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DiasAusente\' de la tabla \'dtSpReporteEstadisticaAsistenci" +
+                                "aResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasAusenteColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TiempoExtraHoras {
+                get {
+                    try {
+                        return ((decimal)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.TiempoExtraHorasColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'TiempoExtraHoras\' de la tabla \'dtSpReporteEstadisticaAsis" +
+                                "tenciaResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.TiempoExtraHorasColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEmpleadoNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.EmpleadoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEmpleadoNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.EmpleadoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsLegajoNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.LegajoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetLegajoNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.LegajoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCargoNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.CargoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCargoNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.CargoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDiasLaboralesNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLaboralesColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDiasLaboralesNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLaboralesColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDiasTrabajadosNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.DiasTrabajadosColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDiasTrabajadosNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasTrabajadosColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsLLegadasTardeMinutosNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.LLegadasTardeMinutosColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetLLegadasTardeMinutosNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.LLegadasTardeMinutosColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSalidasTempranoMinutosNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.SalidasTempranoMinutosColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSalidasTempranoMinutosNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.SalidasTempranoMinutosColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDiasAusenteNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.DiasAusenteColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDiasAusenteNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasAusenteColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTiempoExtraHorasNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.TiempoExtraHorasColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTiempoExtraHorasNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.TiempoExtraHorasColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -5207,6 +5877,40 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public dtSpStockListaReportResultRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public class dtSpReporteEstadisticaAsistenciaResultRowChangeEvent : global::System.EventArgs {
+            
+            private dtSpReporteEstadisticaAsistenciaResultRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public dtSpReporteEstadisticaAsistenciaResultRowChangeEvent(dtSpReporteEstadisticaAsistenciaResultRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public dtSpReporteEstadisticaAsistenciaResultRow Row {
                 get {
                     return this.eventRow;
                 }
