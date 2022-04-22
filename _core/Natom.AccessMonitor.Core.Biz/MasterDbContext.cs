@@ -26,6 +26,7 @@ namespace Natom.AccessMonitor.Core.Biz
 
         public DbSet<spPanoramaActualResult> spPanoramaActualResult { get; set; }
         public DbSet<spPanoramaPorcentajesResult> spPanoramaPorcentajesResult { get; set; }
+        public DbSet<spMovementsProcessedSelectByClientAndRangeDateResult> spMovementsProcessedSelectByClientAndRangeDateResult { get; set; }
 
         public MasterDbContext(DbContextOptions<MasterDbContext> options) : base(options)
         {

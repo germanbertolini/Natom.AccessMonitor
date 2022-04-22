@@ -29,11 +29,7 @@ import { TitlesComponent } from './views/titles/titles.component';
 import { DevicesSyncConfigComponent } from './views/devices/sync/config/devices-sync-config.component';
 import { SidebarModule } from 'ng-sidebar';
 import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
-import { Query1AComponent } from './views/queries/1/A/query-1-a.component';
-import { Query1BComponent } from './views/queries/1/B/query-1-b.component';
 import { MeOrganizationComponent } from './views/me/organization/me-organization.component';
-import { ReportsAttendanceByDeviceComponent } from './views/reports/attendance/reports-attendance-by-device.component';
-import { ReportsWorkedHoursByDocketComponent } from './views/reports/worked-hours/reports-worked-hours-by-docket.component';
 import { AppRoutingModule } from './app.routing.module';
 import { ChartsModule, ThemeService } from 'ng2-charts';
 import { ErrorPageComponent } from './views/error-page/error-page.component';
@@ -55,6 +51,7 @@ import { PlacesComponent } from './views/places/places.component';
 import { BackgroundService } from './services/background.service';
 import { HorarioCrudComponent } from './views/horarios/crud/horario-crud.component';
 import { HorariosComponent } from './views/horarios/horarios.component';
+import { ReportesReporteMensualHorasTrabajadasComponent } from './views/reportes/reporte-mensual-horas-trabajadas/reporte-mensual-horas-trabajadas.component';
 
 export function OnInit(jsonAppConfigService: JsonAppConfigService) {
   return () => {
@@ -87,10 +84,7 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     HorariosComponent,
     HorarioCrudComponent,
     DevicesSyncConfigComponent,
-    Query1AComponent,
-    Query1BComponent,
-    ReportsAttendanceByDeviceComponent,
-    ReportsWorkedHoursByDocketComponent,
+    ReportesReporteMensualHorasTrabajadasComponent,
     ConfirmDialogComponent,
     SpinnerLoadingComponent
   ],

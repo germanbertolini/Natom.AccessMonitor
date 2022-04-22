@@ -84,6 +84,7 @@
     <Build Include="dbo\Stored procedures\sp_panorama_porcentajes.sql" />
     <Build Include="dbo\Tables\ClienteCobranza.sql" />
     <Build Include="dbo\Tables\ClienteMonto.sql" />
+    <Build Include="dbo\Stored procedures\sp_movements_processed_select_by_client_and_range_date.sql" />
   </ItemGroup>
   <ItemGroup>
     <SqlCmdVariable Include="DB_SECURITY">

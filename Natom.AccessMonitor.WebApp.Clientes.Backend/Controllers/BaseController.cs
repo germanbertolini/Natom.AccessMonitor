@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Natom.AccessMonitor.Core.Biz.Managers;
 using Natom.Extensions.Auth.Entities;
@@ -16,6 +17,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
     public class BaseController : ControllerBase
     {
         protected readonly IServiceProvider _serviceProvider;
+        protected readonly IWebHostEnvironment _hostingEnvironment;
         protected readonly ConfigurationService _configurationService;
         protected readonly LoggerService _loggerService;
         protected readonly Transaction _transaction;
@@ -31,6 +33,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
 
             _configurationService = (ConfigurationService)serviceProvider.GetService(typeof(ConfigurationService));
             _loggerService = (LoggerService)serviceProvider.GetService(typeof(LoggerService));
+
+            _hostingEnvironment = (IWebHostEnvironment)serviceProvider.GetService(typeof(IWebHostEnvironment));
 
             _accessToken = (AccessToken)serviceProvider.GetService(typeof(AccessToken));
             _transaction = (Transaction)serviceProvider.GetService(typeof(Transaction));

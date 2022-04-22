@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Natom.Extensions.Configuration.Services;
 
 namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
 {
@@ -21,6 +22,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IHttpContextAccessor _accessor;
+        private readonly ConfigurationService _configurationService;
         private readonly LoggerService _loggerService;
         private readonly AuthService _authService;
         private readonly AccessToken _accessToken;
@@ -40,6 +42,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
             _accessor = (IHttpContextAccessor)serviceProvider.GetService(typeof(IHttpContextAccessor));
             _transaction = (Transaction)serviceProvider.GetService(typeof(Transaction));
             _accessToken = (AccessToken)serviceProvider.GetService(typeof(AccessToken));
+            _configurationService = (ConfigurationService)serviceProvider.GetService(typeof(ConfigurationService));
         }
 
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
@@ -85,13 +88,25 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Filters
                 else
                 {
                     var headerValuesForAuthorization = context.HttpContext.Request.Headers["Authorization"];
-                    if (headerValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(headerValuesForAuthorization.ToString()))
-                        throw new HandledException("Se debe enviar el 'Authorization'.");
+                    var cookieValuesForAuthorization = context.HttpContext.Request.Cookies["Authorization"];
+                    var authorization = string.Empty;
 
-                    if (!headerValuesForAuthorization.ToString().StartsWith("Bearer"))
+                    if (!(headerValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(headerValuesForAuthorization.ToString())))
+                        authorization = headerValuesForAuthorization.ToString();
+                    else if (!(cookieValuesForAuthorization == null || cookieValuesForAuthorization.Count() == 0 || string.IsNullOrEmpty(cookieValuesForAuthorization.ToString())))
+                        authorization = cookieValuesForAuthorization.ToString();
+
+                    if (string.IsNullOrEmpty(authorization))
+                    {
+                        string appUrl = _configurationService.GetValueAsync("WebApp.Clientes.URL").GetAwaiter().GetResult();
+                        context.HttpContext.Response.StatusCode = 307;
+                        context.Result = new RedirectResult(appUrl);
+                        return;
+                    }
+
+                    if (!authorization.StartsWith("Bearer"))
                         throw new HandledException("'Authorization' inválido.");
 
-                    var authorization = headerValuesForAuthorization.ToString();
                     var accessTokenWithPermissions = await _authService.DecodeAndValidateTokenAsync(_accessToken, authorization);
 
                     _transaction.UserId = _accessToken.UserId;

@@ -8,10 +8,6 @@ import { DocketsComponent } from "./views/dockets/dockets.component";
 import { HomeComponent } from "./views/home/home.component";
 import { MeOrganizationComponent } from "./views/me/organization/me-organization.component";
 import { MeProfileComponent } from "./views/me/profile/me-profile.component";
-import { Query1AComponent } from "./views/queries/1/A/query-1-a.component";
-import { Query1BComponent } from "./views/queries/1/B/query-1-b.component";
-import { ReportsAttendanceByDeviceComponent } from "./views/reports/attendance/reports-attendance-by-device.component";
-import { ReportsWorkedHoursByDocketComponent } from "./views/reports/worked-hours/reports-worked-hours-by-docket.component";
 import { ErrorPageComponent } from "./views/error-page/error-page.component";
 import { LoginComponent } from "./views/login/login.component";
 import { UsersComponent } from "./views/users/users.component";
@@ -31,6 +27,8 @@ import { GoalsComponent } from "./views/goals/goals.component";
 import { HorarioCrudComponent } from "./views/horarios/crud/horario-crud.component";
 import { HorariosComponent } from "./views/horarios/horarios.component";
 import { ABMHorariosGuard } from "./guards/horarios.guards";
+import { ReportesReporteMensualHorasTrabajadasComponent } from "./views/reportes/reporte-mensual-horas-trabajadas/reporte-mensual-horas-trabajadas.component";
+import { ReporteHorasTrabajadasMensualesGuard } from "./guards/reportes/reporte-horas-trabajadas-mensuales.guards";
 
 const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, pathMatch: 'full' },
@@ -61,10 +59,7 @@ const appRoutes: Routes = [
     { canActivate: [ AuthGuard, ABMHorariosGuard ], path: 'horarios/:place_id', component: HorariosComponent },
     { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "horarios/:place_id/new", component: HorarioCrudComponent },
     { canActivate: [ AuthGuard, ABMHorariosGuard ], path: "horarios/:place_id/ver/:id", component: HorarioCrudComponent },
-    { canActivate: [ AuthGuard ], path: "queries/1/a", component: Query1AComponent },
-    { canActivate: [ AuthGuard ], path: "queries/1/b", component: Query1BComponent },
-    { canActivate: [ AuthGuard ], path: "reports/attendance/by_device", component: ReportsAttendanceByDeviceComponent },
-    { canActivate: [ AuthGuard ], path: "reports/worked-hours/by_docket/:id", component: ReportsWorkedHoursByDocketComponent }
+    { canActivate: [ AuthGuard, ReporteHorasTrabajadasMensualesGuard ], path: "reportes/reporte-mensual-horas-trabajadas", component: ReportesReporteMensualHorasTrabajadasComponent }
 ]
 
 @NgModule({

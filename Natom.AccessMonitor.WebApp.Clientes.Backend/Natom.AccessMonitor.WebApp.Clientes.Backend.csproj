@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.Reporting" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.13" />
     <PackageReference Include="Natom.Extensions.Auth" Version="1.0.1" />
     <PackageReference Include="Natom.Extensions.Logger" Version="1.0.1" />
@@ -16,8 +17,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Reporting\DataSetReporting.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DataSetReporting.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="EmailTemplates\Default.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Reporting\DataSetReporting.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSetReporting.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
