@@ -37,9 +37,9 @@ as (select * from (values
 ('RabbitMQ.Password', '1234', 'Credenciales RabbitMQ'),
 ('RabbitMQ.EnabbleSSL', 'False', 'Si utilizar o no SSL en la conexión a RabbitMQ'),
 ('Mailing.SenderName', 'BioAnviz+', 'Servicio de mailing: Nombre fantasia emisor'),
-('Mailing.SMTP.User', 'no-reply@w1362013.ferozo.com', 'Servicio de mailing: Usuario SMTP'),
-('Mailing.SMTP.Password', '6uC/Vz78qJ', 'Servicio de mailing: Clave del usuario SMTP'),
-('Mailing.SMTP.Host', 'mail.w1362013.ferozo.com', 'Servicio de mailing: Dirección Host SMTP'),
+('Mailing.SMTP.User', 'no-reply@natom.com.ar', 'Servicio de mailing: Usuario SMTP'),
+('Mailing.SMTP.Password', '@/yzN*o6wS', 'Servicio de mailing: Clave del usuario SMTP'),
+('Mailing.SMTP.Host', 'sd-1987764-l.dattaweb.com', 'Servicio de mailing: Dirección Host SMTP'),
 ('Mailing.SMTP.Port', '587', 'Servicio de mailing: Puerto Host SMTP'),
 ('Mailing.SMTP.EnableSSL', 'False', 'Servicio de mailing: Usar SMTP con SSL')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
