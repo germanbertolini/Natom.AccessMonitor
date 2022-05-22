@@ -23,7 +23,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         // GET: reportes/listados/reporte-mensual-horas-trabajadas?desde={desde}&hasta={hasta}
         [HttpGet]
         [ActionName("listados/reporte-mensual-horas-trabajadas")]
-        public async Task<IActionResult> GetReporteMensualHorasTrabajadasAsync([FromQuery] string desde, [FromQuery] string hasta)
+        public async Task<IActionResult> GetReporteMensualHorasTrabajadasAsync([FromQuery] string desde, [FromQuery] string hasta, [FromQuery] int? docketId = null)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                     throw new HandledException("El rango de dias a consultar no puede ser mayor a 35 dias");
 
                 var manager = new ReportingManager(_serviceProvider);
-                var data = manager.GetDatosReporteMensualHorasTrabajadas(_accessToken.ClientId ?? -1, _desde, _hasta);
+                var data = manager.GetDatosReporteMensualHorasTrabajadas(_accessToken.ClientId ?? -1, _desde, _hasta, docketId);
 
                 string mimtype = "";
                 int extension = 1;
@@ -66,7 +66,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
         // GET: reportes/listados/estadistica-asistencia?desde={desde}&hasta={hasta}
         [HttpGet]
         [ActionName("listados/estadistica-asistencia")]
-        public async Task<IActionResult> GetEstadisticaAsistenciaAsync([FromQuery] string desde, [FromQuery] string hasta)
+        public async Task<IActionResult> GetEstadisticaAsistenciaAsync([FromQuery] string desde, [FromQuery] string hasta, [FromQuery] int? docketId = null)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                     throw new HandledException("Fecha 'Desde' no puede ser mayor a fecha 'Hasta'");
 
                 var manager = new ReportingManager(_serviceProvider);
-                var data = manager.GetDatosEstadisticaAsistencia(_accessToken.ClientId ?? -1, _desde, _hasta);
+                var data = manager.GetDatosEstadisticaAsistencia(_accessToken.ClientId ?? -1, _desde, _hasta, docketId);
 
                 string mimtype = "";
                 int extension = 1;

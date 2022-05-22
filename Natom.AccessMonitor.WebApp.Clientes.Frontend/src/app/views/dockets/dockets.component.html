@@ -42,7 +42,7 @@
             <td>{{ docket.employee_title }}</td>
             <td>
               <a class="btn btn-secondary btn-sm download-monthly-schedule-smt-btn"  href="/assets/docs/CronogramaMensualAsistencia.pdf" data-toggle="tooltip" data-placement="top" title="Descargar cronograma mensual de asistencia"><i class="fa fa-calendar-times-o" aria-hidden="true"></i></a>
-              <a class="btn btn-secondary btn-sm download-invoice-smt-btn spacingLeft" href="/assets/docs/ReciboSueldo.jpeg" data-toggle="tooltip" data-placement="top" title="Descargar recibo de sueldo"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
+              <!-- <a class="btn btn-secondary btn-sm download-invoice-smt-btn spacingLeft" href="/assets/docs/ReciboSueldo.jpeg" data-toggle="tooltip" data-placement="top" title="Descargar recibo de sueldo"><i class="fa fa-file-text-o" aria-hidden="true"></i></a> -->
               <a class="btn btn-warning btn-sm report-worked-hours-smt-btn spacingLeft" (click)="onReportWorkedHoursClick(docket.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Ver reporte Horas trabajadas"><i class="fa fa-bar-chart" aria-hidden="true"></i></a>
               <a class="btn btn-primary btn-sm edit-smt-btn spacingLeft" (click)="onEditClick(docket.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a>
               <a *ngIf="docket.activo" class="btn btn-danger btn-sm disable-smt-btn spacingLeft" (click)="onDisableClick(docket.encrypted_id)" data-toggle="tooltip" data-placement="top" title="Dar de baja"><i class="fa fa-times" aria-hidden="true"></i></a>

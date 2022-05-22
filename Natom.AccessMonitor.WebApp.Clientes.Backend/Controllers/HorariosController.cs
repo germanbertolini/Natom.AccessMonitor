@@ -174,8 +174,17 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
             }
             catch (Exception ex)
             {
-                _loggerService.LogException(_transaction.TraceTransactionId, ex);
-                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+                if (ex.Message.Contains("zMovement_Client"))
+                    return Ok(new ApiResultDTO<PanoramaActualDTO>
+                    {
+                        Success = true,
+                        Data = new PanoramaActualDTO()
+                    });
+                else
+                {
+                    _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                    return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+                }
             }
         }
 
@@ -208,8 +217,17 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
             }
             catch (Exception ex)
             {
-                _loggerService.LogException(_transaction.TraceTransactionId, ex);
-                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+                if (ex.Message.Contains("zMovement_Client"))
+                    return Ok(new ApiResultDTO<PanoramaPorcentajesDTO>
+                    {
+                        Success = true,
+                        Data = new PanoramaPorcentajesDTO()
+                    });
+                else
+                {
+                    _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                    return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+                }
             }
         }
     }

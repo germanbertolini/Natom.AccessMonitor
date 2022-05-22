@@ -52,7 +52,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Auth
             FirstName = entity.Nombre;
             LastName = entity.Apellido;
             Email = entity.Email;
-            PictureURL = "/assets/img/user.png";
+            PictureURL = "assets/img/user.png";
             RegisteredAt = entity.FechaHoraAlta;
             Status = status;
             Permisos = entity.Permisos?.Select(permiso => EncryptionService.Encrypt<Permiso>(permiso.PermisoId)).ToList();

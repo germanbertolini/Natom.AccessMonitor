@@ -424,9 +424,9 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Left>9.1167cm</Left>
+            <Left>8.38333cm</Left>
             <Height>1.01417cm</Height>
-            <Width>9.6133cm</Width>
+            <Width>10.6533cm</Width>
             <Style>
               <Border>
                 <Style>None</Style>
@@ -4971,6 +4971,39 @@
               <Left>25.26453cm</Left>
               <Height>0.69042cm</Height>
               <Width>3.389cm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox3">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>BioAnviz+  |   Powered by Natom technologies</Value>
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox3</rd:DefaultName>
+              <Top>0.1056cm</Top>
+              <Left>0.21cm</Left>
+              <Height>0.6cm</Height>
+              <Width>7.68583cm</Width>
+              <ZIndex>1</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
