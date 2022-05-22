@@ -102,5 +102,48 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
                 return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
             }
         }
+
+        // GET: reportes/listados/mensual-asistencia?desde={desde}&hasta={hasta}
+        [HttpGet]
+        [ActionName("listados/mensual-asistencia")]
+        public async Task<IActionResult> GetMensualAsistenciaAsync([FromQuery] string desde, [FromQuery] string hasta, [FromQuery] int docketId)
+        {
+            try
+            {
+                DateTime _desde = DateTime.ParseExact(desde, "d/M/yyyy", CultureInfo.InvariantCulture);
+                DateTime _hasta = DateTime.ParseExact(hasta, "d/M/yyyy", CultureInfo.InvariantCulture);
+
+                if (_hasta < _desde)
+                    throw new HandledException("Fecha 'Desde' no puede ser mayor a fecha 'Hasta'");
+
+                if ((_hasta - _desde).TotalDays > 35)
+                    throw new HandledException("El rango de dias a consultar no puede ser mayor a 35 dias");
+
+                var manager = new ReportingManager(_serviceProvider);
+                var data = manager.GetDatosMensualAsistencia(_accessToken.ClientId ?? -1, _desde, _hasta, docketId);
+
+                string mimtype = "";
+                int extension = 1;
+                Dictionary<string, string> parameters = new Dictionary<string, string>();
+                var path = Path.Combine(_hostingEnvironment.ContentRootPath, "Reporting", "MensualAsistenciaReport.rdlc");
+                var report = new LocalReport(path);
+                report.AddDataSource("DataSet1", data);
+
+                parameters.Add("Desde", _desde.ToString("dd/MM/yyyy"));
+                parameters.Add("Hasta", _hasta.ToString("dd/MM/yyyy"));
+
+                var result = report.Execute(RenderType.Pdf, extension, parameters, mimtype);
+                return File(result.MainStream, "application/pdf");
+            }
+            catch (HandledException ex)
+            {
+                return Ok(new ApiResultDTO { Success = false, Message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                _loggerService.LogException(_transaction.TraceTransactionId, ex);
+                return Ok(new ApiResultDTO { Success = false, Message = "Se ha producido un error interno." });
+            }
+        }
     }
 }

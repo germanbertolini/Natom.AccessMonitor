@@ -10,8 +10,12 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
 {
     public class ReportingManager : BaseManager
     {
+        private int _minutosMinimoParaSerHoraExtra { get; set; }
+
         public ReportingManager(IServiceProvider serviceProvider) : base(serviceProvider)
-        { }
+        {
+            _minutosMinimoParaSerHoraExtra = Convert.ToInt32(_configuration.GetValueAsync("Reporting.Tolerancias.MinutosMinimoParaSerHoraExtra").GetAwaiter().GetResult());
+        }
 
         public List<spMovementsProcessedSelectByClientAndRangeDateResult> GetMovementsProcessed(int clienteId, DateTime fromDate, DateTime toDate, int? docketId = null)
                             => _db.spMovementsProcessedSelectByClientAndRangeDateResult
@@ -230,7 +234,7 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                                                     ExpectedWorkedTimeInMinutes = (int)v2.Sum(d => d.ExpectedPermanenceTime.TotalMinutes),
                                                     WorkedTimeInMinutes = (int)v2.Where(d => d.PermanenceTime.HasValue).Sum(d => d.PermanenceTime.Value.TotalMinutes),
                                                     LLegadaTardeMinutos = (int)v2.Where(d => d.In.HasValue).Sum(d => (d.In.Value - d.ExpectedInDateTime).TotalMinutes),
-                                                    SalidasTempranoMinutos = (int)v2.Where(d => d.Out.HasValue && d.OutWasEstimated == false).Sum(d => (d.ExpectedInDateTime - d.Out.Value).TotalMinutes),
+                                                    SalidasTempranoMinutos = (int)v2.Where(d => d.Out.HasValue && d.OutWasEstimated == false).Sum(d => (d.ExpectedOutDateTime - d.Out.Value).TotalMinutes),
                                                     LLegadasTarde = v2.Count(d => d.In.HasValue && d.In.Value > d.ExpectedInDateTime),
                                                     SalidasTempranas = v2.Count(d => d.Out.HasValue && d.OutWasEstimated == false && d.Out.Value < d.ExpectedOutDateTime)
                                                 })
@@ -253,13 +257,146 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                 obj.DiasAusente = docket.Jornadas.Where(j => j.Ausente).Count();
                 obj.DiasLLegadasTarde = docket.Jornadas.Sum(j => j.LLegadasTarde);
                 obj.DiasSalidasTemprano = docket.Jornadas.Sum(j => j.SalidasTempranas);
-                obj.TiempoExtraHoras = Math.Round((decimal)docket.Jornadas.Where(j => j.WorkedTimeInMinutes + 10 > j.ExpectedWorkedTimeInMinutes).Sum(j => j.WorkedTimeInMinutes - j.ExpectedWorkedTimeInMinutes) / 60, 2);
+                obj.TiempoExtraHoras = Math.Round((decimal)docket.Jornadas.Where(j => j.WorkedTimeInMinutes + _minutosMinimoParaSerHoraExtra > j.ExpectedWorkedTimeInMinutes).Sum(j => j.WorkedTimeInMinutes - j.ExpectedWorkedTimeInMinutes) / 60, 2);
 
                 result.Add(obj);
             }
 
 
             return result;
+        }
+
+        public List<spReporteMensualAsistenciaResult> GetDatosMensualAsistencia(int clienteId, DateTime fromDate, DateTime toDate, int docketId)
+        {
+            var result = new List<spReporteMensualAsistenciaResult>();
+            var data = GetMovementsProcessed(clienteId, fromDate, toDate, docketId);
+            var groupByJournal = data.GroupBy(jornal => new { Name = $"{jornal.LastName}, {jornal.FirstName}", jornal.DocketNumber, jornal.Title, Date = jornal.Date },
+                                            (k, v) => new
+                                            {
+                                                k.Name,
+                                                k.DocketNumber,
+                                                k.Title,
+                                                k.Date,
+                                                Turnos = v
+                                            }).OrderBy(d => d.Title).ThenBy(d => d.Name);
+
+
+            var docketData = groupByJournal.FirstOrDefault();
+            DateTime date = fromDate;
+            while (date <= toDate)
+            {
+                var jornada = groupByJournal.FirstOrDefault(j => j.Date.Date == date.Date);
+                var turno1 = jornada?.Turnos.ElementAtOrDefault(0);
+                var turno2 = jornada?.Turnos.ElementAtOrDefault(1);
+
+                var turno1LLegadaTardeMins = 0;
+                var turno1SalidaTempranaMins = 0;
+                var turno1TiempoExtraMins = 0;
+                var turno1TiempoTrabajadoMins = (int?)null;
+                var turno1TiempoNoTrabajadoMins = (int?)null;
+
+                var turno2LLegadaTardeMins = 0;
+                var turno2SalidaTempranaMins = 0;
+                var turno2TiempoExtraMins = 0;
+                var turno2TiempoTrabajadoMins = (int?)null;
+                var turno2TiempoNoTrabajadoMins = (int?)null;
+
+                //////////////////////////////////////////////
+                //LOGICA TURNO 1
+                if (turno1 != null && turno1.In.HasValue && turno1.In.Value > turno1.ExpectedInDateTime)
+                    turno1LLegadaTardeMins = (int)(turno1.In.Value - turno1.ExpectedInDateTime).TotalMinutes;
+
+                if (turno1 != null && turno1.Out.HasValue && turno1.OutWasEstimated == false && turno1.Out.Value < turno1.ExpectedOutDateTime)
+                    turno1SalidaTempranaMins = (int)(turno1.ExpectedOutDateTime - turno1.Out.Value).TotalMinutes;
+
+                if (turno1 != null && turno1.PermanenceTime != null)
+                {
+                    turno1TiempoExtraMins = (int)(turno1.PermanenceTime.Value - turno1.ExpectedPermanenceTime).TotalMinutes;
+                    if (turno1TiempoExtraMins + _minutosMinimoParaSerHoraExtra < 10)
+                        turno1TiempoExtraMins = 0;
+                    turno1TiempoTrabajadoMins = (int)turno1.PermanenceTime.Value.TotalMinutes;
+                }
+
+                if (turno1TiempoTrabajadoMins != null)
+                {
+                    turno1TiempoNoTrabajadoMins = (int)turno1.ExpectedPermanenceTime.TotalMinutes - turno1TiempoTrabajadoMins;
+                    if (turno1TiempoNoTrabajadoMins < _minutosMinimoParaSerHoraExtra)
+                        turno1TiempoNoTrabajadoMins = 0;
+                }
+
+                //////////////////////////////////////////////
+                //LOGICA TURNO 2
+                if (turno2 != null && turno2.In.HasValue && turno2.In.Value > turno2.ExpectedInDateTime)
+                    turno2LLegadaTardeMins = (int)(turno2.In.Value - turno2.ExpectedInDateTime).TotalMinutes;
+
+                if (turno2 != null && turno2.Out.HasValue && turno2.OutWasEstimated == false && turno2.Out.Value < turno2.ExpectedOutDateTime)
+                    turno2SalidaTempranaMins = (int)(turno2.ExpectedOutDateTime - turno2.Out.Value).TotalMinutes;
+
+                if (turno2 != null && turno2.PermanenceTime != null)
+                {
+                    turno2TiempoExtraMins = (int)(turno2.PermanenceTime.Value - turno2.ExpectedPermanenceTime).TotalMinutes;
+                    if (turno2TiempoExtraMins + _minutosMinimoParaSerHoraExtra < 10)
+                        turno2TiempoExtraMins = 0;
+                    turno2TiempoTrabajadoMins = (int)turno2.PermanenceTime.Value.TotalMinutes;
+                }
+
+                if (turno2TiempoTrabajadoMins != null)
+                {
+                    turno2TiempoNoTrabajadoMins = (int)turno2.ExpectedPermanenceTime.TotalMinutes - turno2TiempoTrabajadoMins;
+                    if (turno2TiempoNoTrabajadoMins < _minutosMinimoParaSerHoraExtra)
+                        turno2TiempoNoTrabajadoMins = 0;
+                }
+
+                //////////////////////////////////////////////
+                //ARMAMOS OBJETO CON LOS DATOS
+                var obj = new spReporteMensualAsistenciaResult();
+                obj.Empleado = docketData?.Name;
+                obj.Legajo = docketData?.DocketNumber;
+                obj.Cargo = docketData?.Title;
+                obj.DiaSemana = GetDiaSemana(date);
+                obj.FechaJornada = date.ToString("dd/MM/yyyy");
+                obj.Turno1Entrada = turno1?.In?.TimeOfDay.ToString(@"hh\:mm");
+                obj.Turno1Salida = turno1?.Out?.TimeOfDay.ToString(@"hh\:mm") + ((turno1?.OutWasEstimated ?? false) ? "" : " *");   //SI ES SALIDA ESTIMADA LE PONEMOS UN ASTERISCO
+                obj.Turno1Entrada = turno2?.In?.TimeOfDay.ToString(@"hh\:mm");
+                obj.Turno1Salida = turno2?.Out?.TimeOfDay.ToString(@"hh\:mm") + ((turno1?.OutWasEstimated ?? false) ? "" : " *");   //SI ES SALIDA ESTIMADA LE PONEMOS UN ASTERISCO
+                obj.LLegadaTardeHoras = Math.Round((decimal)(turno1LLegadaTardeMins + turno2LLegadaTardeMins) / 60, 2);
+                obj.SalidaTempranaHoras = Math.Round((decimal)(turno1SalidaTempranaMins + turno2SalidaTempranaMins) / 60, 2);
+                obj.TiempoExtraHoras = Math.Round((decimal)(turno1TiempoExtraMins + turno2TiempoExtraMins) / 60, 2);
+                obj.AusenteHoras = turno1TiempoNoTrabajadoMins == null && turno2TiempoNoTrabajadoMins == null ? (decimal)0 : Math.Round((decimal)((turno1TiempoNoTrabajadoMins ?? 0) + (turno2TiempoNoTrabajadoMins ?? 0)) / 60, 2);
+                obj.TrabajadasHoras = turno1TiempoTrabajadoMins == null && turno2TiempoTrabajadoMins == null ? (decimal)0 : Math.Round((decimal)((turno1TiempoTrabajadoMins ?? 0) + (turno2TiempoTrabajadoMins ?? 0)) / 60, 2);
+
+                //CASO DOBLE TURNO
+                if (turno1 != null && turno2 != null)
+                    obj.DiaTrabajado = (decimal)(turno1.PermanenceTime.HasValue ? 0.5 : 0) + (decimal)(turno2.PermanenceTime.HasValue ? 0.5 : 0);
+                //CASO UNICO TURNO
+                else if (turno1 != null)
+                    obj.DiaTrabajado = (decimal)(turno1.PermanenceTime.HasValue ? 1 : 0);
+
+                obj.VecesLLegadasTarde = (turno1LLegadaTardeMins > 0 ? 1 : 0) + (turno2LLegadaTardeMins > 0 ? 1 : 0);
+                obj.VecesSalidasTemprano = (turno1SalidaTempranaMins > 0 ? 1 : 0) + (turno2SalidaTempranaMins > 0 ? 1 : 0);
+
+                result.Add(obj);
+
+                date = date.AddDays(1);
+            }
+
+
+            return result;
+        }
+
+        private string GetDiaSemana(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Monday:      return "Lun";
+                case DayOfWeek.Tuesday:     return "Mar";
+                case DayOfWeek.Wednesday:   return "Mie";
+                case DayOfWeek.Thursday:    return "Jue";
+                case DayOfWeek.Friday:      return "Vie";
+                case DayOfWeek.Saturday:    return "Sab";
+                case DayOfWeek.Sunday:      return "Dom";
+                default: return "";
+            }
         }
     }
 }

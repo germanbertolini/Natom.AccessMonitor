@@ -41,7 +41,8 @@ as (select * from (values
 ('Mailing.SMTP.Password', '@/yzN*o6wS', 'Servicio de mailing: Clave del usuario SMTP'),
 ('Mailing.SMTP.Host', 'sd-1987764-l.dattaweb.com', 'Servicio de mailing: Dirección Host SMTP'),
 ('Mailing.SMTP.Port', '587', 'Servicio de mailing: Puerto Host SMTP'),
-('Mailing.SMTP.EnableSSL', 'False', 'Servicio de mailing: Usar SMTP con SSL')
+('Mailing.SMTP.EnableSSL', 'False', 'Servicio de mailing: Usar SMTP con SSL'),
+('Reporting.Tolerancias.MinutosMinimoParaSerHoraExtra', '10', 'Reporting - Hora Extra: Minutos mìnimos para asumir que es hora extra')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([Clave],[Valor],[Description]))
 merge	[dbo].[Config] as t
