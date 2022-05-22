@@ -2312,6 +2312,10 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
             
             private global::System.Data.DataColumn columnTiempoExtraHoras;
             
+            private global::System.Data.DataColumn columnDiasSalidasTemprano;
+            
+            private global::System.Data.DataColumn columnDiasLLegadasTarde;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public dtSpReporteEstadisticaAsistenciaResultDataTable() {
@@ -2419,6 +2423,22 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DiasSalidasTempranoColumn {
+                get {
+                    return this.columnDiasSalidasTemprano;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DiasLLegadasTardeColumn {
+                get {
+                    return this.columnDiasLLegadasTarde;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -2454,7 +2474,7 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public dtSpReporteEstadisticaAsistenciaResultRow AdddtSpReporteEstadisticaAsistenciaResultRow(string Empleado, string Legajo, string Cargo, int DiasLaborales, int DiasTrabajados, int LLegadasTardeMinutos, int SalidasTempranoMinutos, int DiasAusente, decimal TiempoExtraHoras) {
+            public dtSpReporteEstadisticaAsistenciaResultRow AdddtSpReporteEstadisticaAsistenciaResultRow(string Empleado, string Legajo, string Cargo, int DiasLaborales, int DiasTrabajados, int LLegadasTardeMinutos, int SalidasTempranoMinutos, int DiasAusente, decimal TiempoExtraHoras, int DiasSalidasTemprano, int DiasLLegadasTarde) {
                 dtSpReporteEstadisticaAsistenciaResultRow rowdtSpReporteEstadisticaAsistenciaResultRow = ((dtSpReporteEstadisticaAsistenciaResultRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         Empleado,
@@ -2465,7 +2485,9 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
                         LLegadasTardeMinutos,
                         SalidasTempranoMinutos,
                         DiasAusente,
-                        TiempoExtraHoras};
+                        TiempoExtraHoras,
+                        DiasSalidasTemprano,
+                        DiasLLegadasTarde};
                 rowdtSpReporteEstadisticaAsistenciaResultRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowdtSpReporteEstadisticaAsistenciaResultRow);
                 return rowdtSpReporteEstadisticaAsistenciaResultRow;
@@ -2497,6 +2519,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
                 this.columnSalidasTempranoMinutos = base.Columns["SalidasTempranoMinutos"];
                 this.columnDiasAusente = base.Columns["DiasAusente"];
                 this.columnTiempoExtraHoras = base.Columns["TiempoExtraHoras"];
+                this.columnDiasSalidasTemprano = base.Columns["DiasSalidasTemprano"];
+                this.columnDiasLLegadasTarde = base.Columns["DiasLLegadasTarde"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2520,6 +2544,10 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
                 base.Columns.Add(this.columnDiasAusente);
                 this.columnTiempoExtraHoras = new global::System.Data.DataColumn("TiempoExtraHoras", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTiempoExtraHoras);
+                this.columnDiasSalidasTemprano = new global::System.Data.DataColumn("DiasSalidasTemprano", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDiasSalidasTemprano);
+                this.columnDiasLLegadasTarde = new global::System.Data.DataColumn("DiasLLegadasTarde", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDiasLLegadasTarde);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5716,6 +5744,40 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int DiasSalidasTemprano {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasSalidasTempranoColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DiasSalidasTemprano\' de la tabla \'dtSpReporteEstadisticaA" +
+                                "sistenciaResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasSalidasTempranoColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int DiasLLegadasTarde {
+                get {
+                    try {
+                        return ((int)(this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLLegadasTardeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("El valor de la columna \'DiasLLegadasTarde\' de la tabla \'dtSpReporteEstadisticaAsi" +
+                                "stenciaResult\' es DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLLegadasTardeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsEmpleadoNull() {
                 return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.EmpleadoColumn);
             }
@@ -5820,6 +5882,30 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Reporting {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetTiempoExtraHorasNull() {
                 this[this.tabledtSpReporteEstadisticaAsistenciaResult.TiempoExtraHorasColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDiasSalidasTempranoNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.DiasSalidasTempranoColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDiasSalidasTempranoNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasSalidasTempranoColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDiasLLegadasTardeNull() {
+                return this.IsNull(this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLLegadasTardeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDiasLLegadasTardeNull() {
+                this[this.tabledtSpReporteEstadisticaAsistenciaResult.DiasLLegadasTardeColumn] = global::System.Convert.DBNull;
             }
         }
         

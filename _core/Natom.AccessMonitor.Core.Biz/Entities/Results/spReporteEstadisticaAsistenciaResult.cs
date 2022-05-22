@@ -16,7 +16,8 @@ namespace Natom.AccessMonitor.Core.Biz.Entities.Results
 		public int LLegadasTardeMinutos { get; set; }
 		public int SalidasTempranoMinutos { get; set; }
 		public int DiasAusente { get; set; }
+		public int DiasSalidasTemprano { get; set; }
+		public int DiasLLegadasTarde { get; set; }
 		public decimal TiempoExtraHoras { get; set; }
-
-	}
+    }
 }

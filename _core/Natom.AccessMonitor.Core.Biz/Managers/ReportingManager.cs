@@ -230,7 +230,9 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                                                     ExpectedWorkedTimeInMinutes = (int)v2.Sum(d => d.ExpectedPermanenceTime.TotalMinutes),
                                                     WorkedTimeInMinutes = (int)v2.Where(d => d.PermanenceTime.HasValue).Sum(d => d.PermanenceTime.Value.TotalMinutes),
                                                     LLegadaTardeMinutos = (int)v2.Where(d => d.In.HasValue).Sum(d => (d.In.Value - d.ExpectedInDateTime).TotalMinutes),
-                                                    SalidasTempranoMinutos = (int)v2.Where(d => d.Out.HasValue && d.OutWasEstimated == false).Sum(d => (d.ExpectedInDateTime - d.Out.Value).TotalMinutes)
+                                                    SalidasTempranoMinutos = (int)v2.Where(d => d.Out.HasValue && d.OutWasEstimated == false).Sum(d => (d.ExpectedInDateTime - d.Out.Value).TotalMinutes),
+                                                    LLegadasTarde = v2.Count(d => d.In.HasValue && d.In.Value > d.ExpectedInDateTime),
+                                                    SalidasTempranas = v2.Count(d => d.Out.HasValue && d.OutWasEstimated == false && d.Out.Value < d.ExpectedOutDateTime)
                                                 })
                                             }).OrderBy(d => d.Title).ThenBy(d => d.Name);
 
@@ -249,6 +251,8 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                 obj.LLegadasTardeMinutos = docket.Jornadas.Sum(j => j.LLegadaTardeMinutos);
                 obj.SalidasTempranoMinutos = docket.Jornadas.Sum(j => j.SalidasTempranoMinutos);
                 obj.DiasAusente = docket.Jornadas.Where(j => j.Ausente).Count();
+                obj.DiasLLegadasTarde = docket.Jornadas.Sum(j => j.LLegadasTarde);
+                obj.DiasSalidasTemprano = docket.Jornadas.Sum(j => j.SalidasTempranas);
                 obj.TiempoExtraHoras = Math.Round((decimal)docket.Jornadas.Where(j => j.WorkedTimeInMinutes + 10 > j.ExpectedWorkedTimeInMinutes).Sum(j => j.WorkedTimeInMinutes - j.ExpectedWorkedTimeInMinutes) / 60, 2);
 
                 result.Add(obj);
