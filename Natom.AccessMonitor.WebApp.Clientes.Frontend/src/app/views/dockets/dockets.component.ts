@@ -6,6 +6,7 @@ import { DataTableDTO } from "src/app/classes/data-table-dto";
 import { DocketListDTO } from "src/app/classes/dto/dockets/docket-list.dto";
 import { ApiResult } from "src/app/classes/dto/shared/api-result.dto";
 import { ApiService } from "src/app/services/api.service";
+import { AuthService } from "src/app/services/auth.service";
 import { DataTablesResponse } from '../../classes/data-tables-response';
 import { ConfirmDialogService } from "../../components/confirm-dialog/confirm-dialog.service";
 
@@ -25,7 +26,8 @@ export class DocketsComponent implements OnInit {
   constructor(private apiService: ApiService,
               private routerService: Router,
               private notifierService: NotifierService,
-              private confirmDialogService: ConfirmDialogService) {
+              private confirmDialogService: ConfirmDialogService,
+              private authService: AuthService) {
     this.filterStatusValue = "ACTIVOS";
   }
 

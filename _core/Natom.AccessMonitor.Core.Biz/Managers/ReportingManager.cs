@@ -353,17 +353,17 @@ namespace Natom.AccessMonitor.Core.Biz.Managers
                 obj.Empleado = docketData?.Name;
                 obj.Legajo = docketData?.DocketNumber;
                 obj.Cargo = docketData?.Title;
-                obj.DiaSemana = GetDiaSemana(date);
+                obj.DiaSemana = GetDiaSemana(date).ToUpper();
                 obj.FechaJornada = date.ToString("dd/MM/yyyy");
-                obj.Turno1Entrada = turno1?.In?.TimeOfDay.ToString(@"hh\:mm");
-                obj.Turno1Salida = turno1?.Out?.TimeOfDay.ToString(@"hh\:mm") + ((turno1?.OutWasEstimated ?? false) ? "" : " *");   //SI ES SALIDA ESTIMADA LE PONEMOS UN ASTERISCO
-                obj.Turno1Entrada = turno2?.In?.TimeOfDay.ToString(@"hh\:mm");
-                obj.Turno1Salida = turno2?.Out?.TimeOfDay.ToString(@"hh\:mm") + ((turno1?.OutWasEstimated ?? false) ? "" : " *");   //SI ES SALIDA ESTIMADA LE PONEMOS UN ASTERISCO
-                obj.LLegadaTardeHoras = Math.Round((decimal)(turno1LLegadaTardeMins + turno2LLegadaTardeMins) / 60, 2);
-                obj.SalidaTempranaHoras = Math.Round((decimal)(turno1SalidaTempranaMins + turno2SalidaTempranaMins) / 60, 2);
-                obj.TiempoExtraHoras = Math.Round((decimal)(turno1TiempoExtraMins + turno2TiempoExtraMins) / 60, 2);
-                obj.AusenteHoras = turno1TiempoNoTrabajadoMins == null && turno2TiempoNoTrabajadoMins == null ? (decimal)0 : Math.Round((decimal)((turno1TiempoNoTrabajadoMins ?? 0) + (turno2TiempoNoTrabajadoMins ?? 0)) / 60, 2);
-                obj.TrabajadasHoras = turno1TiempoTrabajadoMins == null && turno2TiempoTrabajadoMins == null ? (decimal)0 : Math.Round((decimal)((turno1TiempoTrabajadoMins ?? 0) + (turno2TiempoTrabajadoMins ?? 0)) / 60, 2);
+                obj.Turno1Entrada = turno1?.In?.TimeOfDay == null ? "-" : turno1?.In?.TimeOfDay.ToString(@"hh\:mm");
+                obj.Turno1Salida = turno1?.Out?.TimeOfDay == null ? "-" : turno1?.Out?.TimeOfDay.ToString(@"hh\:mm") + ((turno1?.OutWasEstimated ?? false) ? " *" : "");   //SI ES SALIDA ESTIMADA LE PONEMOS UN ASTERISCO
+                obj.Turno2Entrada = turno2?.In?.TimeOfDay == null ? "-" : turno2?.In?.TimeOfDay.ToString(@"hh\:mm") ?? "";
+                obj.Turno2Salida = turno2?.Out?.TimeOfDay == null ? "-" : turno2?.Out?.TimeOfDay.ToString(@"hh\:mm") + ((turno2?.OutWasEstimated ?? false) ? " *" : "");   //SI ES SALIDA ESTIMADA LE PONEMOS UN ASTERISCO
+                obj.LLegadaTardeHoras = Math.Round((decimal)(turno1LLegadaTardeMins + turno2LLegadaTardeMins) / 60, 1);
+                obj.SalidaTempranaHoras = Math.Round((decimal)(turno1SalidaTempranaMins + turno2SalidaTempranaMins) / 60, 1);
+                obj.TiempoExtraHoras = Math.Round((decimal)(turno1TiempoExtraMins + turno2TiempoExtraMins) / 60, 1);
+                obj.AusenteHoras = turno1TiempoNoTrabajadoMins == null && turno2TiempoNoTrabajadoMins == null ? (decimal)0 : Math.Round((decimal)((turno1TiempoNoTrabajadoMins ?? 0) + (turno2TiempoNoTrabajadoMins ?? 0)) / 60, 1);
+                obj.TrabajadasHoras = turno1TiempoTrabajadoMins == null && turno2TiempoTrabajadoMins == null ? (decimal)0 : Math.Round((decimal)((turno1TiempoTrabajadoMins ?? 0) + (turno2TiempoTrabajadoMins ?? 0)) / 60, 1);
 
                 //CASO DOBLE TURNO
                 if (turno1 != null && turno2 != null)

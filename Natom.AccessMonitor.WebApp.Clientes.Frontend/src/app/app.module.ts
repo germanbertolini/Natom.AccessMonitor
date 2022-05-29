@@ -53,6 +53,7 @@ import { HorarioCrudComponent } from './views/horarios/crud/horario-crud.compone
 import { HorariosComponent } from './views/horarios/horarios.component';
 import { ReportesReporteMensualHorasTrabajadasComponent } from './views/reportes/reporte-mensual-horas-trabajadas/reporte-mensual-horas-trabajadas.component';
 import { ReportesEstadisticaAsistenciaComponent } from './views/reportes/estadistica-asistencia/estadistica-asistencia.component';
+import { ReportesAsistenciaMensualComponent } from './views/reportes/asistencia-mensual/asistencia-mensual.component';
 
 export function OnInit(jsonAppConfigService: JsonAppConfigService) {
   return () => {
@@ -87,6 +88,7 @@ export function OnInit(jsonAppConfigService: JsonAppConfigService) {
     DevicesSyncConfigComponent,
     ReportesReporteMensualHorasTrabajadasComponent,
     ReportesEstadisticaAsistenciaComponent,
+    ReportesAsistenciaMensualComponent,
     ConfirmDialogComponent,
     SpinnerLoadingComponent
   ],

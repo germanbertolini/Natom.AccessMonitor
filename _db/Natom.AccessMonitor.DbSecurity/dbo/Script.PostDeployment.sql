@@ -19,7 +19,8 @@ as (select * from (values
 ('abm_places_goals', 'WebApp.Clientes', 'Administrar Plantas / Porterías'),
 ('abm_places_horarios', 'WebApp.Clientes', 'Administrar Horarios / Tolerancias'),
 ('reportes_ver_horas_trabajadas_mes', 'WebApp.Clientes', 'Reportes: Ver horas trabajadas mensuales'),
-('reportes_estadistica_asistencia', 'WebApp.Clientes', 'Reportes: Estadística de asistencia')
+('reportes_estadistica_asistencia', 'WebApp.Clientes', 'Reportes: Estadística de asistencia'),
+('reportes_ver_asistencia_mensual', 'WebApp.Clientes', 'Reportes: Asistencia mensual')
 --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 )c([PermisoId],[Scope],[Descripcion]))
 merge	[dbo].[Permiso] as t

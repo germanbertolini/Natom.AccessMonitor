@@ -1,7 +1,9 @@
 ﻿using AspNetCore.Reporting;
 using Microsoft.AspNetCore.Mvc;
+using Natom.AccessMonitor.Core.Biz.Entities.Models;
 using Natom.AccessMonitor.Core.Biz.Managers;
 using Natom.AccessMonitor.WebApp.Clientes.Backend.DTO;
+using Natom.AccessMonitor.WebApp.Clientes.Backend.Services;
 using Natom.Extensions.Common.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -103,13 +105,15 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.Controllers
             }
         }
 
-        // GET: reportes/listados/mensual-asistencia?desde={desde}&hasta={hasta}
+        // GET: reportes/listados/mensual-asistencia?desde={desde}&hasta={hasta}&encryptedId={encryptedId}
         [HttpGet]
         [ActionName("listados/mensual-asistencia")]
-        public async Task<IActionResult> GetMensualAsistenciaAsync([FromQuery] string desde, [FromQuery] string hasta, [FromQuery] int docketId)
+        public async Task<IActionResult> GetMensualAsistenciaAsync([FromQuery] string desde, [FromQuery] string hasta, [FromQuery] string encryptedId)
         {
             try
             {
+                var docketId = EncryptionService.Decrypt<int, Docket>(Uri.UnescapeDataString(encryptedId));
+
                 DateTime _desde = DateTime.ParseExact(desde, "d/M/yyyy", CultureInfo.InvariantCulture);
                 DateTime _hasta = DateTime.ParseExact(hasta, "d/M/yyyy", CultureInfo.InvariantCulture);
 

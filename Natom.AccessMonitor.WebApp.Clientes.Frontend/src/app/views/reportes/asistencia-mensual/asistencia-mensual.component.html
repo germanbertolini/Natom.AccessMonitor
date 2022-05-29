@@ -1,0 +1,77 @@
+<div class="container-fluid" id="title-crud">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>Asistencia mensual</h3>
+    </div>
+  </div>
+  <hr class="divider" />
+  <br>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Desde</label>
+        <input class="form-control"
+          placeholder="Seleccione..."
+          name="dp"
+          [(ngModel)]="filtroFechaDesdeText"
+          (ngModelChange)="onFechaDesdeChange($event)"
+          ngbDatepicker
+          #desde="ngbDatepicker"
+          restoreFocus="false"
+          (click)="desde.toggle(); $event.stopPropagation()"
+          (document:click)="decideClosure($event, desde)"
+          readonly>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label for="formGroupExampleInput">Hasta</label>
+        <input class="form-control"
+          placeholder="Seleccione..."
+          name="dp"
+          [(ngModel)]="filtroFechaHastaText"
+          (ngModelChange)="onFechaHastaChange($event)"
+          ngbDatepicker
+          #hasta="ngbDatepicker"
+          restoreFocus="false"
+          (click)="hasta.toggle(); $event.stopPropagation()"
+          (document:click)="decideClosure($event, hasta)"
+          readonly>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1">Legajo</span>
+        </div>
+        <input
+          id="legajosSearch"
+          type="text"
+          class="form-control"
+          [(ngModel)]="legajoSearchTexto"
+          (keyup)='onLegajoSearchKeyUp($event)'
+          (blur)='closeLegajoSearchPopUp()'
+          placeholder="Buscar por Numero, Nombre y/o Apellido..." />
+        <ul class="input-autocomplete-options">
+          <li
+            class="no-results"
+            *ngIf="legajosSearch !== undefined && legajosSearch.length === 0"
+            >
+              <small>SIN RESULTADOS</small>
+          </li>
+          <li
+            *ngFor="let legajo of legajosSearch; let i = index"
+            (click)="onLegajoSearchSelectItem(legajo)"
+            >
+            <small>{{ legajo.docket_number }} /// {{ legajo.first_name }} {{ legajo.last_name }} /// DNI: {{ legajo.dni }}</small>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-success" (click)="onConsultar()" style="margin-top:32px;"><i class="fa fa-search"></i>&nbsp;&nbsp;Consultar</button>
+    </div>
+  </div>
+</div>

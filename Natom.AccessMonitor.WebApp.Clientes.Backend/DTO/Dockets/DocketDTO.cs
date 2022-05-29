@@ -52,8 +52,8 @@ namespace Natom.AccessMonitor.WebApp.Clientes.Backend.DTO.Dockets
             LastName = entity.LastName;
             DNI = entity.DNI;
             TitleEncryptedId = EncryptionService.Encrypt<Title>(entity.TitleId);
-            ApplyRanges = entity.Ranges.Count > 0 && entity.ApplyInOutControl;
-            Ranges = entity.Ranges.Count == 0
+            ApplyRanges = entity.Ranges != null && entity.Ranges.Count > 0 && entity.ApplyInOutControl;
+            Ranges = entity.Ranges == null || entity.Ranges.Count == 0
                         ? new List<DocketRangeDTO>()
                         : entity.Ranges.Select(r => new DocketRangeDTO().MapFrom(r)).ToList();
             HourValue = entity.HourValue;
